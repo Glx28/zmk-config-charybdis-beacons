@@ -1,11 +1,11 @@
-name: Build ZMK Firmware
+name: Build
 
 on: [push, workflow_dispatch]
 
 jobs:
   matrix:
     runs-on: ubuntu-latest
-    name: Fetch Build Matrix
+    name: Fetch Build Keyboards
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -19,18 +19,25 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
     needs: matrix
     name: Build
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
+      - name: Prepare variables
+        shell: sh -x {0}
+        run: |
+          echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
       - name: Cache west modules
         uses: actions/cache@v4
+        continue-on-error: true
         env:
-          cache-name: cache-zephyr-modules
+          cache_name: cache-zephyr-${{ env.zephyr_version }}-modules
         with:
           path: |
             modules/
@@ -38,34 +45,40 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('config/west.yml') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-${{ env.cache_name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: West Init
         run: west init -l config
       - name: West Update
         run: west update
-      - name: West Zephyr Export
+      - name: West Zephyr export
         run: west zephyr-export
-      - name: West Build (${{ matrix.board }} - ${{ matrix.shield }})
+      - name: West Build (${{ matrix.board }}${{ matrix.shield && format(' - {0}', matrix.shield) || '' }})
+        shell: sh -x {0}
         run: |
-          if [ -n "${{ matrix.cmake-args }}" ]; then
-            EXTRA_CMAKE_ARGS="${{ matrix.cmake-args }}"
-          fi
-          if [ -n "${{ matrix.snippet }}" ]; then
-            SNIPPET_ARG="-S ${{ matrix.snippet }}"
-          fi
-          west build -s zmk/app -b ${{ matrix.board }} $SNIPPET_ARG -- -DSHIELD=${{ matrix.shield }} $EXTRA_CMAKE_ARGS -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          west build -s zmk/app -b ${{ matrix.board }} \
+            ${{ matrix.shield && format('-- -DSHIELD={0}', matrix.shield) || '' }} \
+            ${{ matrix.snippet && format('-S {0}', matrix.snippet) || '' }} \
+            ${{ matrix['cmake-args'] && format('{0}', matrix['cmake-args']) || '' }} \
+            -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+      - name: ${{ matrix.board }}${{ matrix.shield && format(' {0}', matrix.shield) || '' }} Kconfig file
+        run: grep -vE '^\#' build/zephyr/.config | grep -v -e '^$'
       - name: Rename artifacts
+        shell: sh -x {0}
         run: |
           mkdir build/artifacts
-          if [ -f build/zephyr/zmk.uf2 ]; then
-            cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.board }}-${{ matrix.shield }}.uf2"
+          if [ -f build/zephyr/zmk.uf2 ]
+          then
+            cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}.uf2"
+          elif [ -f build/zephyr/zmk.${{ matrix.board }}.uf2 ]
+          then
+            cp "build/zephyr/zmk.${{ matrix.board }}.uf2" "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}.uf2"
           fi
-      - name: Upload artifacts
+      - name: Archive (${{ matrix.board }}${{ matrix.shield && format(' {0}', matrix.shield) || '' }})
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.board }}-${{ matrix.shield }}
+          name: firmware-${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}
           path: build/artifacts

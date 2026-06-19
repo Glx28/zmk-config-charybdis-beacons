@@ -12,8 +12,7 @@ The beacons use rare HID chords that AutoHotkey swallows:
 BLE timing is conservative to avoid grouped or reordered host notifications.
 */
 
-macros {
-    coach_l1_hold: coach_l1_hold {
+coach_l1_hold: coach_l1_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <40>;
@@ -112,4 +111,3 @@ macros {
             tap-ms = <40>;
             bindings = <&kp LC(LA(LG(F15)))>, <&to 0>;
         };
-};

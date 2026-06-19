@@ -33,8 +33,6 @@
 };
 
 / {
-    #include "coach_beacon_macros.keymap.dtsi"
-
     // 上下滚动编码器行为
 
     scroll_vertical_encoder: scroll_vertical_encoder {
@@ -59,6 +57,8 @@
     };
 
     macros {
+        #include "coach_beacon_macros.keymap.dtsi"
+
         To1_macro: To1_macro {
             compatible = "zmk,behavior-macro";
             label = "To1_macro";

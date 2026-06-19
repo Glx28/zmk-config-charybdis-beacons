@@ -1,0 +1,117 @@
+/*
+Bluetooth coach beacon macro template.
+
+This file is intentionally a template/reference include. Wire these behaviors
+into the active firmware source only after confirming that source matches the
+final v1.8 ZMK Studio layout.
+
+The beacons use rare HID chords that AutoHotkey swallows:
+- Ctrl+Alt+Shift+F13..F24 for held/locked layer changes.
+- Ctrl+Alt+GUI+F13..F15 for pointer-travel/recovery changes.
+
+BLE timing is conservative to avoid grouped or reordered host notifications.
+*/
+
+/ {
+    macros {
+        coach_l1_hold: coach_l1_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LA(LS(F13)))>,
+                <&macro_press &mo 1>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 1>,
+                <&macro_tap &kp LC(LA(LS(F14)))>;
+        };
+
+        coach_l2_hold: coach_l2_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LA(LS(F15)))>,
+                <&macro_press &mo 2>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 2>,
+                <&macro_tap &kp LC(LA(LS(F16)))>;
+        };
+
+        coach_l3_hold: coach_l3_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LA(LS(F17)))>,
+                <&macro_press &mo 3>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 3>,
+                <&macro_tap &kp LC(LA(LS(F18)))>;
+        };
+
+        coach_l4_hold: coach_l4_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LA(LS(F19)))>,
+                <&macro_press &mo 4>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 4>,
+                <&macro_tap &kp LC(LA(LS(F20)))>;
+        };
+
+        coach_mouse_lock: coach_mouse_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(F21)))>, <&to 2>;
+        };
+
+        coach_base: coach_base {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(F22)))>, <&to 0>;
+        };
+
+        coach_game_lock: coach_game_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(F23)))>, <&to 7>;
+        };
+
+        coach_travel_toggle: coach_travel_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LG(F13)))>, <&tog 8>;
+        };
+
+        coach_travel_off: coach_travel_off {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LG(F14)))>, <&to 0>;
+        };
+
+        coach_recover_base: coach_recover_base {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LG(F15)))>, <&to 0>;
+        };
+    };
+};

@@ -1,0 +1,22 @@
+# West workspace directories
+modules/
+tools/
+zephyr/
+bootloader/
+zmk/
+zmk-pmw3610-driver/
+.west/
+
+# Build artifacts
+build/
+*.uf2
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

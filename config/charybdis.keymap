@@ -118,12 +118,12 @@
 
         layer_1 {
             bindings = <
-&kp F1                  &kp F2           &kp F3           &kp F4           &kp F5           &kp F6        &kp F7           &kp F8         &kp F9             &kp F10            &kp F11       &kp F12
-&kp CAPS                &launcher_win_search  &kp GRAVE        &kp TILDE        &kp PIPE         &none         &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp UP             &kp LEFT_BRACE     &kp RIGHT_BRACE    &kp BACKSLASH
-&kp LEFT_SHIFT          &none            &none            &none            &bt BT_NXT       &bt BT_CLR    &kp MINUS        &kp LEFT       &kp DOWN           &kp RIGHT          &kp EQUAL     &kp PLUS
-&kp LCTRL               &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_EFF  &rgb_ug RGB_TOG  &none         &kp UNDER        &none          &kp PERIOD         &kp RIGHT_BRACKET  &none         &kp EQUAL
-                                                          &kp LEFT_ALT     &kp SPACE        &to 0         &none            &none
-                                                                           &mkp MB1         &mkp MB2      &kp ENTER
+&kp F1          &kp F2                   &kp F3                &kp F4            &kp F5           &kp F6        &kp F7      &kp F8    &kp F9      &kp F10  &kp F11    &kp F12
+&kp CAPS        &kp LEFT_BRACKET         &kp RIGHT_BRACKET     &kp LEFT_BRACE    &kp RIGHT_BRACE  &none         &none       &none     &kp UP      &none    &none      &kp RIGHT_BRACKET
+&kp LEFT_SHIFT  &launcher_win_search     &launcher_powertoys   &kp LEFT_PAREN    &kp RIGHT_PAREN  &bt BT_CLR    &kp MINUS   &kp LEFT  &kp DOWN    &kp RIGHT &kp EQUAL  &kp DELETE
+&kp LCTRL       &kp GRAVE                &kp TILDE             &kp BACKSLASH     &kp PIPE         &bt BT_NXT    &kp UNDER   &none     &kp PERIOD  &none    &none      &kp BACKSLASH
+                                                               &kp LEFT_ALT      &kp SPACE        &to 0         &none       &none
+                                                                                 &mkp MB1         &mkp MB2      &kp ENTER
             >;
         };
 
@@ -140,10 +140,10 @@
 
         layer_3 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans              &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &launcher_powertoys &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans              &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans              &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans               &trans               &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &launcher_win_search &launcher_powertoys  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans               &trans               &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans               &trans               &trans
                         &trans  &trans  &trans    &trans  &trans
                                 &trans  &trans    &trans
             >;

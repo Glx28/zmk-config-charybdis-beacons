@@ -1,0 +1,88 @@
+﻿Charybdis Trackball Benchmark Session
+======================================
+
+Profile: P0-current
+Timestamp: 20260619_212402
+Session Folder: C:\Users\sondr\splitted_zmk_keyboard\runtime\trackball_benchmarks\results\P0-current_20260619_212402
+
+Windows Mouse Settings
+----------------------
+MouseSensitivity: 20
+MouseSpeed: 0
+Acceleration Tuple: 0 / 0 / 0
+SPI_GETMOUSESPEED: 20
+
+Display Layout
+--------------
+DISPLAY1 (PRIMARY): 0,0,1440x900
+
+Total horizontal span: 1440 px
+
+
+Running Processes
+-----------------
+RUNNING: AutoHotkey64 (PID: 1896)
+RUNNING: Microsoft.CmdPal.Ext.PowerToys (PID: 24744)
+RUNNING: PowerToys (PID: 15084)
+RUNNING: PowerToys.AlwaysOnTop (PID: 15232)
+RUNNING: PowerToys.Awake (PID: 13480)
+RUNNING: PowerToys.ColorPickerUI (PID: 19860)
+RUNNING: PowerToys.CropAndLock (PID: 20220)
+RUNNING: PowerToys.FancyZones (PID: 18640)
+RUNNING: PowerToys.KeyboardManagerEngine (PID: 12504)
+RUNNING: PowerToys.MouseWithoutBorders (PID: 15912)
+RUNNING: PowerToys.MouseWithoutBordersHelper (PID: 27288)
+RUNNING: PowerToys.Peek.UI (PID: 20720)
+RUNNING: PowerToys.PowerLauncher (PID: 21060)
+RUNNING: PowerToys.PowerOCR (PID: 21216)
+RUNNING: PowerToys.QuickAccess (PID: 16112)
+RUNNING: PowerToys.Settings (PID: 24776)
+RUNNING: PowerToys.MouseWithoutBorders (PID: 15912)
+RUNNING: PowerToys.MouseWithoutBordersHelper (PID: 27288)
+
+
+Devices
+--------
+[] Bluetooth Peripheral Device
+[] Bluetooth Peripheral Device
+[Bluetooth] Bluetooth Device (RFCOMM Protocol TDI)
+[HIDClass] HID-compliant vendor-defined device
+[] Bluetooth Peripheral Device
+[] Bluetooth Peripheral Device
+[HIDClass] Bluetooth Low Energy GATT compliant HID device
+[Keyboard] HID Keyboard Device
+[Bluetooth] Microsoft Bluetooth LE Enumerator
+[SoftwareDevice] Bluetooth
+[] Bluetooth Peripheral Device
+[HIDClass] I2C HID Device
+[System] Logitech G HUB Virtual Bus Enumerator
+[Mouse] HID-compliant mouse
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[HIDClass] HID-compliant consumer control device
+[Ports] Standard Serial over Bluetooth link (COM7)
+[HIDClass] HID-compliant vendor-defined device
+[] Bluetooth Peripheral Device
+[] Bluetooth Peripheral Device
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[] Bluetooth Peripheral Device
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[] Bluetooth Peripheral Device
+[] Bluetooth Peripheral Device
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[Net] Bluetooth Device (Personal Area Network)
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[Bluetooth] MediaTek Bluetooth Adapter
+[HIDClass] HID-compliant touch pad
+[Bluetooth] Microsoft Bluetooth Enumerator
+[Mouse] HID-compliant mouse
+[Ports] Standard Serial over Bluetooth link (COM8)
+[Bluetooth] Bluetooth LE Generic Attribute Service
+[Sensor] HID Sensor Collection V2
+[HIDClass] Bluetooth Low Energy GATT compliant HID device
+[] Bluetooth Peripheral Device
+[] Bluetooth Peripheral Device
+[Keyboard] Standard PS/2 Keyboard
+[HIDClass] I2C HID Device
+[] Bluetooth Peripheral Device

@@ -1,0 +1,25 @@
+⚠️ INVALID SESSION - DO NOT USE FOR BENCHMARKING ⚠️
+
+This session was created with monitors disconnected/docked.
+
+Session Details:
+- Created: 2026-06-19 21:24:02
+- Profile: P0-current
+- Display count: 1 (should be 3)
+- Horizontal span: 1440 px (should be ~6720 px)
+
+Validity:
+✅ Valid for: Single-monitor tool smoke test only
+❌ Invalid for: Three-monitor travel benchmarks
+❌ Invalid for: Office workflow comparisons
+❌ Invalid for: Fatigue conclusions
+❌ Invalid for: Any real baseline data
+
+Reason:
+Monitors were disconnected during session creation.
+The system state snapshot does not reflect the actual workstation configuration.
+
+Action Taken:
+New session created: P0-current-3mon with proper 3-monitor setup.
+
+Status: ARCHIVED - DO NOT USE

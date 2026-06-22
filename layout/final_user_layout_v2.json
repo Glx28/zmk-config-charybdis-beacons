@@ -1,0 +1,201 @@
+{
+  "project": "Charybdis Norwegian + Right-Hand Mouse",
+  "version": "user-optimized-v2.0",
+  "description": "Norwegian characters on base, American on Layer 1, right-hand mouse with scroll",
+  "total_changes": 11,
+  "changes": [
+    {
+      "section": "CRITICAL: Norwegian Characters on Base Layer",
+      "changes": [
+        {
+          "layer": 0,
+          "x": 10,
+          "y": 2,
+          "behavior": "Key Press",
+          "parameter": "ø",
+          "label": "ø",
+          "rationale": "Norwegian ø where ; is on US keyboard (home row after L). Typing Norwegian directly without modifiers.",
+          "priority": "CRITICAL",
+          "note": "Use Unicode or international key code for ø"
+        },
+        {
+          "layer": 0,
+          "x": 11,
+          "y": 2,
+          "behavior": "Key Press",
+          "parameter": "æ",
+          "label": "æ",
+          "rationale": "Norwegian æ where ' is on US keyboard (home row after ø).",
+          "priority": "CRITICAL",
+          "note": "Use Unicode or international key code for æ"
+        },
+        {
+          "layer": 0,
+          "x": 12,
+          "y": 1,
+          "behavior": "Key Press",
+          "parameter": "å",
+          "label": "å",
+          "rationale": "Norwegian å where [ is on US keyboard (top row after P).",
+          "priority": "CRITICAL",
+          "note": "Use Unicode or international key code for å"
+        },
+        {
+          "layer": 0,
+          "x": 10,
+          "y": 3,
+          "behavior": "Key Press",
+          "parameter": "Period",
+          "label": ".",
+          "rationale": "Period in correct position for typing flow. This position currently has [ which moves to å.",
+          "priority": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "section": "American Punctuation on Layer 1",
+      "changes": [
+        {
+          "layer": 1,
+          "x": 10,
+          "y": 2,
+          "behavior": "Key Press",
+          "parameter": "Semicolon",
+          "label": ";",
+          "rationale": "American ; on Layer 1 (same position as ø on base). Replaces duplicate RIGHT arrow.",
+          "priority": "HIGH"
+        },
+        {
+          "layer": 1,
+          "x": 11,
+          "y": 2,
+          "behavior": "Key Press",
+          "parameter": "Apostrophe",
+          "label": "'",
+          "rationale": "American ' on Layer 1 (same position as æ on base). Currently empty.",
+          "priority": "HIGH"
+        },
+        {
+          "layer": 1,
+          "x": 12,
+          "y": 1,
+          "behavior": "Key Press",
+          "parameter": "Left Bracket",
+          "label": "[",
+          "rationale": "American [ on Layer 1 (same position as å on base). Currently empty.",
+          "priority": "HIGH"
+        }
+      ]
+    },
+    {
+      "section": "Dual-Hand Launchers",
+      "changes": [
+        {
+          "layer": 1,
+          "x": 1,
+          "y": 2,
+          "behavior": "Key Press",
+          "parameter": "S",
+          "modifiers": ["L GUI"],
+          "label": "Search",
+          "rationale": "Left-hand: Hold Nav thumb + tap A position = Win+S Windows Search",
+          "priority": "MEDIUM"
+        },
+        {
+          "layer": 1,
+          "x": 2,
+          "y": 2,
+          "behavior": "Key Press",
+          "parameter": "Space",
+          "modifiers": ["L Alt"],
+          "label": "PT Run",
+          "rationale": "Left-hand: Hold Nav thumb + tap S position = Alt+Space PowerToys Run",
+          "priority": "MEDIUM"
+        },
+        {
+          "layer": 3,
+          "x": 6,
+          "y": 2,
+          "behavior": "Key Press",
+          "parameter": "S",
+          "modifiers": ["L GUI"],
+          "label": "Search",
+          "rationale": "Right-hand: Hold Window thumb + tap H position = Win+S. Position 7,2 is likely mouse button.",
+          "priority": "MEDIUM",
+          "alternative": "If (3,7,2) is empty, use that instead for index finger access"
+        },
+        {
+          "layer": 3,
+          "x": 9,
+          "y": 3,
+          "behavior": "Key Press",
+          "parameter": "Space",
+          "modifiers": ["L Alt"],
+          "label": "PT Run",
+          "rationale": "Right-hand: Hold Window thumb + tap L position = Alt+Space. Replaces Ctrl+GUI+F4.",
+          "priority": "MEDIUM",
+          "warning": "Replaces existing Ctrl+GUI+F4 binding"
+        }
+      ]
+    },
+    {
+      "section": "Right-Hand Mouse Scroll",
+      "changes": [
+        {
+          "layer": 2,
+          "x": 12,
+          "y": 2,
+          "behavior": "Toggle Layer",
+          "parameter": "6",
+          "label": "Scroll",
+          "rationale": "Pinky finger scroll toggle on home row. In mouse mode, tap to enable scroll, tap again to disable. Uses Layer 6 overlay.",
+          "priority": "HIGH",
+          "position_note": "Pinky finger, home row, rightmost column - currently empty"
+        }
+      ]
+    }
+  ],
+  "implementation_notes": [
+    "NORWEGIAN CHARACTERS:",
+    "ZMK Studio may not have direct ø/æ/å keys in dropdown.",
+    "Workaround options:",
+    "  1. Use Windows International keyboard layout + dead keys",
+    "  2. Use ZMK Unicode feature (if available)",
+    "  3. Use macro to send Unicode codepoints: ø=U+00F8, æ=U+00E6, å=U+00E5",
+    "  4. Set Windows keyboard to Norwegian, then these positions automatically type ø/æ/å",
+    "",
+    "RECOMMENDED APPROACH:",
+    "Set Windows keyboard layout to Norwegian (Norway) as default.",
+    "Then keycodes for positions 10/2, 11/2, 12/1 will automatically produce ø/æ/å.",
+    "No ZMK changes needed - just use standard Key Press with the key at that position.",
+    "",
+    "LAYER 6 SCROLL MODE:",
+    "Requires PMW3610 input processor configuration.",
+    "When Layer 6 active: trackball Y → vertical scroll, trackball X → horizontal scroll (optional).",
+    "If ZMK doesn't support input processor layers, use &msc behavior instead:",
+    "  - Bind (2,12,2) to scroll down while held",
+    "  - But this requires holding, which conflicts with trackball thumb usage",
+    "  - Toggle layer approach is better for this use case",
+    "",
+    "MOUSE MODE ENTRY (already working):",
+    "Right hand only: Hold thumb (0,8,4) + tap pinky (3,10,2) = lock Layer 2",
+    "",
+    "LAUNCHER POSITIONS:",
+    "Left hand: A+S positions on Layer 1 (easy reach)",
+    "Right hand: Avoiding y=2 mouse buttons, using available positions on Layer 3",
+    "",
+    "Total key changes: 11",
+    "Breaking changes: None (all additions or smart swaps)",
+    "Requires firmware rebuild: No (all done via ZMK Studio)"
+  ],
+  "usage_summary": {
+    "norwegian_typing": "Type ø/æ/å directly on base layer - no modifiers needed",
+    "american_punctuation": "Hold Nav thumb (x3,y4) + tap same positions for ;'[",
+    "period_comma": "Both on base layer in standard positions",
+    "launchers_left": "Hold Nav + tap A (Search) or S (PowerToys)",
+    "launchers_right": "Hold Window + tap H or L positions",
+    "mouse_mode": "Hold Window thumb + tap pinky to lock mouse layer",
+    "scroll_mode": "In mouse mode, tap pinky to toggle scroll on/off",
+    "exit_mouse": "Tap right thumb to return to base"
+  }
+}

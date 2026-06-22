@@ -1,0 +1,109 @@
+TRACKBALL BENCHMARK RESULTS - P0 BASELINE
+==========================================
+Profile: P0-current-3mon
+Date: 2026-06-20
+Tester: High-level CS:GO player
+
+CONFIG:
+-------
+CPI: 600
+Snipe CPI: 1600
+XY Scaler: 2:1
+Polling: 125_SW
+Connection: Wireless
+
+USER FEEDBACK:
+--------------
+"Overshooting, hard to be accurate, unable to make clean paths"
+"Creating even simple straight paths is too hard with this trackball"
+
+TEST RESULTS:
+=============
+
+R1 - TestUFO Mouse Poll Rate
+-----------------------------
+Peak Hz: 117 Hz
+Status: PASS (expected 110-125 for 125_SW)
+
+A1 - Aim Trainer
+----------------
+Result: 930 ms/target
+(Only 1 run completed - enough for baseline)
+
+A2 - MouseAccuracy Classic
+---------------------------
+Settings: MEDIUM targets, Normal speed
+NOTE: User could not test TINY targets - too difficult with current setup
+
+Result: 2 clicks, 8 misclicks
+Miss rate: 80%
+Status: CRITICAL FAILURE - Unusable for precision work
+
+P1 - Mouse Precision Movement
+------------------------------
+Run 1 (copy-pasted from site):
+  Points Collected: 47
+  Avg Jitter: 5.97 px
+  Max Jitter: 15.05 px
+  Precision Score: 97.0%
+
+P2 - XbitLabs Mouse Accuracy
+-----------------------------
+Result: COULD NOT COMPLETE
+User attempted but could not finish even the first stage
+
+Partial stats from failed attempt:
+  Accuracy: 0.0%
+  Deviation: 6.1 px
+  Time: 0.44s
+  Progress: 2% (failed at stage 2/5)
+  Rank: Beginner
+
+Status: CRITICAL FAILURE - Cannot complete basic straight paths
+
+ANALYSIS:
+=========
+
+SEVERITY: CRITICAL - Trackball completely unusable for precision work
+
+Problems identified:
+1. MouseAccuracy: 80% miss rate on MEDIUM targets (couldn't even attempt TINY)
+2. XbitLabs: Cannot complete basic path following (0% accuracy, 2% progress)
+3. Precision Movement: High jitter (15.05 px max spike)
+4. User feedback: "Creating even simple straight paths is too hard"
+
+Root cause: CPI 600 is FAR too high for precision work
+
+Evidence:
+- High miss rate suggests cursor moving too fast for control
+- Cannot complete paths suggests overshooting on direction changes
+- High max jitter suggests unstable micro-corrections
+- User is high-level CS:GO player (knows what precision should feel like)
+
+RECOMMENDATION FOR P1:
+======================
+
+Change: CPI 600 → 300 (50% reduction)
+
+Reasoning:
+- Current 80% miss rate indicates complete loss of control
+- Need dramatic reduction, not incremental (600→500 won't fix this)
+- XY scaler 2:1 will keep travel speed acceptable
+- Effective sensitivity: 300 CPI × 2 scaler = 600 effective for travel
+- But precision work uses 1:1 movement, so 300 CPI for control
+
+Expected P1 results:
+- A2: Miss rate should drop dramatically (target: <30%)
+- P2: Should be able to complete at least first few stages
+- P1: Max jitter should decrease
+- A1: May slow down to 1000-1100ms (acceptable tradeoff)
+
+Alternative if P1 still fails:
+- P2: Try CPI 200 or disable XY scaler entirely (test 1:1)
+
+FIRMWARE CHANGE:
+================
+File: vendor/vzhao-zmk-for-charybdis-main-20250226/config/charybdis.conf
+Change: CONFIG_PMW3610_CPI=600 → CONFIG_PMW3610_CPI=300
+
+Keep all other settings identical for valid comparison.

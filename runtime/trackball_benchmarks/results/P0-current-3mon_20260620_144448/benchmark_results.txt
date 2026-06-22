@@ -1,0 +1,67 @@
+TRACKBALL BENCHMARK RESULTS
+===========================
+Profile: P0-current-3mon
+Date: 2026-06-21 21:53:49
+
+CONFIG:
+CPI: 600
+Snipe CPI: 1600
+XY Scaler: 2:1
+Polling: 125_SW
+Connection: Wireless
+
+
+R1 - TestUFO Mouse Poll Rate
+-----------------------------
+Run 1: 117 Hz
+Run 2: 117 Hz
+Run 3: 117 Hz
+
+
+A1 - Aim Trainer
+----------------
+Run 1: cd C:\Users\sondr\splitted_zmk_keyboard\runtime\trackball_benchmarks ms/target
+Run 2: .\run_benchmark.ps1 -ProfileName "P0-current-3mon" ms/target
+Run 3: 900 ms/target
+
+
+A2 - MouseAccuracy Classic (Tiny Targets, 30s)
+-----------------------------------------------
+Run 1: 2
+Run 2: 3
+Run 3: 2 5
+Run 4: 2 5
+Run 5: 12 43
+
+
+P1 - Mouse Precision Movement
+------------------------------
+Run 1: sds
+Run 2: sd
+Run 3: sd
+Run 4: sd
+Run 5: sd
+
+
+P2 - XbitLabs Mouse Accuracy
+-----------------------------
+Path Follow (Medium):
+  Run 1: d
+  Run 2: d
+  Run 3: d
+
+Shape Trace (Medium):
+  Run 1: k
+  Run 2: d
+  Run 3: d
+
+Steady Hand (Medium):
+  Run 1: d
+  Run 2: d
+  Run 3: d
+
+Precision (Medium):
+  Run 1: d
+  Run 2: d
+  Run 3: d
+

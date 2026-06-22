@@ -1,0 +1,12 @@
+{
+    "profile": "P0-current-3mon",
+    "timestamp": "2026-06-20 16:30:00",
+    "config": {
+        "cpi": 600,
+        "snipe_cpi": 1600,
+        "xy_scaler": "2:1",
+        "polling": "125_SW",
+        "connection": "wireless"
+    },
+    "tests": {}
+}

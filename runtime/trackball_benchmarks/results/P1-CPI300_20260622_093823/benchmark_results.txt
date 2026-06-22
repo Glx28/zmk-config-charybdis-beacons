@@ -1,0 +1,76 @@
+TRACKBALL BENCHMARK RESULTS V2
+==============================
+Profile: P1-CPI300
+Date: 2026-06-22 09:38:53
+
+
+R1 - TestUFO Mouse Poll Rate
+-----------------------------
+Peak Hz: 126
+
+
+A1 - Aim Trainer
+----------------
+Run 1: 762 ms/target
+Run 2: 754 ms/target
+Run 3: 688 ms/target
+
+
+A2 - MouseAccuracy Classic (MEDIUM targets, Normal speed)
+----------------------------------------------------------
+Run 1: 8 5
+Run 2: 8 3
+Run 3: 8 3
+
+
+P1 - Mouse Precision Movement
+------------------------------
+Run 1:
+Points Collected
+69
+Total movement points recorded. More points generally means smoother tracking during this mouse test accuracy session.
+
+Run 2:
+Avg Jitter (px)
+4.28
+Average deviation from the reference line. Lower values = better mouse accuracy.
+
+Run 3:
+Max Jitter (px)
+11.95
+Largest deviation recorded. Useful for spotting spikes and instability in a precision test.
+
+
+P2 - XbitLabs Path Follow (Medium difficulty)
+----------------------------------------------
+Run 1:
+Statistics
+Accuracy: 0.0%
+Deviation: 2.3px
+Time: 6.07s
+Progress: 0%
+Rank: Beginner
+Stage: 1 / 5
+
+Run 2:
+Statistics
+Accuracy: 0.0%
+Deviation: 3.9px
+Time: 6.99s
+Progress: 0%
+Rank: Beginner
+Stage: 1 / 5
+
+Run 3:
+Statistics
+Accuracy: 0.0%
+Deviation: 4.4px
+Time: 0.54s
+Progress: 6%
+Rank: Beginner
+Stage: 2 / 5
+
+USER SUBJECTIVE FEEDBACK:
+--------------------------
+"A lot better to be accurate but the path following still is very hard"
+

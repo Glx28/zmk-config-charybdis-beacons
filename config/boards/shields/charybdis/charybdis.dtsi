@@ -78,6 +78,7 @@
         zmk,kscan = &kscan0;
         zmk,physical-layouts = &physical_layout_0;
 	zmk,underglow = &led_strip;
+	zmk,studio-rpc-uart = &cdc_acm_uart0;
     };
 
     default_transform: keymap_transform_0 {
@@ -138,10 +139,13 @@
 
 };
 
-zephyr_udc0: &usbd { 
-    compatible = "nordic,nrf-usbd"; 
-    status = "okay"; 
+zephyr_udc0: &usbd {
+    compatible = "nordic,nrf-usbd";
+    status = "okay";
 
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
+    };
 };
 
 //

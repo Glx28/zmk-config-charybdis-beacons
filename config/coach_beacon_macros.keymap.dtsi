@@ -115,15 +115,19 @@ coach_l1_hold: coach_l1_hold {
         launcher_win_search: launcher_win_search {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = <&kp LG(S)>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp S>
+                , <&macro_release &kp LGUI>
+                ;
         };
 
         launcher_powertoys: launcher_powertoys {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = <&kp LA(SPACE)>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp SPACE>
+                , <&macro_release &kp LALT>
+                ;
         };

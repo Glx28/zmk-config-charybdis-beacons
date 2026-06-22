@@ -1,0 +1,59 @@
+# Generated ZMK/Zephyr build output and vendor code
+vendor/
+
+# Browser captures and live reports
+ZMK Studio.html
+ZMK Studio_files/
+zmk-studio-*.json
+zmk-studio-*.csv
+consoleoutput.txt
+
+# Runtime state files
+runtime/*.json
+runtime/*.pid
+runtime/*.txt
+runtime/chrome-coach-profile/
+runtime/chrome-coach-profile-mobile/
+runtime/chrome-coach-profile-mobile2/
+
+# Python
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Editor/OS noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+desktop.ini
+
+# Build artifacts (if building firmware locally)
+build/
+.west/
+modules/
+zephyr/
+bootloader/
+
+# Node modules
+node_modules/
+
+# Keep runtime directory but ignore its contents
+!runtime/.gitkeep

@@ -1,0 +1,96 @@
+{
+  "project": "Charybdis User Custom Additions",
+  "version": "user-focused-v1.0",
+  "description": "Minimal focused changes for comma/period, launchers, and scroll",
+  "changes": [
+    {
+      "layer": 0,
+      "x": 9,
+      "y": 3,
+      "behavior": "Key Press",
+      "parameter": "Period",
+      "label": ".",
+      "rationale": "CRITICAL: Period must be on base layer for typing flow. Currently has [ bracket which should be on Layer 1.",
+      "priority": "CRITICAL"
+    },
+    {
+      "layer": 1,
+      "x": 9,
+      "y": 3,
+      "behavior": "Key Press",
+      "parameter": "Left Bracket",
+      "label": "[",
+      "rationale": "Move [ bracket from base layer to Layer 1 (programming layer) to make room for period.",
+      "priority": "HIGH"
+    },
+    {
+      "layer": 1,
+      "x": 1,
+      "y": 2,
+      "behavior": "Key Press",
+      "parameter": "S",
+      "modifiers": ["L GUI"],
+      "label": "Search",
+      "rationale": "Left-hand launcher: Hold Nav thumb (x3,y4) + tap A position = Win+S search",
+      "priority": "MEDIUM"
+    },
+    {
+      "layer": 1,
+      "x": 2,
+      "y": 2,
+      "behavior": "Key Press",
+      "parameter": "Space",
+      "modifiers": ["L Alt"],
+      "label": "PT Run",
+      "rationale": "Left-hand launcher: Hold Nav thumb (x3,y4) + tap S position = Alt+Space PowerToys Run",
+      "priority": "MEDIUM"
+    },
+    {
+      "layer": 3,
+      "x": 7,
+      "y": 2,
+      "behavior": "Key Press",
+      "parameter": "S",
+      "modifiers": ["L GUI"],
+      "label": "Search",
+      "rationale": "Right-hand launcher: Hold Window thumb (x8,y4) + tap J position = Win+S search",
+      "priority": "MEDIUM"
+    },
+    {
+      "layer": 3,
+      "x": 8,
+      "y": 2,
+      "behavior": "Key Press",
+      "parameter": "Space",
+      "modifiers": ["L Alt"],
+      "label": "PT Run",
+      "rationale": "Right-hand launcher: Hold Window thumb (x8,y4) + tap K position = Alt+Space PowerToys Run (NOTE: This replaces Win+Tab. User should confirm this is acceptable.)",
+      "priority": "MEDIUM",
+      "warning": "This replaces existing Win+Tab binding. Verify with user first."
+    },
+    {
+      "layer": 2,
+      "x": 12,
+      "y": 2,
+      "behavior": "Toggle Layer",
+      "parameter": "6",
+      "label": "Scroll",
+      "rationale": "Right-hand scroll toggle: In mouse mode, tap rightmost pinky key to toggle trackball scroll. Layer 6 overlay changes trackball to scroll mode.",
+      "priority": "HIGH"
+    }
+  ],
+  "notes": [
+    "Layer 6 scroll mode requires input-processor configuration:",
+    "When Layer 6 active: PMW3610 trackball Y-axis → vertical scroll",
+    "When Layer 6 active: PMW3610 trackball X-axis → horizontal scroll (optional)",
+    "This can be configured through ZMK input-processors or pointing device settings.",
+    "",
+    "IMPORTANT: Position (3,8,2) currently has Win+Tab. Replacing with PowerToys Run launcher.",
+    "If user needs Win+Tab, suggest alternative position.",
+    "",
+    "Norwegian character support: Verify current method with user.",
+    "If using AltGr (Right Alt), check if it needs to be added to thumb cluster.",
+    "",
+    "Total changes: 7 key bindings"
+  ]
+}

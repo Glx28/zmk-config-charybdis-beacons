@@ -9,23 +9,26 @@
 
 ## Repository Structure
 
-- `zmk-config-charybdis-beacons/` — **THE buildable firmware repo** (pushed to GitHub, has Actions workflow)
-- `vendor/vzhao-zmk-for-charybdis-main-20250226/` — seller's ZMK fork with PMW3610 driver (local copy, keep in sync with above)
-- `layout/` — layout specs and CSV documentation (616 keys, 11 layers)
+**THIS repo (root) IS the buildable ZMK config.** Remote: `Glx28/zmk-config-charybdis-beacons` (branch `main`); CI workflow `.github/workflows/build.yml`. Edit + commit + push from the repo ROOT.
+
+- `config/` — **canonical buildable ZMK config** (CI source). Edit `config/boards/shields/charybdis/charybdis_right.conf` + `config/charybdis.keymap` here.
+- `layout/` — layout specs and CSV documentation (616 keys, 11 layers); `keybindings_explained.csv` is the source of truth
 - `apps/charybdis-coach/` — browser-based interactive layout coach
 - `scripts/zmk-studio/` — ZMK Studio console scripts (apply/verify layout)
 - `scripts/windows/` — AHK helper, coach launcher, USB monitor
 - `scripts/powershell/` — validation, trackball tuning variants
 - `runtime/trackball_benchmarks/` — trackball tuning benchmark system
-- `firmware/` — pre-built UF2 files
+- `firmware/` — pre-built UF2 files (`charybdis_right_trackball.uf2` = latest right-half build)
 - `docs/` — project documentation
+- **gitignored mirrors (do NOT push, do NOT treat as canonical):** `zmk-config-charybdis-beacons/` (legacy nested clone of this same repo) and `vendor/vzhao-zmk-for-charybdis-main-20250226/` (seller's ZMK fork; holds the local PMW3610 driver source for reference). Keep their `config/` copies mirrored from root `config/` only for local reference.
 
 ## Critical Rules
 
 ### Firmware Build
-- **GitHub Actions ONLY** — no Docker, no local builds. Push to `zmk-config-charybdis-beacons` on GitHub, download UF2 from Actions artifacts.
-- Flash only the right half for trackball experiments. Keep previous UF2 as backup.
-- Both config repos MUST stay in sync: `zmk-config-charybdis-beacons/config/` and `vendor/vzhao-zmk-for-charybdis-main-20250226/config/`
+- **GitHub Actions ONLY** — no Docker, no local builds. From the repo root: commit + `git push origin main`, then `gh run download <id> -n "firmware-nice_nano_v2-charybdis_right-studio-rpc-usb-uart" -D <dir>`, copy the UF2 to `firmware/charybdis_right_trackball.uf2`.
+- Edit configs in root `config/`. The `vendor/` and nested `zmk-config-charybdis-beacons/` copies are gitignored mirrors — sync root→them for local reference, but CI only sees root `config/`.
+- Flash only the right half for trackball experiments. Keep previous UF2 as backup (`firmware/*_BACKUP_*.uf2`, gitignored).
+- **Flashing:** double-tap reset on the right half → `NICENANO` drive mounts (usually `D:`) → copy the UF2 → drive auto-ejects = success. Verify by behavior (e.g. CPI change), NOT by the `CURRENT.UF2`/`INFO_UF2.TXT` dates (those are the bootloader, never change). The bootloader reports `Model: nice!nano` (v1 label) but `nice_nano_v2` UF2s flash fine.
 
 ### PMW3610 Driver Constraints
 - **CPI range: [200, 3200]** — values outside this range cause build failure

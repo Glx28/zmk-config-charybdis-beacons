@@ -80,3 +80,5 @@ zmk-config-charybdis-beacons/
 # CI build UF2 artifacts (prebuilt copies live in firmware/)
 *.uf2
 !firmware/*.uf2
+# ...but never the timestamped backups (re-assert AFTER the un-ignore so this wins)
+firmware/*_BACKUP_*.uf2

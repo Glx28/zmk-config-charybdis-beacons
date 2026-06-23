@@ -25,18 +25,18 @@ Use the hash file when moving UF2s between machines or before publishing a relea
 
 ## Trackball Tuning
 
-The current PMW3610 intent is:
+The current PMW3610 config (P3):
 
 ```conf
-CONFIG_PMW3610_CPI=600
-CONFIG_PMW3610_SNIPE_CPI=1600
+CONFIG_PMW3610_CPI=150            # Precision mode (default)
+CONFIG_PMW3610_SNIPE_CPI=1000     # Speed mode (Layer 8)
 CONFIG_PMW3610_SCROLL_TICK=70
 CONFIG_PMW3610_SMART_ALGORITHM=y
 ```
 
 Layer 8 is used for high-speed pointer travel through `snipe-layers = <8>`.
 
-Layer 1 is used for trackball scroll through `scroll-layers = <1>`.
+Layer 6 is used for trackball scroll through `scroll-layers = <6>`.
 
 ## Bluetooth Coach Beacons
 

@@ -11,9 +11,16 @@ and identifies where you need to replace layer behaviors with beacon macros.
 
 $ErrorActionPreference = "Stop"
 
-$KeymapPath = "vendor/vzhao-zmk-for-charybdis-main-20250226/config/charybdis.keymap"
+# Supports current repo layout:
+# Primary: zmk-config-charybdis-beacons/config/charybdis.keymap  (uses sibling include)
+# Also checks root firmware/ copy if present
+$PrimaryKeymap = "zmk-config-charybdis-beacons/config/charybdis.keymap"
+$FallbackKeymap = "config/charybdis.keymap"
+$KeymapPath = if (Test-Path $PrimaryKeymap) { $PrimaryKeymap } elseif (Test-Path $FallbackKeymap) { $FallbackKeymap } else { "zmk-config-charybdis-beacons/config/charybdis.keymap" }
 $BackupPath = "$KeymapPath.BACKUP_BEFORE_BEACONS"
-$IncludePath = '#include "../../../../../../firmware/coach_beacon_macros.keymap.dtsi"'
+
+# In the zmk-config layout the include is sibling (same dir as keymap)
+$IncludePath = '#include "coach_beacon_macros.keymap.dtsi"'
 
 Write-Host "`n=== Beacon Macro Integration Helper ===" -ForegroundColor Cyan
 
@@ -41,6 +48,9 @@ if ($content -match "coach_beacon_macros") {
     Set-Content $KeymapPath $content -NoNewline -Encoding UTF8
     Write-Host "✓ Include added to keymap" -ForegroundColor Green
 }
+
+# Re-read after possible modification
+$content = Get-Content $KeymapPath -Raw
 
 # Step 3: Find layer bindings to replace
 Write-Host "`n[3/3] Finding layer bindings to replace..." -ForegroundColor Yellow
@@ -113,4 +123,21 @@ if ($found.Count -gt 0) {
     Write-Host "⚠ Manual replacement required - see list above" -ForegroundColor Yellow
 } else {
     Write-Host "✓ Ready to build!" -ForegroundColor Green
+}
+
+# Optional: auto replace for this repo's known layout (interactive confirmation)
+if ($found.Count -gt 0) {
+    $doAuto = Read-Host "`nAuto-replace the layer bindings in this keymap now? (y/N - strongly recommended to review diff first)"
+    if ($doAuto -match '^[Yy]') {
+        Write-Host "Applying auto replacements (review afterwards)..." -ForegroundColor Yellow
+        $replContent = Get-Content $KeymapPath -Raw
+        foreach ($item in $found) {
+            $old = [regex]::Escape($item.Old)
+            $new = ($item.New -split '\s+')[0]
+            $replContent = $replContent -replace $old, $new
+            Write-Host "  ✓ $($item.Old) -> $($new)" -ForegroundColor Green
+        }
+        Set-Content $KeymapPath $replContent -NoNewline -Encoding UTF8
+        Write-Host "Auto-replacements done. Re-run script or manually verify." -ForegroundColor Cyan
+    }
 }

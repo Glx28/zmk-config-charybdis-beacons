@@ -235,15 +235,16 @@ curl http://127.0.0.1:8765/apps/charybdis-coach/
 - [x] Timeline shows actions
 - [x] Documentation complete
 
-### ⚠️ Firmware-Side (PENDING)
-- [ ] Beacon macros added to keymap
-- [ ] All layer transitions emit correct beacons
-- [ ] BLE timing reliable (no missed beacons)
+### Firmware-Side (ADVANCED)
+- [x] Beacon macros added to keymap (dtsi + include)
+- [x] Example layer transitions wired in build keymap (coach_l1_hold, coach_base etc.)
+- [ ] Full layer transitions in active ZMK Studio layout (via apply scripts)
+- [ ] BLE timing reliable (no missed beacons) - test after flash
 - [ ] No beacon leakage to other apps
-- [ ] Coach shows real-time layer changes
+- [ ] Coach shows real-time layer changes (end-to-end)
 
-### 🎯 Full System (BLOCKED ON FIRMWARE)
-- [ ] End-to-end beacon flow over Bluetooth
+### 🎯 Full System (IN PROGRESS)
+- [ ] End-to-end beacon flow over Bluetooth (next after flash)
 - [ ] Coach accurately reflects keyboard state
 - [ ] All layer types tested (momentary, locked, toggled)
 - [ ] Launcher integration verified
@@ -251,11 +252,17 @@ curl http://127.0.0.1:8765/apps/charybdis-coach/
 
 ## Summary
 
-**You're 80% done.** The hard part (host-side infrastructure) is complete and verified.
+**You're ~92% done.** Host + macro definitions + include + example wiring in build keymap complete. 
 
-**What remains**: Add ~50 lines of ZMK macro definitions to your firmware and wire them to layer behaviors. The template provides exact code you can copy/adapt.
+**What remains**:
+- Full Studio apply for coach behaviors on all 616 layout layer-change positions (via enhanced JS scripts).
+- End-to-end BLE test with real layer holds/toggles after flash.
+- Update ZMK Studio apply scripts + CSV convention for coach_ variants.
+- Confirm coach receives every transition over BLE.
 
-**Estimated time**: 30-60 minutes for firmware integration + 15 minutes for BLE testing.
+**Recent progress (2026-06-23)**: Macros included in charybdis.keymap, &coach_* wired in source layer examples, add_beacon_macros.ps1 updated for current repo paths, living PROJECT_STATE.md created.
+
+**Estimated remaining**: 20-40 min for Studio side + flash + validation.
 
 **Risk**: Low. Beacons are read-only (don't change typing behavior), and AHK swallows them before they reach apps.
 

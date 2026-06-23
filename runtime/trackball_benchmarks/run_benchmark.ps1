@@ -1,48 +1,66 @@
 # Interactive Benchmark Runner
-# Guides you through all 5 tests, logs results to txt file
+# Guides you through all tests, logs results to txt file
 
 param(
     [Parameter(Mandatory=$true)]
-    [string]$ProfileName
+    [string]$ProfileName,
+    [string]$Hypothesis = "One variable change from previous (document in TUNING_LOG)"
 )
 
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Trackball Benchmark Runner V2" -ForegroundColor Cyan
+Write-Host "Trackball Benchmark Runner" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Profile: $ProfileName" -ForegroundColor Yellow
 Write-Host ""
 
 # Find or create session folder
-$sessionPattern = "results\${ProfileName}_*"
-$sessionFolder = Get-ChildItem -Path $sessionPattern -Directory -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$resultsDir = Join-Path $scriptDir "results"
+$sessionPattern = "${ProfileName}_*"
+$sessionFolder = Get-ChildItem -Path $resultsDir -Filter $sessionPattern -Directory -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
 if (-not $sessionFolder) {
     Write-Host "Creating new session for $ProfileName..." -ForegroundColor Yellow
-    & .\start_benchmark_session.ps1 -ProfileName $ProfileName
-    $sessionFolder = Get-ChildItem -Path $sessionPattern -Directory -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $startScript = Join-Path $scriptDir "start_benchmark_session.ps1"
+    & $startScript -ProfileName $ProfileName
+    $sessionFolder = Get-ChildItem -Path $resultsDir -Filter $sessionPattern -Directory -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+}
+
+if (-not $sessionFolder) {
+    Write-Host "ERROR: Could not create session folder." -ForegroundColor Red
+    exit 1
 }
 
 Write-Host "Session folder: $($sessionFolder.Name)" -ForegroundColor Green
 Write-Host ""
 
-# Results file (simple text format)
+# Results file
 $resultsFile = Join-Path $sessionFolder.FullName "benchmark_results.txt"
 
 # Start results file
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+# Snapshot current firmware config (for protocol compliance)
+$confPath = Join-Path (Split-Path -Parent $scriptDir) "..\..\zmk-config-charybdis-beacons\config\boards\shields\charybdis\charybdis_right.conf"
+$firmwareSnapshot = if (Test-Path $confPath) { Get-Content $confPath -Raw } else { "CONF NOT FOUND at expected path" }
+
 @"
 TRACKBALL BENCHMARK RESULTS
 ===========================
 Profile: $ProfileName
 Date: $timestamp
+Hypothesis: $Hypothesis
+Protocol: ONE VARIABLE ONLY. Full before/after. Right-half only.
 
-CONFIG:
-CPI: 600
-Snipe CPI: 1600
-XY Scaler: 2:1
-Polling: 125_SW
-Connection: Wireless
+FIRMWARE CONFIG SNAPSHOT (right.conf):
+$firmwareSnapshot
+
+WINDOWS / INPUT PROCESSOR NOTES (fill manually if changed):
+- Sensitivity: 20/20 (enhance pointer precision = OFF)
+- XY Scaler: 2:1 (keymap)
+- Connection: Wireless (BLE)
 
 "@ | Set-Content $resultsFile
 
@@ -55,7 +73,7 @@ Write-Host ""
 
 $warmup = Read-Host "Ready to start? (Press Enter after 3-min warmup)"
 
-# TEST R1 - TestUFO Mouse Poll Rate
+# TEST R1 - TestUFO Mouse Poll Rate (1 run)
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "TEST R1 - TestUFO Mouse Poll Rate" -ForegroundColor Cyan
@@ -68,31 +86,26 @@ Write-Host "1. Open the link above" -ForegroundColor Gray
 Write-Host "2. Click the test area" -ForegroundColor Gray
 Write-Host "3. Move trackball VERY FAST in circles for 10 seconds" -ForegroundColor Gray
 Write-Host "4. Note the peak Hz shown" -ForegroundColor Gray
-Write-Host "5. Repeat 3 times" -ForegroundColor Gray
 Write-Host ""
 Write-Host "Expected result for 125_SW polling: 110-125 Hz" -ForegroundColor Yellow
 Write-Host ""
 
-$r1_1 = Read-Host "Run 1 peak Hz"
-$r1_2 = Read-Host "Run 2 peak Hz"
-$r1_3 = Read-Host "Run 3 peak Hz"
+$r1_1 = Read-Host "Peak Hz"
 
 @"
 
 R1 - TestUFO Mouse Poll Rate
 -----------------------------
-Run 1: $r1_1 Hz
-Run 2: $r1_2 Hz
-Run 3: $r1_3 Hz
+Peak Hz: $r1_1
 
 "@ | Add-Content $resultsFile
 
-Write-Host "✅ R1 logged" -ForegroundColor Green
+Write-Host "R1 logged" -ForegroundColor Green
 
-# TEST A1 - Aim Trainer
+# TEST A1 - Aim Trainer (3 runs)
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "TEST A1 - Aim Trainer" -ForegroundColor Cyan
+Write-Host "TEST A1 - Aim Trainer (3 runs)" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Link: https://humanbenchmark.com/tests/aim" -ForegroundColor Yellow
@@ -121,9 +134,9 @@ Run 3: $a1_3 ms/target
 
 "@ | Add-Content $resultsFile
 
-Write-Host "✅ A1 logged" -ForegroundColor Green
+Write-Host "A1 logged" -ForegroundColor Green
 
-# TEST A2 - MouseAccuracy Classic
+# TEST A2 - MouseAccuracy Classic (3 runs)
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "TEST A2 - MouseAccuracy Classic (CRITICAL)" -ForegroundColor Cyan
@@ -143,12 +156,11 @@ Write-Host "3. Set Spawn Speed to Normal" -ForegroundColor Gray
 Write-Host "4. Start the test" -ForegroundColor Gray
 Write-Host "5. Click targets accurately" -ForegroundColor Gray
 Write-Host "6. Note: Score, Targets Clicked, Misclicks" -ForegroundColor Gray
-Write-Host "7. Repeat 5 times" -ForegroundColor Gray
+Write-Host "7. Repeat 3 times" -ForegroundColor Gray
 Write-Host ""
 Write-Host "What it measures: Tiny-target precision (higher score, lower misclicks is better)" -ForegroundColor Yellow
 Write-Host "This is the MOST IMPORTANT test for your overshoot problem" -ForegroundColor Red
 Write-Host ""
-
 Write-Host "For each run, enter: score targets misclicks (space-separated)" -ForegroundColor White
 Write-Host "Example: 125 42 3" -ForegroundColor Gray
 Write-Host ""
@@ -156,8 +168,6 @@ Write-Host ""
 $a2_1 = Read-Host "Run 1"
 $a2_2 = Read-Host "Run 2"
 $a2_3 = Read-Host "Run 3"
-$a2_4 = Read-Host "Run 4"
-$a2_5 = Read-Host "Run 5"
 
 @"
 
@@ -166,17 +176,15 @@ A2 - MouseAccuracy Classic (Tiny Targets, 30s)
 Run 1: $a2_1
 Run 2: $a2_2
 Run 3: $a2_3
-Run 4: $a2_4
-Run 5: $a2_5
 
 "@ | Add-Content $resultsFile
 
-Write-Host "✅ A2 logged" -ForegroundColor Green
+Write-Host "A2 logged" -ForegroundColor Green
 
-# TEST P1 - Mouse Precision Movement
+# TEST P1 - Mouse Precision Movement (3 runs)
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "TEST P1 - Mouse Precision Movement" -ForegroundColor Cyan
+Write-Host "TEST P1 - Mouse Precision Movement (3 runs)" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Link: https://mousetest.online/precision-movement/" -ForegroundColor Yellow
@@ -187,21 +195,18 @@ Write-Host "2. Place cursor at left side of dashed line" -ForegroundColor Gray
 Write-Host "3. Trace the line left-to-right in ONE SMOOTH movement" -ForegroundColor Gray
 Write-Host "4. Do NOT stop and correct repeatedly" -ForegroundColor Gray
 Write-Host "5. Do NOT rush" -ForegroundColor Gray
-Write-Host "6. Note: Precision Score %, Avg Jitter px, Max Jitter px, Points" -ForegroundColor Gray
-Write-Host "7. Reset and repeat 5 times" -ForegroundColor Gray
+Write-Host "6. Note: Points Collected, Avg Jitter px, Max Jitter px, Precision Score %" -ForegroundColor Gray
+Write-Host "7. Repeat 3 times" -ForegroundColor Gray
 Write-Host ""
 Write-Host "What it measures: Straight-line path cleanliness (higher precision, lower jitter is better)" -ForegroundColor Yellow
 Write-Host ""
-
-Write-Host "For each run, enter: precision% avgJitter maxJitter points (space-separated)" -ForegroundColor White
-Write-Host "Example: 86.5 5.2 28 450" -ForegroundColor Gray
+Write-Host "For each run, enter: points avgJitter maxJitter precision% (space-separated)" -ForegroundColor White
+Write-Host "Example: 57 3.81 9.45 98.1%" -ForegroundColor Gray
 Write-Host ""
 
 $p1_1 = Read-Host "Run 1"
 $p1_2 = Read-Host "Run 2"
 $p1_3 = Read-Host "Run 3"
-$p1_4 = Read-Host "Run 4"
-$p1_5 = Read-Host "Run 5"
 
 @"
 
@@ -210,115 +215,120 @@ P1 - Mouse Precision Movement
 Run 1: $p1_1
 Run 2: $p1_2
 Run 3: $p1_3
-Run 4: $p1_4
-Run 5: $p1_5
 
 "@ | Add-Content $resultsFile
 
-Write-Host "✅ P1 logged" -ForegroundColor Green
+Write-Host "P1 logged" -ForegroundColor Green
 
-# TEST P2 - XbitLabs Mouse Accuracy
+# TEST P2 - XbitLabs Path Follow (3 runs)
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "TEST P2 - XbitLabs Mouse Accuracy" -ForegroundColor Cyan
+Write-Host "TEST P2 - XbitLabs Path Follow (3 runs)" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Link: https://www.xbitlabs.com/mouse-accuracy-test/" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "SETTINGS:" -ForegroundColor White
-Write-Host "- Difficulty: MEDIUM for all modes" -ForegroundColor Yellow
-Write-Host "- Use same path type every time" -ForegroundColor Yellow
+Write-Host "- Mode: Path Follow" -ForegroundColor Yellow
+Write-Host "- Difficulty: Medium" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "INSTRUCTIONS:" -ForegroundColor White
-Write-Host "You will run 4 different modes, 3 times each (12 total runs)" -ForegroundColor Gray
-Write-Host "For each run, note: Accuracy%, Deviation px, Failures" -ForegroundColor Gray
+Write-Host "1. Select Path Follow mode" -ForegroundColor Gray
+Write-Host "2. Set difficulty to Medium" -ForegroundColor Gray
+Write-Host "3. Complete the test" -ForegroundColor Gray
+Write-Host "4. Note: Deviation px and Stage (e.g. 2/5)" -ForegroundColor Gray
+Write-Host "5. Repeat 3 times" -ForegroundColor Gray
 Write-Host ""
-Write-Host "What it measures: Curved paths, shapes, steady hand (complements P1)" -ForegroundColor Yellow
-Write-Host "This catches problems that don't show up in straight-line tests" -ForegroundColor Red
+Write-Host "What it measures: Curved path following accuracy" -ForegroundColor Yellow
 Write-Host ""
-
-# P2 Mode 1: Path Follow
-Write-Host ""
-Write-Host "[P2.1] Path Follow Mode (3 runs)" -ForegroundColor Cyan
-Write-Host "For each run, enter: accuracy% deviation failures (space-separated)" -ForegroundColor White
-Write-Host "Example: 85.2 12.5 2" -ForegroundColor Gray
+Write-Host "For each run, enter: deviation_px stage (space-separated)" -ForegroundColor White
+Write-Host "Example: 3.1 2/5" -ForegroundColor Gray
 Write-Host ""
 
-$p2_path_1 = Read-Host "Path Follow Run 1"
-$p2_path_2 = Read-Host "Path Follow Run 2"
-$p2_path_3 = Read-Host "Path Follow Run 3"
-
-# P2 Mode 2: Shape Trace
-Write-Host ""
-Write-Host "[P2.2] Shape Trace Mode (3 runs)" -ForegroundColor Cyan
-Write-Host "For each run, enter: accuracy% deviation failures (space-separated)" -ForegroundColor White
-Write-Host ""
-
-$p2_shape_1 = Read-Host "Shape Trace Run 1"
-$p2_shape_2 = Read-Host "Shape Trace Run 2"
-$p2_shape_3 = Read-Host "Shape Trace Run 3"
-
-# P2 Mode 3: Steady Hand
-Write-Host ""
-Write-Host "[P2.3] Steady Hand Mode (3 runs)" -ForegroundColor Cyan
-Write-Host "For each run, enter: accuracy% deviation failures (space-separated)" -ForegroundColor White
-Write-Host ""
-
-$p2_steady_1 = Read-Host "Steady Hand Run 1"
-$p2_steady_2 = Read-Host "Steady Hand Run 2"
-$p2_steady_3 = Read-Host "Steady Hand Run 3"
-
-# P2 Mode 4: Precision
-Write-Host ""
-Write-Host "[P2.4] Precision Mode (3 runs)" -ForegroundColor Cyan
-Write-Host "For each run, enter: accuracy% deviation failures (space-separated)" -ForegroundColor White
-Write-Host ""
-
-$p2_prec_1 = Read-Host "Precision Run 1"
-$p2_prec_2 = Read-Host "Precision Run 2"
-$p2_prec_3 = Read-Host "Precision Run 3"
+$p2_1 = Read-Host "Run 1"
+$p2_2 = Read-Host "Run 2"
+$p2_3 = Read-Host "Run 3"
 
 @"
 
-P2 - XbitLabs Mouse Accuracy
------------------------------
-Path Follow (Medium):
-  Run 1: $p2_path_1
-  Run 2: $p2_path_2
-  Run 3: $p2_path_3
-
-Shape Trace (Medium):
-  Run 1: $p2_shape_1
-  Run 2: $p2_shape_2
-  Run 3: $p2_shape_3
-
-Steady Hand (Medium):
-  Run 1: $p2_steady_1
-  Run 2: $p2_steady_2
-  Run 3: $p2_steady_3
-
-Precision (Medium):
-  Run 1: $p2_prec_1
-  Run 2: $p2_prec_2
-  Run 3: $p2_prec_3
+P2 - XbitLabs Path Follow (Medium)
+------------------------------------
+Run 1: $p2_1
+Run 2: $p2_2
+Run 3: $p2_3
 
 "@ | Add-Content $resultsFile
 
-Write-Host "✅ P2 logged" -ForegroundColor Green
+Write-Host "P2 logged" -ForegroundColor Green
 
-# Done
+# Done + Structured Summary + Protocol Log
+$endTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+$summaryBlock = @"
+
+===============================
+STRUCTURED SUMMARY (for AI paste)
+===============================
+Profile: $ProfileName
+Date: $timestamp - $endTime
+Hypothesis: $Hypothesis
+
+FIRMWARE (from snapshot at start):
+CPI=150 SnipeCPI=1000 (P3 current)
+XY=2:1  Polling=125_SW Smart=ON ScrollTick=70
+
+RESULTS (paste your numbers above into analysis):
+R1 Poll Hz: [from above]
+A1 Avg: [from above]
+A2 Tiny hit rate: [FILL after full runs]
+P2 Path: stage/dev [FILL]
+
+QUALITATIVE (fill):
+Tiny target clicking feel (1-5):
+Curved path following (1-5):
+Travel mode (L8) usability on 6720px:
+Fatigue:
+Overall recommendation for next single var:
+
+Protocol compliance:
+- One variable: YES (documented in Hypothesis)
+- Full bench before/after: this run
+- Backup UF2 taken: [confirm manually]
+- Right half only: YES
+
+"@
+
+$summaryBlock | Add-Content $resultsFile
+
+# Append to TUNING_LOG.md (protocol)
+$tuningLog = Join-Path (Split-Path -Parent $scriptDir) "TUNING_LOG.md"
+$logEntry = @"
+
+## $timestamp - $ProfileName
+**Hypothesis:** $Hypothesis
+**Config:** CPI=150 / Snipe=1000 , XY 2:1, 125_SW
+**Results file:** $resultsFile
+**Status:** Run complete. See results for numbers.
+**Next action:** Analyze, propose ONE change, backup UF2, apply, re-bench.
+
+"@
+
+if (Test-Path $tuningLog) {
+    $logEntry | Add-Content $tuningLog
+} else {
+    "# Charybdis Trackball Tuning Log`n`n$logEntry" | Set-Content $tuningLog
+}
+
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "BENCHMARK COMPLETE!" -ForegroundColor Green
+Write-Host "BENCHMARK COMPLETE + LOGGED!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Results saved to:" -ForegroundColor White
 Write-Host "  $resultsFile" -ForegroundColor Yellow
+Write-Host "TUNING_LOG.md updated." -ForegroundColor Yellow
 Write-Host ""
-Write-Host "Next steps:" -ForegroundColor White
-Write-Host "  1. Paste this file to AI for analysis" -ForegroundColor Cyan
-Write-Host "  2. AI will suggest firmware changes" -ForegroundColor Cyan
-Write-Host "  3. Build and flash new firmware" -ForegroundColor Cyan
-Write-Host "  4. Run this script again with new profile name" -ForegroundColor Cyan
-Write-Host "  5. AI will compare and recommend next iteration" -ForegroundColor Cyan
+Write-Host "COPY THE STRUCTURED SUMMARY BLOCK ABOVE FOR AI / GROK." -ForegroundColor Cyan
+Write-Host ""
+Write-Host "REMEMBER PROTOCOL: ONE var only. Full backup before flash. Right half." -ForegroundColor Yellow
 Write-Host ""

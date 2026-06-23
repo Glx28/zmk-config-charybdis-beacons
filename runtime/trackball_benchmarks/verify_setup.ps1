@@ -103,6 +103,34 @@ Write-Host ""
 
 # Check browser tests
 Write-Host "[6/7] Checking browser tests HTML..." -ForegroundColor Yellow
+
+# NEW: Firmware config + Beacon health (pre/post flash)
+Write-Host "[6.5/7] Checking firmware config (right.conf) + beacon readiness..." -ForegroundColor Yellow
+$confFile = "..\..\zmk-config-charybdis-beacons\config\boards\shields\charybdis\charybdis_right.conf"
+if (Test-Path $confFile) {
+    $conf = Get-Content $confFile -Raw
+    if ($conf -match "CONFIG_PMW3610_CPI=150" -and $conf -match "SNIPE_CPI=1000") {
+        Write-Host "      OK: right.conf shows P3 (150/1000)" -ForegroundColor Green
+    } else {
+        Write-Host "      NOTE: right.conf present but CPI may differ (check for active profile)" -ForegroundColor Yellow
+    }
+    if ($conf -match "coach_beacon_macros|beacon") {
+        Write-Host "      OK: Beacon reference in config area" -ForegroundColor Green
+    }
+} else {
+    Write-Host "      WARNING: Could not locate right.conf from benchmark dir" -ForegroundColor Yellow
+}
+
+$keymapBeacon = "..\..\zmk-config-charybdis-beacons\config\charybdis.keymap"
+if (Test-Path $keymapBeacon) {
+    $km = Get-Content $keymapBeacon -Raw
+    if ($km -match "coach_beacon_macros.keymap.dtsi" -and ($km -match "coach_l1_hold" -or $km -match "&coach_")) {
+        Write-Host "      OK: coach_beacon_macros included + wired in keymap" -ForegroundColor Green
+    } else {
+        Write-Host "      WARNING: Beacon macros include present but wiring may be incomplete" -ForegroundColor Yellow
+    }
+}
+Write-Host ""
 $browserTestsPath = Join-Path $toolsDir "browser_tests.html"
 if (Test-Path $browserTestsPath) {
     $content = Get-Content $browserTestsPath -Raw

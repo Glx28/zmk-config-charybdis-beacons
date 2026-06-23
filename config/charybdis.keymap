@@ -16,7 +16,10 @@
     quick-tap-ms = <150>;
 };
 
-&mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
+// XY scaler 1:1 (was 2:1). The 2x doubled horizontal/vertical trackball movement
+// and distorted diagonals/curves (the "can't make clean paths" complaint). Precision
+// comes from CPI 600/4=150; fast travel is the Layer 8 snipe mode, not this scaler.
+&mmv_input_listener { input-processors = <&zip_xy_scaler 1 1>; };
 
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 

@@ -1,0 +1,84 @@
+name: Build
+
+on: [push, workflow_dispatch]
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    name: Fetch Build Keyboards
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install yaml2json
+        run: python3 -m pip install remarshal
+      - name: Fetch Build Matrix
+        id: set-matrix
+        run: echo "matrix=$(yaml2json zmk-config-charybdis-beacons/build.yaml | jq -c .)" >> $GITHUB_OUTPUT
+
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    needs: matrix
+    name: Build
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
+    steps:
+      - name: Prepare variables
+        shell: sh -x {0}
+        run: |
+          echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cache west modules
+        uses: actions/cache@v4
+        continue-on-error: true
+        env:
+          cache_name: cache-zephyr-${{ env.zephyr_version }}-modules
+        with:
+          path: |
+            modules/
+            tools/
+            zephyr/
+            bootloader/
+            zmk/
+          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('zmk-config-charybdis-beacons/config/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache_name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: West Init
+        run: west init -l zmk-config-charybdis-beacons/config
+      - name: West Update
+        run: west update
+      - name: West Zephyr export
+        run: west zephyr-export
+      - name: West Build (${{ matrix.board }}${{ matrix.shield && format(' - {0}', matrix.shield) || '' }})
+        shell: sh -x {0}
+        run: |
+          west build -s zmk/app -b ${{ matrix.board }} \
+            ${{ matrix.shield && format('-- -DSHIELD={0}', matrix.shield) || '' }} \
+            ${{ matrix.snippet && format('-S {0}', matrix.snippet) || '' }} \
+            ${{ matrix['cmake-args'] && format('{0}', matrix['cmake-args']) || '' }} \
+            -DZMK_CONFIG="${GITHUB_WORKSPACE}/zmk-config-charybdis-beacons/config"
+      - name: ${{ matrix.board }}${{ matrix.shield && format(' {0}', matrix.shield) || '' }} Kconfig file
+        run: grep -vE '^\#' build/zephyr/.config | grep -v -e '^$'
+      - name: Rename artifacts
+        shell: sh -x {0}
+        run: |
+          mkdir build/artifacts
+          if [ -f build/zephyr/zmk.uf2 ]
+          then
+            cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}.uf2"
+          elif [ -f build/zephyr/zmk.${{ matrix.board }}.uf2 ]
+          then
+            cp "build/zephyr/zmk.${{ matrix.board }}.uf2" "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}.uf2"
+          fi
+      - name: Archive (${{ matrix.board }}${{ matrix.shield && format(' {0}', matrix.shield) || '' }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}
+          path: build/artifacts

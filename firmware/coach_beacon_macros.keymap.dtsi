@@ -113,5 +113,26 @@ BLE timing is conservative to avoid grouped or reordered host notifications.
             tap-ms = <40>;
             bindings = <&kp LC(LA(LG(F15)))>, <&to 0>;
         };
+
+        coach_scroll_toggle: coach_scroll_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LG(F18)))>, <&tog 6>;
+        };
+
+        coach_l8_hold: coach_l8_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LA(LG(F16)))>,
+                <&macro_press &mo 8>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 8>,
+                <&macro_tap &kp LC(LA(LG(F17)))>;
+        };
     };
 };

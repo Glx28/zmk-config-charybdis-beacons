@@ -18,7 +18,7 @@ global DebugMode := false
 global CoachVisible := false
 global CoachFullscreen := false
 global LauncherVisible := false
-global CurrentCoachLayer := "3"
+global CurrentCoachLayer := "0"
 global LastAction := "Loaded"
 global LastKey := Map("layer", "", "x", "", "y", "", "label", "")
 global HeldLayers := []
@@ -291,6 +291,10 @@ WriteCoachState(logEvent := false) {
     EnsureRuntime()
     activeApp := ActiveAppLabel()
     activeLayer := CoachActiveLayer()
+    ; At rest the coach view must match the real keyboard layer, not a stale tray default.
+    if (HeldLayers.Length = 0 && !LockedLayer && ToggledLayers.Length = 0) {
+        CurrentCoachLayer := activeLayer
+    }
     timestamp := FormatTime(A_NowUTC, "yyyy-MM-ddTHH:mm:ss") "Z"
     json := "{" .
         '"activeLayer":' JsonStringValue(activeLayer) "," .
@@ -303,13 +307,35 @@ WriteCoachState(logEvent := false) {
         '"activeApp":' JsonStringValue(activeApp) "," .
         '"launcherVisible":' (LauncherVisible ? "true" : "false") "," .
         '"transport":' JsonStringValue(HelperConfig.Has("transport") ? HelperConfig["transport"] : "bluetooth") "," .
+        '"beaconAlive":true,' .
+        '"beaconSource":"ahk",' .
+        '"beaconPid":' A_PID "," .
+        '"beaconHeartbeatAt":' JsonStringValue(timestamp) "," .
         '"updatedAt":' JsonStringValue(timestamp) .
         "}"
 
-    FileDeleteSafe(StatePath)
-    FileAppend(json, StatePath, "UTF-8")
+    AtomicWriteText(StatePath, json)
     if logEvent {
         FileAppend(json "`r`n", EventLogPath, "UTF-8")
+    }
+}
+
+AtomicWriteText(path, text) {
+    tmpPath := path ".tmp"
+    loop 8 {
+        try {
+            if FileExist(tmpPath) {
+                FileDelete(tmpPath)
+            }
+            FileAppend(text, tmpPath, "UTF-8")
+            FileMove(tmpPath, path, true)
+            return
+        } catch {
+            if A_Index = 8 {
+                throw
+            }
+            Sleep 25
+        }
     }
 }
 
@@ -360,6 +386,37 @@ HasArrayValue(list, value) {
     return false
 }
 
+LayerKeyHint(kind, layer) {
+    layer := String(layer)
+    if kind = "hold" {
+        switch layer {
+            case "1": return Map("layer", "0", "x", "3", "y", "4", "label", "Nav")
+            case "2": return Map("layer", "0", "x", "5", "y", "5", "label", "Mouse")
+            case "3": return Map("layer", "0", "x", "8", "y", "4", "label", "Window")
+            case "4": return Map("layer", "0", "x", "7", "y", "4", "label", "System")
+            case "8": return Map("layer", "3", "x", "11", "y", "2", "label", "Speed")
+        }
+    } else if kind = "lock" {
+        switch layer {
+            case "2": return Map("layer", "3", "x", "10", "y", "2", "label", "Mouse Lock")
+            case "7": return Map("layer", "1", "x", "0", "y", "1", "label", "Game")
+        }
+    } else if kind = "toggle" {
+        switch layer {
+            case "6": return Map("layer", "2", "x", "12", "y", "2", "label", "Scroll")
+            case "8": return Map("layer", "3", "x", "11", "y", "2", "label", "Speed")
+        }
+    } else if kind = "base" {
+        return Map("layer", "2", "x", "7", "y", "4", "label", "Base")
+    } else if kind = "exit" {
+        switch layer {
+            case "7": return Map("layer", "7", "x", "7", "y", "4", "label", "Exit Base")
+            case "8": return Map("layer", "8", "x", "7", "y", "4", "label", "Exit Travel")
+        }
+    }
+    return Map()
+}
+
 CoachBeacon(kind, layer, direction, label := "") {
     global CurrentCoachLayer, HeldLayers, LockedLayer, ToggledLayers, LastKey, HelperConfig
     if HelperConfig.Has("coach_beacons_enabled") && !HelperConfig["coach_beacons_enabled"] {
@@ -371,6 +428,12 @@ CoachBeacon(kind, layer, direction, label := "") {
         case "hold":
             if direction = "down" {
                 AddUniqueLayer(HeldLayers, layer)
+                hint := LayerKeyHint("hold", layer)
+                if hint.Count {
+                    LastKey := hint
+                } else {
+                    LastKey := Map("layer", "", "x", "", "y", "", "label", "")
+                }
                 CurrentCoachLayer := layer
                 TouchAction("BLE layer " layer " held")
             } else {
@@ -380,12 +443,22 @@ CoachBeacon(kind, layer, direction, label := "") {
             }
         case "lock":
             if layer = "0" || direction = "exit" {
+                exiting := LockedLayer != "" ? LockedLayer : CoachActiveLayer()
                 LockedLayer := ""
+                HeldLayers := []
                 ToggledLayers := []
+                hint := LayerKeyHint("exit", exiting)
+                if !hint.Count {
+                    hint := LayerKeyHint("base", "0")
+                }
+                LastKey := hint.Count ? hint : Map("layer", "", "x", "", "y", "", "label", "")
                 CurrentCoachLayer := "0"
                 TouchAction("BLE base layer")
             } else {
+                HeldLayers := []
                 LockedLayer := layer
+                hint := LayerKeyHint("lock", layer)
+                LastKey := hint.Count ? hint : Map("layer", "", "x", "", "y", "", "label", "")
                 CurrentCoachLayer := layer
                 TouchAction("BLE layer " layer " locked")
             }
@@ -393,6 +466,12 @@ CoachBeacon(kind, layer, direction, label := "") {
             if direction = "off" || HasArrayValue(ToggledLayers, layer) {
                 RemoveLayer(ToggledLayers, layer)
                 CurrentCoachLayer := CoachActiveLayer()
+                if direction = "off" {
+                    hint := LayerKeyHint("exit", layer)
+                    if hint.Count {
+                        LastKey := hint
+                    }
+                }
                 TouchAction("BLE layer " layer " toggled off")
             } else {
                 AddUniqueLayer(ToggledLayers, layer)
@@ -959,6 +1038,10 @@ JoinList(items, separator) {
 ^!#F13::CoachBeacon("toggle", "8", "toggle")
 ^!#F14::CoachBeacon("toggle", "8", "off")
 ^!#F15::CoachBeacon("lock", "0", "exit")
+^!#F16::CoachBeacon("hold", "8", "down")
+^!#F17::CoachBeacon("hold", "8", "up")
+^!#F18::CoachBeacon("toggle", "6", "toggle")
+^!#F19::CoachBeacon("toggle", "6", "off")
 
 #HotIf LauncherVisible
 Enter::SubmitLauncher(false)
@@ -966,15 +1049,8 @@ Enter::SubmitLauncher(false)
 Esc::HideLauncher()
 #HotIf
 
-; =========
-; Norwegian letters
-; =========
-F13::SendTextSafe("Norwegian ae", "æ")
-+F13::SendTextSafe("Norwegian AE", "Æ")
-F14::SendTextSafe("Norwegian oe", "ø")
-+F14::SendTextSafe("Norwegian OE", "Ø")
-F15::SendTextSafe("Norwegian aa", "å")
-+F15::SendTextSafe("Norwegian AA", "Å")
+; Norwegian ø/æ/å are direct on base layer (L0 11,2 / 12,2 / 12,1) via Windows Norwegian layout.
+; F13-F15 are spare L4 macro keys — do not inject Norwegian letters here (conflicts with beacon chords).
 
 ; =========
 ; Input helpers

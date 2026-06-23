@@ -25,18 +25,23 @@ Use the hash file when moving UF2s between machines or before publishing a relea
 
 ## Trackball Tuning
 
-The current PMW3610 intent is:
+The current PMW3610 config:
 
 ```conf
-CONFIG_PMW3610_CPI=600
-CONFIG_PMW3610_SNIPE_CPI=1600
+CONFIG_PMW3610_CPI=600            # 600 / DIVIDOR 4 = 150 effective (precision)
+CONFIG_PMW3610_CPI_DIVIDOR=4      # sensor floor is CPI 200; use DIVIDOR (1-100) for lower effective
+CONFIG_PMW3610_SNIPE_CPI=1000     # Speed mode (Layer 8)
 CONFIG_PMW3610_SCROLL_TICK=70
 CONFIG_PMW3610_SMART_ALGORITHM=y
 ```
 
+Also in `config/charybdis.keymap`: `&zip_xy_scaler 1 1` (was `2 1`). The 2x axis
+doubling distorted diagonals/curves (the "can't make clean paths" complaint); 1:1 is the
+real precision fix. Travel speed comes from the Layer 8 snipe mode, not this scaler.
+
 Layer 8 is used for high-speed pointer travel through `snipe-layers = <8>`.
 
-Layer 1 is used for trackball scroll through `scroll-layers = <1>`.
+Layer 6 is used for trackball scroll through `scroll-layers = <6>`.
 
 ## Bluetooth Coach Beacons
 
@@ -69,25 +74,14 @@ The large generated folders are intentionally ignored:
 
 ## Build Firmware
 
-Right/main side:
+Firmware is built via GitHub Actions on the `zmk-config-charybdis-beacons` repo.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\powershell\build_right_firmware_docker.ps1
-```
+1. Push config changes to `zmk-config-charybdis-beacons` on GitHub
+2. GitHub Actions runs the build (triggered on push or manual workflow_dispatch)
+3. Download the UF2 artifacts from the Actions run
+4. Flash by putting the half in bootloader mode and copying the UF2 to the mounted drive
 
-Left/peripheral side:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\powershell\build_left_firmware_docker.ps1
-```
-
-The build scripts:
-
-- use Docker
-- regenerate the local Zephyr/ZMK dependency tree under `vendor/`
-- copy the resulting UF2 into top-level `firmware/`
-- refresh `firmware/SHA256SUMS.txt`
-- do not flash automatically
+The build workflow is at `.github/workflows/build.yml` and uses the `build.yaml` matrix.
 
 ## Recovery Notes
 

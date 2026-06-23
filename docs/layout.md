@@ -59,7 +59,7 @@ Hold Layer 1 with `x3 y4`.
 | Delete previous word | `x5 y2` |
 | Trackball scroll | Hold Layer 1 and move the trackball |
 
-Trackball scroll is firmware-level through `scroll-layers = <1>`.
+Trackball scroll is firmware-level through `scroll-layers = <6>`.
 
 ## Mouse Replacement
 

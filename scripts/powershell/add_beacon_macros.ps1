@@ -98,8 +98,7 @@ if ($found.Count -eq 0) {
     Write-Host "3. Save the file" -ForegroundColor White
     Write-Host ""
     Write-Host "4. Build firmware:" -ForegroundColor White
-    Write-Host "   .\scripts\powershell\build_right_firmware_docker.ps1" -ForegroundColor Gray
-    Write-Host "   .\scripts\powershell\build_left_firmware_docker.ps1" -ForegroundColor Gray
+    Write-Host "   Push to zmk-config-charybdis-beacons on GitHub, download UF2 from Actions" -ForegroundColor Gray
 }
 
 Write-Host "`n=== Summary ===" -ForegroundColor Cyan

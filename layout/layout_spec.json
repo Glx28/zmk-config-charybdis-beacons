@@ -3,6 +3,11 @@
   "device": "V&Z-Charydbis",
   "firmware": "ZMK with ZMK Studio",
   "trackball_side": "right thumb",
+  "host_keyboard": {
+    "primary": "Windows Norwegian (nb-NO)",
+    "config": "layout/windows_norwegian_host.json",
+    "firmware_note": "US HID scancodes from ZMK; Windows NO renders øæå at SemiColon/Quote/LeftBrace on L0. Layer 1 bracket keys use same scancodes — switch to US English (Win+Space or F16) for programming punctuation."
+  },
   "profiles": {
     "BT0": "desktop",
     "BT1": "Windows laptop",
@@ -24,9 +29,9 @@
     "10": "emergency/recovery"
   },
   "host_triggers": {
-    "F13": "æ",
-    "F14": "ø",
-    "F15": "å",
+    "F13": "Spare macro/app trigger (æ now direct on base 12,2 via Norwegian layout)",
+    "F14": "Spare macro/app trigger (ø now direct on base 11,2 via Norwegian layout)",
+    "F15": "Spare macro/app trigger (å now direct on base 12,1 via Norwegian layout)",
     "F16": "English input helper",
     "F17": "Chinese/Pinyin helper",
     "F18": "Japanese IME helper",

@@ -10,6 +10,18 @@ Usage:
 6. This script never clicks Save. Save manually only after verification passes.
 
 This is not the surgical 46-key overlay. It contains all 616 visible keys from the verifier contract.
+
+Norwegian Windows (L0): coach labels ø/æ/å at 11,2 / 12,2 / 12,1 use US HID scancodes
+(SemiColon / Apostrophe / Left Brace); 12,3 is Backslash and Pipe. Windows NO renders glyphs.
+Exit-to-base: coach_base on L1 5,4, L2 5/7/8 y4, L7 3/5/7/8 y4; coach_travel_off on L8 7/8 y4.
+
+Studio coach behaviors available in current firmware (2026-06-23):
+  coach_l1_hold, coach_l2_hold, coach_l3_hold, coach_l4_hold,
+  coach_mouse_lock, coach_game_lock, coach_base, coach_recover_base,
+  coach_travel_toggle, coach_travel_off
+NOT yet in Studio until next firmware flash:
+  coach_scroll_toggle  → apply uses Toggle Layer 6 instead.
+Speed uses coach_travel_toggle (tap latch); fallback in Studio is Toggle Layer 8.
 */
 
 window.CHARYBDIS_FINAL_LAYOUT = {
@@ -278,11 +290,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 12,
       "y": 1,
       "behavior": "Key Press",
-      "label": "\\",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "å",
+      "rationale": "Norwegian å. Sends the [ scancode (Studio name 'Keyboard Left Brace', same key as Layer 1 x9 y3) = å on Norwegian Windows.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Backslash and Pipe"
+      "full_reapply_v19": true,
+      "parameter": "Keyboard Left Brace"
     },
     {
       "layer": 0,
@@ -399,10 +411,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 2,
       "behavior": "Key Press",
-      "label": ";",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "ø",
+      "rationale": "Norwegian ø. SemiColon scancode unchanged; Windows Norwegian layout renders it as ø.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v19": true,
       "parameter": "Keyboard SemiColon and Colon"
     },
     {
@@ -410,10 +422,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 12,
       "y": 2,
       "behavior": "Key Press",
-      "label": "'",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "æ",
+      "rationale": "Norwegian æ. Apostrophe scancode unchanged; Windows Norwegian layout renders it as æ.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v19": true,
       "parameter": "Keyboard Left Apos and Double"
     },
     {
@@ -524,7 +536,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v1.9: Period must be on base layer for typing flow. Moves [ to Layer 1.",
       "apply_batch": true,
       "full_reapply_v19": true,
-      "parameter": "Keyboard Period"
+      "parameter": "Keyboard Period and GreaterThan"
     },
     {
       "layer": 0,
@@ -542,22 +554,21 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 12,
       "y": 3,
       "behavior": "Key Press",
-      "label": "'",
-      "rationale": "v1.9: Apostrophe for English contractions (can't, don't, it's). Sacrifices minus which moves to Layer 1.",
+      "label": "\\",
+      "rationale": "International English backslash (moved from x12 y1; å now on x12 y1 for Norwegian Windows).",
       "apply_batch": true,
       "full_reapply_v19": true,
-      "parameter": "Keyboard Apostrophe"
+      "parameter": "Keyboard Backslash and Pipe"
     },
     {
       "layer": 0,
       "x": 3,
       "y": 4,
-      "behavior": "Momentary Layer",
-      "label": "Momentary Layer",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_l1_hold",
+      "label": "Nav",
+      "rationale": "Coach beacon: momentary layer 1 with BLE layer-state broadcast.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "1"
+      "full_reapply_v18": true
     },
     {
       "layer": 0,
@@ -588,23 +599,21 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 0,
       "x": 7,
       "y": 4,
-      "behavior": "Momentary Layer",
-      "label": "Momentary Layer",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_l4_hold",
+      "label": "System",
+      "rationale": "Coach beacon: momentary layer 4 with BLE layer-state broadcast.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "4"
+      "full_reapply_v18": true
     },
     {
       "layer": 0,
       "x": 8,
       "y": 4,
-      "behavior": "Momentary Layer",
-      "label": "Momentary Layer",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_l3_hold",
+      "label": "Window",
+      "rationale": "Coach beacon: momentary layer 3 with BLE layer-state broadcast.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "3"
+      "full_reapply_v18": true
     },
     {
       "layer": 0,
@@ -621,12 +630,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 0,
       "x": 5,
       "y": 5,
-      "behavior": "Momentary Layer",
-      "label": "Momentary Layer",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_l2_hold",
+      "label": "Mouse",
+      "rationale": "Coach beacon: momentary layer 2 with BLE layer-state broadcast.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "2"
+      "full_reapply_v18": true
     },
     {
       "layer": 0,
@@ -775,12 +783,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 1,
       "x": 0,
       "y": 1,
-      "behavior": "To Layer",
+      "behavior": "coach_game_lock",
       "label": "Game",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Left-hand game lock: hold Nav, tap Game, release Nav — locks Layer 7 (plain To Layer did not persist after Nav release).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "7"
+      "full_reapply_v20": true
     },
     {
       "layer": 1,
@@ -952,23 +959,22 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 1,
       "x": 3,
       "y": 2,
-      "behavior": "Key Press",
-      "label": "F3",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Toggle Layer",
+      "label": "Scroll",
+      "rationale": "Left-hand scroll toggle (Layer 6). coach_scroll_toggle not in current Studio build — use Toggle Layer until firmware is reflashed.",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard F3"
+      "parameter": "6"
     },
     {
       "layer": 1,
       "x": 4,
       "y": 2,
-      "behavior": "Key Press",
-      "label": "F4",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_travel_toggle",
+      "label": "Speed",
+      "rationale": "Left-hand speed toggle: hold Nav, tap Speed, release Nav — travel stays on, thumb free.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F4"
+      "full_reapply_v20": true
     },
     {
       "layer": 1,
@@ -1220,12 +1226,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 1,
       "x": 5,
       "y": 4,
-      "behavior": "To Layer",
-      "label": "To Layer",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "Coach beacon: Nav thumb exit to base; clears locked/toggled coach state (Ctrl+Alt+Shift+F22).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 1,
@@ -1642,11 +1647,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 12,
       "y": 2,
       "behavior": "Toggle Layer",
-      "parameter": "6",
       "label": "Scroll",
-      "rationale": "v1.9: Right-hand scroll toggle: in mouse mode, tap pinky to toggle Layer 6 scroll overlay.",
+      "rationale": "Right-pinky scroll toggle (Layer 6). coach_scroll_toggle not in current Studio build — use Toggle Layer until firmware is reflashed.",
       "apply_batch": true,
-      "full_reapply_v19": true
+      "full_reapply_v19": true,
+      "parameter": "6"
     },
     {
       "layer": 2,
@@ -1752,11 +1757,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 11,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_travel_toggle",
+      "label": "Speed",
+      "rationale": "Mouse-locked speed toggle: no Window thumb hold — tap while on locked mouse layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v20": true
     },
     {
       "layer": 2,
@@ -1792,34 +1797,31 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 5,
       "y": 4,
-      "behavior": "To Layer",
-      "label": "To Layer",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "Coach beacon: thumb exit from locked mouse layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 2,
       "x": 7,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_base",
       "label": "Base",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: exit locked mouse layer back to base (Ctrl+Alt+Shift+F22).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 2,
       "x": 8,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_base",
       "label": "Base",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: second thumb exit from locked mouse layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 2,
@@ -2213,7 +2215,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
     },
     {
       "layer": 3,
-      "x": 6,
+      "x": 7,
       "y": 2,
       "behavior": "Key Press",
       "parameter": "S",
@@ -2224,21 +2226,6 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v1.9: Right-hand Win+S: hold Window thumb + tap H position.",
       "apply_batch": true,
       "full_reapply_v19": true
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Ctrl",
-        "L GUI"
-      ]
     },
     {
       "layer": 3,
@@ -2273,34 +2260,31 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 3,
       "x": 10,
       "y": 2,
-      "behavior": "To Layer",
+      "behavior": "coach_mouse_lock",
       "label": "Mouse Lock",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: lock to layer 2 (mouse mode).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "2"
+      "full_reapply_v18": true
     },
     {
       "layer": 3,
       "x": 11,
       "y": 2,
-      "behavior": "Toggle Layer",
-      "label": "Ptr Travel",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_travel_toggle",
+      "label": "Speed",
+      "rationale": "Right-hand speed toggle: hold Window, tap Speed, release Window — thumb free for trackball.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "8"
+      "full_reapply_v20": true
     },
     {
       "layer": 3,
       "x": 12,
       "y": 2,
-      "behavior": "To Layer",
+      "behavior": "coach_game_lock",
       "label": "Game",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: lock to layer 7 (game/RPG).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "7"
+      "full_reapply_v18": true
     },
     {
       "layer": 3,
@@ -2617,9 +2601,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 0,
       "behavior": "Output Selection",
       "label": "Output Selection",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Firmware-only &out behavior; not exposed in this ZMK Studio build.",
       "apply_batch": true,
       "full_reapply_v18": true,
+      "studio_skip": true,
       "parameter": "BLE Output"
     },
     {
@@ -2628,9 +2613,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 0,
       "behavior": "Output Selection",
       "label": "Output Selection",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Firmware-only &out behavior; not exposed in this ZMK Studio build.",
       "apply_batch": true,
       "full_reapply_v18": true,
+      "studio_skip": true,
       "parameter": "USB Output"
     },
     {
@@ -2639,9 +2625,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 0,
       "behavior": "Output Selection",
       "label": "Output Selection",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Firmware-only &out behavior; not exposed in this ZMK Studio build.",
       "apply_batch": true,
       "full_reapply_v18": true,
+      "studio_skip": true,
       "parameter": "Toggle Outputs"
     },
     {
@@ -4436,12 +4423,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 7,
       "x": 7,
       "y": 1,
-      "behavior": "Key Press",
-      "label": "9 PU",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Transparent",
+      "label": "Transparent",
+      "rationale": "Game layer right half cleaned: movement cluster moved to x8-x11 (intuitive copy of left).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keypad 9 and PageUp"
+      "full_reapply_v18": true
     },
     {
       "layer": 7,
@@ -4449,7 +4435,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 1,
       "behavior": "Transparent",
       "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Game layer right half: column-mirror cluster x9-x11 (x8 transparent).",
       "apply_batch": true,
       "full_reapply_v18": true
     },
@@ -4458,35 +4444,36 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 1,
       "behavior": "Key Press",
-      "label": "↑",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard UpArrow"
-    },
-    {
-      "layer": 7,
-      "x": 10,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
       "label": "3 PD",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Game layer: right-hand column-mirror of left x3.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keypad 3 and PageDn"
     },
     {
       "layer": 7,
+      "x": 10,
+      "y": 1,
+      "behavior": "Key Press",
+      "label": "↑",
+      "rationale": "Game layer: right-hand column-mirror of left x2.",
+      "apply_batch": true,
+      "full_reapply_v18": true,
+      "parameter": "Keyboard UpArrow"
+    },
+    {
+      "layer": 7,
+      "x": 11,
+      "y": 1,
+      "behavior": "Key Press",
+      "label": "9 PU",
+      "rationale": "Game layer: right-hand column-mirror of left x1.",
+      "apply_batch": true,
+      "full_reapply_v18": true,
+      "parameter": "Keypad 9 and PageUp"
+    },
+    {
+      "layer": 7,
       "x": 12,
       "y": 1,
       "behavior": "Transparent",
@@ -4574,43 +4561,44 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 8,
       "y": 2,
       "behavior": "Key Press",
-      "label": "←",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "Z",
+      "rationale": "Game layer: right-hand column-mirror of left x4 (Z at x8).",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow"
+      "parameter": "Keyboard Z"
     },
     {
       "layer": 7,
       "x": 9,
       "y": 2,
       "behavior": "Key Press",
-      "label": "↓",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "←",
+      "rationale": "Game layer: left arrow on left column of right-hand cluster (x9).",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow"
+      "parameter": "Keyboard LeftArrow"
     },
     {
       "layer": 7,
       "x": 10,
       "y": 2,
       "behavior": "Key Press",
-      "label": "→",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "↓",
+      "rationale": "Game layer: right-hand column-mirror of left x2.",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow"
+      "parameter": "Keyboard DownArrow"
     },
     {
       "layer": 7,
       "x": 11,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "→",
+      "rationale": "Game layer: right arrow on right column of right-hand cluster (x11).",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard RightArrow"
     },
     {
       "layer": 7,
@@ -4690,56 +4678,55 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 7,
       "x": 7,
       "y": 3,
-      "behavior": "Key Press",
-      "label": "Z",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Transparent",
+      "label": "Transparent",
+      "rationale": "Game layer right half cleaned: cluster moved to x8-x11 (intuitive copy of left).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Z"
+      "full_reapply_v18": true
     },
     {
       "layer": 7,
       "x": 8,
       "y": 3,
       "behavior": "Key Press",
-      "label": "X",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "Esc",
+      "rationale": "Game layer: right-hand column-mirror of left x4 (Esc at x8).",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard X"
+      "parameter": "Keyboard Escape"
     },
     {
       "layer": 7,
       "x": 9,
       "y": 3,
       "behavior": "Key Press",
-      "label": "C",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard C"
-    },
-    {
-      "layer": 7,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
       "label": "Shft",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Game layer: right-hand column-mirror of left x3.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard LeftShift"
     },
     {
       "layer": 7,
+      "x": 10,
+      "y": 3,
+      "behavior": "Key Press",
+      "label": "C",
+      "rationale": "Game layer: right-hand column-mirror of left x2.",
+      "apply_batch": true,
+      "full_reapply_v18": true,
+      "parameter": "Keyboard C"
+    },
+    {
+      "layer": 7,
       "x": 11,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "X",
+      "rationale": "Game layer: right-hand column-mirror of left x1.",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Escape"
+      "parameter": "Keyboard X"
     },
     {
       "layer": 7,
@@ -4755,12 +4742,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 7,
       "x": 3,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_base",
       "label": "Exit Base",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: exit locked game layer to base; clears lockedLayer 7 in beacon listener (Ctrl+Alt+Shift+F22).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 7,
@@ -4777,34 +4763,31 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 7,
       "x": 5,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_base",
       "label": "Exit Base",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: second thumb exit from locked game layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 7,
       "x": 7,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_base",
       "label": "Exit Base",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: right-thumb exit from locked game layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 7,
       "x": 8,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_base",
       "label": "Exit Base",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: second right-thumb exit from locked game layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 7,
@@ -5353,23 +5336,21 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 8,
       "x": 7,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_travel_off",
       "label": "Exit Travel",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: exit speed/travel overlay; clears toggled layer 8 (Ctrl+Alt+Win+F14).",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 8,
       "x": 8,
       "y": 4,
-      "behavior": "To Layer",
+      "behavior": "coach_travel_off",
       "label": "Exit Travel",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "Coach beacon: second thumb exit from speed/travel overlay.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "0"
+      "full_reapply_v18": true
     },
     {
       "layer": 8,
@@ -6685,7 +6666,7 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
   }
 
   function validateSupportedBehaviors(items) {
-    const supported = new Set(["Key Press", "Mouse Key Press", "Momentary Layer", "To Layer", "Toggle Layer", "Bluetooth", "Output Selection", "Studio Unlock", "Reset", "Bootloader", "Transparent", "None"]);
+    const supported = new Set(["Key Press", "Mouse Key Press", "Momentary Layer", "To Layer", "Toggle Layer", "Bluetooth", "Output Selection", "Studio Unlock", "Reset", "Bootloader", "Transparent", "None", "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold", "coach_mouse_lock", "coach_game_lock", "coach_base", "coach_travel_toggle", "coach_travel_off", "coach_recover_base"]);
     const unsupported = items.filter((item) => !supported.has(item.behavior));
     if (!unsupported.length) return true;
 
@@ -6894,7 +6875,11 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
       LSHIFT: ["Keyboard LeftShift", "LeftShift", "Left Shift"],
       LEFTCTRL: ["Keyboard LeftControl", "LeftControl", "Left Control"],
       LEFTALT: ["Keyboard LeftAlt", "LeftAlt", "Left Alt"],
-      LEFTGUI: ["Keyboard Left GUI", "Left GUI", "LeftGUI"]
+      LEFTGUI: ["Keyboard Left GUI", "Left GUI", "LeftGUI"],
+      APOSTROPHE: ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"],
+      KEYBOARDAPOSTROPHE: ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"],
+      APOS: ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"],
+      "'": ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"]
     };
     if (known[upper]) {
       known[upper].forEach((term) => terms.add(term));
@@ -7171,6 +7156,11 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
   }
 
   async function applyItem(item) {
+    if (item.studio_skip || item.behavior === "Output Selection") {
+      console.log("Skipping (firmware-only, not in Studio UI):", item);
+      return;
+    }
+
     await selectLayer(item.layer);
     await selectKey(item.x, item.y);
 
@@ -7181,7 +7171,7 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
 
     await setBehavior(item.behavior);
 
-    if (["Transparent", "None", "Studio Unlock", "Reset", "Bootloader"].includes(item.behavior)) {
+    if (["Transparent", "None", "Studio Unlock", "Reset", "Bootloader"].includes(item.behavior) || /^coach_/.test(item.behavior)) {
       return;
     }
 

@@ -29,6 +29,8 @@ $helperConfigPath = Join-Path $RepoRoot "config\charybdis_helper.json"
 $coachIndexPath = Join-Path $RepoRoot "apps\charybdis-coach\index.html"
 $runtimeDir = Join-Path $RepoRoot "runtime"
 $pidPath = Join-Path $runtimeDir "charybdis_coach_server.pid"
+$ahkScript = Join-Path $RepoRoot "scripts\windows\coach_beacon_only.ahk"
+$ahkPidPath = Join-Path $runtimeDir "coach_beacon_only.pid"
 
 if (-not (Test-Path -LiteralPath $helperConfigPath)) {
     throw "Missing helper config: $helperConfigPath"
@@ -62,6 +64,37 @@ function Test-LocalPort {
     }
 }
 
+function Test-CoachHttp {
+    param(
+        [int]$Port,
+        [int]$TimeoutSec = 3
+    )
+    try {
+        $response = Invoke-WebRequest -Uri "http://127.0.0.1:$Port/layout/keybindings_explained.csv" -UseBasicParsing -TimeoutSec $TimeoutSec
+        return $response.StatusCode -eq 200
+    } catch {
+        return $false
+    }
+}
+
+function Stop-CoachServer {
+    param(
+        [string]$PidPath,
+        [int]$Port
+    )
+    if (Test-Path -LiteralPath $PidPath) {
+        $procId = Get-Content -LiteralPath $PidPath -ErrorAction SilentlyContinue
+        if ($procId) {
+            Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue
+        }
+        Remove-Item -LiteralPath $PidPath -Force -ErrorAction SilentlyContinue
+    }
+    foreach ($conn in Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue) {
+        Stop-Process -Id $conn.OwningProcess -Force -ErrorAction SilentlyContinue
+    }
+    Start-Sleep -Milliseconds 300
+}
+
 function Find-Python {
     foreach ($name in @("python", "python3", "py")) {
         $cmd = Get-Command $name -ErrorAction SilentlyContinue
@@ -72,43 +105,179 @@ function Find-Python {
     return $null
 }
 
-# Start USB state monitor
-$monitorScript = Join-Path $RepoRoot "scripts\windows\usb_state_monitor.py"
-$monitorPidPath = Join-Path $runtimeDir "usb_monitor.pid"
+function Stop-CoachBeaconListener {
+    param([string]$PidPath)
+    if (-not (Test-Path -LiteralPath $PidPath)) {
+        return
+    }
+    $procId = Get-Content -LiteralPath $PidPath -ErrorAction SilentlyContinue
+    if ($procId) {
+        Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue
+    }
+    Remove-Item -LiteralPath $PidPath -Force -ErrorAction SilentlyContinue
+}
 
-# Check if monitor is already running
-$monitorRunning = $false
-if (Test-Path $monitorPidPath) {
-    $oldPid = Get-Content $monitorPidPath -ErrorAction SilentlyContinue
-    if ($oldPid -and (Get-Process -Id $oldPid -ErrorAction SilentlyContinue)) {
-        Write-Host "USB monitor already running (PID $oldPid)" -ForegroundColor Green
-        $monitorRunning = $true
+# Layer beacon listener — Python first (stable), AHK beacon-only as fallback.
+$beaconScript = Join-Path $RepoRoot "scripts\windows\coach_beacon_listener.py"
+$beaconPidPath = Join-Path $runtimeDir "coach_beacon_listener.pid"
+$beaconRunning = $false
+$ahkRunning = $false
+$python = Find-Python
+
+function Get-BeaconListenerProcess {
+    Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
+        Where-Object { $_.CommandLine -match "coach_beacon_listener\.py" }
+}
+
+function Stop-AllBeaconListeners {
+    foreach ($proc in Get-BeaconListenerProcess) {
+        Stop-Process -Id $proc.ProcessId -Force -ErrorAction SilentlyContinue
     }
 }
 
-if (-not $monitorRunning) {
-    $python = Find-Python
-    if ($python) {
-        try {
-            # Install pyserial if needed
-            & $python -m pip install --quiet pyserial 2>&1 | Out-Null
-        } catch {
-            Write-Warning "Could not install pyserial. USB monitor may not work."
-        }
+function Test-BeaconHeartbeat {
+    param(
+        [string]$StateFile,
+        [datetime]$NotBeforeUtc
+    )
+    if (-not (Test-Path -LiteralPath $StateFile)) { return $false }
+    try {
+        $state = Get-Content -Raw -LiteralPath $StateFile | ConvertFrom-Json
+        if (-not $state.updatedAt) { return $false }
+        $updated = [datetime]::Parse($state.updatedAt).ToUniversalTime()
+        return $updated -ge $NotBeforeUtc
+    } catch {
+        return $false
+    }
+}
 
-        # Start monitor in background
-        $monitorProcess = Start-Process -FilePath $python -ArgumentList @($monitorScript) -WorkingDirectory $RepoRoot -WindowStyle Hidden -PassThru
-        Set-Content -LiteralPath $monitorPidPath -Value $monitorProcess.Id -Encoding ASCII
-        Write-Host "USB state monitor started (PID $($monitorProcess.Id))" -ForegroundColor Green
+function Start-PythonBeaconListener {
+    param(
+        [string]$PythonExe,
+        [string]$ScriptPath,
+        [string]$PidPath,
+        [string]$WorkingDir
+    )
+    $stderrLog = Join-Path $WorkingDir "runtime\coach_beacon_stderr.log"
+    try {
+        & $PythonExe -m pip install --quiet keyboard 2>&1 | Out-Null
+    } catch {
+        Write-Warning "Could not install keyboard package. Beacon listener may fail."
+    }
+
+    Stop-AllBeaconListeners
+    $startedAtUtc = (Get-Date).ToUniversalTime()
+    $scriptArg = (Resolve-Path -LiteralPath $ScriptPath).Path
+    # Detached process; stderr captured for crash diagnosis.
+    $proc = Start-Process `
+        -FilePath $PythonExe `
+        -ArgumentList @($scriptArg) `
+        -WorkingDirectory $WorkingDir `
+        -WindowStyle Hidden `
+        -RedirectStandardError $stderrLog `
+        -PassThru
+    Set-Content -LiteralPath $PidPath -Value $proc.Id -Encoding ASCII
+
+    $deadline = (Get-Date).AddSeconds(8)
+    while ((Get-Date) -lt $deadline) {
         Start-Sleep -Milliseconds 500
-    } else {
-        Write-Warning "Python not found. USB live monitor will not run. Coach will work in static mode."
+        $alive = Get-Process -Id $proc.Id -ErrorAction SilentlyContinue
+        if (-not $alive) { break }
+        if (Test-BeaconHeartbeat -StateFile (Join-Path $WorkingDir "runtime\charybdis_state.json") -NotBeforeUtc $startedAtUtc) {
+            return $proc
+        }
+    }
+
+    if (Get-Process -Id $proc.Id -ErrorAction SilentlyContinue) {
+        # Process alive but heartbeat missing — still usable; warn once.
+        Write-Warning "Beacon listener PID $($proc.Id) is running but heartbeat not confirmed yet."
+        return $proc
+    }
+
+    if (Test-Path -LiteralPath $stderrLog) {
+        Write-Warning "Beacon listener exited. See $stderrLog"
+        Get-Content -LiteralPath $stderrLog -Tail 8 -ErrorAction SilentlyContinue | ForEach-Object { Write-Warning $_ }
+    }
+    Remove-Item -LiteralPath $PidPath -Force -ErrorAction SilentlyContinue
+    return $null
+}
+
+function Start-AhkBeaconListener {
+    param(
+        [string]$ScriptPath,
+        [string]$PidPath,
+        [string]$WorkingDir
+    )
+    $ahkCmd = Get-Command "AutoHotkey64.exe" -ErrorAction SilentlyContinue
+    $ahkFromPath = if ($ahkCmd) { $ahkCmd.Source } else { $null }
+    if (-not $ahkFromPath) {
+        $ahkCmd = Get-Command "AutoHotkey.exe" -ErrorAction SilentlyContinue
+        $ahkFromPath = if ($ahkCmd) { $ahkCmd.Source } else { $null }
+    }
+    $ahkCandidates = @(
+        $ahkFromPath,
+        "$env:LocalAppData\Programs\AutoHotkey\v2\AutoHotkey64.exe",
+        "$env:LocalAppData\Programs\AutoHotkey\v2\AutoHotkey.exe",
+        "${env:ProgramFiles}\AutoHotkey\v2\AutoHotkey64.exe",
+        "${env:ProgramFiles}\AutoHotkey\v2\AutoHotkey.exe"
+    ) | Where-Object { $_ -and (Test-Path -LiteralPath $_) }
+    $ahkExe = $ahkCandidates | Select-Object -First 1
+    if (-not $ahkExe) {
+        return $null
+    }
+    $proc = Start-Process -FilePath $ahkExe -ArgumentList @("`"$ScriptPath`"") -WorkingDirectory $WorkingDir -WindowStyle Minimized -PassThru
+    Set-Content -LiteralPath $PidPath -Value $proc.Id -Encoding ASCII
+    Start-Sleep -Milliseconds 900
+    if (Get-Process -Id $proc.Id -ErrorAction SilentlyContinue) {
+        return $proc
+    }
+    Remove-Item -LiteralPath $PidPath -Force -ErrorAction SilentlyContinue
+    return $null
+}
+
+Stop-CoachBeaconListener -PidPath $beaconPidPath
+Stop-AllBeaconListeners
+if (Test-Path $ahkPidPath) {
+    $oldAhkPid = Get-Content $ahkPidPath -ErrorAction SilentlyContinue
+    if ($oldAhkPid) {
+        Stop-Process -Id $oldAhkPid -Force -ErrorAction SilentlyContinue
+    }
+    Remove-Item -LiteralPath $ahkPidPath -Force -ErrorAction SilentlyContinue
+}
+
+if ($python -and (Test-Path -LiteralPath $beaconScript)) {
+    $beaconProc = Start-PythonBeaconListener -PythonExe $python -ScriptPath $beaconScript -PidPath $beaconPidPath -WorkingDir $RepoRoot
+    if ($beaconProc) {
+        $beaconRunning = $true
+        Write-Host "Python beacon listener started (PID $($beaconProc.Id))" -ForegroundColor Green
     }
 }
 
+if (-not $beaconRunning -and (Test-Path -LiteralPath $ahkScript)) {
+    $ahkProc = Start-AhkBeaconListener -ScriptPath $ahkScript -PidPath $ahkPidPath -WorkingDir $RepoRoot
+    if ($ahkProc) {
+        $ahkRunning = $true
+        $beaconRunning = $true
+        Write-Host "AHK beacon listener started (PID $($ahkProc.Id))" -ForegroundColor Green
+    }
+}
+
+if (-not $beaconRunning) {
+    Write-Warning "No layer beacon listener is running. Thumb keys will not sync until you re-run this script."
+}
+
+$serverReady = $false
 if (Test-LocalPort -Port $Port) {
-    Write-Host "Coach server already listening on http://127.0.0.1:$Port" -ForegroundColor Green
-} else {
+    if (Test-CoachHttp -Port $Port) {
+        Write-Host "Coach server already listening on http://127.0.0.1:$Port" -ForegroundColor Green
+        $serverReady = $true
+    } else {
+        Write-Warning "Port $Port is open but coach data is not being served. Restarting server..."
+        Stop-CoachServer -PidPath $pidPath -Port $Port
+    }
+}
+
+if (-not $serverReady) {
     $python = Find-Python
     if (-not $python) {
         throw "Python was not found. Install Python or start a static server from the repo root on port $Port."
@@ -123,9 +292,17 @@ if (Test-LocalPort -Port $Port) {
 
     $server = Start-Process -FilePath $python -ArgumentList $arguments -WorkingDirectory $RepoRoot -WindowStyle Hidden -PassThru
     Set-Content -LiteralPath $pidPath -Value $server.Id -Encoding ASCII
-    Start-Sleep -Milliseconds 700
 
-    if (-not (Test-LocalPort -Port $Port)) {
+    $deadline = (Get-Date).AddSeconds(8)
+    while ((Get-Date) -lt $deadline) {
+        Start-Sleep -Milliseconds 300
+        if (Test-CoachHttp -Port $Port) {
+            $serverReady = $true
+            break
+        }
+    }
+
+    if (-not $serverReady) {
         throw "Coach server did not start on http://127.0.0.1:$Port"
     }
     Write-Host "Coach server started on http://127.0.0.1:$Port (PID $($server.Id))." -ForegroundColor Green
@@ -133,6 +310,9 @@ if (Test-LocalPort -Port $Port) {
 
 $url = "http://127.0.0.1:$Port/apps/charybdis-coach/"
 if (-not $NoBrowser -and ($helperConfig.coach_open_browser_on_start -ne $false)) {
+    if (-not (Test-CoachHttp -Port $Port)) {
+        throw "Coach data is not reachable at $url"
+    }
     Start-Process $url
 }
 
@@ -146,4 +326,16 @@ Write-Host "  - Auto-switch layers when you hold layer keys" -ForegroundColor Wh
 Write-Host "  - Highlight active keys in real-time" -ForegroundColor White
 Write-Host "  - Show app-specific shortcuts" -ForegroundColor White
 Write-Host ""
-Write-Host "Requires: Keyboard connected via USB" -ForegroundColor Yellow
+$beaconLogPath = Join-Path $runtimeDir "charybdis_beacon.log"
+if ($beaconRunning -and -not $ahkRunning) {
+    Write-Host "Layer sync: Python beacon listener" -ForegroundColor Yellow
+} elseif ($ahkRunning) {
+    Write-Host "Layer sync: AHK beacon listener (tray icon)" -ForegroundColor Yellow
+} else {
+    Write-Warning "No beacon listener running — layer thumb keys will not sync live."
+}
+Write-Host "Beacon log: $beaconLogPath" -ForegroundColor DarkGray
+Write-Host "Event log:  $(Join-Path $runtimeDir 'charybdis_events.jsonl')" -ForegroundColor DarkGray
+Write-Host "Hold L0 x3 y4 (Nav) to test — coach should highlight that key and show Layer 1 live." -ForegroundColor Yellow
+Write-Host "10s debug capture: scripts\windows\capture_layer_beacons.ps1 -Seconds 10" -ForegroundColor DarkGray
+Write-Host "Speed is TOGGLE (tap on/off): hold Window, tap L3 x11 y2 Speed, release thumb for trackball. Or mouse-lock then L2 x11 y3 Speed." -ForegroundColor DarkGray

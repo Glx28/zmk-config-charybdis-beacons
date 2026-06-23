@@ -29,6 +29,14 @@
       </button>
     </header>
 
+    <div id="beaconBanner" class="beacon-banner beacon-banner--hidden" role="status" aria-live="assertive" hidden>
+      <span class="beacon-banner__icon" aria-hidden="true">!</span>
+      <div class="beacon-banner__text">
+        <strong id="beaconBannerTitle">Beacon</strong>
+        <span id="beaconBannerDetail">Checking layer sync…</span>
+      </div>
+    </div>
+
     <main class="workspace">
       <aside class="layer-rail" aria-label="Layers">
         <div class="rail-title">Layers</div>
@@ -53,7 +61,7 @@
       <aside class="inspector" aria-label="Selected action">
         <section class="panel selected-panel">
           <div class="panel-heading">
-            <span id="selectedIcon" class="behavior-icon key"></span>
+            <span id="selectedIcon" class="behavior-icon kind-letter" aria-hidden="true">Key</span>
             <div>
               <h2 id="selectedTitle">Select a key</h2>
               <p id="selectedSubtitle">Layer details appear here</p>
@@ -66,6 +74,22 @@
             <div><dt>Purpose</dt><dd id="selectedPurpose">-</dd></div>
             <div><dt>Notes</dt><dd id="selectedNotes">-</dd></div>
           </dl>
+        </section>
+
+        <section class="panel practice-panel">
+          <h2>Practice</h2>
+          <div class="practice-controls" role="group" aria-label="Practice modes">
+            <button id="drillButton" type="button">Drill (type)</button>
+            <button id="quizButton" type="button">Quiz (find)</button>
+            <button id="guidedButton" type="button">Guided tour</button>
+            <button id="practiceStopButton" type="button">Stop</button>
+          </div>
+          <p id="practicePrompt" class="practice-prompt">Pick a mode. Drill = type the prompted key. Quiz = click the key for the prompted action. Guided = step through this layer.</p>
+          <div class="practice-stats">
+            <span>Score <strong id="practiceScore">0 / 0</strong></span>
+            <span>Mastery <strong id="practiceMastery">0%</strong></span>
+            <button id="practiceResetButton" type="button" class="link-button">Reset</button>
+          </div>
         </section>
 
         <section class="panel now-panel">

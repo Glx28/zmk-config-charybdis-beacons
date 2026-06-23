@@ -10,8 +10,11 @@ consoleoutput.txt
 
 # Runtime state files
 runtime/*.json
+runtime/*.jsonl
 runtime/*.pid
 runtime/*.txt
+runtime/*.png
+runtime/trackball_benchmarks/results/
 runtime/chrome-coach-profile/
 runtime/chrome-coach-profile-mobile/
 runtime/chrome-coach-profile-mobile2/
@@ -52,8 +55,23 @@ modules/
 zephyr/
 bootloader/
 
+# One-off fix/debug scripts (archived, not needed for daily use)
+scripts/zmk-studio/archive/
+scripts/check_duplicates.js
+
 # Node modules
 node_modules/
+
+# Local agent / IDE artifacts
+mcps/
+terminals/
+grok*.md
+project-handoff.md
+runtime/ULTIMATE_HANDOFF.md
+firmware/*_BACKUP_*.uf2
+
+# Nested firmware clone (pushed from zmk-config-charybdis-beacons/)
+zmk-config-charybdis-beacons/
 
 # Keep runtime directory but ignore its contents
 !runtime/.gitkeep

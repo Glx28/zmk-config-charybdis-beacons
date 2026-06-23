@@ -8,9 +8,8 @@
 
 ✅ You already have:
 - Beacon macros ready: `firmware/coach_beacon_macros.keymap.dtsi`
-- Build scripts: `scripts/powershell/build_*_firmware_docker.ps1`
+- GitHub Actions build workflow in `zmk-config-charybdis-beacons`
 - Working firmware: `firmware/charybdis_right_trackball.uf2` and `charybdis_left.uf2`
-- Docker installed (for building)
 
 ## Step-by-Step Integration
 
@@ -113,31 +112,13 @@ bindings = <
 
 ### Step 4: Build New Firmware
 
-#### Right Half (Main/Trackball Side):
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\powershell\build_right_firmware_docker.ps1
-```
+Push the config changes to `zmk-config-charybdis-beacons` on GitHub. GitHub Actions builds both halves automatically.
 
-This will:
-- Use Docker to build firmware
-- Generate new `firmware/charybdis_right_trackball.uf2`
-- Update `firmware/SHA256SUMS.txt`
-
-#### Left Half (Peripheral Side):
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\powershell\build_left_firmware_docker.ps1
-```
-
-**Expected output:**
-```
-Building ZMK firmware...
-✓ Build successful
-✓ UF2 copied to firmware/
-✓ Hashes updated
-```
+1. Push changes to GitHub
+2. Go to the Actions tab on the repo
+3. Download the UF2 artifacts from the completed build run
 
 If build fails:
-- Check Docker is running
 - Check syntax in charybdis.keymap
 - Review build errors for missing macros/typos
 
@@ -199,12 +180,6 @@ Open Notepad or any app and test:
 ## Troubleshooting
 
 ### Build Fails
-
-**Check Docker:**
-```powershell
-docker --version
-docker ps
-```
 
 **Check keymap syntax:**
 ```powershell
@@ -294,7 +269,7 @@ If anything goes wrong:
 ## Time Estimate
 
 - Keymap editing: 10-15 minutes
-- Build firmware: 5-10 minutes (Docker first-time setup may take longer)
+- Build firmware: 5-10 minutes (GitHub Actions)
 - Flash both halves: 5 minutes
 - Testing: 10 minutes
 - **Total: 30-40 minutes**

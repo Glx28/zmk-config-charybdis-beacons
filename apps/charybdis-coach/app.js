@@ -3,12 +3,16 @@
   const X_LEFT = [0, 1, 2, 3, 4, 5];
   const X_RIGHT = [7, 8, 9, 10, 11, 12];
   const MAX_EVENTS = 12;
+  const BEACON_STALE_MS = 12000;
 
   const els = {
     activeLayer: document.getElementById("activeLayer"),
     activeApp: document.getElementById("activeApp"),
     lastAction: document.getElementById("lastAction"),
     transport: document.getElementById("transport"),
+    beaconBanner: document.getElementById("beaconBanner"),
+    beaconBannerTitle: document.getElementById("beaconBannerTitle"),
+    beaconBannerDetail: document.getElementById("beaconBannerDetail"),
     deviceLabel: document.getElementById("deviceLabel"),
     layerTabs: document.getElementById("layerTabs"),
     keyboardMap: document.getElementById("keyboardMap"),
@@ -29,7 +33,15 @@
     toggledLayers: document.getElementById("toggledLayers"),
     stateAge: document.getElementById("stateAge"),
     eventList: document.getElementById("eventList"),
-    appList: document.getElementById("appList")
+    appList: document.getElementById("appList"),
+    drillButton: document.getElementById("drillButton"),
+    quizButton: document.getElementById("quizButton"),
+    guidedButton: document.getElementById("guidedButton"),
+    practiceStopButton: document.getElementById("practiceStopButton"),
+    practiceResetButton: document.getElementById("practiceResetButton"),
+    practicePrompt: document.getElementById("practicePrompt"),
+    practiceScore: document.getElementById("practiceScore"),
+    practiceMastery: document.getElementById("practiceMastery")
   };
 
   const state = {
@@ -37,24 +49,26 @@
     rowsByLayer: new Map(),
     apps: [],
     layoutSpec: {},
+    hostKeyboard: null,
     displayedLayer: "0",
     liveLayer: "0",
     selectedKey: null,
     query: "",
     focusImportant: false,
     lastState: null,
-    events: []
+    events: [],
+    practice: { mode: null, target: null, guidedList: [], guidedIndex: 0, attempts: 0, correct: 0 },
+    progress: {}
   };
 
-  const icons = {
-    key: '<svg viewBox="0 0 24 24"><path d="M4 7h16v10H4zM7 10h.01M11 10h.01M15 10h.01M8 14h8"/></svg>',
-    layer: '<svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 16 9 5 9-5"/></svg>',
-    mouse: '<svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 1 6 6v6a6 6 0 0 1-12 0V9a6 6 0 0 1 6-6Z"/><path d="M12 3v7"/></svg>',
-    bluetooth: '<svg viewBox="0 0 24 24"><path d="m7 7 10 10-5 4V3l5 4L7 17"/></svg>',
-    output: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H4zM8 21h8M12 16v5"/></svg>',
-    system: '<svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M3 12h4M17 12h4M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg>',
-    danger: '<svg viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 9v5M12 18h.01"/></svg>',
-    transparent: '<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m4 20 16-16"/></svg>'
+  const LAYER_TAB_META = {
+    "0": { glyph: "Aa", title: "Base typing" },
+    "1": { glyph: "Nav", title: "Navigation" },
+    "2": { glyph: "Mou", title: "Mouse lock" },
+    "3": { glyph: "Win", title: "Window / apps" },
+    "4": { glyph: "Sys", title: "System / BT" },
+    "7": { glyph: "RPG", title: "Game layer" },
+    "8": { glyph: "Spd", title: "Speed travel" }
   };
 
   function clean(text) {
@@ -113,22 +127,129 @@
     return await res.text();
   }
 
-  function behaviorKind(row) {
-    const behavior = clean(row.behavior);
-    const label = clean(row.visual_label);
-    if (/reset|bootloader/i.test(behavior) || /reset|bootloader/i.test(label)) return "danger";
-    if (/studio|system/i.test(behavior) || /studio|system/i.test(label)) return "system";
-    if (/transparent|none/i.test(behavior)) return "transparent";
-    if (/mouse/i.test(behavior)) return "mouse";
-    if (/bluetooth/i.test(behavior)) return "bluetooth";
-    if (/output/i.test(behavior)) return "output";
-    if (/layer/i.test(behavior)) return "layer";
-    return "key";
+  function shortHint(text, max = 18) {
+    const value = clean(text);
+    if (!value) return "";
+    return value.length > max ? `${value.slice(0, max - 1)}…` : value;
   }
 
-  function iconFor(row) {
-    const kind = behaviorKind(row);
-    return { kind, html: icons[kind] || icons.key };
+  function layerParam(row) {
+    const param = clean(row.parameter);
+    const match = param.match(/(\d+)/);
+    return match ? match[1] : "";
+  }
+
+  function classifyKey(row) {
+    const behavior = clean(row.behavior);
+    const behaviorLower = behavior.toLowerCase();
+    const label = clean(row.visual_label);
+    const labelLower = label.toLowerCase();
+    const param = clean(row.parameter);
+    const modifiers = clean(row.modifiers);
+    const combined = `${label} ${param} ${behavior}`.toLowerCase();
+
+    const coachMap = {
+      coach_l1_hold: { kind: "nav", primary: "Nav", badge: "NAV", secondary: "Hold → L1" },
+      coach_l2_hold: { kind: "mouse-hold", primary: "Mouse", badge: "MOU", secondary: "Hold → L2" },
+      coach_l3_hold: { kind: "window", primary: "Window", badge: "WIN", secondary: "Hold → L3" },
+      coach_l4_hold: { kind: "system-layer", primary: "System", badge: "SYS", secondary: "Hold → L4" },
+      coach_mouse_lock: { kind: "lock", primary: "MLock", badge: "LCK", secondary: "Lock mouse L2" },
+      coach_game_lock: { kind: "game", primary: "Game", badge: "GM", secondary: "Lock → L7" },
+      coach_base: { kind: "home", primary: "Base", badge: "HOME", secondary: "Return L0" },
+      coach_travel_toggle: { kind: "speed", primary: "Speed", badge: "SPD", secondary: "Toggle L8" },
+      coach_travel_off: { kind: "speed-off", primary: "Prec", badge: "PRC", secondary: "Exit speed" },
+      coach_recover_base: { kind: "home", primary: "Base", badge: "HOME", secondary: "Recover L0" },
+      coach_scroll_toggle: { kind: "scroll", primary: "Scroll", badge: "SCR", secondary: "Toggle L6" },
+      coach_l8_hold: { kind: "speed-hold", primary: "Speed", badge: "SPD", secondary: "Hold L8" }
+    };
+    if (coachMap[behaviorLower]) return { ...coachMap[behaviorLower] };
+
+    if (/reset|bootloader/i.test(behavior) || /reset|bootloader/i.test(label)) {
+      return { kind: "danger", primary: label || "Reset", badge: "!", secondary: behavior };
+    }
+    if (/studio/i.test(behavior)) {
+      return { kind: "studio", primary: "Studio", badge: "STU", secondary: "Unlock" };
+    }
+    if (/transparent|none/i.test(behavior)) {
+      return { kind: "transparent", primary: "·", badge: "", secondary: "" };
+    }
+    if (/mouse key press/i.test(behavior)) {
+      const btn = label.replace(/mouse key press/i, "").trim() || param.replace(/select:/i, "") || "Btn";
+      return { kind: "mouse-btn", primary: btn, badge: "MB", secondary: shortHint(param, 14) };
+    }
+    if (/bluetooth/i.test(behavior)) {
+      return { kind: "bluetooth", primary: label || "BT", badge: "BT", secondary: shortHint(param, 16) };
+    }
+    if (/output/i.test(behavior)) {
+      return { kind: "output", primary: label || "Out", badge: "OUT", secondary: shortHint(param, 16) };
+    }
+    if (/toggle layer/i.test(behavior)) {
+      const layer = layerParam(row);
+      if (layer === "6") return { kind: "scroll", primary: "Scroll", badge: "SCR", secondary: "Toggle L6" };
+      if (layer === "8") return { kind: "speed", primary: "Speed", badge: "SPD", secondary: "Toggle L8" };
+      return { kind: "toggle", primary: label || `T${layer}`, badge: "TG", secondary: `Toggle L${layer}` };
+    }
+    if (/momentary layer/i.test(behavior)) {
+      const layer = layerParam(row);
+      if (layer === "8") return { kind: "speed-hold", primary: "Speed", badge: "SPD", secondary: "Hold L8" };
+      return { kind: "momentary", primary: label || `M${layer}`, badge: "MO", secondary: `Hold L${layer}` };
+    }
+    if (/to layer/i.test(behavior)) {
+      const layer = layerParam(row);
+      if (layer === "0") return { kind: "home", primary: "Exit", badge: "X", secondary: "To L0" };
+      if (layer === "7") return { kind: "game", primary: "Game", badge: "GM", secondary: "To L7" };
+      return { kind: "jump", primary: label || `L${layer}`, badge: "GO", secondary: `To L${layer}` };
+    }
+
+    if (/leftarrow|←/i.test(combined)) return { kind: "arrow", primary: "←", badge: "", secondary: shortHint(modifiers, 12) };
+    if (/rightarrow|→/i.test(combined)) return { kind: "arrow", primary: "→", badge: "", secondary: shortHint(modifiers, 12) };
+    if (/uparrow|↑/i.test(combined)) return { kind: "arrow", primary: "↑", badge: "", secondary: shortHint(modifiers, 12) };
+    if (/downarrow|↓/i.test(combined)) return { kind: "arrow", primary: "↓", badge: "", secondary: shortHint(modifiers, 12) };
+
+    if (/key press/i.test(behavior)) {
+      const primary = label || param.replace(/^Keyboard\s+/i, "").split(" and ")[0] || "?";
+      if (/^f\d{1,2}$/i.test(primary)) {
+        return { kind: "function", primary: primary.toUpperCase(), badge: "Fn", secondary: shortHint(modifiers, 12) };
+      }
+      if (/shift|ctrl|control|alt|gui|win/i.test(`${primary} ${label}`)) {
+        return { kind: "modifier", primary: label || primary, badge: "Mod", secondary: shortHint(modifiers, 12) };
+      }
+      if (/space|spacebar|␣/i.test(`${primary} ${label}`)) {
+        return { kind: "space", primary: "␣", badge: "", secondary: shortHint(modifiers, 12) };
+      }
+      if (/enter|return|ret/i.test(`${primary} ${label}`)) {
+        return { kind: "enter", primary: "↵", badge: "", secondary: shortHint(modifiers, 12) };
+      }
+      if (/delete|bksp|backspace/i.test(`${primary} ${label}`)) {
+        return { kind: "edit", primary: label || "Del", badge: "", secondary: shortHint(modifiers, 12) };
+      }
+      if (/tab/i.test(`${primary} ${label}`)) {
+        return { kind: "edit", primary: "Tab", badge: "", secondary: shortHint(modifiers, 12) };
+      }
+      if (/escape|esc/i.test(`${primary} ${label}`)) {
+        return { kind: "edit", primary: "Esc", badge: "", secondary: shortHint(modifiers, 12) };
+      }
+      return {
+        kind: "letter",
+        primary,
+        badge: "",
+        secondary: shortHint(modifiers, 14)
+      };
+    }
+
+    return { kind: "action", primary: label || "?", badge: "···", secondary: shortHint(behavior, 16) };
+  }
+
+  function behaviorKind(row) {
+    return classifyKey(row).kind;
+  }
+
+  function behaviorCaption(row) {
+    return classifyKey(row).secondary || clean(row.behavior) || clean(row.visual_label);
+  }
+
+  function visualFor(row) {
+    return classifyKey(row);
   }
 
   function rowSearchText(row) {
@@ -173,7 +294,8 @@
       button.className = "layer-tab";
       button.dataset.layer = layer;
       button.title = layerRole(layer);
-      button.innerHTML = `<strong>${layer}</strong><span>${escapeHtml(shortLayerRole(layerRole(layer)))}</span>`;
+      const tabMeta = LAYER_TAB_META[layer] || { glyph: layer, title: layerRole(layer) };
+      button.innerHTML = `<strong class="layer-tab-num">${layer}</strong><span class="layer-tab-glyph">${escapeHtml(tabMeta.glyph)}</span><span class="layer-tab-role">${escapeHtml(shortLayerRole(layerRole(layer)))}</span>`;
       button.addEventListener("click", () => {
         state.displayedLayer = layer;
         render();
@@ -219,24 +341,28 @@
           hand.appendChild(spacer);
           continue;
         }
-        const icon = iconFor(row);
+        const visual = visualFor(row);
         const button = document.createElement("button");
         button.type = "button";
-        button.className = `keycap ${icon.kind}`;
-        if (icon.kind === "danger") button.classList.add("warning");
+        button.className = `keycap kind-${visual.kind}`;
+        if (visual.kind === "danger") button.classList.add("warning");
+        if (visual.kind === "transparent") button.classList.add("transparent");
         button.dataset.search = rowSearchText(row);
         button.dataset.important = String(isImportant(row));
         button.dataset.keyId = keyId(row);
-        button.title = `${clean(row.visual_label)} - ${clean(row.behavior)} - ${clean(row.parameter)}`;
+        button.title = `${clean(row.visual_label)} — ${clean(row.behavior)} — ${clean(row.parameter)}`;
+        const badgeHtml = visual.badge
+          ? `<span class="key-badge" aria-hidden="true">${escapeHtml(visual.badge)}</span>`
+          : "";
+        const secondaryHtml = visual.secondary
+          ? `<div class="key-secondary">${escapeHtml(visual.secondary)}</div>`
+          : "";
         button.innerHTML = [
-          '<div class="key-top">',
-          `<span class="behavior-icon ${icon.kind}">${icon.html}</span>`,
-          `<span class="key-behavior">${escapeHtml(clean(row.behavior))}</span>`,
-          "</div>",
-          `<div class="key-label">${escapeHtml(clean(row.visual_label) || clean(row.parameter) || ".")}</div>`,
-          `<div class="key-purpose">${escapeHtml(clean(row.modifiers || row.parameter))}</div>`
+          badgeHtml,
+          `<div class="key-primary">${escapeHtml(visual.primary)}</div>`,
+          secondaryHtml
         ].join("");
-        button.addEventListener("click", () => selectKey(row));
+        button.addEventListener("click", () => onUserSelectKey(row));
         hand.appendChild(button);
       }
     }
@@ -245,9 +371,9 @@
 
   function selectKey(row) {
     state.selectedKey = row;
-    const icon = iconFor(row);
-    els.selectedIcon.className = `behavior-icon ${icon.kind}`;
-    els.selectedIcon.innerHTML = icon.html;
+    const visual = visualFor(row);
+    els.selectedIcon.className = `behavior-icon kind-${visual.kind}`;
+    els.selectedIcon.textContent = visual.badge || visual.primary.slice(0, 3);
     els.selectedTitle.textContent = clean(row.visual_label) || "Unnamed key";
     els.selectedSubtitle.textContent = `Layer ${row.layer} - x${row.x} y${row.y}`;
     els.selectedBehavior.textContent = clean(row.behavior) || "-";
@@ -286,11 +412,17 @@
       tab.classList.toggle("active", layer === state.displayedLayer);
       tab.classList.toggle("live", layer === state.liveLayer && layer !== state.displayedLayer);
     });
-    document.querySelectorAll(".keycap.live-key").forEach((el) => el.classList.remove("live-key"));
+    document.querySelectorAll(".keycap.beacon-live-key, .keycap.beacon-source-key").forEach((el) => {
+      el.classList.remove("beacon-live-key", "beacon-source-key");
+    });
     const liveKey = state.lastState?.lastKey;
-    if (liveKey && liveKey.layer && String(liveKey.layer) === state.displayedLayer) {
+    if (liveKey?.layer && liveKey.x !== "" && liveKey.y !== "") {
       const selector = `[data-key-id="${CSS.escape(`${liveKey.layer}:${liveKey.x}:${liveKey.y}`)}"]`;
-      document.querySelector(selector)?.classList.add("live-key");
+      const keyEl = document.querySelector(selector);
+      if (keyEl) {
+        const onDisplayedLayer = String(liveKey.layer) === state.displayedLayer;
+        keyEl.classList.add(onDisplayedLayer ? "beacon-live-key" : "beacon-source-key");
+      }
     }
   }
 
@@ -304,15 +436,122 @@
     }
   }
 
+  function beaconAgeMs(live, field) {
+    if (!live) return Number.POSITIVE_INFINITY;
+    const ts = live[field] || (field === "beaconHeartbeatAt" ? live.updatedAt : "");
+    if (!ts) return Number.POSITIVE_INFINITY;
+    const parsed = Date.parse(ts);
+    if (Number.isNaN(parsed)) return Number.POSITIVE_INFINITY;
+    return Math.max(0, Date.now() - parsed);
+  }
+
+  function beaconStatus(live) {
+    const restartHint = "Run scripts\\windows\\start_charybdis_coach.ps1 or restart_beacon_listener.ps1.";
+    if (!live) {
+      return {
+        level: "error",
+        alive: false,
+        stale: true,
+        ageSec: null,
+        title: "Beacon not detected",
+        detail: `No state file from the beacon listener. ${restartHint}`,
+        transportLabel: "No beacon",
+        source: ""
+      };
+    }
+
+    const hasHeartbeat = live.beaconHeartbeatAt != null && live.beaconHeartbeatAt !== "";
+    const hasBeaconMeta = live.beaconAlive === true || Boolean(live.beaconSource) || hasHeartbeat;
+    const heartbeatAgeMs = beaconAgeMs(live, "beaconHeartbeatAt");
+    const updateAgeMs = beaconAgeMs(live, "updatedAt");
+    const ageMs = hasHeartbeat ? heartbeatAgeMs : updateAgeMs;
+    const ageSec = Number.isFinite(ageMs) ? Math.max(0, Math.round(ageMs / 1000)) : null;
+    const explicitDead = live.beaconAlive === false;
+    const stale = explicitDead || ageMs > BEACON_STALE_MS;
+    const source = clean(live.beaconSource) || (hasBeaconMeta ? "listener" : "");
+
+    if (stale) {
+      const level = !hasBeaconMeta || explicitDead || (ageSec != null && ageSec > BEACON_STALE_MS * 2)
+        ? "error"
+        : "warn";
+      const title = explicitDead ? "Beacon listener stopped" : "Beacon not responding";
+      let detail = `Layer thumb sync is offline`;
+      if (ageSec != null) detail += ` (${ageSec}s since last signal)`;
+      if (source) detail += `. Last source: ${source}`;
+      if (!hasBeaconMeta) detail += ". State file has no beacon heartbeat — listener may be dead or an old build.";
+      detail += `. ${restartHint}`;
+      return {
+        level,
+        alive: false,
+        stale: true,
+        ageSec,
+        title,
+        detail,
+        transportLabel: ageSec != null ? `No beacon (${ageSec}s)` : "No beacon",
+        source
+      };
+    }
+
+    const transportBase = clean(live.transport) || "USB";
+    const transportLabel = hasBeaconMeta ? `Beacon live · ${transportBase}` : transportBase;
+    return {
+      level: "ok",
+      alive: true,
+      stale: false,
+      ageSec,
+      title: "Beacon connected",
+      detail: source
+        ? `Layer sync active (${source}, PID ${live.beaconPid ?? "?"})`
+        : "Layer sync active",
+      transportLabel,
+      source
+    };
+  }
+
+  function beaconListenerStale(live) {
+    return beaconStatus(live).stale;
+  }
+
+  function renderBeaconBanner(live) {
+    if (!els.beaconBanner) return;
+    const status = beaconStatus(live);
+    const show = status.stale;
+    els.beaconBanner.hidden = !show;
+    els.beaconBanner.classList.toggle("beacon-banner--hidden", !show);
+    els.beaconBanner.classList.remove("beacon-banner--ok", "beacon-banner--warn", "beacon-banner--error");
+    if (show) {
+      els.beaconBanner.classList.add(`beacon-banner--${status.level}`);
+    }
+    if (els.beaconBannerTitle) els.beaconBannerTitle.textContent = status.title;
+    if (els.beaconBannerDetail) els.beaconBannerDetail.textContent = status.detail;
+  }
+
   function renderNow() {
-    const live = state.lastState || {};
-    els.activeApp.textContent = clean(live.activeApp) || "Unknown";
-    els.lastAction.textContent = clean(live.lastAction) || "Ready";
-    els.transport.textContent = clean(live.transport) || "Bluetooth";
-    els.heldLayers.textContent = formatList(live.heldLayers);
-    els.lockedLayer.textContent = clean(live.lockedLayer) || "-";
-    els.toggledLayers.textContent = formatList(live.toggledLayers);
-    els.stateAge.textContent = live.updatedAt ? `${Math.max(0, Math.round((Date.now() - Date.parse(live.updatedAt)) / 1000))}s` : "-";
+    const live = state.lastState;
+    const beacon = beaconStatus(live);
+    const liveObj = live || {};
+    els.activeApp.textContent = clean(liveObj.activeApp) || "Unknown";
+    els.lastAction.textContent = clean(liveObj.lastAction) || "Ready";
+    const ageSec = liveObj.updatedAt
+      ? Math.max(0, Math.round((Date.now() - Date.parse(liveObj.updatedAt)) / 1000))
+      : null;
+    els.transport.textContent = beacon.transportLabel;
+    els.heldLayers.textContent = formatList(liveObj.heldLayers);
+    els.lockedLayer.textContent = clean(liveObj.lockedLayer) || "-";
+    els.toggledLayers.textContent = formatList(liveObj.toggledLayers);
+    els.stateAge.textContent = ageSec != null ? `${ageSec}s` : "-";
+
+    if (els.transport) {
+      els.transport.title = beacon.stale
+        ? beacon.detail
+        : (clean(state.layoutSpec?.host_keyboard?.primary)
+          ? "Beacon listener updating layer state; coach matches physical keys (event.code) for Norwegian Windows"
+          : beacon.detail);
+      els.transport.classList.toggle("stale-sync", beacon.stale);
+      els.transport.classList.toggle("beacon-down", beacon.stale);
+      els.transport.classList.toggle("beacon-live", beacon.alive);
+    }
+    renderBeaconBanner(live);
   }
 
   function formatList(value) {
@@ -320,13 +559,20 @@
     return "-";
   }
 
+  function normalizeLayerList(value) {
+    if (!Array.isArray(value)) return [];
+    return value.map((item) => String(item));
+  }
+
   function deriveLiveLayer(live) {
+    // Match beacon listener priority: speed overlay > locked > held > toggled > base.
     if (!live) return state.liveLayer;
-    const toggled = Array.isArray(live.toggledLayers) ? live.toggledLayers : [];
-    const held = Array.isArray(live.heldLayers) ? live.heldLayers : [];
+    const toggled = normalizeLayerList(live.toggledLayers);
+    const held = normalizeLayerList(live.heldLayers);
     if (toggled.includes("8")) return "8";
     if (live.lockedLayer) return String(live.lockedLayer);
-    if (held.length) return String(held[held.length - 1]);
+    if (held.length) return held[held.length - 1];
+    if (toggled.length) return toggled[toggled.length - 1];
     return "0";
   }
 
@@ -340,15 +586,22 @@
 
   async function pollState() {
     const live = await loadJson("../../runtime/charybdis_state.json", null);
+    state.lastState = live;
     if (live) {
-      state.lastState = live;
       const newLiveLayer = deriveLiveLayer(live);
 
-      // Auto-switch to active layer when it changes (USB live monitor)
-      if (newLiveLayer && newLiveLayer !== state.liveLayer) {
-        state.displayedLayer = newLiveLayer;
+      const held = normalizeLayerList(live.heldLayers);
+      const locked = live.lockedLayer ? String(live.lockedLayer) : "";
+      const toggled = normalizeLayerList(live.toggledLayers);
+      // Always show the layer the keyboard is actually on; lastKey highlights the thumb source key.
+      const preferredDisplay = newLiveLayer;
+      const layerChanged = newLiveLayer !== state.liveLayer;
+      const displayChanged = preferredDisplay !== state.displayedLayer;
+
+      if (layerChanged || displayChanged) {
         state.liveLayer = newLiveLayer;
-        render();  // Full re-render when layer changes
+        state.displayedLayer = preferredDisplay;
+        render();
       } else {
         state.liveLayer = newLiveLayer;
         renderNow();
@@ -357,9 +610,8 @@
 
       pushEvent(live);
       renderEvents();
-    } else {
-      renderNow();
     }
+    renderNow();
   }
 
   function render() {
@@ -375,23 +627,231 @@
   }
 
   async function init() {
-    const [csvText, layoutSpec, appsConfig] = await Promise.all([
+    const [csvText, layoutSpec, appsConfig, hostKeyboard] = await Promise.all([
       loadText("../../layout/keybindings_explained.csv"),
       loadJson("../../layout/layout_spec.json", {}),
-      loadJson("../../config/charybdis_apps.json", { apps: [] })
+      loadJson("../../config/charybdis_apps.json", { apps: [] }),
+      loadJson("../../layout/windows_norwegian_host.json", null)
     ]);
     state.rows = parseCsv(csvText);
     state.layoutSpec = layoutSpec || {};
+    state.hostKeyboard = hostKeyboard;
     state.apps = appsConfig.apps || [];
-    els.deviceLabel.textContent = clean(state.layoutSpec.device) || "Bluetooth helper";
+    const device = clean(state.layoutSpec.device) || "Charybdis";
+    const host = clean(state.layoutSpec.host_keyboard?.primary) || clean(hostKeyboard?.name) || "";
+    els.deviceLabel.textContent = host ? `${device} · ${host}` : device;
+    if (els.transport && host) {
+      els.transport.title = "Coach matches physical keys (event.code) for Norwegian Windows; firmware sends US HID scancodes.";
+    }
     groupRows();
     renderApps();
     render();
+    setupPractice();
     await pollState();
     setInterval(pollState, 500);
     setInterval(renderNow, 1000);
   }
 
+  // ----- Practice / learning modes (drill, quiz, guided, progress) -----
+  const PROGRESS_KEY = "charybdis-coach-progress-v1";
+
+  function loadProgress() {
+    try {
+      state.progress = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+    } catch {
+      state.progress = {};
+    }
+  }
+
+  function saveProgress() {
+    try {
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(state.progress));
+    } catch {
+      /* storage unavailable — practice still works for the session */
+    }
+  }
+
+  function practiceableRows(layer) {
+    return (state.rowsByLayer.get(layer) || []).filter((row) => isImportant(row) && behaviorKind(row) !== "transparent");
+  }
+
+  function allPracticeableRows() {
+    return LAYERS.flatMap((layer) => practiceableRows(layer));
+  }
+
+  function masteryPercent() {
+    const all = allPracticeableRows();
+    if (!all.length) return 0;
+    const known = all.filter((row) => (state.progress[keyId(row)] || {}).correct > 0).length;
+    return Math.round((known / all.length) * 100);
+  }
+
+  function updatePracticeUI() {
+    if (!els.practiceScore) return;
+    els.practiceScore.textContent = `${state.practice.correct} / ${state.practice.attempts}`;
+    els.practiceMastery.textContent = `${masteryPercent()}%`;
+  }
+
+  function setPrompt(text) {
+    if (els.practicePrompt) els.practicePrompt.textContent = text;
+  }
+
+  function recordAttempt(row, correct) {
+    state.practice.attempts++;
+    if (correct) state.practice.correct++;
+    const id = keyId(row);
+    const entry = state.progress[id] || { seen: 0, correct: 0 };
+    entry.seen++;
+    if (correct) entry.correct++;
+    state.progress[id] = entry;
+    saveProgress();
+    updatePracticeUI();
+  }
+
+  function flashKey(row, cls) {
+    const el = document.querySelector(`[data-key-id="${CSS.escape(keyId(row))}"]`);
+    if (!el) return;
+    el.classList.add(cls);
+    setTimeout(() => el.classList.remove(cls), 600);
+  }
+
+  function pickWeightedTarget(rows) {
+    // Prefer keys the user has gotten wrong or not seen, so practice targets weak spots.
+    if (!rows.length) return null;
+    const scored = rows.map((row) => {
+      const p = state.progress[keyId(row)] || { seen: 0, correct: 0 };
+      const weight = 1 + Math.max(0, p.seen - p.correct) * 2 + (p.seen === 0 ? 2 : 0);
+      return { row, weight };
+    });
+    const total = scored.reduce((s, x) => s + x.weight, 0);
+    let r = Math.random() * total;
+    for (const x of scored) {
+      r -= x.weight;
+      if (r <= 0) return x.row;
+    }
+    return scored[scored.length - 1].row;
+  }
+
+  function startDrill() {
+    setActiveMode("drill");
+    nextDrill();
+  }
+
+  function nextDrill() {
+    const rows = practiceableRows(state.displayedLayer).filter((row) => behaviorKind(row) === "key");
+    const pool = rows.length ? rows : practiceableRows(state.displayedLayer);
+    const target = pickWeightedTarget(pool);
+    state.practice.target = target;
+    if (!target) {
+      setPrompt("No drillable keys on this layer. Switch layers and try again.");
+      return;
+    }
+    setPrompt(`DRILL — type this key on your keyboard: "${clean(target.visual_label) || clean(target.parameter)}"  (Layer ${target.layer})`);
+    selectKey(target);
+  }
+
+  function checkDrillAnswer(row) {
+    if (state.practice.mode !== "drill" || !state.practice.target) return;
+    const correct = keyId(row) === keyId(state.practice.target);
+    recordAttempt(state.practice.target, correct);
+    flashKey(state.practice.target, correct ? "answer-correct" : "answer-wrong");
+    if (correct) {
+      setPrompt(`✓ Correct! "${clean(state.practice.target.visual_label)}". Next…`);
+      setTimeout(nextDrill, 650);
+    } else {
+      setPrompt(`✗ That was "${clean(row.visual_label)}". Target is "${clean(state.practice.target.visual_label)}" — try again.`);
+    }
+  }
+
+  function startQuiz() {
+    setActiveMode("quiz");
+    nextQuiz();
+  }
+
+  function nextQuiz() {
+    const target = pickWeightedTarget(practiceableRows(state.displayedLayer));
+    state.practice.target = target;
+    if (!target) {
+      setPrompt("No quizzable keys on this layer. Switch layers and try again.");
+      return;
+    }
+    const clue = clean(target.purpose) || clean(target.usage_notes) || `${clean(target.behavior)} ${clean(target.parameter)}`;
+    setPrompt(`QUIZ — click the key that does this:  "${clue}"  (Layer ${target.layer})`);
+  }
+
+  function checkQuizAnswer(row) {
+    if (state.practice.mode !== "quiz" || !state.practice.target) return;
+    const correct = keyId(row) === keyId(state.practice.target);
+    recordAttempt(state.practice.target, correct);
+    flashKey(state.practice.target, correct ? "answer-correct" : "answer-wrong");
+    if (correct) {
+      setPrompt(`✓ Correct — "${clean(state.practice.target.visual_label)}". Next…`);
+      setTimeout(nextQuiz, 700);
+    } else {
+      setPrompt(`✗ Not quite. You clicked "${clean(row.visual_label)}". Keep looking…`);
+    }
+  }
+
+  function startGuided() {
+    setActiveMode("guided");
+    state.practice.guidedList = practiceableRows(state.displayedLayer);
+    state.practice.guidedIndex = 0;
+    guidedShow();
+  }
+
+  function guidedShow() {
+    const list = state.practice.guidedList;
+    if (!list.length) {
+      setPrompt("Nothing to tour on this layer.");
+      return;
+    }
+    const i = ((state.practice.guidedIndex % list.length) + list.length) % list.length;
+    state.practice.guidedIndex = i;
+    const row = list[i];
+    selectKey(row);
+    flashKey(row, "answer-correct");
+    setPrompt(`GUIDED ${i + 1}/${list.length} — "${clean(row.visual_label)}": ${clean(row.purpose) || clean(row.usage_notes)}  ·  press Drill/Quiz to practice, or click another key to advance.`);
+    state.practice.guidedIndex = i + 1;
+  }
+
+  function setActiveMode(mode) {
+    state.practice.mode = mode;
+    [["drill", els.drillButton], ["quiz", els.quizButton], ["guided", els.guidedButton]].forEach(([m, btn]) => {
+      if (btn) btn.classList.toggle("active", m === mode);
+    });
+  }
+
+  function stopPractice() {
+    state.practice.mode = null;
+    state.practice.target = null;
+    setActiveMode(null);
+    setPrompt("Practice stopped. Pick a mode to start again.");
+  }
+
+  function onUserSelectKey(row) {
+    selectKey(row);
+    if (state.practice.mode === "quiz") checkQuizAnswer(row);
+    else if (state.practice.mode === "guided") guidedShow();
+  }
+
+  function setupPractice() {
+    loadProgress();
+    updatePracticeUI();
+    if (els.drillButton) els.drillButton.addEventListener("click", startDrill);
+    if (els.quizButton) els.quizButton.addEventListener("click", startQuiz);
+    if (els.guidedButton) els.guidedButton.addEventListener("click", startGuided);
+    if (els.practiceStopButton) els.practiceStopButton.addEventListener("click", stopPractice);
+    if (els.practiceResetButton) {
+      els.practiceResetButton.addEventListener("click", () => {
+        state.progress = {};
+        saveProgress();
+        state.practice.attempts = 0;
+        state.practice.correct = 0;
+        updatePracticeUI();
+        setPrompt("Progress reset.");
+      });
+    }
+  }
   els.searchInput.addEventListener("input", (event) => {
     state.query = event.target.value || "";
     applyFilters();
@@ -419,64 +879,217 @@
     }
   });
 
-  // Live keypress highlighting - highlights keys when you type them
+  const US_EVENT_KEY_MAP = {
+    Escape: "Escape",
+    Backspace: "Delete",
+    Delete: "Delete",
+    Tab: "Tab",
+    Enter: "Return",
+    " ": "Spacebar",
+    ArrowLeft: "LeftArrow",
+    ArrowRight: "RightArrow",
+    ArrowUp: "UpArrow",
+    ArrowDown: "DownArrow",
+    Home: "Home",
+    End: "End",
+    PageUp: "PageUp",
+    PageDown: "PageDown",
+    Insert: "Insert",
+    F1: "F1", F2: "F2", F3: "F3", F4: "F4", F5: "F5", F6: "F6",
+    F7: "F7", F8: "F8", F9: "F9", F10: "F10", F11: "F11", F12: "F12",
+    "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
+    "6": "6", "7": "7", "8": "8", "9": "9", "0": "0",
+    q: "Q", w: "W", e: "E", r: "R", t: "T",
+    y: "Y", u: "U", i: "I", o: "O", p: "P",
+    a: "A", s: "S", d: "D", f: "F", g: "G",
+    h: "H", j: "J", k: "K", l: "L",
+    ";": "SemiColon", "'": "Left Apos and Double", "\\": "Backslash and Pipe",
+    z: "Z", x: "X", c: "C", v: "V", b: "B",
+    n: "N", m: "M", ",": "Comma", ".": "Period",
+    "/": "ForwardSlash", "-": "Minus", "=": "Equal",
+    "`": "Grave", "[": "LeftBrace", "]": "RightBracket",
+    Control: "LeftControl",
+    Shift: "LeftShift",
+    Alt: "LeftAlt",
+    Meta: "GUI"
+  };
+
+  function hostCodeMap() {
+    return state.hostKeyboard?.event_code_to_zmk || {};
+  }
+
+  function hostKeyAliasMap() {
+    return state.hostKeyboard?.event_key_to_zmk || {};
+  }
+
+  function zmkTokensForLookup(token) {
+    const value = clean(token);
+    if (!value) return [];
+    const hostAliases = state.hostKeyboard?.zmk_parameter_aliases || {};
+    const aliases = {
+      SemiColon: ["SemiColon", "SemiColon and Colon"],
+      "Left Apos and Double": ["Left Apos and Double", "Apostrophe", "Keyboard Apostrophe"],
+      "Left Brace": ["Left Brace", "Left Bracket"],
+      "Right Bracket": ["Right Bracket", "Right Brace"],
+      "Backslash and Pipe": ["Backslash and Pipe", "Backslash"],
+      "Comma and LessThan": ["Comma and LessThan", "Comma"],
+      "ForwardSlash and QuestionMark": ["ForwardSlash and QuestionMark", "ForwardSlash"],
+      Period: ["Period", "Period and GreaterThan"],
+      Spacebar: ["Spacebar", "Space"],
+      Return: ["Return", "Return Enter", "Enter"],
+      Grave: ["Grave", "Grave Accent and Tilde"],
+      GUI: ["GUI", "Left GUI", "L GUI"],
+      ...hostAliases
+    };
+    const base = value.replace(/^Keyboard\s+/i, "");
+    for (const [key, list] of Object.entries(aliases)) {
+      if (base === key || list.includes(base)) return list;
+    }
+    return [base];
+  }
+
+  function matchRowsByZmkToken(keyRows, token) {
+    for (const candidate of zmkTokensForLookup(token)) {
+      const exact = keyRows.find((row) => normalizeParamToken(row.parameter) === normalizeParamToken(candidate));
+      if (exact) return exact;
+      const partial = keyRows.find((row) => paramMatchesToken(row.parameter, candidate));
+      if (partial) return partial;
+    }
+    return null;
+  }
+
+  function normalizeParamToken(value) {
+    return clean(value)
+      .replace(/^Keyboard\s+/i, "")
+      .replace(/^Keypad\s+/i, "")
+      .replace(/\s+and\s+/gi, " and ")
+      .toUpperCase();
+  }
+
+  function paramMatchesToken(param, token) {
+    const normalized = normalizeParamToken(param);
+    const search = normalizeParamToken(token);
+    if (!normalized || !search) return false;
+    if (normalized === search) return true;
+    if (normalized.endsWith(` ${search}`) || normalized.endsWith(`::${search}`)) return true;
+    const parts = normalized.split(/\s+and\s+/i).map((part) => part.trim());
+    return parts.some((part) => part === search || part.endsWith(` ${search}`));
+  }
+
+  function matchableRows(rows) {
+    return rows.filter((row) => /key press|mouse key press/i.test(row.behavior));
+  }
+
+  function resolveKeyFromKeyboardEvent(eventKey, eventCode, rows) {
+    const keyRows = matchableRows(rows);
+    if (!keyRows.length) return null;
+
+    // 1) Physical key (layout-independent) — required for Windows Norwegian.
+    if (eventCode) {
+      const codeToken = hostCodeMap()[eventCode];
+      if (codeToken) {
+        const codeMatch = matchRowsByZmkToken(keyRows, codeToken);
+        if (codeMatch) return codeMatch;
+      }
+    }
+
+    // 2) Norwegian localized character (øæå) from event.key.
+    const hostAlias = hostKeyAliasMap()[eventKey];
+    if (hostAlias) {
+      const aliasMatch = matchRowsByZmkToken(keyRows, hostAlias);
+      if (aliasMatch) return aliasMatch;
+    }
+
+    // 3) Coach visual label (ø, æ, å, ←, single letters).
+    const labelMatch = keyRows.find((row) => clean(row.visual_label).toUpperCase() === String(eventKey).toUpperCase());
+    if (labelMatch) return labelMatch;
+
+    const arrowHints = {
+      ArrowLeft: /leftarrow|←/i,
+      ArrowRight: /rightarrow|→/i,
+      ArrowUp: /uparrow|↑/i,
+      ArrowDown: /downarrow|↓/i
+    };
+    if (arrowHints[eventKey]) {
+      const arrowMatch = keyRows.find((row) => arrowHints[eventKey].test(`${row.visual_label} ${row.parameter}`));
+      if (arrowMatch) return arrowMatch;
+    }
+
+    // 4) US-layout event.key fallback (English Windows or legacy).
+    const zmkKey = US_EVENT_KEY_MAP[eventKey] || US_EVENT_KEY_MAP[String(eventKey).toLowerCase()];
+    if (!zmkKey) return null;
+    return matchRowsByZmkToken(keyRows, zmkKey);
+  }
+
+  function overlayRowForMatch(matchRow, displayLayer) {
+    if (!matchRow) return null;
+    const layer = String(displayLayer);
+    if (String(matchRow.layer) === layer) {
+      return { row: matchRow, fallthrough: false };
+    }
+    const overlay = (state.rowsByLayer.get(layer) || []).find(
+      (row) => row.x === matchRow.x && row.y === matchRow.y
+    );
+    if (!overlay) return null;
+    return { row: overlay, fallthrough: true };
+  }
+
+  function resolveActiveKeyPress(event) {
+    const eventKey = event.key;
+    const eventCode = event.code || "";
+    const displayLayer = state.liveLayer || state.displayedLayer || "0";
+    const overlayRows = state.rowsByLayer.get(displayLayer) || [];
+
+    let match = resolveKeyFromKeyboardEvent(eventKey, eventCode, overlayRows);
+    if (match) return overlayRowForMatch(match, displayLayer);
+
+    if (displayLayer !== "0") {
+      const baseRows = state.rowsByLayer.get("0") || [];
+      match = resolveKeyFromKeyboardEvent(eventKey, eventCode, baseRows);
+      if (match) return overlayRowForMatch(match, displayLayer);
+    }
+
+    return null;
+  }
+
+  // Physical keypress highlighting (separate from beacon thumb highlights).
   const keyPressTimeouts = new Map();
 
+  const MODIFIER_EVENT_KEYS = new Set(["Control", "Shift", "Alt", "Meta"]);
+
+  function flashPhysicalKey(matchInfo) {
+    if (!matchInfo?.row) return;
+    const id = keyId(matchInfo.row);
+    const selector = `[data-key-id="${CSS.escape(id)}"]`;
+    const keyEl = document.querySelector(selector);
+    if (!keyEl) return;
+
+    const prevTimeout = keyPressTimeouts.get(id);
+    if (prevTimeout) clearTimeout(prevTimeout);
+
+    keyEl.classList.remove("press-flash", "press-fallthrough");
+    keyEl.classList.add(matchInfo.fallthrough ? "press-fallthrough" : "press-flash");
+
+    const timeout = setTimeout(() => {
+      keyEl.classList.remove("press-flash", "press-fallthrough");
+      keyPressTimeouts.delete(id);
+    }, 450);
+
+    keyPressTimeouts.set(id, timeout);
+  }
+
   document.addEventListener("keydown", (event) => {
-    // Don't interfere with search input
     if (event.target === els.searchInput) return;
+    if (MODIFIER_EVENT_KEYS.has(event.key)) return;
+    if (event.ctrlKey && event.altKey && event.shiftKey) return;
 
-    const key = event.key;
+    const matchInfo = resolveActiveKeyPress(event);
+    if (!matchInfo) return;
 
-    // Map keyboard event to ZMK parameter names
-    const keyMap = {
-      "Escape": "Escape", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
-      "6": "6", "7": "7", "8": "8", "9": "9", "0": "0",
-      "Backspace": "Delete", "Tab": "Tab",
-      "q": "Q", "w": "W", "e": "E", "r": "R", "t": "T",
-      "y": "Y", "u": "U", "i": "I", "o": "O", "p": "P",
-      "a": "A", "s": "S", "d": "D", "f": "F", "g": "G",
-      "h": "H", "j": "J", "k": "K", "l": "L",
-      ";": "SemiColon", "'": "Apostrophe", "\\": "Backslash",
-      "z": "Z", "x": "X", "c": "C", "v": "V", "b": "B",
-      "n": "N", "m": "M", ",": "Comma", ".": "Period",
-      "/": "ForwardSlash", "-": "Minus", " ": "Spacebar",
-      "Enter": "Return", "Control": "LeftControl",
-      "Shift": "LeftShift", "Alt": "LeftAlt", "Meta": "GUI"
-    };
+    flashPhysicalKey(matchInfo);
 
-    const zmkKey = keyMap[key] || keyMap[key.toLowerCase()];
-    if (!zmkKey) return;
-
-    // Find matching key on current displayed layer
-    const rows = state.rowsByLayer.get(state.displayedLayer) || [];
-    const matchingKey = rows.find(row => {
-      const param = clean(row.parameter || row.visual_label || "").toUpperCase();
-      const search = zmkKey.toUpperCase();
-      return param.includes(search) || row.visual_label?.toUpperCase() === key.toUpperCase();
-    });
-
-    if (matchingKey) {
-      const keyId = `${matchingKey.layer}:${matchingKey.x}:${matchingKey.y}`;
-      const selector = `[data-key-id="${CSS.escape(keyId)}"]`;
-      const keyEl = document.querySelector(selector);
-
-      if (keyEl) {
-        // Clear previous timeout for this key
-        const prevTimeout = keyPressTimeouts.get(keyId);
-        if (prevTimeout) clearTimeout(prevTimeout);
-
-        // Add pulsing highlight
-        keyEl.classList.add("live-key");
-
-        // Remove highlight after 300ms
-        const timeout = setTimeout(() => {
-          keyEl.classList.remove("live-key");
-          keyPressTimeouts.delete(keyId);
-        }, 300);
-
-        keyPressTimeouts.set(keyId, timeout);
-      }
+    if (state.practice.mode === "drill") {
+      checkDrillAnswer(matchInfo.row);
     }
   });
 

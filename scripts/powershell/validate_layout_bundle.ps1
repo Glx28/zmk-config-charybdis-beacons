@@ -140,8 +140,9 @@ if ($helperConfig.monitor_mode -notin $allowedMonitorModes) {
 if ($helperConfig.opacity -lt 80 -or $helperConfig.opacity -gt 255) {
     throw "helper opacity must be between 80 and 255."
 }
-if ($helperConfig.transport -and $helperConfig.transport -ne "bluetooth") {
-    throw "helper transport must remain bluetooth for this coach bundle."
+$allowedTransports = @("bluetooth", "usb")
+if ($helperConfig.transport -and $helperConfig.transport -notin $allowedTransports) {
+    throw "helper transport must be one of: $($allowedTransports -join ', ')"
 }
 if ($helperConfig.coach_server_port -and ($helperConfig.coach_server_port -lt 1024 -or $helperConfig.coach_server_port -gt 65535)) {
     throw "helper coach_server_port must be between 1024 and 65535."

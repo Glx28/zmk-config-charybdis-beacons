@@ -1,5 +1,5 @@
 {
-  "show_coach_on_start": true,
+  "show_coach_on_start": false,
   "monitor_mode": "secondary",
   "opacity": 255,
   "compact": false,
@@ -10,5 +10,5 @@
   "coach_open_browser_on_start": true,
   "coach_default_view": "layer",
   "coach_beacons_enabled": true,
-  "transport": "bluetooth"
+  "transport": "usb"
 }

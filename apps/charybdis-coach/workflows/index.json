@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "description": "Workflow guide index — lists available app shortcut guides for the Charybdis Coach",
+  "apps": [
+    {
+      "id": "browser",
+      "name": "Browser",
+      "icon": "globe",
+      "file": "browser.json",
+      "tags": ["chrome", "edge", "firefox", "web"]
+    },
+    {
+      "id": "vscode",
+      "name": "VS Code",
+      "icon": "code",
+      "file": "vscode.json",
+      "tags": ["editor", "ide", "programming"]
+    },
+    {
+      "id": "explorer",
+      "name": "File Explorer",
+      "icon": "folder",
+      "file": "explorer.json",
+      "tags": ["windows", "files", "folders"]
+    },
+    {
+      "id": "mfiles",
+      "name": "M-Files",
+      "icon": "vault",
+      "file": "mfiles.json",
+      "tags": ["dms", "documents", "vault"]
+    },
+    {
+      "id": "windows",
+      "name": "Windows 11",
+      "icon": "desktop",
+      "file": "windows.json",
+      "tags": ["os", "system", "desktop", "window management"]
+    },
+    {
+      "id": "excel",
+      "name": "Excel",
+      "icon": "table",
+      "file": "excel.json",
+      "tags": ["spreadsheet", "office", "microsoft"]
+    }
+  ]
+}

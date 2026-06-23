@@ -1,0 +1,59 @@
+{
+  "id": "windows",
+  "name": "Windows 11",
+  "icon": "desktop",
+  "categories": [
+    {
+      "name": "Window Management",
+      "shortcuts": [
+        { "keys": "Win+D", "action": "Show/hide desktop", "charybdis": "L2 Desktop (x2,y0 or x8,y0) / L3 Win+D (x4,y1)" },
+        { "keys": "Win+Tab", "action": "Task View", "charybdis": "L2 Task View (x1,y0 or x7,y0)" },
+        { "keys": "Alt+Tab", "action": "Switch apps", "charybdis": "L2 Alt+Tab (x1,y1 or x7,y1)" },
+        { "keys": "Alt+F4", "action": "Close window", "charybdis": "L2 Close Win (x12,y3)" },
+        { "keys": "Win+Left", "action": "Snap left", "charybdis": "L3 Win+Left (x1,y3)" },
+        { "keys": "Win+Right", "action": "Snap right", "charybdis": "L3 Win+Right (x4,y3)" },
+        { "keys": "Win+Up", "action": "Maximize", "charybdis": "L3 Win+Up (x2,y3)" },
+        { "keys": "Win+Down", "action": "Minimize / restore", "charybdis": "L3 Win+Down (x3,y3)" },
+        { "keys": "Win+Shift+Left/Right", "action": "Move to other monitor", "charybdis": "L3 (x5,y1 / x7,y1)" }
+      ]
+    },
+    {
+      "name": "Virtual Desktops",
+      "shortcuts": [
+        { "keys": "Win+Ctrl+D", "action": "New desktop", "charybdis": "L3 Win+Ctrl+D (x8,y3)" },
+        { "keys": "Win+Ctrl+Left/Right", "action": "Switch desktop", "charybdis": "L3 Win+Ctrl+Right (x9,y2)" },
+        { "keys": "Win+Ctrl+F4", "action": "Close desktop", "charybdis": "L3 Win+Ctrl+F4 (x9,y3)" }
+      ]
+    },
+    {
+      "name": "System",
+      "shortcuts": [
+        { "keys": "Win+S", "action": "Search", "charybdis": "L1 Win+S (x1,y2) / L3 Win+S (x7,y2)" },
+        { "keys": "Win+E", "action": "File Explorer" },
+        { "keys": "Win+I", "action": "Settings" },
+        { "keys": "Win+L", "action": "Lock PC" },
+        { "keys": "Win+V", "action": "Clipboard history", "charybdis": "L3 Win+V (x2,y1)" },
+        { "keys": "Win+.", "action": "Emoji picker" },
+        { "keys": "Win+Shift+S", "action": "Screenshot", "charybdis": "L3 Win+Shift+S (x3,y1)" },
+        { "keys": "Ctrl+Shift+Esc", "action": "Task Manager" }
+      ]
+    },
+    {
+      "name": "Taskbar",
+      "shortcuts": [
+        { "keys": "Win+1-9", "action": "Open pinned app N", "charybdis": "L3 Win+1-5 (x1-x5,y2)" },
+        { "keys": "Win+T", "action": "Cycle taskbar apps" },
+        { "keys": "Win+B", "action": "Focus system tray" }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "shortcuts": [
+        { "keys": "Win++", "action": "Magnifier zoom in" },
+        { "keys": "Win+-", "action": "Magnifier zoom out" },
+        { "keys": "Win+Esc", "action": "Close Magnifier" },
+        { "keys": "Win+U", "action": "Accessibility settings" }
+      ]
+    }
+  ]
+}

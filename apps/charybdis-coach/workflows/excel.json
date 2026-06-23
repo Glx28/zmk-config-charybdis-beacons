@@ -1,0 +1,82 @@
+{
+  "id": "excel",
+  "name": "Excel",
+  "icon": "table",
+  "categories": [
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Ctrl+Home", "action": "Go to cell A1" },
+        { "keys": "Ctrl+End", "action": "Go to last used cell" },
+        { "keys": "Ctrl+Arrow", "action": "Jump to edge of data" },
+        { "keys": "Ctrl+G", "action": "Go to dialog" },
+        { "keys": "Ctrl+F", "action": "Find", "charybdis": "L1 Ctrl+F" },
+        { "keys": "Ctrl+H", "action": "Find and replace", "charybdis": "L1 Ctrl+H" },
+        { "keys": "Ctrl+Page Up/Down", "action": "Switch sheet" },
+        { "keys": "Tab", "action": "Move to next cell" },
+        { "keys": "Shift+Tab", "action": "Move to previous cell" }
+      ]
+    },
+    {
+      "name": "Selection",
+      "shortcuts": [
+        { "keys": "Ctrl+A", "action": "Select all / current region", "charybdis": "L2 Sel All" },
+        { "keys": "Ctrl+Shift+Arrow", "action": "Extend selection to edge" },
+        { "keys": "Shift+Space", "action": "Select entire row" },
+        { "keys": "Ctrl+Space", "action": "Select entire column" },
+        { "keys": "Ctrl+Shift+End", "action": "Select to last cell" },
+        { "keys": "Ctrl+Click", "action": "Select non-adjacent cells" }
+      ]
+    },
+    {
+      "name": "Editing",
+      "shortcuts": [
+        { "keys": "F2", "action": "Edit cell / enter edit mode", "charybdis": "L1 F2" },
+        { "keys": "Escape", "action": "Cancel edit", "charybdis": "L2 Esc" },
+        { "keys": "Enter", "action": "Confirm and move down", "charybdis": "L2 Enter" },
+        { "keys": "Ctrl+D", "action": "Fill down" },
+        { "keys": "Ctrl+R", "action": "Fill right" },
+        { "keys": "Ctrl+;", "action": "Insert date" },
+        { "keys": "Ctrl+Shift+;", "action": "Insert time" },
+        { "keys": "Ctrl+Z", "action": "Undo", "charybdis": "L2 Undo" },
+        { "keys": "Ctrl+Y", "action": "Redo", "charybdis": "L2 Redo" },
+        { "keys": "Delete", "action": "Clear cell contents" }
+      ]
+    },
+    {
+      "name": "Formatting",
+      "shortcuts": [
+        { "keys": "Ctrl+B", "action": "Bold" },
+        { "keys": "Ctrl+I", "action": "Italic" },
+        { "keys": "Ctrl+U", "action": "Underline" },
+        { "keys": "Ctrl+1", "action": "Format cells dialog" },
+        { "keys": "Ctrl+Shift+!", "action": "Number format" },
+        { "keys": "Ctrl+Shift+$", "action": "Currency format" },
+        { "keys": "Ctrl+Shift+%", "action": "Percent format" },
+        { "keys": "Ctrl+Shift+~", "action": "General format" }
+      ]
+    },
+    {
+      "name": "Rows & Columns",
+      "shortcuts": [
+        { "keys": "Ctrl+Shift++", "action": "Insert cells/rows/cols" },
+        { "keys": "Ctrl+-", "action": "Delete cells/rows/cols" },
+        { "keys": "Ctrl+9", "action": "Hide rows" },
+        { "keys": "Ctrl+Shift+9", "action": "Unhide rows" },
+        { "keys": "Ctrl+0", "action": "Hide columns" },
+        { "keys": "Alt+H,O,I", "action": "Auto-fit column width" }
+      ]
+    },
+    {
+      "name": "Formulas",
+      "shortcuts": [
+        { "keys": "=", "action": "Start formula" },
+        { "keys": "Alt+=", "action": "AutoSum" },
+        { "keys": "Ctrl+`", "action": "Show/hide formulas" },
+        { "keys": "F4", "action": "Toggle absolute reference ($)", "charybdis": "L1 F4" },
+        { "keys": "Ctrl+Shift+Enter", "action": "Array formula" },
+        { "keys": "Tab", "action": "Accept autocomplete suggestion" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "browser",
+  "name": "Browser",
+  "icon": "globe",
+  "categories": [
+    {
+      "name": "Tabs",
+      "shortcuts": [
+        { "keys": "Ctrl+T", "action": "New tab", "charybdis": "L0 base" },
+        { "keys": "Ctrl+W", "action": "Close tab", "charybdis": "L2 Close (x5,y1 or x12,y1)" },
+        { "keys": "Ctrl+Tab", "action": "Next tab", "charybdis": "L2 Next Tab (x3,y0 or x9,y0)" },
+        { "keys": "Ctrl+Shift+Tab", "action": "Previous tab", "charybdis": "L2 Prev Tab (x4,y0 or x10,y0)" },
+        { "keys": "Ctrl+1-8", "action": "Switch to tab N" },
+        { "keys": "Ctrl+9", "action": "Last tab" },
+        { "keys": "Ctrl+Shift+T", "action": "Reopen closed tab" }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Alt+Left", "action": "Back", "charybdis": "L2 MB4 (x4,y2 or x7,y2)" },
+        { "keys": "Alt+Right", "action": "Forward", "charybdis": "L2 MB5 (x5,y2 or x11,y2)" },
+        { "keys": "F5", "action": "Refresh", "charybdis": "L1 F5 (x4,y0)" },
+        { "keys": "Ctrl+L", "action": "Focus address bar" },
+        { "keys": "Alt+D", "action": "Focus address bar (alt)" },
+        { "keys": "Ctrl+Enter", "action": "Add .com to URL" }
+      ]
+    },
+    {
+      "name": "Page Actions",
+      "shortcuts": [
+        { "keys": "Ctrl+F", "action": "Find on page", "charybdis": "L1 Ctrl+F (x5,y1)" },
+        { "keys": "Ctrl+D", "action": "Bookmark page" },
+        { "keys": "Ctrl+P", "action": "Print" },
+        { "keys": "Ctrl+S", "action": "Save page" },
+        { "keys": "Ctrl+U", "action": "View source" },
+        { "keys": "Ctrl+H", "action": "History", "charybdis": "L1 Ctrl+H (x5,y3)" },
+        { "keys": "Ctrl+J", "action": "Downloads" },
+        { "keys": "Space", "action": "Scroll down", "charybdis": "L2 Scroll (x5,y0 or x12,y2)" },
+        { "keys": "Shift+Space", "action": "Scroll up" }
+      ]
+    },
+    {
+      "name": "Window",
+      "shortcuts": [
+        { "keys": "Ctrl+N", "action": "New window" },
+        { "keys": "Ctrl+Shift+N", "action": "Incognito/private" },
+        { "keys": "F11", "action": "Fullscreen", "charybdis": "L1 F11 (x3,y3)" },
+        { "keys": "Ctrl+Shift+B", "action": "Toggle bookmarks bar" },
+        { "keys": "Ctrl+Shift+Del", "action": "Clear browsing data" }
+      ]
+    },
+    {
+      "name": "Zoom",
+      "shortcuts": [
+        { "keys": "Ctrl++", "action": "Zoom in" },
+        { "keys": "Ctrl+-", "action": "Zoom out" },
+        { "keys": "Ctrl+0", "action": "Reset zoom" }
+      ]
+    }
+  ]
+}

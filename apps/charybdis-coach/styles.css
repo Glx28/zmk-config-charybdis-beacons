@@ -840,6 +840,107 @@ svg {
   font-size: 12px;
   text-decoration: underline;
 }
+/* ----- Workflow guide panel ----- */
+.workflow-panel {
+  padding: 12px;
+  flex-shrink: 0;
+}
+.workflow-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.workflow-header h2 {
+  flex-shrink: 0;
+}
+.workflow-select {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.82rem;
+  padding: 0 8px;
+  cursor: pointer;
+}
+.workflow-select:hover {
+  border-color: var(--accent);
+}
+.workflow-search-input {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.8rem;
+  outline: none;
+}
+.workflow-search-input:focus {
+  border-color: var(--accent);
+}
+.workflow-content {
+  max-height: 420px;
+  overflow-y: auto;
+}
+.workflow-category {
+  margin-bottom: 12px;
+}
+.workflow-category-name {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.workflow-shortcut {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 6px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(42, 58, 73, 0.4);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+.workflow-shortcut:last-child {
+  border-bottom: none;
+}
+.workflow-keys {
+  font-family: "Consolas", "Cascadia Code", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.workflow-action {
+  color: var(--soft);
+  min-width: 0;
+}
+.workflow-charybdis {
+  grid-column: 1 / -1;
+  font-size: 0.68rem;
+  color: var(--accent);
+  padding-left: 4px;
+  opacity: 0.85;
+}
+.workflow-shortcut.filtered-out {
+  display: none;
+}
+.workflow-empty {
+  color: var(--muted);
+  font-size: 0.82rem;
+  padding: 16px 0;
+  text-align: center;
+}
+
 .keycap.answer-correct {
   border-color: var(--accent) !important;
   box-shadow: 0 0 0 2px var(--accent), 0 0 18px rgba(76, 201, 176, 0.5);

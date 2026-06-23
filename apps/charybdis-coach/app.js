@@ -41,7 +41,10 @@
     practiceResetButton: document.getElementById("practiceResetButton"),
     practicePrompt: document.getElementById("practicePrompt"),
     practiceScore: document.getElementById("practiceScore"),
-    practiceMastery: document.getElementById("practiceMastery")
+    practiceMastery: document.getElementById("practiceMastery"),
+    workflowAppSelect: document.getElementById("workflowAppSelect"),
+    workflowSearch: document.getElementById("workflowSearch"),
+    workflowContent: document.getElementById("workflowContent")
   };
 
   const state = {
@@ -626,6 +629,82 @@
     }
   }
 
+  // ----- Workflow guide -----
+  const workflowState = { index: null, apps: new Map(), activeApp: null, query: "" };
+
+  async function loadWorkflowIndex() {
+    workflowState.index = await loadJson("./workflows/index.json", { apps: [] });
+    if (!els.workflowAppSelect) return;
+    els.workflowAppSelect.innerHTML = '<option value="">Select an app...</option>';
+    for (const app of (workflowState.index.apps || [])) {
+      const opt = document.createElement("option");
+      opt.value = app.id;
+      opt.textContent = app.name;
+      els.workflowAppSelect.appendChild(opt);
+    }
+  }
+
+  async function loadWorkflowApp(appId) {
+    if (!appId) { workflowState.activeApp = null; renderWorkflow(); return; }
+    if (!workflowState.apps.has(appId)) {
+      const entry = (workflowState.index.apps || []).find((a) => a.id === appId);
+      if (!entry) return;
+      const data = await loadJson(`./workflows/${entry.file}`, null);
+      if (data) workflowState.apps.set(appId, data);
+    }
+    workflowState.activeApp = workflowState.apps.get(appId) || null;
+    renderWorkflow();
+  }
+
+  function renderWorkflow() {
+    if (!els.workflowContent) return;
+    const app = workflowState.activeApp;
+    if (!app) {
+      els.workflowContent.innerHTML = '<div class="workflow-empty">Select an app to see its shortcuts and how they map to your Charybdis layers.</div>';
+      return;
+    }
+    const query = workflowState.query.toLowerCase();
+    let html = "";
+    for (const cat of (app.categories || [])) {
+      const rows = cat.shortcuts.map((s) => {
+        const text = `${s.keys} ${s.action} ${s.charybdis || ""}`.toLowerCase();
+        const hidden = query && !text.includes(query);
+        const cls = hidden ? ' class="workflow-shortcut filtered-out"' : ' class="workflow-shortcut"';
+        let row = `<div${cls}><span class="workflow-keys">${escapeHtml(s.keys)}</span><span class="workflow-action">${escapeHtml(s.action)}</span>`;
+        if (s.charybdis) row += `<span class="workflow-charybdis">${escapeHtml(s.charybdis)}</span>`;
+        row += "</div>";
+        return { html: row, hidden };
+      });
+      const anyVisible = rows.some((r) => !r.hidden);
+      if (anyVisible || !query) {
+        html += `<div class="workflow-category"><div class="workflow-category-name">${escapeHtml(cat.name)}</div>`;
+        html += rows.map((r) => r.html).join("");
+        html += "</div>";
+      }
+    }
+    els.workflowContent.innerHTML = html || '<div class="workflow-empty">No shortcuts match your filter.</div>';
+  }
+
+  function setupWorkflow() {
+    if (els.workflowAppSelect) {
+      els.workflowAppSelect.addEventListener("change", (e) => {
+        loadWorkflowApp(e.target.value);
+        try { localStorage.setItem("charybdis-workflow-app", e.target.value); } catch {}
+      });
+    }
+    if (els.workflowSearch) {
+      els.workflowSearch.addEventListener("input", (e) => {
+        workflowState.query = e.target.value || "";
+        renderWorkflow();
+      });
+    }
+    const saved = localStorage.getItem("charybdis-workflow-app");
+    if (saved && els.workflowAppSelect) {
+      els.workflowAppSelect.value = saved;
+      loadWorkflowApp(saved);
+    }
+  }
+
   async function init() {
     const [csvText, layoutSpec, appsConfig, hostKeyboard] = await Promise.all([
       loadText("../../layout/keybindings_explained.csv"),
@@ -647,6 +726,8 @@
     renderApps();
     render();
     setupPractice();
+    await loadWorkflowIndex();
+    setupWorkflow();
     await pollState();
     setInterval(pollState, 500);
     setInterval(renderNow, 1000);

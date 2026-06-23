@@ -1,0 +1,77 @@
+{
+  "id": "vscode",
+  "name": "VS Code",
+  "icon": "code",
+  "categories": [
+    {
+      "name": "General",
+      "shortcuts": [
+        { "keys": "Ctrl+Shift+P", "action": "Command palette" },
+        { "keys": "Ctrl+P", "action": "Quick open file" },
+        { "keys": "Ctrl+,", "action": "Settings" },
+        { "keys": "Ctrl+`", "action": "Toggle terminal" },
+        { "keys": "Ctrl+B", "action": "Toggle sidebar" },
+        { "keys": "Ctrl+Shift+E", "action": "Explorer panel" },
+        { "keys": "Ctrl+Shift+F", "action": "Search across files" },
+        { "keys": "Ctrl+Shift+G", "action": "Source control panel" }
+      ]
+    },
+    {
+      "name": "Editing",
+      "shortcuts": [
+        { "keys": "Ctrl+D", "action": "Select next occurrence" },
+        { "keys": "Ctrl+Shift+L", "action": "Select all occurrences" },
+        { "keys": "Alt+Up/Down", "action": "Move line up/down" },
+        { "keys": "Shift+Alt+Up/Down", "action": "Copy line up/down" },
+        { "keys": "Ctrl+Shift+K", "action": "Delete line" },
+        { "keys": "Ctrl+Enter", "action": "Insert line below" },
+        { "keys": "Ctrl+Shift+Enter", "action": "Insert line above" },
+        { "keys": "Ctrl+/", "action": "Toggle comment" },
+        { "keys": "Shift+Alt+A", "action": "Block comment" },
+        { "keys": "Ctrl+]", "action": "Indent line" },
+        { "keys": "Ctrl+[", "action": "Outdent line" },
+        { "keys": "Ctrl+Shift+\\", "action": "Jump to bracket" }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Ctrl+G", "action": "Go to line" },
+        { "keys": "F12", "action": "Go to definition", "charybdis": "L1 F12 (x12,y0)" },
+        { "keys": "Alt+F12", "action": "Peek definition" },
+        { "keys": "Ctrl+Shift+O", "action": "Go to symbol" },
+        { "keys": "Ctrl+Tab", "action": "Switch editor tab", "charybdis": "L2 Next Tab" },
+        { "keys": "Alt+Left/Right", "action": "Navigate back/forward", "charybdis": "L2 MB4/MB5" },
+        { "keys": "Ctrl+Shift+M", "action": "Problems panel" }
+      ]
+    },
+    {
+      "name": "Multi-cursor",
+      "shortcuts": [
+        { "keys": "Alt+Click", "action": "Add cursor" },
+        { "keys": "Ctrl+Alt+Up/Down", "action": "Add cursor above/below" },
+        { "keys": "Ctrl+Shift+L", "action": "Cursors on all occurrences" }
+      ]
+    },
+    {
+      "name": "Terminal",
+      "shortcuts": [
+        { "keys": "Ctrl+`", "action": "Toggle terminal" },
+        { "keys": "Ctrl+Shift+`", "action": "New terminal" },
+        { "keys": "Ctrl+C", "action": "Kill process / copy", "charybdis": "L2 Copy (x3,y3 or x7,y3)" },
+        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste (x4,y3 or x8,y3)" }
+      ]
+    },
+    {
+      "name": "Debug",
+      "shortcuts": [
+        { "keys": "F5", "action": "Start/continue debugging", "charybdis": "L1 F5 (x4,y0)" },
+        { "keys": "F9", "action": "Toggle breakpoint", "charybdis": "L1 F9 (x1,y3)" },
+        { "keys": "F10", "action": "Step over", "charybdis": "L1 F10 (x2,y3)" },
+        { "keys": "F11", "action": "Step into", "charybdis": "L1 F11 (x3,y3)" },
+        { "keys": "Shift+F11", "action": "Step out" },
+        { "keys": "Shift+F5", "action": "Stop debugging" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "explorer",
+  "name": "File Explorer",
+  "icon": "folder",
+  "categories": [
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Alt+Up", "action": "Go to parent folder" },
+        { "keys": "Alt+Left", "action": "Go back", "charybdis": "L2 MB4" },
+        { "keys": "Alt+Right", "action": "Go forward", "charybdis": "L2 MB5" },
+        { "keys": "Alt+D", "action": "Focus address bar" },
+        { "keys": "Ctrl+L", "action": "Focus address bar (alt)" },
+        { "keys": "Enter", "action": "Open item", "charybdis": "L2 Enter (x3,y1 or x8,y1)" },
+        { "keys": "Alt+Enter", "action": "Properties" },
+        { "keys": "Backspace", "action": "Go up one level", "charybdis": "L2 BkSp (x4,y1 or x10,y1)" }
+      ]
+    },
+    {
+      "name": "Files & Folders",
+      "shortcuts": [
+        { "keys": "Ctrl+N", "action": "New window" },
+        { "keys": "Ctrl+Shift+N", "action": "New folder" },
+        { "keys": "F2", "action": "Rename", "charybdis": "L1 F2 (x1,y0)" },
+        { "keys": "Delete", "action": "Delete to Recycle Bin" },
+        { "keys": "Shift+Delete", "action": "Permanent delete" },
+        { "keys": "Ctrl+C", "action": "Copy", "charybdis": "L2 Copy" },
+        { "keys": "Ctrl+X", "action": "Cut", "charybdis": "L2 Cut (x2,y3)" },
+        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste" },
+        { "keys": "Ctrl+Z", "action": "Undo", "charybdis": "L2 Undo" },
+        { "keys": "Ctrl+Y", "action": "Redo", "charybdis": "L2 Redo (x11,y0)" }
+      ]
+    },
+    {
+      "name": "Selection",
+      "shortcuts": [
+        { "keys": "Ctrl+A", "action": "Select all", "charybdis": "L2 Sel All (x5,y3 or x9,y3)" },
+        { "keys": "Shift+Click", "action": "Select range", "charybdis": "L0 Shift falls through on L2 x0" },
+        { "keys": "Ctrl+Click", "action": "Select multiple", "charybdis": "L0 Ctrl falls through on L2 x0" },
+        { "keys": "Ctrl+Shift+6", "action": "Toggle Details pane" }
+      ]
+    },
+    {
+      "name": "View",
+      "shortcuts": [
+        { "keys": "Ctrl+Shift+1-8", "action": "Change view mode" },
+        { "keys": "F11", "action": "Fullscreen", "charybdis": "L1 F11" },
+        { "keys": "Ctrl+E or Ctrl+F", "action": "Search", "charybdis": "L1 Ctrl+F" },
+        { "keys": "Alt+P", "action": "Toggle preview pane" }
+      ]
+    }
+  ]
+}

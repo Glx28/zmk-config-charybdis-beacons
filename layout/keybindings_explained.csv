@@ -116,7 +116,7 @@
 "2","Mouse lock and button layer","2","0","Desktop","Key Press","D","L GUI","v2.0: Left-hand mouse QoL — Win+D toggles show desktop.","Sends L GUI+D."
 "2","Mouse lock and button layer","3","0","Next Tab","Key Press","Tab","L Ctrl","v2.0: Left-hand mouse QoL — Ctrl+Tab cycles to next tab.","Sends L Ctrl+Tab."
 "2","Mouse lock and button layer","4","0","Prev Tab","Key Press","Tab","L Ctrl,L Shift","v2.0: Left-hand mouse QoL — Ctrl+Shift+Tab cycles to previous tab.","Sends L Ctrl+L Shift+Tab."
-"2","Mouse lock and button layer","5","0","Scroll","Toggle Layer","Layer::6","","v2.0: Left-hand mouse QoL — toggle scroll overlay from left hand.","Sends Toggle Layer 6."
+"2","Mouse lock and button layer","5","0","Scroll","Momentary Layer","Layer::6","","v2.0: Left-hand mouse QoL — hold for scroll overlay.","Hold to scroll, release to return."
 "2","Mouse lock and button layer","7","0","Task View","Key Press","Tab","L GUI","v2.0: Right-hand mouse QoL — Win+Tab opens Task View for recent apps.","Sends L GUI+Tab."
 "2","Mouse lock and button layer","8","0","Desktop","Key Press","D","L GUI","v2.0: Right-hand mouse QoL — Win+D toggles show desktop.","Sends L GUI+D."
 "2","Mouse lock and button layer","9","0","Next Tab","Key Press","Tab","L Ctrl","v2.0: Right-hand mouse QoL — Ctrl+Tab cycles to next browser/app tab.","Sends L Ctrl+Tab."

@@ -1348,9 +1348,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 5,
       "y": 0,
-      "behavior": "Toggle Layer",
+      "behavior": "Momentary Layer",
       "label": "Scroll",
-      "rationale": "v2.0: Left-hand mouse QoL — toggle scroll overlay from left hand.",
+      "rationale": "v2.0: Left-hand mouse QoL — hold for scroll overlay.",
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "6"

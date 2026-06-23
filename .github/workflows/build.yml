@@ -26,6 +26,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
+    defaults:
+      run:
+        working-directory: zmk-config-charybdis-beacons
     steps:
       - name: Prepare variables
         shell: sh -x {0}
@@ -51,7 +54,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: West Init
-        run: west init -l "${GITHUB_WORKSPACE}/zmk-config-charybdis-beacons/config"
+        run: west init -l config
       - name: West Update
         run: west update
       - name: West Zephyr export

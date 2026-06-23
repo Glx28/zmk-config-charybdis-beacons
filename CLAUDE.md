@@ -48,8 +48,8 @@
 File: `config/boards/shields/charybdis/charybdis_right.conf`
 
 ```conf
-CONFIG_PMW3610_CPI=600              # 600 / DIVIDOR 4 = 150 effective (precision)
-CONFIG_PMW3610_CPI_DIVIDOR=4
+CONFIG_PMW3610_CPI=200              # sensor minimum; smooth, every count reported
+CONFIG_PMW3610_CPI_DIVIDOR=1        # MUST stay 1 — see dead-zone warning below
 CONFIG_PMW3610_SNIPE_CPI=1000       # Speed mode (Layer 8)
 CONFIG_PMW3610_SCROLL_TICK=70
 CONFIG_PMW3610_POLLING_RATE_125_SW=y
@@ -59,20 +59,22 @@ CONFIG_PMW3610_ORIENTATION_90=y
 ```
 
 Overlay: `scroll-layers = <6>`, `snipe-layers = <8>`.
-Keymap: `&zip_xy_scaler 1 1` (was `2 1` — the 2x doubling distorted diagonals/curves; this is the real "clean paths" fix). Precision = CPI 600/4=150; travel speed = Layer 8 snipe, not the scaler.
+Keymap: `&zip_xy_scaler 1 1` (was `2 1` — the 2x doubling distorted diagonals/curves). Travel speed = Layer 8 snipe, not the scaler.
 
-CPI floor is 200 at the sensor; use `CPI_DIVIDOR` (range 1-100) for lower effective CPI.
+### ⚠️ CPI_DIVIDOR dead zone — DO NOT raise CPI to fake a lower number
+The sensor minimum is CPI 200 (driver steps in units of 200: `reg = cpi/200`). `CPI_DIVIDOR` is **raw integer division of each poll's delta with NO remainder carry** (`pmw3610.c`: `x = delta / dividor`). At DIVIDOR>1, a slow turn (1..DIVIDOR-1 counts/poll) floors to 0 and is **silently dropped** — the "slow movement = no input" dead zone. The earlier 600/4 "=150" setting caused exactly this. **Keep CPI=200, DIVIDOR=1.** For finer-than-200 precision, scale DOWN with `&zip_xy_scaler <mult> <div>` + `track-remainders` in the keymap — that input processor carries the remainder, so it stays smooth.
 
 ## Tuning History
 
-| Profile | CPI | Eff. | Snipe | XY scaler | Result |
-|---------|-----|------|-------|-----------|--------|
-| P0 | 600 | 600 | 1600 | 2:1 | FAILURE — 80% miss rate, can't complete paths |
-| P1 | 300 | 300 | 1600 | 2:1 | 50-62% hit rate, stage 2/5 paths |
-| P2 | 200 | 200 | 400 | 2:1 | ~75% hit rate, stage 2/5 consistent |
-| Current | 600 | 150 | 1000 | 1:1 | DIVIDOR for sub-200; scaler 1:1 removes path distortion. Benchmark to confirm. |
+| Profile | CPI | Dividor | Snipe | XY scaler | Result |
+|---------|-----|---------|-------|-----------|--------|
+| P0 | 600 | 1 | 1600 | 2:1 | FAILURE — 80% miss rate, can't complete paths |
+| P1 | 300 | 1 | 1600 | 2:1 | 50-62% hit rate, stage 2/5 paths |
+| P2 | 200 | 1 | 400 | 2:1 | ~75% hit rate, stage 2/5 consistent |
+| (bad) | 600 | 4 | 1000 | 1:1 | Effective ~150 BUT integer-division dead zone: slow movement dropped. Reverted. |
+| Current | 200 | 1 | 1000 | 1:1 | Smooth/responsive (P2 resolution) + scaler 1:1 removes path distortion. |
 
-Next tuning variables if needed: Smart Algorithm on/off, polling rate 250 vs 125_SW, scroll tick.
+Next tuning variables if needed: `zip_xy_scaler` with `track-remainders` for smooth sub-200, Smart Algorithm on/off, polling rate 250 vs 125_SW, scroll tick.
 
 ## Layer Map & Mode Access
 

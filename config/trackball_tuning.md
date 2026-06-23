@@ -38,36 +38,17 @@ The current preference is: calm one-screen work by default, with a deliberate hi
 
 The PMW3610 driver calls the alternate CPI path `snipe`, but in this layout `snipe-layers = <8>` is used as pointer travel mode. Layer 8 is mostly transparent in ZMK Studio, so normal keys can fall through while the firmware sees Layer 8 and switches the trackball to `SNIPE_CPI=1600`. Exit travel with Layer 8 `x7 y4` or `x8 y4`.
 
-## Build Target
+## Build
 
-Build the right side first:
+Firmware is built via GitHub Actions. Push config changes and download the UF2 artifacts from the Actions run.
 
-```powershell
-west build -p -d build/charybdis_right -b nice_nano_v2 -- -DSHIELD=charybdis_right -DCONFIG_ZMK_STUDIO=y -DZMK_EXTRA_MODULES=../modules/zmk-pmw3610-driver
-```
-
-If using the existing GitHub Actions matrix, the right-half target is:
+The build matrix entry for the right half:
 
 ```yaml
 board: nice_nano_v2
 shield: charybdis_right
 snippet: studio-rpc-usb-uart
 cmake-args: -DCONFIG_ZMK_STUDIO=y
-```
-
-From the project root, use one of:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\powershell\build_right_firmware_docker.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\powershell\build_right_firmware_docker.ps1
-```
-
-Local status on 2026-06-18:
-
-```text
-Native build: blocked because west/CMake/Ninja/ARM toolchain are not on PATH.
-Docker build: Docker Desktop can start, but the first west update dependency fetch stalled before a UF2 was produced.
-Source state: ready for build/retry; no generated west workspace is kept in the repo.
 ```
 
 ## Flash Rule

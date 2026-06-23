@@ -2166,31 +2166,37 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 3,
       "x": 10,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Lock",
+      "rationale": "v2.1: Win+L lock PC — right ring upper row.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v21": true,
+      "parameter": "Keyboard L",
+      "modifiers": ["L GUI"]
     },
     {
       "layer": 3,
       "x": 11,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Settings",
+      "rationale": "v2.1: Win+I open Settings — right pinky upper row.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v21": true,
+      "parameter": "Keyboard I",
+      "modifiers": ["L GUI"]
     },
     {
       "layer": 3,
       "x": 12,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Run",
+      "rationale": "v2.1: Win+R open Run dialog — right far pinky upper row.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v21": true,
+      "parameter": "Keyboard R",
+      "modifiers": ["L GUI"]
     },
     {
       "layer": 3,
@@ -2475,11 +2481,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 10,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Tab",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "Explorer",
+      "rationale": "v2.1: Win+E open File Explorer — replaces duplicate Win+Tab.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Tab",
+      "full_reapply_v21": true,
+      "parameter": "Keyboard E",
       "modifiers": [
         "L GUI"
       ]
@@ -2502,11 +2508,15 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 3,
       "x": 12,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Power",
+      "rationale": "v2.1: Win+X open Power User menu — right far pinky bottom.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v21": true,
+      "parameter": "Keyboard X",
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 3,
@@ -2726,9 +2736,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 1,
       "behavior": "Key Press",
       "label": "F13",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.1: Sequential F13-F24. F13-F18 on upper row.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v21": true,
       "parameter": "Keyboard F13"
     },
     {
@@ -2736,44 +2746,44 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 1,
       "y": 1,
       "behavior": "Key Press",
-      "label": "F13",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "F14",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F13"
+      "full_reapply_v21": true,
+      "parameter": "Keyboard F14"
     },
     {
       "layer": 4,
       "x": 2,
       "y": 1,
       "behavior": "Key Press",
-      "label": "F14",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "F15",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F14"
+      "full_reapply_v21": true,
+      "parameter": "Keyboard F15"
     },
     {
       "layer": 4,
       "x": 3,
       "y": 1,
       "behavior": "Key Press",
-      "label": "F15",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "F16",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F15"
+      "full_reapply_v21": true,
+      "parameter": "Keyboard F16"
     },
     {
       "layer": 4,
       "x": 4,
       "y": 1,
       "behavior": "Key Press",
-      "label": "F16",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "F17",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F16"
+      "full_reapply_v21": true,
+      "parameter": "Keyboard F17"
     },
     {
       "layer": 4,
@@ -2781,9 +2791,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 1,
       "behavior": "Key Press",
       "label": "F18",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v21": true,
       "parameter": "Keyboard F18"
     },
     {
@@ -2862,9 +2872,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 2,
       "behavior": "Key Press",
       "label": "F19",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.1: Sequential F13-F24. F19-F23 on home row.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v21": true,
       "parameter": "Keyboard F19"
     },
     {
@@ -2873,9 +2883,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 2,
       "behavior": "Key Press",
       "label": "F20",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v21": true,
       "parameter": "Keyboard F20"
     },
     {
@@ -2884,9 +2894,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 2,
       "behavior": "Key Press",
       "label": "F21",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v21": true,
       "parameter": "Keyboard F21"
     },
     {
@@ -2895,9 +2905,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 2,
       "behavior": "Key Press",
       "label": "F22",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
+      "full_reapply_v21": true,
       "parameter": "Keyboard F22"
     },
     {
@@ -2905,11 +2915,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 5,
       "y": 2,
       "behavior": "Key Press",
-      "label": "F22",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "F23",
+      "rationale": "v2.1: Sequential F13-F24.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F22"
+      "full_reapply_v21": true,
+      "parameter": "Keyboard F23"
     },
     {
       "layer": 4,
@@ -2986,44 +2996,41 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 1,
       "y": 3,
       "behavior": "Key Press",
-      "label": "F23",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "F24",
+      "rationale": "v2.1: Sequential F13-F24. F24 on bottom row.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F23"
+      "full_reapply_v21": true,
+      "parameter": "Keyboard F24"
     },
     {
       "layer": 4,
       "x": 2,
       "y": 3,
-      "behavior": "Key Press",
-      "label": "F24",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Transparent",
+      "label": "Transparent",
+      "rationale": "v2.1: Freed by F-key dedup. Available for future macros.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F24"
+      "full_reapply_v21": true
     },
     {
       "layer": 4,
       "x": 3,
       "y": 3,
-      "behavior": "Key Press",
-      "label": "F17",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Transparent",
+      "label": "Transparent",
+      "rationale": "v2.1: Freed by F-key dedup. Available for future macros.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F17"
+      "full_reapply_v21": true
     },
     {
       "layer": 4,
       "x": 4,
       "y": 3,
-      "behavior": "Key Press",
-      "label": "F18",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Transparent",
+      "label": "Transparent",
+      "rationale": "v2.1: Freed by F-key dedup. Available for future macros.",
       "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F18"
+      "full_reapply_v21": true
     },
     {
       "layer": 4,

@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: West Init
-        run: west init -l zmk-config-charybdis-beacons/config
+        run: west init -l "${GITHUB_WORKSPACE}/zmk-config-charybdis-beacons/config"
       - name: West Update
         run: west update
       - name: West Zephyr export

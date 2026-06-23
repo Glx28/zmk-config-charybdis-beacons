@@ -1,19 +1,16 @@
 # PMW3610 Trackball Firmware Tuning
 
-This config repo is now prepared for the first real PMW3610 firmware tuning flash.
+## Driver Constraints
 
-## Active Experiment
+- **CPI range: [200, 3200]** — values outside cause build failure
+- **SNIPE_CPI range: [200, 3200]** — same constraint
+- CPI 200 is the hardware minimum
 
-The current active experiment uses a calm default pointer plus a high-speed Layer 8 travel overlay:
-
-```conf
-CONFIG_PMW3610_CPI=600
-CONFIG_PMW3610_SNIPE_CPI=1600
-```
-
-Everything else is intentionally unchanged:
+## Current Config
 
 ```conf
+CONFIG_PMW3610_CPI=200              # Precision (default) — at hardware minimum
+CONFIG_PMW3610_SNIPE_CPI=1000       # Speed mode (Layer 8 "Ptr Travel")
 CONFIG_PMW3610_CPI_DIVIDOR=1
 CONFIG_PMW3610_SNIPE_CPI_DIVIDOR=1
 CONFIG_PMW3610_SCROLL_TICK=70
@@ -24,19 +21,29 @@ CONFIG_PMW3610_SMART_ALGORITHM=y
 # CONFIG_PMW3610_AUTOMOUSE_TIMEOUT_MS=250
 ```
 
-The overlay keeps Layer 1 scroll and uses Layer 8 as the high-speed travel trigger:
+Overlay:
 
 ```dts
-scroll-layers = <1>;
+scroll-layers = <6>;
 snipe-layers = <8>;
 // automouse-layer = <3>;
 ```
 
-## Why This First
+## Tuning History
 
-The current preference is: calm one-screen work by default, with a deliberate high-speed mode for long pointer travel. This keeps normal work controllable without losing a fast way to cross multiple monitors.
+| Profile | CPI | Snipe CPI | Result |
+|---------|-----|-----------|--------|
+| Seller baseline | 400 | 200 | Original config |
+| P0 | 600 | 1600 | FAILURE — 80% miss rate, can't complete paths |
+| P1 | 300 | 1600 | 50-62% hit rate, stage 2/5 paths |
+| P2 | 200 | 400 | ~75% hit rate, stage 2/5 consistent |
+| Current | 200 | 1000 | CPI at minimum, snipe repurposed as speed mode |
 
-The PMW3610 driver calls the alternate CPI path `snipe`, but in this layout `snipe-layers = <8>` is used as pointer travel mode. Layer 8 is mostly transparent in ZMK Studio, so normal keys can fall through while the firmware sees Layer 8 and switches the trackball to `SNIPE_CPI=1600`. Exit travel with Layer 8 `x7 y4` or `x8 y4`.
+## Design
+
+CPI 200 for precision work (clicking, path following). Layer 8 activates speed mode (CPI 1000) for crossing 3 monitors. Layer 8 is mostly transparent so normal keys fall through while the trackball switches CPI. Exit travel with Layer 8 `x7 y4` or `x8 y4`.
+
+Next tuning variables: XY scaler (2:1 → 1:1), Smart Algorithm on/off, polling rate.
 
 ## Build
 
@@ -72,32 +79,26 @@ After flashing:
 [ ] rate tiny movement, speed, precision click, scroll, fatigue from 1-5
 ```
 
-## Escalation Order
+## Next Experiments (CPI is at floor)
 
-Use `scripts/powershell/apply_trackball_tuning_variant.ps1` from the project root for later variants:
+CPI 200 is the hardware minimum. To improve precision further, test one at a time:
 
-1. `default-800-travel-1600` if the calm default feels too slow.
-2. `default-600-travel-1200` if travel mode is too aggressive.
-3. `default-800-travel-2000` only if monitor travel is still too slow.
-4. `smart-off` only after choosing the best CPI.
-5. `scroll-90` or `scroll-50` only after pointer motion is settled.
-6. `automouse-1500`, then `automouse-1000` or `automouse-2000`, only after pointer motion is good.
-7. Input-processor scaling or driver migration only after CPI/layer behavior is understood.
+1. **XY scaler 1:1** — currently 2:1, may distort curves/diagonals. Most likely next win.
+2. **Smart Algorithm OFF** — may improve path following if it's smoothing badly.
+3. **Polling rate** — currently 125Hz SW, could try higher.
+4. **Scroll tick** — adjust after pointer motion is settled.
+5. **Automouse** — only after pointer motion is good.
 
-Layer 7 is reserved for the optional RPG/game layer. Layer 8 is now reserved for pointer travel. Future scroll/precision experiments should use Layer 9.
+Layer 7 = RPG/game. Layer 8 = pointer travel/speed mode. Layer 9 = future experiments.
 
 ## Rollback
 
-The original seller baseline was:
+Rollback UF2: `firmware/charybdis_right_trackball_ROLLBACK_CPI400_SNIPE200.uf2`
+
+Original seller baseline (historical — scroll-layers was 1 before being moved to 6):
 
 ```conf
 CONFIG_PMW3610_CPI=400
 CONFIG_PMW3610_SNIPE_CPI=200
-CONFIG_PMW3610_SCROLL_TICK=70
-CONFIG_PMW3610_SMART_ALGORITHM=y
 scroll-layers = <1>;
-//snipe-layers = <2>;
-// automouse-layer = <3>;
 ```
-
-Use the `baseline-400-200` variant to restore the original CPI pair.

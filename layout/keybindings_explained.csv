@@ -106,7 +106,7 @@
 "1","Navigation, function keys, programming/editing helpers","3","4","Alt","Key Press","LeftAlt","","Navigation/function layer key.","Sends LeftAlt."
 "1","Navigation, function keys, programming/editing helpers","4","4","␣","Key Press","Spacebar","","Navigation/function layer key.","Sends Spacebar."
 "1","Navigation, function keys, programming/editing helpers","5","4","To Layer","To Layer","Layer::0","","Locks/switches to layer 0.","Sends Layer::0."
-"1","Navigation, function keys, programming/editing helpers","7","4","None","None","default_transform:default_transform","","Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.","Intentionally leaves the underlying layer behavior available."
+"1","Navigation, function keys, programming/editing helpers","7","4","Scroll","Toggle Layer","Layer::6","","v1.9 improvement: Direct scroll toggle from Nav layer (hold Nav + tap). Easier than only via mouse lock pinky. Complements the L2 pinky toggle for mouse mode.","Sends Toggle Layer 6."
 "1","Navigation, function keys, programming/editing helpers","8","4","None","None","default_transform:default_transform","","Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.","Intentionally leaves the underlying layer behavior available."
 "1","Navigation, function keys, programming/editing helpers","4","5","Mouse Key Press","Mouse Key Press","select:MB1","","Mouse button binding: select:MB1.","Sends select:MB1."
 "1","Navigation, function keys, programming/editing helpers","5","5","Mouse Key Press","Mouse Key Press","select:MB2","","Mouse button binding: select:MB2.","Sends select:MB2."

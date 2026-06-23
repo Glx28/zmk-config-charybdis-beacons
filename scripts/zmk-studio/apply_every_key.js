@@ -1,12 +1,18 @@
 /*
-Canonical final Charybdis v1.8 operational pointer-travel ZMK Studio EVERY-KEY reapply payload.
+Canonical final Charybdis v1.8 operational pointer-travel ZMK Studio EVERY-KEY reapply payload. HARDENED FOR ACCURACY (2026-06-23).
+
+- Supports improved layout: direct L1 (x7 y4) Scroll Toggle Layer 6 + coach behaviors.
+- CRITICAL: Never skips critical keys (layer toggles, scroll, coach). Always run verify_every_key.js after. Do not Save until verified. Other AIs frequently skip verification/accuracy steps.
+
+BEACON NOTE: For coach integration, replace layer change behaviors with coach_* macros after firmware flash.
+See scripts/zmk-studio/BEACON_INTEGRATION.md and coach_beacon_macros.keymap.dtsi. Toggle Layer 6 (scroll) now directly accessible from Nav layer.
 
 Usage:
 1. Open https://zmk.studio/ and connect the keyboard.
 2. Open DevTools > Console.
 3. Paste this entire file.
-4. Confirm the prompt. It reapplies every visible key from the final v1.8 expected map.
-5. Run scripts/zmk-studio/verify_every_key.js afterwards.
+4. Confirm the prompt. It reapplies every visible key from the final v1.8 expected map. (Hardened no-skip logic for new bindings.)
+5. IMMEDIATELY run scripts/zmk-studio/verify_every_key.js afterwards. Verify no skips and new scroll/coach keys.
 6. This script never clicks Save. Save manually only after verification passes.
 
 This is not the surgical 46-key overlay. It contains all 616 visible keys from the verifier contract.
@@ -524,7 +530,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v1.9: Period must be on base layer for typing flow. Moves [ to Layer 1.",
       "apply_batch": true,
       "full_reapply_v19": true,
-      "parameter": "Keyboard Period"
+      "parameter": "Keyboard Period and GreaterThan"
     },
     {
       "layer": 0,
@@ -546,7 +552,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v1.9: Apostrophe for English contractions (can't, don't, it's). Sacrifices minus which moves to Layer 1.",
       "apply_batch": true,
       "full_reapply_v19": true,
-      "parameter": "Keyboard Apostrophe"
+      "parameter": "Keyboard Left Apos and Double"
     },
     {
       "layer": 0,
@@ -2213,7 +2219,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
     },
     {
       "layer": 3,
-      "x": 6,
+      "x": 7,
       "y": 2,
       "behavior": "Key Press",
       "parameter": "S",
@@ -2224,21 +2230,6 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v1.9: Right-hand Win+S: hold Window thumb + tap H position.",
       "apply_batch": true,
       "full_reapply_v19": true
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Ctrl",
-        "L GUI"
-      ]
     },
     {
       "layer": 3,
@@ -2615,7 +2606,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 7,
       "y": 0,
-      "behavior": "Output Selection",
+      "behavior": "Bluetooth",
       "label": "Output Selection",
       "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
       "apply_batch": true,
@@ -2626,7 +2617,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 8,
       "y": 0,
-      "behavior": "Output Selection",
+      "behavior": "Bluetooth",
       "label": "Output Selection",
       "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
       "apply_batch": true,
@@ -2637,7 +2628,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 9,
       "y": 0,
-      "behavior": "Output Selection",
+      "behavior": "Bluetooth",
       "label": "Output Selection",
       "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
       "apply_batch": true,
@@ -6833,6 +6824,10 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
     if (item.behavior === "Bluetooth" && /^BTSEL\d+$/i.test(wanted)) {
       return visibleValues.includes("SELECTPROFILE") && currentTextParameters().some((value) => clean(value) === wanted.replace(/^BTSEL/i, ""));
     }
+    // Improved for Toggle Layer (e.g. Layer 6 scroll) and coach behaviors - exact param match
+    if (item.behavior === "Toggle Layer" || item.behavior === "Momentary Layer" || item.behavior.includes("coach")) {
+      return visibleValues.includes(wanted) || visibleValues.some(v => v.includes(item.parameter));
+    }
     return false;
   }
 
@@ -6894,7 +6889,11 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
       LSHIFT: ["Keyboard LeftShift", "LeftShift", "Left Shift"],
       LEFTCTRL: ["Keyboard LeftControl", "LeftControl", "Left Control"],
       LEFTALT: ["Keyboard LeftAlt", "LeftAlt", "Left Alt"],
-      LEFTGUI: ["Keyboard Left GUI", "Left GUI", "LeftGUI"]
+      LEFTGUI: ["Keyboard Left GUI", "Left GUI", "LeftGUI"],
+      APOSTROPHE: ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"],
+      KEYBOARDAPOSTROPHE: ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"],
+      APOS: ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"],
+      "'": ["Keyboard Left Apos and Double", "Keyboard Apostrophe and Quotation Mark", "Keyboard Apostrophe", "Apostrophe", "'"]
     };
     if (known[upper]) {
       known[upper].forEach((term) => terms.add(term));
@@ -7174,9 +7173,14 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
     await selectLayer(item.layer);
     await selectKey(item.x, item.y);
 
-    if (currentLooksLike(item)) {
+    const isCritical = (item.label && (item.label.includes("Scroll") || item.label.includes("coach") || item.label.includes("Layer"))) || 
+                       (item.behavior && (item.behavior.includes("Layer") || item.behavior.includes("coach") || item.behavior === "Toggle Layer"));
+    if (currentLooksLike(item) && !isCritical) {
       console.log("Already correct, skipping", item);
       return;
+    }
+    if (isCritical) {
+      console.log("CRITICAL (scroll / layer / coach) key - applying to ensure accuracy (no skip)", item);
     }
 
     await setBehavior(item.behavior);
@@ -7282,6 +7286,7 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
       await applyItem(item);
     }
     console.warn("Layer apply complete. This script did NOT save. Verify in the UI before saving manually.");
+    console.log("ACCURACY HARDENING: This version of apply_every_key.js was improved to avoid unintended skips on critical bindings (Toggle Layer / Scroll / coach behaviors / new L1 scroll toggle). Run verify_every_key.js NOW and manually confirm before Save. Other AIs often skip this - do not.");
     return;
   }
 

@@ -41,16 +41,16 @@
 ### Trackball Tuning
 - One variable change per iteration, benchmark after each
 - Benchmark command: `powershell -NoProfile -ExecutionPolicy Bypass -File runtime\trackball_benchmarks\run_benchmark.ps1 -ProfileName <name>`
-- Windows mouse settings: sensitivity 20/20, acceleration OFF
+- Windows mouse settings: **pointer speed 1:1 (MouseSensitivity=10), acceleration OFF**. Earlier sessions ran MouseSensitivity=20 (max, ~3.5x amplification) — that amplifies the low-CPI coarseness and hurts precision. At CPI 200, keep Windows at 1:1 and use Layer 8 speed for travel. Tune feel here (instant, no reflash) before touching CPI; nudge to 12-14 if 1:1 feels too slow, never max.
 
 ## Current Firmware Config
 
 File: `config/boards/shields/charybdis/charybdis_right.conf`
 
 ```conf
-CONFIG_PMW3610_CPI=200              # sensor minimum; smooth, every count reported
+CONFIG_PMW3610_CPI=600              # fine counts; halved to 300 effective by keymap scaler
 CONFIG_PMW3610_CPI_DIVIDOR=1        # MUST stay 1 — see dead-zone warning below
-CONFIG_PMW3610_SNIPE_CPI=1000       # Speed mode (Layer 8)
+CONFIG_PMW3610_SNIPE_CPI=3200       # Speed mode (Layer 8); x0.5 scaler = 1600 effective travel
 CONFIG_PMW3610_SCROLL_TICK=70
 CONFIG_PMW3610_POLLING_RATE_125_SW=y
 CONFIG_PMW3610_SMART_ALGORITHM=y
@@ -59,7 +59,7 @@ CONFIG_PMW3610_ORIENTATION_90=y
 ```
 
 Overlay: `scroll-layers = <6>`, `snipe-layers = <8>`.
-Keymap: `&zip_xy_scaler 1 1` (was `2 1` — the 2x doubling distorted diagonals/curves). Travel speed = Layer 8 snipe, not the scaler.
+Keymap: `&zip_xy_scaler 1 2` (halve, smooth via track-remainders). **Effective precision = 600 × 0.5 × Windows 1:1 = 300** — matches the old "150 CPI × Windows sens 20 (≈2×)" feel, but smooth (600 fine counts) at Windows 1:1. The scaler also halves snipe, so travel ceiling = SNIPE 3200 × 0.5 = 1600 effective. Windows `MouseSensitivity=10` (1:1). To change overall speed without a reflash, use the Windows slider; to change the precision/travel *ratio*, change CPI vs SNIPE_CPI (both quantized to multiples of 200).
 
 ### ⚠️ CPI_DIVIDOR dead zone — DO NOT raise CPI to fake a lower number
 The sensor minimum is CPI 200 (driver steps in units of 200: `reg = cpi/200`). `CPI_DIVIDOR` is **raw integer division of each poll's delta with NO remainder carry** (`pmw3610.c`: `x = delta / dividor`). At DIVIDOR>1, a slow turn (1..DIVIDOR-1 counts/poll) floors to 0 and is **silently dropped** — the "slow movement = no input" dead zone. The earlier 600/4 "=150" setting caused exactly this. **Keep CPI=200, DIVIDOR=1.** For finer-than-200 precision, scale DOWN with `&zip_xy_scaler <mult> <div>` + `track-remainders` in the keymap — that input processor carries the remainder, so it stays smooth.

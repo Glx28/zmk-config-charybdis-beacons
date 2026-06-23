@@ -16,10 +16,12 @@
     quick-tap-ms = <150>;
 };
 
-// XY scaler 1:1 (was 2:1). The 2x doubled horizontal/vertical trackball movement
-// and distorted diagonals/curves (the "can't make clean paths" complaint). Precision
-// comes from CPI 600/4=150; fast travel is the Layer 8 snipe mode, not this scaler.
-&mmv_input_listener { input-processors = <&zip_xy_scaler 1 1>; };
+// XY scaler 1:2 (halve). Sensor runs 600 CPI for fine/smooth counts; this scaler
+// halves to 300 effective at Windows 1:1 — matches the old "150 CPI x sens 20" feel.
+// zip_xy_scaler has track-remainders (zmk core), so the /2 carries fractional
+// movement = smooth, no dead zone (unlike the driver's CPI_DIVIDOR). Applies to
+// snipe too: SNIPE 3200 x 0.5 = 1600 effective travel on Layer 8 (scaler caps travel at 1600).
+&mmv_input_listener { input-processors = <&zip_xy_scaler 1 2>; };
 
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 

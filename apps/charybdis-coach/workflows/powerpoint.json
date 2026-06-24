@@ -1,0 +1,38 @@
+{
+  "id": "powerpoint",
+  "name": "PowerPoint",
+  "icon": "slides",
+  "categories": [
+    {
+      "name": "Slideshow",
+      "shortcuts": [
+        { "keys": "F5", "action": "Start from beginning", "charybdis": "L1 F5 (x4,y0)" },
+        { "keys": "Shift+F5", "action": "Start from current slide" },
+        { "keys": "Escape", "action": "End slideshow", "charybdis": "L2 Esc (x2,y1)" },
+        { "keys": "B", "action": "Black screen (in show)" },
+        { "keys": "W", "action": "White screen (in show)" }
+      ]
+    },
+    {
+      "name": "Editing",
+      "shortcuts": [
+        { "keys": "Ctrl+M", "action": "New slide" },
+        { "keys": "Ctrl+D", "action": "Duplicate slide" },
+        { "keys": "Ctrl+G", "action": "Group objects" },
+        { "keys": "Ctrl+Shift+G", "action": "Ungroup" },
+        { "keys": "Ctrl+C", "action": "Copy", "charybdis": "L2 Copy" },
+        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste" },
+        { "keys": "Ctrl+Z", "action": "Undo", "charybdis": "L2 Undo" },
+        { "keys": "Ctrl+S", "action": "Save", "charybdis": "L5 Save (x1,y2)" }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Page Down", "action": "Next slide" },
+        { "keys": "Page Up", "action": "Previous slide" },
+        { "keys": "Ctrl+F", "action": "Find", "charybdis": "L1 Ctrl+F (x5,y1)" }
+      ]
+    }
+  ]
+}

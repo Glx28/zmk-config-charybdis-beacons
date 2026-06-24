@@ -1282,29 +1282,33 @@
     keyboardArea: document.getElementById("learnKeyboardArea"),
   };
 
-  function openLearnOverlay() {
+  async function openLearnOverlay() {
     if (!learnEls.overlay) return;
     learnEls.overlay.classList.remove("learn-overlay--hidden");
-    learnEls.appSelect.innerHTML = "";
-    for (const [appId, app] of workflowState.apps) {
-      const opt = document.createElement("option");
-      opt.value = appId;
-      opt.textContent = app.name;
-      learnEls.appSelect.appendChild(opt);
-    }
-    if (workflowState.index) {
-      for (const entry of (workflowState.index.apps || [])) {
-        if (!workflowState.apps.has(entry.id)) {
-          const opt = document.createElement("option");
-          opt.value = entry.id;
-          opt.textContent = entry.name;
-          learnEls.appSelect.appendChild(opt);
-        }
-      }
-    }
+    learnEls.appSelect.innerHTML = '<option value="">Loading apps...</option>';
     learnState.active = false;
     learnEls.step.innerHTML = "Select an app and click <strong>Start Guided Tour</strong>";
     learnEls.progress.textContent = "";
+
+    for (const entry of (workflowState.index?.apps || [])) {
+      if (!workflowState.apps.has(entry.id)) {
+        const data = await loadJson(`./workflows/${entry.file}`, null);
+        if (data) workflowState.apps.set(entry.id, data);
+      }
+    }
+
+    learnEls.appSelect.innerHTML = "";
+    for (const entry of (workflowState.index?.apps || [])) {
+      const app = workflowState.apps.get(entry.id);
+      if (!app) continue;
+      const opt = document.createElement("option");
+      opt.value = entry.id;
+      opt.textContent = app.name || entry.name;
+      learnEls.appSelect.appendChild(opt);
+    }
+    if (!learnEls.appSelect.options.length) {
+      learnEls.step.innerHTML = "No workflow guides found. Add JSON files to apps/charybdis-coach/workflows/";
+    }
   }
 
   function closeLearnOverlay() {

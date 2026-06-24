@@ -960,9 +960,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 1,
       "x": 3,
       "y": 2,
-      "behavior": "Toggle Layer",
+      "behavior": "Momentary Layer",
       "label": "Scroll",
-      "rationale": "Left-hand scroll toggle (Layer 6). coach_scroll_toggle not in current Studio build — use Toggle Layer until firmware is reflashed.",
+      "rationale": "Left-hand scroll hold (Layer 6). Hold to scroll, release to stop.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "6"

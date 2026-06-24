@@ -17,6 +17,8 @@
     { "id": "teams", "file": "teams.json", "user_weight": 0.7, "notes": "Communication — meetings and chat" },
     { "id": "outlook", "file": "outlook.json", "user_weight": 0.6, "notes": "Email — daily" },
     { "id": "terminal", "file": "terminal.json", "user_weight": 0.8, "notes": "Terminal/PowerShell — development" },
-    { "id": "word", "file": "word.json", "user_weight": 0.5, "notes": "Word — document writing" }
+    { "id": "word", "file": "word.json", "user_weight": 0.5, "notes": "Word — document writing" },
+    { "id": "notepadpp", "file": "notepadpp.json", "user_weight": 0.5, "notes": "Notepad++ — text editing" },
+    { "id": "powerpoint", "file": "powerpoint.json", "user_weight": 0.4, "notes": "PowerPoint — presentations" }
   ]
 }

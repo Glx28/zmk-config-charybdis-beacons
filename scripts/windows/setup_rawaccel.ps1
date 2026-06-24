@@ -202,7 +202,7 @@ $settingsJson = @{
                 "midpoint" = 5.0
                 "offset" = $s.offset
                 "cap" = @{ "x" = $s.capInput; "y" = $s.capInput }
-                "capMode" = if ($s.capOutput -gt 0) { 1 } else { 0 }
+                "capMode" = $(if ($s.capOutput -gt 0) { 1 } else { 0 })
                 "gainCap" = $s.capOutput
                 "speedCap" = $s.capInput
                 "growthRate" = $s.growthRate
@@ -261,6 +261,6 @@ if ($s.accelMode -eq "off") {
 } else {
     Write-Host "  Slow trackball (< $($s.offset) counts/ms): $($s.sensMult)x sensitivity (precision)" -ForegroundColor Gray
     Write-Host "  Fast trackball: ramps up to $($s.capOutput)x via $($s.accelMode) curve" -ForegroundColor Gray
-    Write-Host "  Effective range: $($s.sensMult)x → $([math]::Round($s.sensMult * $s.capOutput, 1))x" -ForegroundColor Gray
+    Write-Host "  Effective range: $($s.sensMult)x to $([math]::Round($s.sensMult * $s.capOutput, 1))x" -ForegroundColor Gray
 }
 Write-Host ""

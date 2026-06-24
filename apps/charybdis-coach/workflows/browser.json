@@ -9,17 +9,17 @@
         {
           "keys": "Ctrl+T",
           "action": "New tab",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L9 (x5,y2)"
         },
         {
           "keys": "Ctrl+W",
           "action": "Close tab",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Tab",
           "action": "Next tab",
-          "charybdis": "L2 (x9,y0)"
+          "charybdis": "L2 (x3,y0)"
         },
         {
           "keys": "Ctrl+Shift+Tab",
@@ -34,12 +34,12 @@
         {
           "keys": "Ctrl+1",
           "action": "Switch to tab 1",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L9 (x5,y1)"
         },
         {
           "keys": "Ctrl+2",
           "action": "Switch to tab 2",
-          "charybdis": "L9 (x2,y3)"
+          "charybdis": "L9 (x5,y2)"
         },
         {
           "keys": "Ctrl+3",
@@ -73,7 +73,7 @@
         {
           "keys": "Ctrl+N",
           "action": "New window",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+N",
@@ -97,7 +97,7 @@
         {
           "keys": "F5",
           "action": "Refresh page",
-          "charybdis": "L1 (x1,y1)"
+          "charybdis": "L5 (x9,y1)"
         },
         {
           "keys": "Ctrl+F5",
@@ -145,12 +145,12 @@
         {
           "keys": "Ctrl+F",
           "action": "Find on page",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x9,y0)"
         },
         {
           "keys": "Ctrl+G",
           "action": "Find next",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+G",
@@ -160,12 +160,12 @@
         {
           "keys": "F3",
           "action": "Find next (alt)",
-          "charybdis": "L1 (x2,y0)"
+          "charybdis": "L1 (x2,y2)"
         },
         {
           "keys": "Ctrl+H",
           "action": "History",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+J",
@@ -175,7 +175,7 @@
         {
           "keys": "Ctrl+D",
           "action": "Bookmark page",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+B",
@@ -185,22 +185,22 @@
         {
           "keys": "Ctrl+Shift+O",
           "action": "Bookmark manager",
-          "charybdis": "L10 (x3,y1)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+P",
           "action": "Print",
-          "charybdis": "L5 (x7,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+S",
           "action": "Save page as",
-          "charybdis": "L10 (x5,y2)"
+          "charybdis": "L5 (x3,y2)"
         },
         {
           "keys": "Ctrl+U",
           "action": "View page source",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x7,y2)"
         }
       ]
     },
@@ -224,7 +224,7 @@
         {
           "keys": "F11",
           "action": "Toggle fullscreen",
-          "charybdis": "L1 (x3,y3)"
+          "charybdis": "L5 (x10,y2)"
         }
       ]
     },
@@ -239,7 +239,7 @@
         {
           "keys": "Ctrl+Shift+I",
           "action": "Open DevTools (alt)",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+Shift+J",
@@ -253,7 +253,7 @@
         {
           "keys": "Ctrl+Shift+M",
           "action": "Toggle device toolbar",
-          "charybdis": "L4 (x7,y3)"
+          "charybdis": "L5 (x9,y2)"
         }
       ]
     },
@@ -263,7 +263,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L10 (x7,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -273,7 +273,7 @@
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L10 (x9,y2)"
+          "charybdis": "L10 (x3,y0)"
         },
         {
           "keys": "Ctrl+Z",
@@ -283,17 +283,17 @@
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste without formatting",
-          "charybdis": "L10 (x5,y1)"
+          "charybdis": "L10 (x11,y3)"
         },
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Y",
           "action": "Redo",
-          "charybdis": "L2 (x9,y3)"
+          "charybdis": "L10 (x11,y1)"
         }
       ]
     },
@@ -308,7 +308,7 @@
         {
           "keys": "Ctrl+Shift+O",
           "action": "Favorites manager",
-          "charybdis": "L10 (x3,y1)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+Shift+E",
@@ -332,7 +332,7 @@
         {
           "keys": "F1",
           "action": "Help",
-          "charybdis": "L1 (x3,y3)"
+          "charybdis": "L4 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+R",
@@ -470,7 +470,7 @@
         {
           "keys": "Ctrl+Shift+S",
           "action": "Open Proton Pass popup",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x5,y1)"
         }
       ]
     }

@@ -9,7 +9,7 @@
         {
           "keys": "F5",
           "action": "Start from beginning",
-          "charybdis": "L1 (x1,y1)"
+          "charybdis": "L5 (x9,y1)"
         },
         {
           "keys": "Shift+F5",
@@ -49,17 +49,17 @@
         {
           "keys": "Ctrl+M",
           "action": "New slide",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+D",
           "action": "Duplicate slide",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+S",
           "action": "Save",
-          "charybdis": "L10 (x5,y2)"
+          "charybdis": "L5 (x3,y2)"
         },
         {
           "keys": "Ctrl+Z",
@@ -69,12 +69,12 @@
         {
           "keys": "Ctrl+Y",
           "action": "Redo",
-          "charybdis": "L2 (x9,y3)"
+          "charybdis": "L10 (x11,y1)"
         },
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L10 (x7,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -84,7 +84,7 @@
         {
           "keys": "Ctrl+G",
           "action": "Group objects",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+G",
@@ -94,12 +94,12 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -129,27 +129,27 @@
         {
           "keys": "Page Up",
           "action": "Previous slide",
-          "charybdis": "L1 (x9,y1)"
+          "charybdis": "L7 (x11,y1)"
         },
         {
           "keys": "Ctrl+Home",
           "action": "First slide",
-          "charybdis": "L10 (x0,y0)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+End",
           "action": "Last slide",
-          "charybdis": "L10 (x1,y0)"
+          "charybdis": "L10 (x5,y2)"
         },
         {
           "keys": "Ctrl+F",
           "action": "Find",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x9,y0)"
         },
         {
           "keys": "Ctrl+H",
           "action": "Replace",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x3,y2)"
         }
       ]
     }

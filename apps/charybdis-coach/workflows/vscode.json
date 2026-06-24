@@ -14,7 +14,7 @@
         {
           "keys": "Ctrl+P",
           "action": "Quick open file",
-          "charybdis": "L5 (x7,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+N",
@@ -24,12 +24,12 @@
         {
           "keys": "Ctrl+,",
           "action": "Open settings",
-          "charybdis": "L5 (x9,y0)"
+          "charybdis": "L5 (x3,y2)"
         },
         {
           "keys": "Ctrl+K Ctrl+S",
           "action": "Keyboard shortcuts",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x7,y1)"
         },
         {
           "keys": "Ctrl+`",
@@ -44,7 +44,7 @@
         {
           "keys": "Ctrl+B",
           "action": "Toggle sidebar",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+J",
@@ -54,7 +54,7 @@
         {
           "keys": "Ctrl+\\",
           "action": "Split editor",
-          "charybdis": "L5 (x8,y3)"
+          "charybdis": "L5 (x7,y1)"
         }
       ]
     },
@@ -64,37 +64,37 @@
         {
           "keys": "Ctrl+S",
           "action": "Save",
-          "charybdis": "L10 (x5,y2)"
+          "charybdis": "L5 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+S",
           "action": "Save as",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+K S",
           "action": "Save all",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x7,y1)"
         },
         {
           "keys": "Ctrl+N",
           "action": "New file",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+O",
           "action": "Open file",
-          "charybdis": "L9 (x5,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+W",
           "action": "Close editor",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+K Ctrl+W",
           "action": "Close all editors",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x7,y1)"
         }
       ]
     },
@@ -104,12 +104,12 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy (line if no selection)",
-          "charybdis": "L10 (x7,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+X",
           "action": "Cut (line if no selection)",
-          "charybdis": "L10 (x9,y2)"
+          "charybdis": "L10 (x3,y0)"
         },
         {
           "keys": "Ctrl+V",
@@ -128,12 +128,12 @@
         {
           "keys": "Ctrl+Y",
           "action": "Redo (alt)",
-          "charybdis": "L2 (x9,y3)"
+          "charybdis": "L10 (x11,y1)"
         },
         {
           "keys": "Ctrl+D",
           "action": "Select next occurrence",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+L",
@@ -177,7 +177,7 @@
         {
           "keys": "Ctrl+/",
           "action": "Toggle line comment",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x9,y0)"
         },
         {
           "keys": "Shift+Alt+A",
@@ -187,17 +187,17 @@
         {
           "keys": "Ctrl+]",
           "action": "Indent line",
-          "charybdis": "L10 (x10,y3)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+[",
           "action": "Outdent line",
-          "charybdis": "L5 (x7,y1)"
+          "charybdis": "L10 (x0,y3)"
         },
         {
           "keys": "Ctrl+Shift+\\",
           "action": "Jump to matching bracket",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L5 (x1,y0)"
         },
         {
           "keys": "Ctrl+Shift+F",
@@ -207,7 +207,7 @@
         {
           "keys": "Ctrl+K Ctrl+F",
           "action": "Format selection",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x7,y1)"
         },
         {
           "keys": "Tab",
@@ -227,7 +227,7 @@
         {
           "keys": "Ctrl+G",
           "action": "Go to line",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "F12",
@@ -242,17 +242,17 @@
         {
           "keys": "Ctrl+Shift+O",
           "action": "Go to symbol in file",
-          "charybdis": "L10 (x3,y1)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+T",
           "action": "Go to symbol in workspace",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L9 (x5,y2)"
         },
         {
           "keys": "Ctrl+Tab",
           "action": "Switch editor tab",
-          "charybdis": "L2 (x9,y0)"
+          "charybdis": "L2 (x3,y0)"
         },
         {
           "keys": "Alt+Left",
@@ -266,7 +266,7 @@
         {
           "keys": "Ctrl+Shift+M",
           "action": "Toggle problems panel",
-          "charybdis": "L4 (x7,y3)"
+          "charybdis": "L5 (x9,y2)"
         },
         {
           "keys": "F8",
@@ -318,7 +318,7 @@
         {
           "keys": "Ctrl+U",
           "action": "Undo last cursor",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x7,y2)"
         }
       ]
     },
@@ -328,17 +328,17 @@
         {
           "keys": "Ctrl+F",
           "action": "Find",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x9,y0)"
         },
         {
           "keys": "Ctrl+H",
           "action": "Find and replace",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "F3",
           "action": "Find next",
-          "charybdis": "L1 (x2,y0)"
+          "charybdis": "L1 (x2,y2)"
         },
         {
           "keys": "Shift+F3",
@@ -357,7 +357,7 @@
         {
           "keys": "F5",
           "action": "Start/continue debugging",
-          "charybdis": "L1 (x1,y1)"
+          "charybdis": "L5 (x9,y1)"
         },
         {
           "keys": "Shift+F5",
@@ -377,7 +377,7 @@
         {
           "keys": "F11",
           "action": "Step into",
-          "charybdis": "L1 (x3,y3)"
+          "charybdis": "L5 (x10,y2)"
         },
         {
           "keys": "Shift+F11",
@@ -397,7 +397,7 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+L",

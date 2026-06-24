@@ -58,7 +58,7 @@
         {
           "keys": "Ctrl+N",
           "action": "New window",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+N",
@@ -82,12 +82,12 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L10 (x7,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L10 (x9,y2)"
+          "charybdis": "L10 (x3,y0)"
         },
         {
           "keys": "Ctrl+V",
@@ -102,7 +102,7 @@
         {
           "keys": "Ctrl+Y",
           "action": "Redo",
-          "charybdis": "L2 (x9,y3)"
+          "charybdis": "L10 (x11,y1)"
         },
         {
           "keys": "Ctrl+Shift+C",
@@ -117,7 +117,7 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Click",
@@ -139,22 +139,22 @@
         {
           "keys": "Ctrl+E",
           "action": "Search box",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+F",
           "action": "Search box (alt)",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x9,y0)"
         },
         {
           "keys": "F11",
           "action": "Fullscreen",
-          "charybdis": "L1 (x3,y3)"
+          "charybdis": "L5 (x10,y2)"
         },
         {
           "keys": "Alt+P",
           "action": "Preview pane",
-          "charybdis": "L1 (x2,y2)"
+          "charybdis": "L5 (x1,y1)"
         },
         {
           "keys": "Ctrl+Shift+1",

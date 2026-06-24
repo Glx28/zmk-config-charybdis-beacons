@@ -50,6 +50,16 @@ const LAYER_CONTEXTS = [
   { name: "excel", stack: [10, 0], thumbBusy: null },
 ];
 
+const THUMB_POSITIONS = { 4: [3, 4, 5, 7, 8], 5: [4, 5, 7] };
+const THUMB_HAND = { 3: "left", 4: "left", 5: "left", 7: "right", 8: "right" };
+
+const STRUCTURAL_BEHAVIORS = new Set([
+  "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold",
+  "coach_mouse_lock", "coach_game_lock", "coach_base",
+  "coach_travel_toggle", "coach_travel_off", "coach_recover_base",
+  "Momentary Layer", "Toggle Layer",
+]);
+
 const COACH_BEHAVIORS = new Set([
   "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold",
   "coach_mouse_lock", "coach_game_lock", "coach_base",
@@ -75,5 +85,6 @@ function isNone(behavior) {
 module.exports = {
   LEFT_COLS, RIGHT_COLS, ALL_COLS, FINGER_ROWS, THUMB_ROWS, ALL_ROWS,
   ROW_COMFORT, COL_EFFORT, FINGER_MAP, LAYER_NAMES, LAYER_ACCESS, LAYER_CONTEXTS,
+  THUMB_POSITIONS, THUMB_HAND, STRUCTURAL_BEHAVIORS,
   COACH_BEHAVIORS, effort, hand, isTransparent, isNone,
 };

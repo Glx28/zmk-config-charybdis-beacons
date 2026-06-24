@@ -1,42 +1,24 @@
 /*
-Final Charybdis v1.8 operational pointer-travel full-key ZMK Studio verifier.
+Charybdis v2.5 ZMK Studio full-key verifier.
 
 Usage:
 1. Open https://zmk.studio/ and connect the keyboard.
 2. Open DevTools > Console.
 3. Paste this whole file and press Enter.
 4. Wait until it finishes. It clicks through every visible layer and every visible key.
-5. It compares every visible key against the final v1.8 operational pointer-travel expected layout.
+5. It compares every visible key against the EXPECTED_CSV baseline below.
 6. It downloads JSON and CSV verification reports.
 
 This script does not edit keys and does not click Save.
 
-=== v2.0 layout changes (2026-06-23) — EXPECTED_CSV baseline regeneration required ===
-The source of truth is layout/keybindings_explained.csv. Four keys changed behavior/keycode
-and the embedded EXPECTED_CSV below has NOT been hand-edited for them (hand-writing ZMK
-Studio's exact internal strings is unreliable). After you apply the new layout in ZMK Studio,
-regenerate this baseline from Studio's ACTUAL output using
-scripts/zmk-studio/export_current_layout_console.js, then paste the exported CSV over
-EXPECTED_CSV. Until then, the verifier will (correctly) flag these intentional changes:
-  - L0 x12 y1:  Backslash   -> "[" / å (Key Press, Left Brace / [ scancode; Norwegian)
-  - L0 x12 y3:  Apostrophe  -> "\\" (Key Press, Backslash and Pipe; international English)
-  - L1 x3 y2:   F3          -> "Scroll" (Toggle Layer 6; left-hand scroll)
-  - L1 x4 y2:   F4          -> "Speed" (Momentary Layer 8; left-hand speed)
-  - L3 x11 y2:  Ptr Travel  -> "Speed" (coach_travel_toggle / Toggle Layer 8; tap on, release thumb)
-  - L1 x4 y2:   Speed hold  -> "Speed" (coach_travel_toggle; same tap-to-latch pattern)
-  - L2 x11 y3:  Transparent -> "Speed" (coach_travel_toggle; mouse-locked path)
-  - L1 x0 y1:   Game To Layer -> coach_game_lock (lock L7; persists after Nav release)
-  - L3 x12 y2:  Game To Layer -> coach_game_lock (right-hand path)
-  - L1 x5 y4:  Nav Base -> coach_base (clear locked/toggled coach state, not plain To Layer 0)
-  - L2 x5/7/8 y4: Base -> coach_base (mouse lock exit)
-  - L7 x3/5/7/8 y4: Exit Base -> coach_base (must clear lockedLayer 7 in beacon listener)
-  - L8 x7/8 y4: Exit Travel -> coach_travel_off (must clear toggled layer 8 in beacon listener)
-  - L7 game layer right half (x8-x11): intuitive arrow layout — left at x9, right at x11:
-      y1: x9=3PD x10=↑ x11=9PU;  y2: x8=Z x9=← x10=↓ x11=→;  y3: x8=Esc x9=Shft x10=C x11=X
-Note: ø (L0 11,2) and æ (L0 12,2) are RELABELED in the coach only; their keycodes
-(SemiColon / Apostrophe) are unchanged, so Studio's display and this baseline do NOT change
-for them — the Norwegian Windows layout renders those scancodes as ø/æ.
-å (L0 12,1) changes keycode to Left Brace ([); Studio shows "[" and the coach shows "å".
+=== EXPECTED_CSV baseline status ===
+The embedded EXPECTED_CSV is from v1.8. It has NOT been regenerated for v2.0-v2.5 changes.
+After applying the v2.5 layout in ZMK Studio (via apply_every_key.js), regenerate this
+baseline from Studio's ACTUAL output using:
+  scripts/zmk-studio/export_current_layout_console.js
+Then paste the exported CSV over EXPECTED_CSV below.
+
+The source of truth is layout/keybindings_explained.csv (616 keys, 11 layers).
 */
 
 (async function VerifyFinalV18PointerTravelFullLiveZmkStudioLayout() {

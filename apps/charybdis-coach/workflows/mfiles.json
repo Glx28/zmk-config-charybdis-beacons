@@ -9,7 +9,7 @@
         {
           "keys": "Ctrl+F",
           "action": "Quick search",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x9,y0)"
         },
         {
           "keys": "Ctrl+Shift+F",
@@ -19,7 +19,7 @@
         {
           "keys": "Ctrl+G",
           "action": "Go to vault",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Enter",
@@ -43,7 +43,7 @@
         {
           "keys": "F5",
           "action": "Refresh view",
-          "charybdis": "L1 (x1,y1)"
+          "charybdis": "L5 (x9,y1)"
         }
       ]
     },
@@ -53,7 +53,7 @@
         {
           "keys": "Ctrl+E",
           "action": "Check out document",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+E",
@@ -68,17 +68,17 @@
         {
           "keys": "Ctrl+N",
           "action": "New document/object",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+O",
           "action": "Open document",
-          "charybdis": "L9 (x5,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+S",
           "action": "Save / check in",
-          "charybdis": "L10 (x5,y2)"
+          "charybdis": "L5 (x3,y2)"
         },
         {
           "keys": "F2",
@@ -98,7 +98,7 @@
         {
           "keys": "Ctrl+P",
           "action": "Print",
-          "charybdis": "L5 (x7,y2)"
+          "charybdis": "L10 (x9,y2)"
         }
       ]
     },
@@ -123,7 +123,7 @@
         {
           "keys": "Ctrl+K",
           "action": "Add relationship",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x7,y1)"
         },
         {
           "keys": "Ctrl+Shift+H",
@@ -138,17 +138,17 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+1",
           "action": "Switch to list view",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L9 (x5,y1)"
         },
         {
           "keys": "Ctrl+2",
           "action": "Switch to icon view",
-          "charybdis": "L9 (x2,y3)"
+          "charybdis": "L9 (x5,y2)"
         },
         {
           "keys": "Ctrl+Shift+G",
@@ -158,7 +158,7 @@
         {
           "keys": "Ctrl+H",
           "action": "History view",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x3,y2)"
         }
       ]
     },
@@ -178,7 +178,7 @@
         {
           "keys": "Ctrl+M",
           "action": "Add to favorites",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+F5",
@@ -193,7 +193,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L10 (x7,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -203,7 +203,7 @@
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L10 (x9,y2)"
+          "charybdis": "L10 (x3,y0)"
         },
         {
           "keys": "Ctrl+Z",
@@ -213,7 +213,7 @@
         {
           "keys": "Ctrl+Y",
           "action": "Redo",
-          "charybdis": "L2 (x9,y3)"
+          "charybdis": "L10 (x11,y1)"
         }
       ]
     }

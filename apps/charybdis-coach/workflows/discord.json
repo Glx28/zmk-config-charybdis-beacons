@@ -9,7 +9,7 @@
         {
           "keys": "Ctrl+K",
           "action": "Quick switcher",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x7,y1)"
         },
         {
           "keys": "Alt+Up",
@@ -33,7 +33,7 @@
         {
           "keys": "Ctrl+Shift+I",
           "action": "Open inbox",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Escape",
@@ -63,7 +63,7 @@
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -78,7 +78,7 @@
         {
           "keys": "Ctrl+E",
           "action": "Search",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x9,y2)"
         }
       ]
     },
@@ -88,7 +88,7 @@
         {
           "keys": "Ctrl+Shift+M",
           "action": "Toggle mute",
-          "charybdis": "L4 (x7,y3)"
+          "charybdis": "L5 (x9,y2)"
         },
         {
           "keys": "Ctrl+Shift+D",

@@ -19,7 +19,7 @@
         {
           "keys": "Ctrl+Tab",
           "action": "Next tab",
-          "charybdis": "L2 (x9,y0)"
+          "charybdis": "L2 (x3,y0)"
         },
         {
           "keys": "Ctrl+Shift+Tab",
@@ -66,7 +66,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy / Cancel",
-          "charybdis": "L10 (x7,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -81,7 +81,7 @@
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste (explicit)",
-          "charybdis": "L10 (x5,y1)"
+          "charybdis": "L10 (x11,y3)"
         },
         {
           "keys": "Ctrl+Shift+F",
@@ -96,7 +96,7 @@
         {
           "keys": "Ctrl+R",
           "action": "Reverse search history",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Tab",
@@ -135,12 +135,12 @@
         {
           "keys": "Ctrl+,",
           "action": "Settings",
-          "charybdis": "L5 (x9,y0)"
+          "charybdis": "L5 (x3,y2)"
         },
         {
           "keys": "F11",
           "action": "Toggle fullscreen",
-          "charybdis": "L1 (x3,y3)"
+          "charybdis": "L5 (x10,y2)"
         }
       ]
     }

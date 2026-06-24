@@ -9,12 +9,12 @@
         {
           "keys": "Ctrl+1",
           "action": "Switch to Mail",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L9 (x5,y1)"
         },
         {
           "keys": "Ctrl+2",
           "action": "Switch to Calendar",
-          "charybdis": "L9 (x2,y3)"
+          "charybdis": "L9 (x5,y2)"
         },
         {
           "keys": "Ctrl+3",
@@ -23,17 +23,17 @@
         {
           "keys": "Ctrl+Shift+I",
           "action": "Go to Inbox",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+E",
           "action": "Search",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "F3",
           "action": "Search (alt)",
-          "charybdis": "L1 (x2,y0)"
+          "charybdis": "L1 (x2,y2)"
         },
         {
           "keys": "F9",
@@ -48,12 +48,12 @@
         {
           "keys": "Ctrl+N",
           "action": "New mail",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+R",
           "action": "Reply",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+Shift+R",
@@ -63,7 +63,7 @@
         {
           "keys": "Ctrl+F",
           "action": "Forward",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x9,y0)"
         },
         {
           "keys": "Ctrl+Enter",
@@ -73,7 +73,7 @@
         {
           "keys": "Ctrl+Shift+M",
           "action": "New message (alt)",
-          "charybdis": "L4 (x7,y3)"
+          "charybdis": "L5 (x9,y2)"
         },
         {
           "keys": "Delete",
@@ -83,17 +83,17 @@
         {
           "keys": "Ctrl+D",
           "action": "Delete (alt)",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Q",
           "action": "Mark as read",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L2 (x5,y1)"
         },
         {
           "keys": "Ctrl+U",
           "action": "Mark as unread",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+Shift+G",
@@ -108,7 +108,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L10 (x7,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -123,12 +123,12 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L10 (x3,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -138,12 +138,12 @@
         {
           "keys": "Ctrl+K",
           "action": "Insert hyperlink",
-          "charybdis": "L5 (x3,y2)"
+          "charybdis": "L5 (x7,y1)"
         },
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste as plain text",
-          "charybdis": "L10 (x5,y1)"
+          "charybdis": "L10 (x11,y3)"
         }
       ]
     },

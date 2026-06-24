@@ -1271,24 +1271,41 @@
   const learnState = { active: false, appId: null, shortcuts: [], index: 0 };
   const learnEls = {
     overlay: document.getElementById("learnOverlay"),
-    title: document.getElementById("learnTitle"),
-    appSelect: document.getElementById("learnAppSelect"),
-    startBtn: document.getElementById("learnStartButton"),
+    pickerView: document.getElementById("learnPickerView"),
+    tourView: document.getElementById("learnTourView"),
+    appGrid: document.getElementById("learnAppGrid"),
     closeBtn: document.getElementById("learnCloseButton"),
+    backBtn: document.getElementById("learnBackToApps"),
+    access: document.getElementById("learnAccess"),
     step: document.getElementById("learnStep"),
+    warning: document.getElementById("learnWarning"),
     progress: document.getElementById("learnProgress"),
     prevBtn: document.getElementById("learnPrevButton"),
     nextBtn: document.getElementById("learnNextButton"),
     keyboardArea: document.getElementById("learnKeyboardArea"),
+    autoAdvance: document.getElementById("learnAutoAdvance"),
   };
+
+  const LAYER_ACCESS_INFO = {
+    "0": "Base layer — no thumb hold needed",
+    "1": "Hold <strong>Nav</strong> (left thumb x3,y4)",
+    "2": "Hold <strong>Mouse</strong> (left thumb x5,y5) or Mouse Lock (L3 x10,y2)",
+    "3": "Hold <strong>Window</strong> (right thumb x8,y4)",
+    "4": "Hold <strong>System</strong> (right thumb x7,y4)",
+    "5": "Toggle <strong>Code</strong> (hold Nav → tap x0,y1)",
+    "7": "Lock <strong>Game</strong> (hold Window → tap x12,y2)",
+    "8": "Toggle <strong>Speed</strong> (hold Nav → tap x4,y2)",
+    "9": "Toggle <strong>M-Files</strong> (hold System → tap x2,y3)",
+  };
+  const LAYER_FULL_NAMES = { "0": "Base", "1": "Nav (Layer 1)", "2": "Mouse (Layer 2)", "3": "Window (Layer 3)", "4": "System (Layer 4)", "5": "Code/IDE (Layer 5)", "7": "Game (Layer 7)", "8": "Speed (Layer 8)", "9": "M-Files (Layer 9)" };
+  const LAYER_COLORS = { "0": "#4cc9b0", "1": "#3dd6c6", "2": "#b78cff", "3": "#6eb5ff", "4": "#ff9f6e", "5": "#56d4e8", "7": "#a78bfa", "8": "#ffb347", "9": "#e8a44c" };
+  const DANGEROUS_KEYS = new Set(["Alt+F4", "Ctrl+W", "Win+D", "Win+L", "Ctrl+Shift+Esc", "Alt+Tab", "Win+Tab"]);
 
   async function openLearnOverlay() {
     if (!learnEls.overlay) return;
     learnEls.overlay.classList.remove("learn-overlay--hidden");
-    learnEls.appSelect.innerHTML = '<option value="">Loading apps...</option>';
     learnState.active = false;
-    learnEls.step.innerHTML = "Select an app and click <strong>Start Guided Tour</strong>";
-    learnEls.progress.textContent = "";
+    showLearnPicker();
 
     for (const entry of (workflowState.index?.apps || [])) {
       if (!workflowState.apps.has(entry.id)) {
@@ -1296,18 +1313,23 @@
         if (data) workflowState.apps.set(entry.id, data);
       }
     }
+    showLearnPicker();
+  }
 
-    learnEls.appSelect.innerHTML = "";
+  function showLearnPicker() {
+    if (learnEls.pickerView) learnEls.pickerView.style.display = "";
+    if (learnEls.tourView) learnEls.tourView.classList.add("learn-tour--hidden");
+    if (learnEls.progress) learnEls.progress.textContent = "";
+    if (!learnEls.appGrid) return;
+    learnEls.appGrid.innerHTML = "";
     for (const entry of (workflowState.index?.apps || [])) {
       const app = workflowState.apps.get(entry.id);
-      if (!app) continue;
-      const opt = document.createElement("option");
-      opt.value = entry.id;
-      opt.textContent = app.name || entry.name;
-      learnEls.appSelect.appendChild(opt);
-    }
-    if (!learnEls.appSelect.options.length) {
-      learnEls.step.innerHTML = "No workflow guides found. Add JSON files to apps/charybdis-coach/workflows/";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "learn-app-card";
+      btn.textContent = app?.name || entry.name;
+      btn.addEventListener("click", () => startLearnTour(entry.id));
+      learnEls.appGrid.appendChild(btn);
     }
   }
 
@@ -1317,26 +1339,29 @@
     learnState.active = false;
   }
 
-  async function startLearnTour() {
-    const appId = learnEls.appSelect.value;
+  async function startLearnTour(appId) {
     if (!appId) return;
     if (!workflowState.apps.has(appId)) {
       const entry = (workflowState.index?.apps || []).find((a) => a.id === appId);
       if (entry) {
-        const data = await loadJson(`../../apps/charybdis-coach/workflows/${entry.file}`, null);
+        const data = await loadJson(`./workflows/${entry.file}`, null);
         if (data) workflowState.apps.set(appId, data);
       }
     }
     const shortcuts = appShortcutRows(appId);
-    if (!shortcuts.length) {
-      learnEls.step.innerHTML = `No mapped shortcuts found for <strong>${appId}</strong>. Choose another app.`;
-      return;
-    }
+    if (!shortcuts.length) return;
+
+    const safe = shortcuts.filter((s) => !DANGEROUS_KEYS.has(s.appKeys));
+    const dangerous = shortcuts.filter((s) => DANGEROUS_KEYS.has(s.appKeys));
+    const sorted = [...safe, ...dangerous];
+
     learnState.active = true;
     learnState.appId = appId;
-    learnState.shortcuts = shortcuts;
+    learnState.shortcuts = sorted;
     learnState.index = 0;
-    learnEls.title.textContent = `Learn: ${workflowState.apps.get(appId)?.name || appId}`;
+
+    if (learnEls.pickerView) learnEls.pickerView.style.display = "none";
+    if (learnEls.tourView) learnEls.tourView.classList.remove("learn-tour--hidden");
     showLearnStep();
   }
 
@@ -1345,18 +1370,26 @@
     const idx = Math.max(0, Math.min(learnState.index, learnState.shortcuts.length - 1));
     learnState.index = idx;
     const sc = learnState.shortcuts[idx];
-    const layerNames = { "0": "Base", "1": "Nav", "2": "Mouse", "3": "Window", "4": "System", "5": "Code", "7": "Game", "8": "Speed", "9": "M-Files" };
-    const layerName = layerNames[sc.row.layer] || `Layer ${sc.row.layer}`;
-    const layerColor = { "0": "#4cc9b0", "1": "#3dd6c6", "2": "#b78cff", "3": "#6eb5ff", "4": "#ff9f6e", "5": "#56d4e8", "7": "#a78bfa", "8": "#ffb347", "9": "#e8a44c" }[sc.row.layer] || "#ccc";
+    const layer = sc.row.layer;
+    const layerName = LAYER_FULL_NAMES[layer] || `Layer ${layer}`;
+    const layerColor = LAYER_COLORS[layer] || "#ccc";
+    const accessInfo = LAYER_ACCESS_INFO[layer] || `Activate Layer ${layer}`;
+
+    if (learnEls.access) learnEls.access.innerHTML = accessInfo;
 
     learnEls.step.innerHTML = [
-      `<span class="learn-layer-badge" style="background:${layerColor};color:#0a0a0a">${layerName}</span>`,
       `<strong>${escapeHtml(sc.appAction)}</strong>`,
       `<span class="learn-keys">${escapeHtml(sc.appKeys)}</span>`,
-      `Key: <strong>${escapeHtml(clean(sc.row.visual_label))}</strong> at x${sc.row.x},y${sc.row.y}`,
-    ].join(" &nbsp; ");
+      `<span class="learn-pos">Key: ${escapeHtml(clean(sc.row.visual_label))} &middot; x${sc.row.x}, y${sc.row.y} &middot; ${layerName}</span>`,
+    ].join("");
 
-    learnEls.progress.textContent = `Step ${idx + 1} of ${learnState.shortcuts.length} — ${sc.category}`;
+    if (learnEls.progress) learnEls.progress.textContent = `${idx + 1} / ${learnState.shortcuts.length} — ${sc.category}`;
+
+    const isDangerous = DANGEROUS_KEYS.has(sc.appKeys);
+    if (learnEls.warning) {
+      learnEls.warning.classList.toggle("learn-warning--hidden", !isDangerous);
+      if (isDangerous) learnEls.warning.textContent = `This shortcut (${sc.appKeys}) may affect other windows or close tabs. Use with care.`;
+    }
 
     if (sc.row.layer !== state.displayedLayer) {
       state.displayedLayer = sc.row.layer;
@@ -1370,12 +1403,9 @@
     learnEls.keyboardArea.innerHTML = "";
     const rows = state.rowsByLayer.get(state.displayedLayer) || [];
     const rowMap = new Map(rows.map((r) => [`${r.x}:${r.y}`, r]));
-    const leftHand = renderHand("left", X_LEFT, rowMap);
-    const rightHand = renderHand("right", X_RIGHT, rowMap);
-    learnEls.keyboardArea.appendChild(leftHand);
-    learnEls.keyboardArea.appendChild(rightHand);
+    learnEls.keyboardArea.appendChild(renderHand("left", X_LEFT, rowMap));
+    learnEls.keyboardArea.appendChild(renderHand("right", X_RIGHT, rowMap));
     learnEls.keyboardArea.className = "learn-keyboard-area keyboard-map";
-
     const targetId = keyId(sc.row);
     const targetEl = learnEls.keyboardArea.querySelector(`[data-key-id="${CSS.escape(targetId)}"]`);
     if (targetEl) {
@@ -1384,13 +1414,19 @@
     }
   }
 
+  function learnAdvance() {
+    if (!learnState.active) return;
+    learnState.index = Math.min(learnState.shortcuts.length - 1, learnState.index + 1);
+    showLearnStep();
+  }
+
   if (document.getElementById("learnButton")) {
     document.getElementById("learnButton").addEventListener("click", openLearnOverlay);
   }
   if (learnEls.closeBtn) learnEls.closeBtn.addEventListener("click", closeLearnOverlay);
-  if (learnEls.startBtn) learnEls.startBtn.addEventListener("click", startLearnTour);
+  if (learnEls.backBtn) learnEls.backBtn.addEventListener("click", showLearnPicker);
   if (learnEls.prevBtn) learnEls.prevBtn.addEventListener("click", () => { if (learnState.active) { learnState.index = Math.max(0, learnState.index - 1); showLearnStep(); } });
-  if (learnEls.nextBtn) learnEls.nextBtn.addEventListener("click", () => { if (learnState.active) { learnState.index = Math.min(learnState.shortcuts.length - 1, learnState.index + 1); showLearnStep(); } });
+  if (learnEls.nextBtn) learnEls.nextBtn.addEventListener("click", learnAdvance);
 
   init().catch((error) => {
     els.keyboardMap.innerHTML = `<div class="panel selected-panel"><h2>Coach failed to load</h2><p>${escapeHtml(error.message)}</p></div>`;

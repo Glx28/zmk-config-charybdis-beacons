@@ -288,14 +288,22 @@ JsonKeyObject(key) {
 
 WriteCoachState(logEvent := false) {
     global StatePath, EventLogPath, CurrentCoachLayer, LastAction, LastKey, HeldLayers, LockedLayer, ToggledLayers, LauncherVisible, HelperConfig
+    try {
     EnsureRuntime()
-    activeApp := ActiveAppLabel()
-    activeLayer := CoachActiveLayer()
+    activeApp := ""
+    activeLayer := "0"
+    try activeApp := ActiveAppLabel()
+    try activeLayer := CoachActiveLayer()
     ; At rest the coach view must match the real keyboard layer, not a stale tray default.
     if (HeldLayers.Length = 0 && !LockedLayer && ToggledLayers.Length = 0) {
         CurrentCoachLayer := activeLayer
     }
     timestamp := FormatTime(A_NowUTC, "yyyy-MM-ddTHH:mm:ss") "Z"
+    pid := ProcessExist()
+    transportVal := ""
+    try transportVal := HelperConfig.Has("transport") ? HelperConfig["transport"] : "bluetooth"
+    catch
+        transportVal := "bluetooth"
     json := "{" .
         '"activeLayer":' JsonStringValue(activeLayer) "," .
         '"displayedLayer":' JsonStringValue(CurrentCoachLayer) "," .
@@ -306,17 +314,20 @@ WriteCoachState(logEvent := false) {
         '"lastKey":' JsonKeyObject(LastKey) "," .
         '"activeApp":' JsonStringValue(activeApp) "," .
         '"launcherVisible":' (LauncherVisible ? "true" : "false") "," .
-        '"transport":' JsonStringValue(HelperConfig.Has("transport") ? HelperConfig["transport"] : "bluetooth") "," .
+        '"transport":' JsonStringValue(transportVal) "," .
         '"beaconAlive":true,' .
         '"beaconSource":"ahk",' .
-        '"beaconPid":' A_PID "," .
+        '"beaconPid":' pid "," .
         '"beaconHeartbeatAt":' JsonStringValue(timestamp) "," .
         '"updatedAt":' JsonStringValue(timestamp) .
         "}"
 
     AtomicWriteText(StatePath, json)
     if logEvent {
-        FileAppend(json "`r`n", EventLogPath, "UTF-8")
+        try FileAppend(json "`r`n", EventLogPath, "UTF-8")
+    }
+    } catch as err {
+        ; Silently ignore state-write errors to prevent abort dialogs
     }
 }
 

@@ -73,39 +73,11 @@
       "tags": ["document", "writing", "office", "microsoft"]
     },
     {
-      "id": "onenote",
-      "name": "OneNote",
-      "icon": "note",
-      "file": "onenote.json",
-      "tags": ["notes", "organization", "office", "microsoft"]
-    },
-    {
-      "id": "notepadpp",
-      "name": "Notepad++",
-      "icon": "edit",
-      "file": "notepadpp.json",
-      "tags": ["editor", "text", "notepad"]
-    },
-    {
       "id": "powerpoint",
       "name": "PowerPoint",
       "icon": "slides",
       "file": "powerpoint.json",
       "tags": ["presentation", "slides", "office", "microsoft"]
-    },
-    {
-      "id": "figma",
-      "name": "Figma",
-      "icon": "design",
-      "file": "figma.json",
-      "tags": ["design", "ui", "prototype"]
-    },
-    {
-      "id": "slack",
-      "name": "Slack",
-      "icon": "chat",
-      "file": "slack.json",
-      "tags": ["communication", "messaging", "chat"]
     }
   ]
 }

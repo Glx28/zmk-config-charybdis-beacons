@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Charybdis Coach</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='4' width='20' height='16' rx='2' fill='%23101720' stroke='%234cc9b0' stroke-width='2'/><rect x='5' y='8' width='3' height='3' rx='1' fill='%234cc9b0'/><rect x='10' y='8' width='3' height='3' rx='1' fill='%234cc9b0'/><rect x='15' y='8' width='3' height='3' rx='1' fill='%234cc9b0'/><rect x='6' y='13' width='11' height='3' rx='1' fill='%234cc9b0'/></svg>">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -133,22 +134,28 @@
   </div>
 
   <div id="learnOverlay" class="learn-overlay learn-overlay--hidden" role="dialog" aria-label="Learn shortcuts">
-    <div class="learn-header">
-      <h2 id="learnTitle">Learn Shortcuts</h2>
-      <div class="learn-controls">
-        <select id="learnAppSelect" class="learn-app-select"></select>
-        <button id="learnStartButton" type="button" class="learn-start-btn">Start Guided Tour</button>
-        <button id="learnCloseButton" type="button" class="learn-close-btn">Close</button>
-      </div>
+    <div class="learn-topbar">
+      <button id="learnCloseButton" type="button" class="learn-close-btn" title="Close">Close</button>
+      <div id="learnProgress" class="learn-progress"></div>
+      <label class="learn-auto-toggle"><input type="checkbox" id="learnAutoAdvance" checked> Auto-advance</label>
     </div>
-    <div class="learn-body">
-      <div class="learn-prompt-area">
-        <div id="learnStep" class="learn-step">Select an app and click Start</div>
-        <div id="learnProgress" class="learn-progress"></div>
-        <div class="learn-nav">
-          <button id="learnPrevButton" type="button">Previous</button>
-          <button id="learnNextButton" type="button">Next</button>
-        </div>
+
+    <div id="learnPickerView" class="learn-picker">
+      <h2>Learn App Shortcuts</h2>
+      <p class="learn-picker-hint">Choose an app to start a guided tour of its keyboard shortcuts</p>
+      <div id="learnAppGrid" class="learn-app-grid"></div>
+    </div>
+
+    <div id="learnTourView" class="learn-tour learn-tour--hidden">
+      <div class="learn-step-area">
+        <div id="learnAccess" class="learn-access"></div>
+        <div id="learnStep" class="learn-step"></div>
+        <div id="learnWarning" class="learn-warning learn-warning--hidden"></div>
+      </div>
+      <div class="learn-nav">
+        <button id="learnPrevButton" type="button">Previous</button>
+        <button id="learnBackToApps" type="button">Back to Apps</button>
+        <button id="learnNextButton" type="button">Next</button>
       </div>
       <div id="learnKeyboardArea" class="learn-keyboard-area"></div>
     </div>

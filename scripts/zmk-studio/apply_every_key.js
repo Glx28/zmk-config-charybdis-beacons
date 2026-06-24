@@ -953,8 +953,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "modifiers": [
         "L Alt"
       ],
-      "label": "PT Run",
-      "rationale": "v1.9: Left-hand Alt+Space PowerToys Run: hold Nav thumb + tap S position.",
+      "label": "CmdPal",
+      "rationale": "v1.9: Left-hand Alt+Space PowerToys Command Palette: hold Nav thumb + tap S position.",
       "apply_batch": true,
       "full_reapply_v19": true
     },
@@ -2606,7 +2606,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "modifiers": [
         "L Alt"
       ],
-      "label": "PT Run",
+      "label": "CmdPal",
       "rationale": "v1.9: Right-hand Alt+Space PowerToys: hold Window thumb + tap pinky position.",
       "apply_batch": true,
       "full_reapply_v19": true

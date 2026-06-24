@@ -1267,6 +1267,127 @@
     }
   });
 
+  // ----- Learn overlay (fullscreen guided app training) -----
+  const learnState = { active: false, appId: null, shortcuts: [], index: 0 };
+  const learnEls = {
+    overlay: document.getElementById("learnOverlay"),
+    title: document.getElementById("learnTitle"),
+    appSelect: document.getElementById("learnAppSelect"),
+    startBtn: document.getElementById("learnStartButton"),
+    closeBtn: document.getElementById("learnCloseButton"),
+    step: document.getElementById("learnStep"),
+    progress: document.getElementById("learnProgress"),
+    prevBtn: document.getElementById("learnPrevButton"),
+    nextBtn: document.getElementById("learnNextButton"),
+    keyboardArea: document.getElementById("learnKeyboardArea"),
+  };
+
+  function openLearnOverlay() {
+    if (!learnEls.overlay) return;
+    learnEls.overlay.classList.remove("learn-overlay--hidden");
+    learnEls.appSelect.innerHTML = "";
+    for (const [appId, app] of workflowState.apps) {
+      const opt = document.createElement("option");
+      opt.value = appId;
+      opt.textContent = app.name;
+      learnEls.appSelect.appendChild(opt);
+    }
+    if (workflowState.index) {
+      for (const entry of (workflowState.index.apps || [])) {
+        if (!workflowState.apps.has(entry.id)) {
+          const opt = document.createElement("option");
+          opt.value = entry.id;
+          opt.textContent = entry.name;
+          learnEls.appSelect.appendChild(opt);
+        }
+      }
+    }
+    learnState.active = false;
+    learnEls.step.innerHTML = "Select an app and click <strong>Start Guided Tour</strong>";
+    learnEls.progress.textContent = "";
+  }
+
+  function closeLearnOverlay() {
+    if (!learnEls.overlay) return;
+    learnEls.overlay.classList.add("learn-overlay--hidden");
+    learnState.active = false;
+  }
+
+  async function startLearnTour() {
+    const appId = learnEls.appSelect.value;
+    if (!appId) return;
+    if (!workflowState.apps.has(appId)) {
+      const entry = (workflowState.index?.apps || []).find((a) => a.id === appId);
+      if (entry) {
+        const data = await loadJson(`../../apps/charybdis-coach/workflows/${entry.file}`, null);
+        if (data) workflowState.apps.set(appId, data);
+      }
+    }
+    const shortcuts = appShortcutRows(appId);
+    if (!shortcuts.length) {
+      learnEls.step.innerHTML = `No mapped shortcuts found for <strong>${appId}</strong>. Choose another app.`;
+      return;
+    }
+    learnState.active = true;
+    learnState.appId = appId;
+    learnState.shortcuts = shortcuts;
+    learnState.index = 0;
+    learnEls.title.textContent = `Learn: ${workflowState.apps.get(appId)?.name || appId}`;
+    showLearnStep();
+  }
+
+  function showLearnStep() {
+    if (!learnState.active || !learnState.shortcuts.length) return;
+    const idx = Math.max(0, Math.min(learnState.index, learnState.shortcuts.length - 1));
+    learnState.index = idx;
+    const sc = learnState.shortcuts[idx];
+    const layerNames = { "0": "Base", "1": "Nav", "2": "Mouse", "3": "Window", "4": "System", "5": "Code", "7": "Game", "8": "Speed", "9": "M-Files" };
+    const layerName = layerNames[sc.row.layer] || `Layer ${sc.row.layer}`;
+    const layerColor = { "0": "#4cc9b0", "1": "#3dd6c6", "2": "#b78cff", "3": "#6eb5ff", "4": "#ff9f6e", "5": "#56d4e8", "7": "#a78bfa", "8": "#ffb347", "9": "#e8a44c" }[sc.row.layer] || "#ccc";
+
+    learnEls.step.innerHTML = [
+      `<span class="learn-layer-badge" style="background:${layerColor};color:#0a0a0a">${layerName}</span>`,
+      `<strong>${escapeHtml(sc.appAction)}</strong>`,
+      `<span class="learn-keys">${escapeHtml(sc.appKeys)}</span>`,
+      `Key: <strong>${escapeHtml(clean(sc.row.visual_label))}</strong> at x${sc.row.x},y${sc.row.y}`,
+    ].join(" &nbsp; ");
+
+    learnEls.progress.textContent = `Step ${idx + 1} of ${learnState.shortcuts.length} — ${sc.category}`;
+
+    if (sc.row.layer !== state.displayedLayer) {
+      state.displayedLayer = sc.row.layer;
+      render();
+    }
+    renderLearnKeyboard(sc);
+  }
+
+  function renderLearnKeyboard(sc) {
+    if (!learnEls.keyboardArea) return;
+    learnEls.keyboardArea.innerHTML = "";
+    const rows = state.rowsByLayer.get(state.displayedLayer) || [];
+    const rowMap = new Map(rows.map((r) => [`${r.x}:${r.y}`, r]));
+    const leftHand = renderHand("left", X_LEFT, rowMap);
+    const rightHand = renderHand("right", X_RIGHT, rowMap);
+    learnEls.keyboardArea.appendChild(leftHand);
+    learnEls.keyboardArea.appendChild(rightHand);
+    learnEls.keyboardArea.className = "learn-keyboard-area keyboard-map";
+
+    const targetId = keyId(sc.row);
+    const targetEl = learnEls.keyboardArea.querySelector(`[data-key-id="${CSS.escape(targetId)}"]`);
+    if (targetEl) {
+      targetEl.classList.add("answer-correct");
+      targetEl.scrollIntoView({ block: "center", inline: "center" });
+    }
+  }
+
+  if (document.getElementById("learnButton")) {
+    document.getElementById("learnButton").addEventListener("click", openLearnOverlay);
+  }
+  if (learnEls.closeBtn) learnEls.closeBtn.addEventListener("click", closeLearnOverlay);
+  if (learnEls.startBtn) learnEls.startBtn.addEventListener("click", startLearnTour);
+  if (learnEls.prevBtn) learnEls.prevBtn.addEventListener("click", () => { if (learnState.active) { learnState.index = Math.max(0, learnState.index - 1); showLearnStep(); } });
+  if (learnEls.nextBtn) learnEls.nextBtn.addEventListener("click", () => { if (learnState.active) { learnState.index = Math.min(learnState.shortcuts.length - 1, learnState.index + 1); showLearnStep(); } });
+
   init().catch((error) => {
     els.keyboardMap.innerHTML = `<div class="panel selected-panel"><h2>Coach failed to load</h2><p>${escapeHtml(error.message)}</p></div>`;
   });

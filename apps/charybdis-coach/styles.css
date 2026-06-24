@@ -963,6 +963,157 @@ svg {
   text-align: center;
 }
 
+/* ----- Learn overlay ----- */
+.learn-button {
+  height: 42px;
+  padding: 0 18px;
+  border: 2px solid var(--accent);
+  background: #123128;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+.learn-button:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.learn-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.learn-overlay--hidden {
+  display: none;
+}
+.learn-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 2px solid var(--accent);
+  background: #0b1118;
+}
+.learn-header h2 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.learn-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: auto;
+}
+.learn-app-select {
+  height: 36px;
+  min-width: 180px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 0 10px;
+}
+.learn-start-btn {
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--accent);
+  background: #123128;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+.learn-start-btn:hover { background: var(--accent); color: var(--bg); }
+.learn-close-btn {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--soft);
+  cursor: pointer;
+}
+.learn-close-btn:hover { border-color: var(--danger); color: var(--danger); }
+.learn-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px 24px;
+  gap: 20px;
+}
+.learn-prompt-area {
+  text-align: center;
+}
+.learn-step {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.learn-step strong {
+  color: var(--accent);
+}
+.learn-step .learn-keys {
+  display: inline-block;
+  padding: 4px 12px;
+  margin: 0 6px;
+  background: var(--surface-3);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-family: "Consolas", monospace;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+.learn-step .learn-layer-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 0 4px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.learn-progress {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.learn-nav {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.learn-nav button {
+  height: 34px;
+  padding: 0 20px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--soft);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.learn-nav button:hover { border-color: var(--accent); color: var(--text); }
+.learn-keyboard-area {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
 .keycap.answer-correct {
   border-color: var(--accent) !important;
   box-shadow: 0 0 0 2px var(--accent), 0 0 18px rgba(76, 201, 176, 0.5);

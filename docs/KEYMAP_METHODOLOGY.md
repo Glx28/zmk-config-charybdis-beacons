@@ -276,10 +276,10 @@ These are custom ZMK macros (defined in firmware) that combine layer switching w
 
 ## 8. Common Mistakes to Avoid
 
-### Putting mouse buttons on thumb keys
-**Wrong:** MB1 on y4/y5 (thumb row).
-**Why:** When left thumb holds the Mouse layer, left thumb keys are unreachable. The whole point of the mouse layer is clicking while the trackball moves.
-**Right:** MB1-MB5 on y2 (home row) — fingers are free while thumb holds the layer.
+### Not having mouse buttons on both thumbs AND finger rows
+**Wrong:** MB1 only on thumb y4/y5 with no MB1 on finger rows.
+**Why:** When left thumb holds the Mouse layer, same-hand thumb keys are unreachable. You need MB1/MB2 on finger rows (y2) so you can click while holding the layer. But having MB1/MB2 on thumb keys is normal and correct — they're used in locked mouse mode and on the base layer.
+**Right:** MB1-MB5 on y2 (home row) on Layer 2 for thumb-hold access, AND MB1/MB2 on thumb keys (y4/y5) for locked mode and base layer.
 
 ### Using Toggle when Momentary is better (or vice versa)
 **Wrong:** Toggle Layer for Nav (arrows). User must tap to enter, tap to exit, for every arrow key use.
@@ -288,10 +288,10 @@ These are custom ZMK macros (defined in firmware) that combine layer switching w
 **Wrong:** Momentary hold for Mouse lock. User's thumb is trapped the entire time they're browsing.
 **Right:** Lock (via coach_mouse_lock). Enter once, both hands free, exit when done.
 
-### Ignoring transparent fall-through
-**Wrong:** Putting Shift on L2 x0,y2 (replacing the transparent).
-**Why:** Now Shift is explicit on L2, but if the behavior is identical to L0's Shift, you've wasted a key and lost the fall-through pattern. Worse: if you change L0's x0,y2 later, L2 won't inherit the change.
-**Right:** Keep x0 transparent on overlay layers. L0's modifiers fall through automatically.
+### Redundant explicit bindings where transparent works
+**Wrong:** Putting Shift explicitly on L2 x0,y2 when the transparent fall-through already provides Shift from L0.
+**Why:** If the behavior is identical to L0's key, you've wasted a position and lost the fall-through benefit. If you change L0's key later, L2 won't inherit the change.
+**Right:** Use transparent when you want the base layer's key to fall through. But x0 and x12 columns are NOT required to be transparent — they're valid positions for active bindings when you need them. The current L2 uses x0 as transparent for modifier fall-through, but this is a design choice, not a rule.
 
 ### Duplicate bindings without purpose
 **Wrong:** Win+Tab on both L3 x8,y2 AND L3 x10,y3.
@@ -310,7 +310,7 @@ When populating a new layer or reviewing an existing one:
 - [ ] **y2 (home) has the most-used keys for this layer's purpose**
 - [ ] **y1/y3 have second-tier keys**
 - [ ] **y0 has least-used keys or mode switches**
-- [ ] **x0 column is Transparent** (modifier fall-through)
+- [ ] **Consider transparent fall-through** where base-layer keys are useful (e.g. modifiers)
 - [ ] **No duplicate bindings** between positions (unless intentionally mirrored for both-hand access)
 - [ ] **Thumb-hold hand's finger keys are all useful and reachable**
 - [ ] **Layer has at least 2 exit paths** (if it's a locked/toggled layer)

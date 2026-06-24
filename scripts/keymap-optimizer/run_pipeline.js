@@ -8,6 +8,7 @@ const MODULES = [
   { name: "build_layer_graph", path: "./build_layer_graph", fatal: false },
   { name: "physical_model", path: "./physical_model", fatal: false },
   { name: "simulate_workflows", path: "./simulate_workflows", fatal: false },
+  { name: "score_app_shortcuts", path: "./score_app_shortcuts", fatal: false },
 ];
 
 function run() {

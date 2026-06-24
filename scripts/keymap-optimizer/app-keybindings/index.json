@@ -1,0 +1,18 @@
+{
+  "description": "App keybinding corpus for keymap optimization. Each file contains all known keybindings for an app, tagged by usage frequency so the optimizer can weight shortcut accessibility.",
+  "frequency_weights": {
+    "constant": 10,
+    "high": 6,
+    "medium": 3,
+    "low": 1,
+    "rare": 0.2
+  },
+  "apps": [
+    { "id": "browser", "file": "browser.json", "user_weight": 1.0, "notes": "Primary daily app — Chrome/Edge" },
+    { "id": "vscode", "file": "vscode.json", "user_weight": 0.9, "notes": "Code editing — daily use" },
+    { "id": "windows", "file": "windows.json", "user_weight": 1.0, "notes": "OS-level shortcuts — always active" },
+    { "id": "explorer", "file": "explorer.json", "user_weight": 0.7, "notes": "File management — frequent" },
+    { "id": "excel", "file": "excel.json", "user_weight": 0.6, "notes": "Spreadsheet work — regular" },
+    { "id": "mfiles", "file": "mfiles.json", "user_weight": 0.8, "notes": "Document management — work daily" }
+  ]
+}

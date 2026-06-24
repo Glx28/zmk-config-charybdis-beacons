@@ -84,24 +84,27 @@ Next tuning variables if needed: `zip_xy_scaler` with `track-remainders` for smo
 | Layer | Purpose | Firmware Role |
 |-------|---------|---------------|
 | 0 | Base QWERTY + thumb access (æ/ø/å on NO layout) | — |
-| 1 | Navigation, editing, function keys; left-hand Scroll (3,2) + Speed (4,2) | — |
+| 1 | Navigation, editing, function keys; left-hand Scroll (3,2) + Speed (4,2) + Code toggle (0,1) | — |
 | 2 | Mouse lock and buttons; right-pinky Scroll toggle (12,2) | — |
-| 3 | Window/app/desktop; Mouse Lock (10,2), Speed-hold (11,2) | — |
-| 4 | Bluetooth, output, system, F13-F24 (F13-15 now spare; æøå moved to base) | — |
-| 5 | Reserved (transparent, intentionally unused) | — |
+| 3 | Window/app/desktop; Mouse Lock (10,2), Speed-hold (11,2); y0 filled with Win extras | — |
+| 4 | Bluetooth, output, system, F13-F24 sequential; DMS toggle (2,3) | — |
+| 5 | Code/IDE layer (44 VS Code shortcuts); toggle from L1 0,1 | — |
 | 6 | Scroll overlay (transparent; firmware scroll layer) | scroll-layers |
 | 7 | RPG/game | — |
 | 8 | Speed/travel overlay (transparent; exits at 7,4 / 8,4) | snipe-layers (speed mode) |
-| 9-10 | Reserved (transparent, intentionally unused) | — |
+| 9 | M-Files/DMS layer (22 document management shortcuts); toggle from L4 2,3 | — |
+| 10 | Reserved (transparent, available for future app layer) | — |
 
 **Mode access (no single-key-both-hands is physically possible on 36 keys; all use hold-a-layer + tap):**
 - **æ/ø/å**: direct on base (11,2=ø · 12,2=æ · 12,1=å) — Norwegian Windows layout renders the SemiColon/Apostrophe/LeftBrace scancodes. ø/æ are coach-relabels (keycode unchanged); å uses the [ scancode (Left Brace) on the P-row slot.
 - **Norwegian Windows host model**: ZMK always sends US HID scancodes; Windows Norwegian maps them to glyphs. Coach matches `event.code` (layout-independent) via `layout/windows_norwegian_host.json`. Layer 1 programming keys (`[ ] \ -` on Nav) use US scancodes that Norwegian Windows maps to å/^/etc. — switch to US English (Win+Space or F16) for literal programming punctuation. F13-F15 AHK Norwegian letter injection removed (redundant with base layer).
-- **Scroll (Layer 6)**: both hands — right pinky (L2 12,2) and left hand (hold Nav, L1 3,2). Toggle.
+- **Scroll (Layer 6)**: right pinky toggle (L2 12,2) for extended scrolling; left hand momentary hold (L1 3,2 or L2 5,0) for quick scroll peeks.
 - **Speed/travel (Layer 8)**: toggle (not hold) — right: hold Window L3, tap 11,2 Speed, release thumb; left: hold Nav L1, tap 4,2 Speed; mouse-locked: L2 11,3 Speed (no Window hold). Exit: tap Speed again or L8 7,4/8,4 Exit Travel.
 - **Mouse (Layer 2)**: left thumb momentary (L0 5,5) and right-hand locked (hold Window L3, tap 10,2).
+- **Code/IDE (Layer 5)**: toggle from L1 0,1 (hold Nav, tap far-left upper). 44 VS Code shortcuts. Exit: coach_base on thumb keys.
+- **M-Files/DMS (Layer 9)**: toggle from L4 2,3 (hold System, tap left middle bottom). 22 document management shortcuts. Exit: coach_base on thumb keys.
 - **Exit to base (coach beacons required)**: Any key that leaves a locked/toggled overlay must use a coach macro, not plain `To Layer 0`:
-  - `coach_base` (F22): L1 5,4 Nav Base · L2 5,4/7,4/8,4 mouse exit · L7 3,4/5,4/7,4/8,4 game exit
+  - `coach_base` (F22): L1 5,4 · L2 5,4/7,4/8,4 · L5 3,4/5,4/7,4/8,4 · L7 3,4/5,4/7,4/8,4 · L9 3,4/5,4/7,4/8,4
   - `coach_travel_off` (Win+F14): L8 7,4/8,4 speed exit
   - `coach_recover_base` (Win+F15): emergency macro in firmware only — not bound to a layout key
 

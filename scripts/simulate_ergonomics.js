@@ -43,10 +43,11 @@ function isT(r) { return !r || /transparent|none/i.test(r.behavior); }
 function hand(x) { return LEFT.includes(parseInt(x)) ? "L" : "R"; }
 function rowName(y) { return {0:"top", 1:"upper", 2:"HOME", 3:"bottom", 4:"thumb", 5:"thumb2"}[y] || "?"; }
 
-const ACTIVE_LAYERS = ["0","1","2","3","4","8"];
+const ACTIVE_LAYERS = ["0","1","2","3","4","5","8","9"];
 const LAYER_NAMES = {
   "0": "Base QWERTY", "1": "Navigation/F-keys", "2": "Mouse QoL",
-  "3": "Window/App", "4": "System/BT", "7": "Game/RPG", "8": "Speed/Travel"
+  "3": "Window/App", "4": "System/BT", "5": "Code/IDE", "7": "Game/RPG",
+  "8": "Speed/Travel", "9": "M-Files/DMS"
 };
 
 // How each layer is accessed
@@ -55,7 +56,9 @@ const LAYER_ACCESS = {
   "2": { thumb: "left", key: "L0 x5,y5 (Mouse hold) or L3 Mouse Lock", method: "momentary or locked" },
   "3": { thumb: "right", key: "L0 x8,y4 (Window hold)", method: "momentary" },
   "4": { thumb: "right", key: "L0 x7,y4 (System hold)", method: "momentary" },
+  "5": { thumb: null, key: "Toggle from L1 x0,y1", method: "toggled" },
   "8": { thumb: null, key: "Toggle from L1/L2/L3", method: "toggled" },
+  "9": { thumb: null, key: "Toggle from L4 x2,y3", method: "toggled" },
 };
 
 let totalIssues = 0;

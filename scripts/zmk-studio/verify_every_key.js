@@ -449,9 +449,24 @@ The source of truth is layout/keybindings_explained.csv (616 keys, 11 layers).
     return clean(value).split(/\+/).map(clean).filter(Boolean).sort().join("+");
   }
 
+  const COACH_BEHAVIOR_MAP = {
+    "coach_l1_hold": "Momentary Layer",
+    "coach_l2_hold": "Momentary Layer",
+    "coach_l3_hold": "Momentary Layer",
+    "coach_l4_hold": "Momentary Layer",
+    "coach_mouse_lock": "To Layer",
+    "coach_game_lock": "To Layer",
+    "coach_base": "To Layer",
+    "coach_recover_base": "To Layer",
+    "coach_travel_toggle": "Toggle Layer",
+    "coach_travel_off": "To Layer"
+  };
+
   function normalizeBehavior(value) {
     const text = clean(value);
-    return text === "None" ? "Transparent" : text;
+    if (text === "None") return "Transparent";
+    if (COACH_BEHAVIOR_MAP[text]) return COACH_BEHAVIOR_MAP[text];
+    return text;
   }
 
   function compareRow(expected, actual) {
@@ -495,7 +510,7 @@ The source of truth is layout/keybindings_explained.csv (616 keys, 11 layers).
   });
 
   report.verification = {
-    expectedVersion: "final-v1.8-operational-pointer-travel",
+    expectedVersion: "v1.8-baseline-with-coach-normalization",
     expectedKeys: expectedRows.length,
     checkedKeys: verificationRows.length,
     passed: verificationRows.filter((row) => row.passed).length,

@@ -13,6 +13,9 @@ global HelperConfigPath := RepoRoot "\config\charybdis_helper.json"
 global RuntimeDir := RepoRoot "\runtime"
 global StatePath := RuntimeDir "\charybdis_state.json"
 global EventLogPath := RuntimeDir "\charybdis_events.jsonl"
+global ShortcutLogPath := RuntimeDir "\shortcut_usage.jsonl"
+global LastShortcutKeys := ""
+global LastShortcutTime := 0
 
 global DebugMode := false
 global CoachVisible := false
@@ -151,6 +154,7 @@ DoAction(name, action) {
 
 SendSafe(name, keys) {
     DoAction(name, () => Send(keys))
+    LogShortcutUsage(keys, name)
 }
 
 SendTextSafe(name, text) {
@@ -328,6 +332,52 @@ WriteCoachState(logEvent := false) {
     }
     } catch as err {
         ; Silently ignore state-write errors to prevent abort dialogs
+    }
+}
+
+LogShortcutUsage(shortcutKeys, name := "") {
+    global ShortcutLogPath, LastShortcutKeys, LastShortcutTime, CurrentCoachLayer
+    try {
+    if (shortcutKeys = "")
+        return
+    ; Privacy: only log combos with Ctrl, Alt, or Win (not bare Shift+letter = typing)
+    ; Also log bare F1-F24 keys
+    hasCtrl := InStr(shortcutKeys, "Ctrl") || InStr(shortcutKeys, "^")
+    hasAlt := InStr(shortcutKeys, "Alt") || InStr(shortcutKeys, "!")
+    hasWin := InStr(shortcutKeys, "Win") || InStr(shortcutKeys, "#")
+    isFKey := RegExMatch(shortcutKeys, "^F\d+$")
+    if (!hasCtrl && !hasAlt && !hasWin && !isFKey)
+        return
+
+    timestamp := FormatTime(A_NowUTC, "yyyy-MM-ddTHH:mm:ss") "Z"
+    activeApp := ""
+    try activeApp := WinGetProcessName("A")
+    activeLayer := "0"
+    try activeLayer := CoachActiveLayer()
+
+    ; Sequence tracking
+    prevField := ""
+    gapField := ""
+    now := A_TickCount
+    if (LastShortcutKeys != "" && (now - LastShortcutTime) < 5000) {
+        gap := now - LastShortcutTime
+        prevField := ',"prev":' JsonStringValue(LastShortcutKeys) ',"gap_ms":' gap
+    }
+    LastShortcutKeys := shortcutKeys
+    LastShortcutTime := now
+
+    json := "{" .
+        '"ts":' JsonStringValue(timestamp) "," .
+        '"keys":' JsonStringValue(shortcutKeys) "," .
+        '"name":' JsonStringValue(name) "," .
+        '"app":' JsonStringValue(activeApp) "," .
+        '"layer":' JsonStringValue(activeLayer) .
+        prevField .
+        "}"
+
+    try FileAppend(json "`r`n", ShortcutLogPath, "UTF-8")
+    } catch as err {
+        ; Silently ignore to not disrupt user flow
     }
 }
 

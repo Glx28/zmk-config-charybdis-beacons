@@ -1297,7 +1297,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5: Mouse QoL — Win+Shift+S screenshot snip tool.",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Print Screen",
+      "parameter": "Keyboard PrintScreen and SysReq",
       "modifiers": [
         "L GUI",
         "L Shift"
@@ -1523,7 +1523,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5-reorg: swapped with Zoom In for better ergonomics",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Equal",
+      "parameter": "Keyboard Equals and Plus",
       "modifiers": [
         "L Ctrl"
       ]
@@ -1783,7 +1783,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Minus",
+      "parameter": "Keyboard Dash and Underscore",
       "modifiers": [
         "L Ctrl"
       ]
@@ -6690,7 +6690,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard Equal and Plus",
+      "parameter": "Keyboard Equals and Plus",
       "modifiers": [
         "L Alt"
       ]
@@ -6729,7 +6729,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard Equal and Plus"
+      "parameter": "Keyboard Equals and Plus"
     },
     {
       "layer": 10,
@@ -6886,7 +6886,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard Equal and Plus",
+      "parameter": "Keyboard Equals and Plus",
       "modifiers": [
         "L Ctrl",
         "L Shift"
@@ -7166,7 +7166,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard Minus",
+      "parameter": "Keyboard Dash and Underscore",
       "modifiers": [
         "L Ctrl"
       ]
@@ -7736,9 +7736,9 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
       "5": ["Keyboard 5 and Percent", "5"],
       "6": ["Keyboard 6 and Caret", "6"],
       "7": ["Keyboard 7 and Ampersand", "7"],
-      "8": ["Keyboard 8 and Asterisk", "8"],
-      "9": ["Keyboard 9 and Left Parenthesis", "9"],
-      "0": ["Keyboard 0 and Right Parenthesis", "0"],
+      "8": ["Keyboard 8 and Star", "8"],
+      "9": ["Keyboard 9 and Left Bracket", "9"],
+      "0": ["Keyboard 0 and Right Bracket", "0"],
       GRAVE: ["Keyboard Grave Accent and Tilde", "Keyboard Grave", "Grave"],
       LEFT: ["Keyboard LeftArrow", "Left"],
       RIGHT: ["Keyboard RightArrow", "Right"],
@@ -7808,7 +7808,36 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
       .sort((a, b) => b.score - a.score);
   }
 
+  const KNOWN_KEY_NAMES = new Set([
+    "Keyboard 0 and Right Bracket","Keyboard 1 and Bang","Keyboard 2 and At","Keyboard 3 and Hash",
+    "Keyboard 4 and Dollar","Keyboard 5 and Percent","Keyboard 6 and Caret","Keyboard 7 and Ampersand",
+    "Keyboard 8 and Star","Keyboard 9 and Left Bracket","Keyboard A","Keyboard B","Keyboard Backslash and Pipe",
+    "Keyboard C","Keyboard Comma and LessThan","Keyboard D","Keyboard Dash and Underscore","Keyboard Delete",
+    "Keyboard Delete Forward","Keyboard DownArrow","Keyboard E","Keyboard End","Keyboard Equals and Plus",
+    "Keyboard Escape","Keyboard F","Keyboard F1","Keyboard F2","Keyboard F3","Keyboard F4","Keyboard F5",
+    "Keyboard F6","Keyboard F7","Keyboard F8","Keyboard F9","Keyboard F10","Keyboard F11","Keyboard F12",
+    "Keyboard F13","Keyboard F14","Keyboard F15","Keyboard F16","Keyboard F17","Keyboard F18","Keyboard F19",
+    "Keyboard F20","Keyboard F21","Keyboard F22","Keyboard F23","Keyboard F24",
+    "Keyboard ForwardSlash and QuestionMark","Keyboard G","Keyboard Grave Accent and Tilde","Keyboard H",
+    "Keyboard Home","Keyboard I","Keyboard J","Keyboard K","Keyboard L","Keyboard Left Apos and Double",
+    "Keyboard Left Brace","Keyboard Left GUI","Keyboard LeftAlt","Keyboard LeftArrow","Keyboard LeftControl",
+    "Keyboard LeftShift","Keyboard M","Keyboard N","Keyboard O","Keyboard P","Keyboard PageDown",
+    "Keyboard PageUp","Keyboard Period","Keyboard Period and GreaterThan","Keyboard PrintScreen and SysReq",
+    "Keyboard Q","Keyboard R","Keyboard Return Enter","Keyboard Right Brace","Keyboard RightArrow",
+    "Keyboard RightAlt","Keyboard RightControl","Keyboard RightShift","Keyboard Right GUI",
+    "Keyboard S","Keyboard SemiColon and Colon","Keyboard Spacebar","Keyboard T","Keyboard Tab",
+    "Keyboard U","Keyboard UpArrow","Keyboard V","Keyboard W","Keyboard X","Keyboard Y","Keyboard Z",
+    "Keypad 0 and Insert","Keypad 1 and End","Keypad 2 and DownArrow","Keypad 3 and PageDn",
+    "Keypad 4 and LeftArrow","Keypad 5","Keypad 6 and RightArrow","Keypad 7 and Home",
+    "Keypad 8 and UpArrow","Keypad 9 and PageUp","Keypad Asterisk","Keypad Enter","Keypad Equals",
+    "Keypad ForwardSlash","Keypad Minus","Keypad Period and Delete","Keypad Plus"
+  ]);
+
   async function setComboboxKeyParameter(parameter) {
+    if (parameter && parameter.startsWith("Keyboard ") && !KNOWN_KEY_NAMES.has(parameter)) {
+      throw new Error(`UNKNOWN KEY NAME: "${parameter}" is not in KNOWN_KEY_NAMES. This would silently fall to "Keyboard B". Fix the parameter name in the layout data. See scripts/zmk-studio/zmk_studio_key_names.json for valid names.`);
+    }
+
     const input = findKeyInput();
     if (!input) throw new Error(`Could not find Key combobox for parameter "${parameter}".`);
 
@@ -7843,9 +7872,7 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
       chosen.el.click();
       await sleep(350);
     } else {
-      input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", code: "Enter", bubbles: true }));
-      input.dispatchEvent(new KeyboardEvent("keyup", { key: "Enter", code: "Enter", bubbles: true }));
-      await sleep(350);
+      throw new Error(`NO MATCHING OPTION for "${parameter}". Refusing to proceed — would silently select wrong key (likely "Keyboard B"). Check the parameter name.`);
     }
 
     document.activeElement?.blur?.();

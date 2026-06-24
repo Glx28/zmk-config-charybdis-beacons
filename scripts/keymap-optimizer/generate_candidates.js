@@ -1,7 +1,7 @@
 const { readBuild, writeBuild } = require("./lib/io");
 const {
   effort, hand, LEFT_COLS, RIGHT_COLS, FINGER_ROWS, THUMB_ROWS,
-  LAYER_NAMES, LAYER_ACCESS, LAYER_CONTEXTS,
+  LAYER_NAMES, LAYER_ACCESS, LAYER_CONTEXTS, LAYER_APP_CONTEXT,
   COACH_BEHAVIORS, STRUCTURAL_BEHAVIORS, THUMB_POSITIONS, THUMB_HAND,
   isTransparent, isNone,
 } = require("./lib/constants");
@@ -82,6 +82,45 @@ function assignKeysToSlots(shortcuts, slots) {
   return assignments;
 }
 
+function getLayerRelevantShortcuts(layerNum, unmappedGaps, scores) {
+  const ctx = LAYER_APP_CONTEXT[layerNum];
+  if (!ctx) return [];
+
+  const allowedAppIds = new Set(ctx.apps);
+
+  // Collect shortcuts from allowed apps that are unmapped and high-freq
+  const relevant = [];
+  for (const app of scores.apps) {
+    if (!allowedAppIds.has(app.id)) continue;
+    for (const s of app.shortcuts) {
+      if (s.mapped) continue;
+      if (s.freq_weight < 3) continue;
+
+      // For dedicated layers (L5, L9, L10), accept all shortcuts from the app
+      // For shared layers (L1-L4), require multi-modifier or layer-appropriate modifiers
+      const isDedicated = [5, 9, 10].includes(layerNum);
+      if (!isDedicated) {
+        if (layerNum === 3 && !s.keys.split("+").some(k => /^win$/i.test(k))) continue;
+        if (layerNum === 1 || layerNum === 2) {
+          if (s.keys.split("+").filter(k => /^(Ctrl|Shift|Alt|Win)$/i.test(k)).length < 1) continue;
+        }
+      }
+
+      relevant.push({
+        app: app.id, keys: s.keys, action: s.action,
+        frequency: s.frequency, importance: s.importance,
+        modifiers: s.keys.split("+").filter(k => /^(Ctrl|Shift|Alt|Win)$/i.test(k)).sort(),
+        base_key: s.keys.split("+").pop(),
+        label: s.action.split(" ").map(w => w.slice(0, 3)).join("").slice(0, 5),
+        category: s.category || "general",
+      });
+    }
+  }
+
+  relevant.sort((a, b) => b.importance - a.importance);
+  return relevant;
+}
+
 function run(config) {
   const errors = [], warnings = [];
   const canonical = readBuild("canonical.json");
@@ -94,12 +133,12 @@ function run(config) {
   const candidates = [];
   const freeSlots = findFreeSlots(canonical);
 
-  // Collect unmapped high-frequency shortcuts
-  const unmappedGaps = [];
+  // Collect ALL unmapped high-frequency shortcuts for summary
+  const allUnmapped = [];
   for (const app of scores.apps) {
     for (const s of app.shortcuts) {
       if (!s.mapped && s.freq_weight >= 3) {
-        unmappedGaps.push({
+        allUnmapped.push({
           app: app.id, keys: s.keys, action: s.action,
           frequency: s.frequency, importance: s.importance,
           modifiers: s.keys.split("+").filter(k => /^(Ctrl|Shift|Alt|Win)$/i.test(k)).sort(),
@@ -109,7 +148,7 @@ function run(config) {
       }
     }
   }
-  unmappedGaps.sort((a, b) => b.importance - a.importance);
+  allUnmapped.sort((a, b) => b.importance - a.importance);
 
   // Candidate A: Baseline
   candidates.push({
@@ -120,58 +159,86 @@ function run(config) {
     new_layers: [], estimated_coverage_change: "0%", risk: "none",
   });
 
-  // Candidate B: Fill all free slots on active layers dynamically
+  // Candidate B: Context-aware fill across active layers (including thumb positions)
   const activeFillLayers = [1, 2, 3, 4, 5, 9, 10];
   const allFillChanges = [];
+  const layerFillDetails = [];
 
   for (const layerNum of activeFillLayers) {
     const layerFree = freeSlots[String(layerNum)] || [];
     if (layerFree.length === 0) continue;
 
-    const layerAccess = LAYER_ACCESS[layerNum];
-    const isMomentary = layerAccess?.method === "momentary";
-    const busyThumb = isMomentary ? layerAccess?.thumb : null;
+    const fingerFree = layerFree.filter(s => !s.isThumb);
+    const thumbFree = layerFree.filter(s => s.isThumb);
 
-    const relevantShortcuts = unmappedGaps.filter(g => {
-      if (g.modifiers.some(m => /win/i.test(m)) && layerNum === 3) return true;
-      if (g.modifiers.length >= 2) return true;
-      if (g.modifiers.length === 1 && layerNum >= 5) return true;
-      return false;
-    });
+    const relevantShortcuts = getLayerRelevantShortcuts(layerNum, allUnmapped, scores);
+    if (relevantShortcuts.length === 0 && fingerFree.length === 0 && thumbFree.length === 0) continue;
 
-    const assignments = assignKeysToSlots(relevantShortcuts.slice(0, layerFree.length), layerFree);
+    // Assign to finger slots first, then thumb slots — all from same layer-appropriate pool
+    const allSlots = [...fingerFree, ...thumbFree];
+    const assignments = assignKeysToSlots(relevantShortcuts.slice(0, allSlots.length), allSlots);
+
+    const fingerAssigned = assignments.filter(a => !a.isThumb).length;
+    const thumbAssigned = assignments.filter(a => a.isThumb).length;
+
     for (const a of assignments) {
-      allFillChanges.push({ layer: layerNum, ...a });
+      allFillChanges.push({
+        layer: layerNum,
+        layer_name: LAYER_NAMES[layerNum] || `Layer ${layerNum}`,
+        app_context: LAYER_APP_CONTEXT[layerNum]?.desc || "unspecified",
+        ...a,
+      });
+    }
+
+    if (assignments.length > 0 || thumbFree.length > 0) {
+      layerFillDetails.push({
+        layer: layerNum,
+        name: LAYER_NAMES[layerNum],
+        context: LAYER_APP_CONTEXT[layerNum]?.desc || "none",
+        allowed_apps: LAYER_APP_CONTEXT[layerNum]?.apps || [],
+        finger_free: fingerFree.length,
+        finger_assigned: fingerAssigned,
+        thumb_free: thumbFree.length,
+        thumb_assigned: thumbAssigned,
+        total_candidates_available: relevantShortcuts.length,
+        sample_candidates: relevantShortcuts.slice(0, 5).map(s => `${s.app}:${s.keys} (${s.action})`),
+      });
     }
   }
 
   if (allFillChanges.length) {
+    const thumbChanges = allFillChanges.filter(c => c.isThumb);
     candidates.push({
       id: "fill_free_slots",
-      name: `Fill ${allFillChanges.length} Free Slots Across Active Layers`,
-      description: `Dynamically assign unmapped shortcuts to ${allFillChanges.length} transparent positions (including x0 and thumb positions) across layers ${activeFillLayers.join(", ")}.`,
+      name: `Fill ${allFillChanges.length} Free Slots (${thumbChanges.length} thumb) Across Active Layers`,
+      description: `Context-aware assignment: each layer gets shortcuts only from its relevant apps. ${thumbChanges.length} thumb positions filled. Layer details below.`,
       changes: allFillChanges,
-      rationale: "Greedy assignment: highest-importance shortcuts get lowest-effort positions. x0 and x12 treated equally (effort=4). Thumb positions on toggled layers included.",
+      layer_details: layerFillDetails,
+      rationale: "Layer-context filtering: L5 thumbs get VS Code, L9 thumbs get M-Files, L10 thumbs get Excel, etc. Greedy assignment: highest-importance shortcuts get lowest-effort positions.",
       new_layers: [],
       estimated_coverage_change: `+${allFillChanges.length} shortcuts`,
-      risk: "low — only fills transparent slots",
+      risk: "low — only fills transparent slots with layer-appropriate shortcuts",
     });
   }
 
-  // Candidate C: Reorganization swaps (from reorganize_layout module)
+  // Candidate C: Reorganization swaps
   if (reorgProposals.proposals && reorgProposals.proposals.length > 0) {
+    const conjSwaps = reorgProposals.proposals.filter(p => p.conjunction_bonus > 0);
     candidates.push({
       id: "reorganize_existing",
-      name: `Reorganize ${reorgProposals.proposals.length} Existing Keys by Frequency`,
-      description: `Move ${reorgProposals.proposals.length} keys to better ergonomic positions based on usage frequency. High-importance shortcuts move to home row (y2), low-importance move to y0/x0/x12.`,
+      name: `Reorganize ${reorgProposals.proposals.length} Existing Keys (${conjSwaps.length} with adjacency bonus)`,
+      description: `Move ${reorgProposals.proposals.length} keys to better positions. ${conjSwaps.length} swaps also improve workflow adjacency (related shortcuts closer together).`,
       changes: reorgProposals.proposals.map(p => ({
         layer: p.layer, type: p.type,
         key_a: p.key_a, key_b: p.key_b,
-        effort_delta: p.effort_delta, reason: p.reason,
+        effort_delta: p.effort_delta,
+        conjunction_bonus: p.conjunction_bonus,
+        total_score: p.total_score,
+        reason: p.reason,
       })),
-      rationale: "Frequency-effort optimization: most-used shortcuts should be in easiest positions.",
+      rationale: "Frequency-effort optimization + conjunction scoring: most-used shortcuts get easiest positions, frequently-paired shortcuts stay near each other.",
       new_layers: [],
-      estimated_coverage_change: "Same coverage, better efficiency",
+      estimated_coverage_change: "Same coverage, better efficiency + adjacency",
       risk: "medium — changes muscle memory for relocated keys",
     });
   }
@@ -183,7 +250,7 @@ function run(config) {
   const output = {
     timestamp: new Date().toISOString(),
     analysis: {
-      total_unmapped_high_freq: unmappedGaps.filter(g => g.importance >= 6).length,
+      total_unmapped_high_freq: allUnmapped.filter(g => g.importance >= 6).length,
       total_free_slots: totalFree,
       total_free_thumb_slots: thumbFree,
       free_per_layer: Object.entries(freeSlots).map(([l, slots]) => ({
@@ -192,8 +259,10 @@ function run(config) {
         free_finger: slots.filter(s => !s.isThumb).length,
         free_thumb: slots.filter(s => s.isThumb).length,
         x0_free: slots.filter(s => s.x === 0).length,
+        layer_context: LAYER_APP_CONTEXT[Number(l)]?.desc || "none",
       })),
       reorg_proposals: reorgProposals.proposals?.length || 0,
+      layer_fill_details: layerFillDetails,
     },
     candidates,
   };
@@ -212,15 +281,30 @@ if (require.main === module) {
 
   const a = result.output.analysis;
   console.log(`\nAnalysis: ${a.total_unmapped_high_freq} unmapped high-freq, ${a.total_free_slots} free slots (${a.total_free_thumb_slots} thumb)`);
-  console.log("Free per layer:");
+  console.log("\nFree per layer:");
   for (const l of a.free_per_layer.filter(l => l.free_total > 0)) {
-    console.log(`  L${l.layer} ${l.name}: ${l.free_total} (finger: ${l.free_finger}, thumb: ${l.free_thumb}, x0: ${l.x0_free})`);
+    console.log(`  L${l.layer} ${l.name}: ${l.free_total} (finger: ${l.free_finger}, thumb: ${l.free_thumb}, x0: ${l.x0_free}) — ${l.layer_context}`);
   }
+
+  if (a.layer_fill_details?.length) {
+    console.log("\nLayer-context fill details:");
+    for (const d of a.layer_fill_details) {
+      console.log(`  L${d.layer} ${d.name}: ${d.finger_assigned}/${d.finger_free} finger + ${d.thumb_assigned}/${d.thumb_free} thumb filled`);
+      console.log(`    Context: ${d.context}`);
+      console.log(`    Apps: ${d.allowed_apps.join(", ")} (${d.total_candidates_available} candidates)`);
+      if (d.sample_candidates.length) {
+        console.log(`    Sample: ${d.sample_candidates.slice(0, 3).join(", ")}`);
+      }
+    }
+  }
+
   if (a.reorg_proposals) console.log(`\nReorganization: ${a.reorg_proposals} swap proposals`);
 
   for (const c of result.output.candidates) {
+    const thumbCount = (c.changes || []).filter(ch => ch.isThumb).length;
+    const thumbNote = thumbCount > 0 ? ` (${thumbCount} thumb)` : "";
     console.log(`\n─── ${c.id}: ${c.name} ───`);
-    console.log(`  Changes: ${c.changes.length}, Coverage: ${c.estimated_coverage_change}, Risk: ${c.risk}`);
+    console.log(`  Changes: ${c.changes.length}${thumbNote}, Coverage: ${c.estimated_coverage_change}, Risk: ${c.risk}`);
   }
   console.log("═".repeat(70));
 }

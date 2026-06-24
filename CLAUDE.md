@@ -114,8 +114,28 @@ Next tuning variables if needed: `zip_xy_scaler` ratio (1/3 for ~133 eff), Smart
 
 - Start coach: `powershell -ExecutionPolicy Bypass -File scripts\windows\start_charybdis_coach.ps1`
 - Coach URL: `http://127.0.0.1:8765/apps/charybdis-coach/`
-- AHK helper: `scripts/windows/charybdis_helpers.ahk` (launcher, beacon detection, layer state)
+- AHK helper: `scripts/windows/charybdis_helpers.ahk` (launcher, beacon detection, layer state, **shortcut usage tracker**)
 - Beacon firmware integration: PENDING (host-side ready, firmware macros not yet wired)
+
+## Optimizer Pipeline
+
+13-module Node.js pipeline + Python DEAP evolutionary optimizer. Run: `node scripts/keymap-optimizer/run_pipeline.js`.
+
+### Evolution optimizer (`scripts/keymap-optimizer/evolve/`)
+
+- **Stack**: DEAP (NSGA-II) + pyribs (MAP-Elites QD) + PyTorch (GPU batch fitness)
+- **Install**: `pip install -r scripts/keymap-optimizer/evolve/requirements.txt`
+- **Optional GPU**: `pip install torch --index-url https://download.pytorch.org/whl/cu121` (for GTX 1070)
+- **Optional QD**: `pip install "pyribs[visualize]"` (Quality-Diversity MAP-Elites)
+- **Config**: `scripts/keymap-optimizer/evolve/config.json` — pop_size, generations, 12 fitness weights
+- **Run standalone**: `python scripts/keymap-optimizer/evolve/run_evolution.py scripts/keymap-optimizer/build`
+- **Graceful fallback**: pipeline skips evolution if Python/DEAP not installed (12/13 modules pass)
+
+12-factor fitness: effort, adjacency, violations, finger balance, same-finger penalty, thumb utilization, cross-layer consistency, trackball proximity, app transition, learning curve, Norwegian awareness, ZMK Studio compatibility.
+
+### Shortcut usage tracker
+
+AHK helper logs shortcut usage to `runtime/shortcut_usage.jsonl`. Privacy: only Ctrl/Alt/Win combos + F-keys (never bare letters/typing). Sequence tracking (prev shortcut + gap within 5s). Pipeline module `aggregate_usage` reads JSONL → `build/usage_stats.json` → feeds into evolution fitness as usage_boost.
 
 ## Stale Content Warning
 

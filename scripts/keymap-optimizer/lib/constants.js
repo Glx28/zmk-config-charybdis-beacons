@@ -53,6 +53,18 @@ const LAYER_CONTEXTS = [
 const THUMB_POSITIONS = { 4: [3, 4, 5, 7, 8], 5: [4, 5, 7] };
 const THUMB_HAND = { 3: "left", 4: "left", 5: "left", 7: "right", 8: "right" };
 
+// Maps layers to the app IDs whose shortcuts belong there.
+// Used by candidate generator to filter thumb fills by layer context.
+const LAYER_APP_CONTEXT = {
+  1:  { apps: ["windows", "browser"], desc: "Nav — cross-app navigation, F-keys, editing" },
+  2:  { apps: ["windows", "browser"], desc: "Mouse — cross-app QoL while using trackball" },
+  3:  { apps: ["windows"], desc: "Window — OS window management, Win+key shortcuts" },
+  4:  { apps: ["windows", "teams", "browser", "vscode", "mfiles", "outlook", "excel"], desc: "System — cross-app power shortcuts, BT" },
+  5:  { apps: ["vscode"], desc: "Code/IDE — VS Code shortcuts" },
+  9:  { apps: ["mfiles", "mfiles_admin"], desc: "M-Files/DMS — document management" },
+  10: { apps: ["excel"], desc: "Excel — spreadsheet shortcuts" },
+};
+
 const STRUCTURAL_BEHAVIORS = new Set([
   "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold",
   "coach_mouse_lock", "coach_game_lock", "coach_base",
@@ -85,6 +97,6 @@ function isNone(behavior) {
 module.exports = {
   LEFT_COLS, RIGHT_COLS, ALL_COLS, FINGER_ROWS, THUMB_ROWS, ALL_ROWS,
   ROW_COMFORT, COL_EFFORT, FINGER_MAP, LAYER_NAMES, LAYER_ACCESS, LAYER_CONTEXTS,
-  THUMB_POSITIONS, THUMB_HAND, STRUCTURAL_BEHAVIORS,
+  THUMB_POSITIONS, THUMB_HAND, STRUCTURAL_BEHAVIORS, LAYER_APP_CONTEXT,
   COACH_BEHAVIORS, effort, hand, isTransparent, isNone,
 };

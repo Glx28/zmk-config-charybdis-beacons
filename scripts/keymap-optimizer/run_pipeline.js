@@ -3,6 +3,7 @@ const { ensureBuildDir, writeBuild } = require("./lib/io");
 
 const MODULES = [
   { name: "parse_sources", path: "./parse_sources", fatal: true },
+  { name: "aggregate_usage", path: "./aggregate_usage", fatal: false },
   { name: "validate_sync", path: "./validate_sync", fatal: false },
   { name: "resolve_transparency", path: "./resolve_transparency", fatal: false },
   { name: "build_layer_graph", path: "./build_layer_graph", fatal: false },
@@ -11,6 +12,7 @@ const MODULES = [
   { name: "score_app_shortcuts", path: "./score_app_shortcuts", fatal: false },
   { name: "reorganize_layout", path: "./reorganize_layout", fatal: false },
   { name: "generate_candidates", path: "./generate_candidates", fatal: false },
+  { name: "evolve_layout", path: "./evolve_layout", fatal: false },
   { name: "analyze_cross_app", path: "./analyze_cross_app", fatal: false },
   { name: "generate_report", path: "./generate_report", fatal: false },
 ];

@@ -88,6 +88,20 @@
         { "keys": "Ctrl+A", "action": "Select all", "frequency": "high", "modifiers": ["Ctrl"], "base_key": "A", "context": "text-editing", "charybdis_layer": 2 },
         { "keys": "Ctrl+Y", "action": "Redo", "frequency": "medium", "modifiers": ["Ctrl"], "base_key": "Y", "context": "text-editing", "charybdis_layer": 2 }
       ]
+    },
+    {
+      "name": "Edge Specific",
+      "shortcuts": [
+        { "keys": "Ctrl+Shift+B", "action": "Toggle favorites bar", "frequency": "low", "modifiers": ["Ctrl", "Shift"], "base_key": "B", "context": "always" },
+        { "keys": "Ctrl+Shift+O", "action": "Favorites manager", "frequency": "low", "modifiers": ["Ctrl", "Shift"], "base_key": "O", "context": "always" },
+        { "keys": "Ctrl+Shift+E", "action": "Toggle sidebar", "frequency": "medium", "modifiers": ["Ctrl", "Shift"], "base_key": "E", "context": "always" },
+        { "keys": "Ctrl+Shift+Del", "action": "Clear browsing data", "frequency": "low", "modifiers": ["Ctrl", "Shift"], "base_key": "Delete", "context": "always" },
+        { "keys": "Ctrl+Shift+P", "action": "InPrivate window", "frequency": "low", "modifiers": ["Ctrl", "Shift"], "base_key": "P", "context": "always" },
+        { "keys": "Alt+F", "action": "Settings menu", "frequency": "medium", "modifiers": ["Alt"], "base_key": "F", "context": "always" },
+        { "keys": "F1", "action": "Help", "frequency": "rare", "modifiers": [], "base_key": "F1", "context": "always" },
+        { "keys": "Ctrl+Shift+R", "action": "Read aloud", "frequency": "low", "modifiers": ["Ctrl", "Shift"], "base_key": "R", "context": "always" },
+        { "keys": "Ctrl+Shift+U", "action": "View source", "frequency": "rare", "modifiers": ["Ctrl", "Shift"], "base_key": "U", "context": "always" }
+      ]
     }
   ]
 }

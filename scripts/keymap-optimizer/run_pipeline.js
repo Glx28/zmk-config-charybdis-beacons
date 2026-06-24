@@ -9,6 +9,7 @@ const MODULES = [
   { name: "physical_model", path: "./physical_model", fatal: false },
   { name: "simulate_workflows", path: "./simulate_workflows", fatal: false },
   { name: "score_app_shortcuts", path: "./score_app_shortcuts", fatal: false },
+  { name: "generate_candidates", path: "./generate_candidates", fatal: false },
 ];
 
 function run() {

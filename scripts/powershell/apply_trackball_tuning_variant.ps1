@@ -15,6 +15,9 @@ param(
         "cpi-800-400",
         "cpi-1000-500",
         "cpi-1200-600",
+        "rawaccel-800",
+        "rawaccel-1200",
+        "rawaccel-1600",
         "smart-on",
         "smart-off",
         "scroll-70",
@@ -158,6 +161,21 @@ switch ($Variant) {
     }
     "snipe-layer-8" {
         $overlay = Set-OverlayProperty -OverlayText $overlay -Property "snipe-layers" -Line "snipe-layers = <8>;"
+    }
+    "rawaccel-800" {
+        $conf = Set-CpiPair -ConfText $conf -Cpi 800 -SnipeCpi 3200
+        Write-Host "  Raw Accel mode: CPI 800 (no firmware scaler, accel handled by Raw Accel)" -ForegroundColor Yellow
+        Write-Host "  Run: scripts\windows\setup_rawaccel.ps1 -Profile trackball-precise" -ForegroundColor Yellow
+    }
+    "rawaccel-1200" {
+        $conf = Set-CpiPair -ConfText $conf -Cpi 1200 -SnipeCpi 3200
+        Write-Host "  Raw Accel mode: CPI 1200 (no firmware scaler, accel handled by Raw Accel)" -ForegroundColor Yellow
+        Write-Host "  Run: scripts\windows\setup_rawaccel.ps1 -Profile trackball-balanced" -ForegroundColor Yellow
+    }
+    "rawaccel-1600" {
+        $conf = Set-CpiPair -ConfText $conf -Cpi 1600 -SnipeCpi 3200
+        Write-Host "  Raw Accel mode: CPI 1600 (no firmware scaler, accel handled by Raw Accel)" -ForegroundColor Yellow
+        Write-Host "  Run: scripts\windows\setup_rawaccel.ps1 -Profile trackball-speed" -ForegroundColor Yellow
     }
 }
 

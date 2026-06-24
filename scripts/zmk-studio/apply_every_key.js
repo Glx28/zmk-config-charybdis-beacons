@@ -27,7 +27,7 @@ Speed uses coach_travel_toggle (tap latch); fallback in Studio is Toggle Layer 8
 
 window.CHARYBDIS_FINAL_LAYOUT = {
   "project": "Charybdis Ultimate Keyboard Experience",
-  "version": "v2.2-code-mfiles-layers",
+  "version": "v2.3-l4-power-shortcuts",
   "device": "V&Z-Charydbis",
   "policy": "Full ZMK Studio reapply. v2.2. Right hand: Row 0 window mgmt (Task View, Desktop, tab cycling, Redo, Del), Row 1 core actions (Alt+Tab, Enter, Esc, BkSp, Win, Close), Row 2 mouse buttons (MB4-MB1-MB2-MB3-MB5-Scroll), Row 3 clipboard (Copy, Paste, Sel All, Undo, Speed, Close Win). Left hand: Row 0 window mgmt (Task View, Desktop, Next/Prev Tab, Scroll), Row 1 core actions (Alt+Tab, Esc, Enter, BkSp, Close), Row 2 mouse buttons (MB1-MB2-MB3-MB4-MB5 on home row), Row 3 clipboard (Undo, Cut, Copy, Paste, Sel All). x0 columns stay transparent for modifier fall-through (Esc/Tab/Shift/Ctrl). Exits unchanged. v2.2 adds Code/IDE layer (L5, 44 shortcuts), M-Files/DMS layer (L9, 22 shortcuts), and fills L3 y0 with window extras.",
   "generatedFrom": "scripts/zmk-studio/verify_every_key.js EXPECTED_CSV",
@@ -2907,61 +2907,91 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 7,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+E",
+      "rationale": "v2.3: L4 power shortcut — Search (Teams/Outlook/Explorer).",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard E",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 8,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+K",
+      "rationale": "v2.3: L4 power shortcut — Quick switcher / Insert link.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard K",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 9,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+G",
+      "rationale": "v2.3: L4 power shortcut — Go to (line/page/vault).",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard G",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 10,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+B",
+      "rationale": "v2.3: L4 power shortcut — Bold / Toggle sidebar.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard B",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 11,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+I",
+      "rationale": "v2.3: L4 power shortcut — Italic / Object info.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard I",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 12,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+U",
+      "rationale": "v2.3: L4 power shortcut — Underline / Upload.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard U",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
@@ -3032,61 +3062,91 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 7,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+S",
+      "rationale": "v2.3: L4 power shortcut — Save (universal).",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard S",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 8,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+N",
+      "rationale": "v2.3: L4 power shortcut — New (file/chat/tab).",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard N",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 9,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+P",
+      "rationale": "v2.3: L4 power shortcut — Print / Quick Open.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard P",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 10,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+O",
+      "rationale": "v2.3: L4 power shortcut — Open file.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard O",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 11,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+R",
+      "rationale": "v2.3: L4 power shortcut — Reply / Refresh / Run.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard R",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 12,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+W",
+      "rationale": "v2.3: L4 power shortcut — Close tab/window.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard W",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
@@ -3125,21 +3185,31 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 3,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.1: Freed by F-key dedup. Available for future macros.",
+      "behavior": "Key Press",
+      "label": "Ctrl+D",
+      "rationale": "v2.3: L4 power shortcut — Duplicate / Delete / Bookmark.",
       "apply_batch": true,
-      "full_reapply_v21": true
+      "full_reapply_v21": true,
+      "parameter": "Keyboard D",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 4,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.1: Freed by F-key dedup. Available for future macros.",
+      "behavior": "Key Press",
+      "label": "Ctrl+L",
+      "rationale": "v2.3: L4 power shortcut — Address bar / Select line.",
       "apply_batch": true,
-      "full_reapply_v21": true
+      "full_reapply_v21": true,
+      "parameter": "Keyboard L",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
@@ -3155,61 +3225,97 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 7,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Mute",
+      "rationale": "v2.3: L4 power shortcut — Teams mute toggle.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard M",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 8,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Camera",
+      "rationale": "v2.3: L4 power shortcut — Teams camera toggle.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard O",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 9,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Share",
+      "rationale": "v2.3: L4 power shortcut — Teams screen share.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard E",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 10,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Hand",
+      "rationale": "v2.3: L4 power shortcut — Teams raise hand.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard K",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 11,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Hangup",
+      "rationale": "v2.3: L4 power shortcut — Teams end call.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard H",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,
       "x": 12,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Accept",
+      "rationale": "v2.3: L4 power shortcut — Teams accept call.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard A",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v23": true
     },
     {
       "layer": 4,

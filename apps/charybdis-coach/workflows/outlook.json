@@ -9,7 +9,7 @@
         {
           "keys": "Ctrl+1",
           "action": "Switch to Mail",
-          "charybdis": "L9 (x1,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+2",
@@ -48,7 +48,7 @@
         {
           "keys": "Ctrl+N",
           "action": "New mail",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+R",
@@ -58,7 +58,7 @@
         {
           "keys": "Ctrl+Shift+R",
           "action": "Reply all",
-          "charybdis": "L5 (x5,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+F",
@@ -83,7 +83,7 @@
         {
           "keys": "Ctrl+D",
           "action": "Delete (alt)",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Q",
@@ -98,7 +98,7 @@
         {
           "keys": "Ctrl+Shift+G",
           "action": "Flag / follow up",
-          "charybdis": "L9 (x3,y3)"
+          "charybdis": "L10 (x3,y3)"
         }
       ]
     },
@@ -108,7 +108,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -118,17 +118,17 @@
         {
           "keys": "Ctrl+Z",
           "action": "Undo",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L5 (x5,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -143,7 +143,7 @@
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste as plain text",
-          "charybdis": "L5 (x1,y3)"
+          "charybdis": "L10 (x5,y1)"
         }
       ]
     },
@@ -153,11 +153,12 @@
         {
           "keys": "Ctrl+Shift+A",
           "action": "New appointment",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+Q",
-          "action": "New meeting"
+          "action": "New meeting",
+          "charybdis": "L10 (x1,y3)"
         },
         {
           "keys": "Alt+Down",

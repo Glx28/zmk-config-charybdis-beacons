@@ -16,7 +16,7 @@ const FINGER_MAP = {
 const LAYER_NAMES = {
   0: "Base QWERTY", 1: "Navigation", 2: "Mouse QoL", 3: "Window/App",
   4: "System/BT", 5: "Code/IDE", 6: "Scroll", 7: "Game/RPG",
-  8: "Speed/Travel", 9: "M-Files/DMS", 10: "Reserved"
+  8: "Speed/Travel", 9: "M-Files/DMS", 10: "Excel"
 };
 
 const LAYER_ACCESS = {
@@ -29,6 +29,7 @@ const LAYER_ACCESS = {
   8: { thumb: null, key: null, method: "toggled", behavior: "coach_travel_toggle" },
   5: { thumb: null, key: null, method: "toggled", behavior: "Toggle Layer" },
   9: { thumb: null, key: null, method: "toggled", behavior: "Toggle Layer" },
+  10: { thumb: null, key: null, method: "toggled", behavior: "Toggle Layer" },
 };
 
 const LAYER_CONTEXTS = [
@@ -46,6 +47,7 @@ const LAYER_CONTEXTS = [
   { name: "speed_from_mouse", stack: [8, 2, 0], thumbBusy: null },
   { name: "code_ide", stack: [5, 0], thumbBusy: null },
   { name: "mfiles_dms", stack: [9, 0], thumbBusy: null },
+  { name: "excel", stack: [10, 0], thumbBusy: null },
 ];
 
 const COACH_BEHAVIORS = new Set([

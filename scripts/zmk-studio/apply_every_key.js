@@ -1,16 +1,16 @@
 /*
-Canonical Charybdis v2.0 ZMK Studio EVERY-KEY reapply payload.
-v2.0: Layer 2 both-hands mouse QoL — right-hand shortcuts + left-hand mouse buttons on home row y2, clipboard, window mgmt.
+Canonical Charybdis v2.5 ZMK Studio EVERY-KEY reapply payload.
+v2.5: L2 x0 populated (Snip/Zoom/Refresh), Redo/Undo adjacency swap, sync fixes.
 
 Usage:
 1. Open https://zmk.studio/ and connect the keyboard.
 2. Open DevTools > Console.
 3. Paste this entire file.
-4. Confirm the prompt. It reapplies every visible key from the final v1.8 expected map.
+4. Confirm the prompt. It reapplies every visible key.
 5. Run scripts/zmk-studio/verify_every_key.js afterwards.
 6. This script never clicks Save. Save manually only after verification passes.
 
-This is not the surgical 46-key overlay. It contains all 616 visible keys from the verifier contract.
+616 visible keys across 11 layers.
 
 Norwegian Windows (L0): coach labels ø/æ/å at 11,2 / 12,2 / 12,1 use US HID scancodes
 (SemiColon / Apostrophe / Left Brace); 12,3 is Backslash and Pipe. Windows NO renders glyphs.
@@ -27,9 +27,9 @@ Speed uses coach_travel_toggle (tap latch); fallback in Studio is Toggle Layer 8
 
 window.CHARYBDIS_FINAL_LAYOUT = {
   "project": "Charybdis Ultimate Keyboard Experience",
-  "version": "v2.3-l4-power-shortcuts",
+  "version": "v2.5",
   "device": "V&Z-Charydbis",
-  "policy": "Full ZMK Studio reapply. v2.2. Right hand: Row 0 window mgmt (Task View, Desktop, tab cycling, Redo, Del), Row 1 core actions (Alt+Tab, Enter, Esc, BkSp, Win, Close), Row 2 mouse buttons (MB4-MB1-MB2-MB3-MB5-Scroll), Row 3 clipboard (Copy, Paste, Sel All, Undo, Speed, Close Win). Left hand: Row 0 window mgmt (Task View, Desktop, Next/Prev Tab, Scroll), Row 1 core actions (Alt+Tab, Esc, Enter, BkSp, Close), Row 2 mouse buttons (MB1-MB2-MB3-MB4-MB5 on home row), Row 3 clipboard (Undo, Cut, Copy, Paste, Sel All). x0 columns stay transparent for modifier fall-through (Esc/Tab/Shift/Ctrl). Exits unchanged. v2.2 adds Code/IDE layer (L5, 44 shortcuts), M-Files/DMS layer (L9, 22 shortcuts), and fills L3 y0 with window extras.",
+  "policy": "Full ZMK Studio reapply v2.5. 616 keys, 11 layers (9 active). L0 Base QWERTY, L1 Nav, L2 Mouse (both hands, x0 Snip/Zoom/Refresh), L3 Window, L4 System/BT + cross-app power shortcuts, L5 Code/IDE (44), L6 Scroll overlay, L7 Game, L8 Speed overlay, L9 M-Files/DMS (22). L10 reserved.",
   "generatedFrom": "scripts/zmk-studio/verify_every_key.js EXPECTED_CSV",
   "keyCount": 616,
   "keys": [
@@ -2101,15 +2101,15 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Cast",
-      "rationale": "v2.2: Win+K Connect / Cast — fills L3 y0.",
+      "label": "Copilot",
+      "rationale": "v2.5: Win+C — Open Copilot. Replaces Win+K Cast (rare).",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard K",
+      "parameter": "Keyboard C",
       "modifiers": [
         "L GUI"
       ],
-      "full_reapply_v22": true
+      "full_reapply_v25": true
     },
     {
       "layer": 3,
@@ -2131,25 +2131,30 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Emoji",
-      "rationale": "v2.2: Win+; Emoji picker (alt) — fills L3 y0.",
+      "label": "Lang",
+      "rationale": "v2.5: Win+Space — Switch input language. Replaces dupe emoji picker.",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard SemiColon and Colon",
+      "parameter": "Keyboard Spacebar",
       "modifiers": [
         "L GUI"
       ],
-      "full_reapply_v22": true
+      "full_reapply_v25": true
     },
     {
       "layer": 3,
       "x": 12,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Voice",
+      "rationale": "v2.5: Win+H — Voice typing. Fills L3 transparent slot.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard H",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v25": true
     },
     {
       "layer": 3,
@@ -3167,11 +3172,12 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 0,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Toggle Layer",
+      "label": "Excel",
+      "rationale": "v2.5: Toggle Excel layer (L10). Hold System thumb + tap here.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "10"
     },
     {
       "layer": 4,
@@ -6593,491 +6599,689 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 10,
       "x": 0,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+Home",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Home",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 1,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+End",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard End",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 2,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "PrevSht",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard PageUp",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 3,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "NextSht",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard PageDown",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 4,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "AutoSum",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Equal and Plus",
+      "modifiers": [
+        "L Alt"
+      ]
     },
     {
       "layer": 10,
       "x": 5,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "ShowFml",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Grave Accent and Tilde",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 7,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "F2 Edit",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard F2"
     },
     {
       "layer": 10,
       "x": 8,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "=",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Equal and Plus"
     },
     {
       "layer": 10,
       "x": 9,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+Up",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard UpArrow",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 10,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ctrl+Dn",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard DownArrow",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 11,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "InsTime",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard SemiColon and Colon",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 12,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "GoTo",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard G",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 0,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "ShftTab",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Tab",
+      "modifiers": [
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 1,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Sel Left",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard LeftArrow",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 2,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Sel Right",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard RightArrow",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 3,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Sel Up",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard UpArrow",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 4,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Sel Down",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard DownArrow",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 5,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "PasteSp",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard V",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 7,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Replace",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard H",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 8,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Find",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard F",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 9,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelEnd",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard End",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 10,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelHome",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Home",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 11,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Redo",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Y",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 12,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "FillRt",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard R",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 0,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelRow",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Spacebar",
+      "modifiers": [
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 1,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelCol",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Spacebar",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 2,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "FillDn",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard D",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 3,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "FmtCell",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard 1 and Bang",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 4,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "InsDate",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard SemiColon and Colon",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 5,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Save",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard S",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 7,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Copy",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard C",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 8,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Paste",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard V",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 9,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Cut",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard X",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 10,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Undo",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Z",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 11,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelAll",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard A",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 12,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Bold",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard B",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 0,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "HideRow",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard 9 and Left Bracket",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 1,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Insert",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Equal and Plus",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 2,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Delete",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Minus",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 3,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "NumFmt",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard 1 and Bang",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 4,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "CurFmt",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard 4 and Dollar",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 5,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "PctFmt",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard 5 and Percent",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 7,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "ShftEnt",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Return Enter",
+      "modifiers": [
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 8,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "F4 Ref",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard F4"
     },
     {
       "layer": 10,
       "x": 9,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "UnhideR",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard 9 and Left Bracket",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 10,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "HideCol",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard 0 and Right Bracket",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,
       "x": 11,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "GenFmt",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Grave Accent and Tilde",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 12,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "ArrFml",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true,
+      "parameter": "Keyboard Return Enter",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 10,
       "x": 3,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     },
     {
       "layer": 10,
@@ -7085,39 +7289,39 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 4,
       "behavior": "Transparent",
       "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     },
     {
       "layer": 10,
       "x": 5,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     },
     {
       "layer": 10,
       "x": 7,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     },
     {
       "layer": 10,
       "x": 8,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     },
     {
       "layer": 10,
@@ -7125,9 +7329,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 5,
       "behavior": "Transparent",
       "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     },
     {
       "layer": 10,
@@ -7135,9 +7339,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 5,
       "behavior": "Transparent",
       "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     },
     {
       "layer": 10,
@@ -7145,9 +7349,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 5,
       "behavior": "Transparent",
       "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "rationale": "v2.5: Excel layer.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v25": true
     }
   ]
 }

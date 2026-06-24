@@ -9,12 +9,12 @@
         {
           "keys": "Ctrl+Shift+T",
           "action": "New tab",
-          "charybdis": "L5 (x5,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+W",
           "action": "Close tab/pane",
-          "charybdis": "L9 (x1,y1)"
+          "charybdis": "L10 (x3,y1)"
         },
         {
           "keys": "Ctrl+Tab",
@@ -66,7 +66,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy / Cancel",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -76,17 +76,17 @@
         {
           "keys": "Ctrl+Shift+C",
           "action": "Copy (explicit)",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste (explicit)",
-          "charybdis": "L5 (x1,y3)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+Shift+F",
           "action": "Find",
-          "charybdis": "L9 (x3,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+L",
@@ -125,11 +125,12 @@
         {
           "keys": "Ctrl+-",
           "action": "Zoom out",
-          "charybdis": "L2 (x0,y2)"
+          "charybdis": "L10 (x2,y3)"
         },
         {
           "keys": "Ctrl+0",
-          "action": "Reset zoom"
+          "action": "Reset zoom",
+          "charybdis": "L10 (x10,y3)"
         },
         {
           "keys": "Ctrl+,",

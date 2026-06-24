@@ -52,7 +52,8 @@
         },
         {
           "keys": "Shift+Enter",
-          "action": "New line"
+          "action": "New line",
+          "charybdis": "L10 (x7,y3)"
         },
         {
           "keys": "Up",
@@ -62,7 +63,7 @@
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L5 (x5,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -92,7 +93,7 @@
         {
           "keys": "Ctrl+Shift+D",
           "action": "Toggle deafen",
-          "charybdis": "L9 (x5,y1)"
+          "charybdis": "L10 (x9,y3)"
         }
       ]
     }

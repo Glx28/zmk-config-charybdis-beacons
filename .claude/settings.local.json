@@ -42,7 +42,10 @@
       "Bash(node scripts/keymap-optimizer/score_app_shortcuts.js)",
       "Bash(node -e ' *)",
       "Bash(node scripts/keymap-optimizer/generate_candidates.js)",
-      "Bash(node -c scripts/zmk-studio/apply_every_key.js)"
+      "Bash(node -c scripts/zmk-studio/apply_every_key.js)",
+      "Bash(node -c apps/charybdis-coach/app.js)",
+      "Bash(node scripts/keymap-optimizer/generate_coach_workflows.js)",
+      "Bash(node scripts/keymap-optimizer/dashboard.js)"
     ],
     "deny": [],
     "ask": []

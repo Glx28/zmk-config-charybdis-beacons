@@ -9,7 +9,7 @@
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L5 (x5,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -52,7 +52,7 @@
         {
           "keys": "Ctrl+1",
           "action": "Single spacing",
-          "charybdis": "L9 (x1,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+2",
@@ -67,7 +67,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -77,12 +77,12 @@
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L2 (x2,y3)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Z",
           "action": "Undo",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+Y",
@@ -92,12 +92,12 @@
         {
           "keys": "Ctrl+S",
           "action": "Save",
-          "charybdis": "L9 (x3,y2)"
+          "charybdis": "L10 (x5,y2)"
         },
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+F",
@@ -122,7 +122,7 @@
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste special",
-          "charybdis": "L5 (x1,y3)"
+          "charybdis": "L10 (x5,y1)"
         }
       ]
     },
@@ -131,16 +131,18 @@
       "shortcuts": [
         {
           "keys": "Ctrl+Home",
-          "action": "Go to beginning"
+          "action": "Go to beginning",
+          "charybdis": "L10 (x0,y0)"
         },
         {
           "keys": "Ctrl+End",
-          "action": "Go to end"
+          "action": "Go to end",
+          "charybdis": "L10 (x1,y0)"
         },
         {
           "keys": "Ctrl+G",
           "action": "Go to page",
-          "charybdis": "L5 (x9,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+P",
@@ -155,7 +157,7 @@
         {
           "keys": "Ctrl+Shift+N",
           "action": "Normal style",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         }
       ]
     }

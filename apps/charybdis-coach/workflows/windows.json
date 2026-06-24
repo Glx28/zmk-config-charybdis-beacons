@@ -58,8 +58,7 @@
         },
         {
           "keys": "Win+M",
-          "action": "Minimize all windows",
-          "charybdis": "L3 (x11,y0)"
+          "action": "Minimize all windows"
         },
         {
           "keys": "Win+Home",
@@ -77,8 +76,7 @@
         },
         {
           "keys": "Win+Ctrl+Left",
-          "action": "Switch desktop left",
-          "charybdis": "L3 (x7,y2)"
+          "action": "Switch desktop left"
         },
         {
           "keys": "Win+Ctrl+Right",
@@ -98,7 +96,7 @@
         {
           "keys": "Win+S",
           "action": "Search",
-          "charybdis": "L3 (x3,y2)"
+          "charybdis": "L3 (x7,y2)"
         },
         {
           "keys": "Win+E",
@@ -133,7 +131,7 @@
         {
           "keys": "Win+Shift+S",
           "action": "Screenshot (Snip)",
-          "charybdis": "L3 (x5,y3)"
+          "charybdis": "L3 (x3,y1)"
         },
         {
           "keys": "Win+.",
@@ -156,8 +154,7 @@
         },
         {
           "keys": "Win+K",
-          "action": "Connect / Cast",
-          "charybdis": "L3 (x9,y0)"
+          "action": "Connect / Cast"
         },
         {
           "keys": "Win+A",
@@ -221,7 +218,8 @@
         },
         {
           "keys": "Win+Space",
-          "action": "Switch input language"
+          "action": "Switch input language",
+          "charybdis": "L3 (x11,y0)"
         },
         {
           "keys": "Alt+Shift",
@@ -234,8 +232,7 @@
         },
         {
           "keys": "Win+;",
-          "action": "Emoji picker",
-          "charybdis": "L3 (x11,y0)"
+          "action": "Emoji picker"
         },
         {
           "keys": "Win+.",
@@ -250,7 +247,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -260,12 +257,12 @@
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L2 (x2,y3)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Z",
           "action": "Undo",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+Y",
@@ -275,7 +272,7 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Delete",

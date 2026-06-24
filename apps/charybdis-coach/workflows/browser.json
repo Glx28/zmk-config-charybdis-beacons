@@ -29,12 +29,12 @@
         {
           "keys": "Ctrl+Shift+T",
           "action": "Reopen closed tab",
-          "charybdis": "L5 (x5,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+1",
           "action": "Switch to tab 1",
-          "charybdis": "L9 (x1,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+2",
@@ -67,17 +67,18 @@
         },
         {
           "keys": "Ctrl+9",
-          "action": "Last tab"
+          "action": "Last tab",
+          "charybdis": "L10 (x0,y3)"
         },
         {
           "keys": "Ctrl+N",
           "action": "New window",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+N",
           "action": "Incognito/InPrivate window",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         }
       ]
     },
@@ -133,7 +134,8 @@
         },
         {
           "keys": "Shift+Space",
-          "action": "Scroll up one screen"
+          "action": "Scroll up one screen",
+          "charybdis": "L10 (x0,y2)"
         }
       ]
     },
@@ -148,12 +150,12 @@
         {
           "keys": "Ctrl+G",
           "action": "Find next",
-          "charybdis": "L5 (x9,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+G",
           "action": "Find previous",
-          "charybdis": "L9 (x3,y3)"
+          "charybdis": "L10 (x3,y3)"
         },
         {
           "keys": "F3",
@@ -173,17 +175,17 @@
         {
           "keys": "Ctrl+D",
           "action": "Bookmark page",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+B",
           "action": "Toggle bookmarks bar",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+O",
           "action": "Bookmark manager",
-          "charybdis": "L5 (x10,y2)"
+          "charybdis": "L10 (x3,y1)"
         },
         {
           "keys": "Ctrl+P",
@@ -193,7 +195,7 @@
         {
           "keys": "Ctrl+S",
           "action": "Save page as",
-          "charybdis": "L9 (x3,y2)"
+          "charybdis": "L10 (x5,y2)"
         },
         {
           "keys": "Ctrl+U",
@@ -212,11 +214,12 @@
         {
           "keys": "Ctrl+-",
           "action": "Zoom out",
-          "charybdis": "L2 (x0,y2)"
+          "charybdis": "L10 (x2,y3)"
         },
         {
           "keys": "Ctrl+0",
-          "action": "Reset zoom"
+          "action": "Reset zoom",
+          "charybdis": "L10 (x10,y3)"
         },
         {
           "keys": "F11",
@@ -245,7 +248,7 @@
         {
           "keys": "Ctrl+Shift+C",
           "action": "Inspect element",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+M",
@@ -260,7 +263,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -270,22 +273,22 @@
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L2 (x2,y3)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Z",
           "action": "Undo",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste without formatting",
-          "charybdis": "L5 (x1,y3)"
+          "charybdis": "L10 (x5,y1)"
         },
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Y",
@@ -300,17 +303,17 @@
         {
           "keys": "Ctrl+Shift+B",
           "action": "Toggle favorites bar",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+O",
           "action": "Favorites manager",
-          "charybdis": "L5 (x10,y2)"
+          "charybdis": "L10 (x3,y1)"
         },
         {
           "keys": "Ctrl+Shift+E",
           "action": "Toggle sidebar",
-          "charybdis": "L9 (x2,y2)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+Del",
@@ -319,7 +322,7 @@
         {
           "keys": "Ctrl+Shift+P",
           "action": "InPrivate window",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x5,y3)"
         },
         {
           "keys": "Alt+F",
@@ -334,12 +337,140 @@
         {
           "keys": "Ctrl+Shift+R",
           "action": "Read aloud",
-          "charybdis": "L5 (x5,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+U",
           "action": "View source",
-          "charybdis": "L5 (x5,y1)"
+          "charybdis": "L10 (x3,y1)"
+        }
+      ]
+    },
+    {
+      "name": "Vimium Extension",
+      "shortcuts": [
+        {
+          "keys": "j",
+          "action": "Scroll down",
+          "charybdis": "L0 (x8,y2)"
+        },
+        {
+          "keys": "k",
+          "action": "Scroll up",
+          "charybdis": "L0 (x9,y2)"
+        },
+        {
+          "keys": "f",
+          "action": "Open link in current tab",
+          "charybdis": "L7 (x9,y2)"
+        },
+        {
+          "keys": "F",
+          "action": "Open link in new tab",
+          "charybdis": "L5 (x5,y0)"
+        },
+        {
+          "keys": "d",
+          "action": "Scroll half page down",
+          "charybdis": "L0 (x3,y2)"
+        },
+        {
+          "keys": "u",
+          "action": "Scroll half page up",
+          "charybdis": "L1 (x9,y2)"
+        },
+        {
+          "keys": "H",
+          "action": "Go back in history"
+        },
+        {
+          "keys": "L",
+          "action": "Go forward in history"
+        },
+        {
+          "keys": "o",
+          "action": "Open URL/bookmark/history",
+          "charybdis": "L7 (x9,y2)"
+        },
+        {
+          "keys": "t",
+          "action": "Search open tabs",
+          "charybdis": "L7 (x9,y2)"
+        },
+        {
+          "keys": "x",
+          "action": "Close current tab",
+          "charybdis": "L0 (x2,y3)"
+        },
+        {
+          "keys": "X",
+          "action": "Restore closed tab"
+        },
+        {
+          "keys": "r",
+          "action": "Reload page",
+          "charybdis": "L7 (x9,y2)"
+        },
+        {
+          "keys": "gg",
+          "action": "Scroll to top",
+          "charybdis": "L0 (x5,y2)"
+        },
+        {
+          "keys": "G",
+          "action": "Scroll to bottom"
+        },
+        {
+          "keys": "gi",
+          "action": "Focus first input field",
+          "charybdis": "L7 (x3,y2)"
+        },
+        {
+          "keys": "yy",
+          "action": "Copy current URL",
+          "charybdis": "L0 (x7,y1)"
+        },
+        {
+          "keys": "J",
+          "action": "Previous tab"
+        },
+        {
+          "keys": "K",
+          "action": "Next tab"
+        },
+        {
+          "keys": "/",
+          "action": "Enter find mode",
+          "charybdis": "L0 (x11,y3)"
+        },
+        {
+          "keys": "n",
+          "action": "Find next match",
+          "charybdis": "L0 (x9,y3)"
+        },
+        {
+          "keys": "N",
+          "action": "Find previous match",
+          "charybdis": "L10 (x7,y3)"
+        },
+        {
+          "keys": "?",
+          "action": "Show Vimium help"
+        }
+      ]
+    },
+    {
+      "name": "Proton Pass Extension",
+      "shortcuts": [
+        {
+          "keys": "Ctrl+Shift+L",
+          "action": "Autofill login",
+          "charybdis": "L10 (x9,y3)"
+        },
+        {
+          "keys": "Ctrl+Shift+S",
+          "action": "Open Proton Pass popup",
+          "charybdis": "L5 (x9,y1)"
         }
       ]
     }

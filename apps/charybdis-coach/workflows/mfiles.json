@@ -14,12 +14,12 @@
         {
           "keys": "Ctrl+Shift+F",
           "action": "Advanced search",
-          "charybdis": "L9 (x3,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+G",
           "action": "Go to vault",
-          "charybdis": "L5 (x9,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Enter",
@@ -58,17 +58,17 @@
         {
           "keys": "Ctrl+Shift+E",
           "action": "Check in document",
-          "charybdis": "L9 (x2,y2)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+U",
           "action": "Undo checkout",
-          "charybdis": "L5 (x5,y1)"
+          "charybdis": "L10 (x3,y1)"
         },
         {
           "keys": "Ctrl+N",
           "action": "New document/object",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+O",
@@ -78,7 +78,7 @@
         {
           "keys": "Ctrl+S",
           "action": "Save / check in",
-          "charybdis": "L9 (x3,y2)"
+          "charybdis": "L10 (x5,y2)"
         },
         {
           "keys": "F2",
@@ -93,7 +93,7 @@
         {
           "keys": "Ctrl+Shift+D",
           "action": "Download copy",
-          "charybdis": "L9 (x5,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+P",
@@ -118,7 +118,7 @@
         {
           "keys": "Ctrl+Shift+C",
           "action": "Copy object link",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+K",
@@ -138,12 +138,12 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+1",
           "action": "Switch to list view",
-          "charybdis": "L9 (x1,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+2",
@@ -153,7 +153,7 @@
         {
           "keys": "Ctrl+Shift+G",
           "action": "Group by",
-          "charybdis": "L9 (x3,y3)"
+          "charybdis": "L10 (x3,y3)"
         },
         {
           "keys": "Ctrl+H",
@@ -168,12 +168,12 @@
         {
           "keys": "Ctrl+Shift+W",
           "action": "Change workflow state",
-          "charybdis": "L9 (x1,y1)"
+          "charybdis": "L10 (x3,y1)"
         },
         {
           "keys": "Ctrl+Shift+A",
           "action": "Assign to user",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+M",
@@ -193,7 +193,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -203,12 +203,12 @@
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L2 (x2,y3)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Z",
           "action": "Undo",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+Y",

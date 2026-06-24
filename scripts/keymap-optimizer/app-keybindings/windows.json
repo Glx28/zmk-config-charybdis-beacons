@@ -65,10 +65,10 @@
     {
       "name": "Input & Language",
       "shortcuts": [
-        { "keys": "Win+H", "action": "Voice typing", "frequency": "high", "modifiers": ["Win"], "base_key": "H", "context": "text-editing" },
-        { "keys": "Win+Space", "action": "Switch input language", "frequency": "high", "modifiers": ["Win"], "base_key": "Space", "context": "always" },
+        { "keys": "Win+H", "action": "Voice typing", "frequency": "high", "modifiers": ["Win"], "base_key": "H", "context": "text-editing", "charybdis_layer": 3 },
+        { "keys": "Win+Space", "action": "Switch input language", "frequency": "high", "modifiers": ["Win"], "base_key": "Space", "context": "always", "charybdis_layer": 3 },
         { "keys": "Alt+Shift", "action": "Switch keyboard layout (alt)", "frequency": "medium", "modifiers": ["Alt", "Shift"], "base_key": "", "context": "always" },
-        { "keys": "Win+C", "action": "Open Copilot", "frequency": "high", "modifiers": ["Win"], "base_key": "C", "context": "always", "notes": "May vary by Windows version; some versions use Win+Copilot key" },
+        { "keys": "Win+C", "action": "Open Copilot", "frequency": "high", "modifiers": ["Win"], "base_key": "C", "context": "always", "charybdis_layer": 3, "notes": "May vary by Windows version; some versions use Win+Copilot key" },
         { "keys": "Win+;", "action": "Emoji picker", "frequency": "medium", "modifiers": ["Win"], "base_key": ";", "context": "text-editing" },
         { "keys": "Win+.", "action": "Emoji picker (alt)", "frequency": "medium", "modifiers": ["Win"], "base_key": ".", "context": "text-editing" }
       ]

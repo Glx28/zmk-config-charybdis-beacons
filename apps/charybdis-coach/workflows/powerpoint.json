@@ -54,17 +54,17 @@
         {
           "keys": "Ctrl+D",
           "action": "Duplicate slide",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+S",
           "action": "Save",
-          "charybdis": "L9 (x3,y2)"
+          "charybdis": "L10 (x5,y2)"
         },
         {
           "keys": "Ctrl+Z",
           "action": "Undo",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+Y",
@@ -74,7 +74,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -84,22 +84,22 @@
         {
           "keys": "Ctrl+G",
           "action": "Group objects",
-          "charybdis": "L5 (x9,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+G",
           "action": "Ungroup objects",
-          "charybdis": "L9 (x3,y3)"
+          "charybdis": "L10 (x3,y3)"
         },
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L5 (x5,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -133,11 +133,13 @@
         },
         {
           "keys": "Ctrl+Home",
-          "action": "First slide"
+          "action": "First slide",
+          "charybdis": "L10 (x0,y0)"
         },
         {
           "keys": "Ctrl+End",
-          "action": "Last slide"
+          "action": "Last slide",
+          "charybdis": "L10 (x1,y0)"
         },
         {
           "keys": "Ctrl+F",

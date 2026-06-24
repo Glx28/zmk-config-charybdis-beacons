@@ -102,6 +102,41 @@
         { "keys": "Ctrl+Shift+R", "action": "Read aloud", "frequency": "low", "modifiers": ["Ctrl", "Shift"], "base_key": "R", "context": "always" },
         { "keys": "Ctrl+Shift+U", "action": "View source", "frequency": "rare", "modifiers": ["Ctrl", "Shift"], "base_key": "U", "context": "always" }
       ]
+    },
+    {
+      "name": "Vimium Extension",
+      "shortcuts": [
+        { "keys": "j", "action": "Scroll down", "frequency": "constant", "modifiers": [], "base_key": "J", "context": "browsing", "notes": "Vimium — only active when not in input field" },
+        { "keys": "k", "action": "Scroll up", "frequency": "constant", "modifiers": [], "base_key": "K", "context": "browsing", "notes": "Vimium" },
+        { "keys": "f", "action": "Open link in current tab", "frequency": "constant", "modifiers": [], "base_key": "F", "context": "browsing", "notes": "Vimium — shows hint labels on all links" },
+        { "keys": "F", "action": "Open link in new tab", "frequency": "high", "modifiers": ["Shift"], "base_key": "F", "context": "browsing", "notes": "Vimium" },
+        { "keys": "d", "action": "Scroll half page down", "frequency": "high", "modifiers": [], "base_key": "D", "context": "browsing", "notes": "Vimium" },
+        { "keys": "u", "action": "Scroll half page up", "frequency": "high", "modifiers": [], "base_key": "U", "context": "browsing", "notes": "Vimium" },
+        { "keys": "H", "action": "Go back in history", "frequency": "high", "modifiers": ["Shift"], "base_key": "H", "context": "browsing", "notes": "Vimium" },
+        { "keys": "L", "action": "Go forward in history", "frequency": "medium", "modifiers": ["Shift"], "base_key": "L", "context": "browsing", "notes": "Vimium" },
+        { "keys": "o", "action": "Open URL/bookmark/history", "frequency": "high", "modifiers": [], "base_key": "O", "context": "browsing", "notes": "Vimium omnibar" },
+        { "keys": "t", "action": "Search open tabs", "frequency": "medium", "modifiers": [], "base_key": "T", "context": "browsing", "notes": "Vimium" },
+        { "keys": "x", "action": "Close current tab", "frequency": "high", "modifiers": [], "base_key": "X", "context": "browsing", "notes": "Vimium" },
+        { "keys": "X", "action": "Restore closed tab", "frequency": "medium", "modifiers": ["Shift"], "base_key": "X", "context": "browsing", "notes": "Vimium" },
+        { "keys": "r", "action": "Reload page", "frequency": "medium", "modifiers": [], "base_key": "R", "context": "browsing", "notes": "Vimium" },
+        { "keys": "gg", "action": "Scroll to top", "frequency": "medium", "modifiers": [], "base_key": "G", "context": "browsing", "notes": "Vimium — double tap g" },
+        { "keys": "G", "action": "Scroll to bottom", "frequency": "medium", "modifiers": ["Shift"], "base_key": "G", "context": "browsing", "notes": "Vimium" },
+        { "keys": "gi", "action": "Focus first input field", "frequency": "medium", "modifiers": [], "base_key": "I", "context": "browsing", "notes": "Vimium — press g then i" },
+        { "keys": "yy", "action": "Copy current URL", "frequency": "medium", "modifiers": [], "base_key": "Y", "context": "browsing", "notes": "Vimium — double tap y" },
+        { "keys": "J", "action": "Previous tab", "frequency": "high", "modifiers": ["Shift"], "base_key": "J", "context": "browsing", "notes": "Vimium — capital J" },
+        { "keys": "K", "action": "Next tab", "frequency": "high", "modifiers": ["Shift"], "base_key": "K", "context": "browsing", "notes": "Vimium — capital K" },
+        { "keys": "/", "action": "Enter find mode", "frequency": "high", "modifiers": [], "base_key": "/", "context": "browsing", "notes": "Vimium — vim-style search" },
+        { "keys": "n", "action": "Find next match", "frequency": "medium", "modifiers": [], "base_key": "N", "context": "browsing", "notes": "Vimium" },
+        { "keys": "N", "action": "Find previous match", "frequency": "medium", "modifiers": ["Shift"], "base_key": "N", "context": "browsing", "notes": "Vimium" },
+        { "keys": "?", "action": "Show Vimium help", "frequency": "low", "modifiers": ["Shift"], "base_key": "/", "context": "browsing", "notes": "Vimium" }
+      ]
+    },
+    {
+      "name": "Proton Pass Extension",
+      "shortcuts": [
+        { "keys": "Ctrl+Shift+L", "action": "Autofill login", "frequency": "constant", "modifiers": ["Ctrl", "Shift"], "base_key": "L", "context": "login-form", "notes": "Proton Pass — fills username + password on login pages" },
+        { "keys": "Ctrl+Shift+S", "action": "Open Proton Pass popup", "frequency": "medium", "modifiers": ["Ctrl", "Shift"], "base_key": "S", "context": "always", "notes": "Proton Pass — search and manage passwords" }
+      ]
     }
   ]
 }

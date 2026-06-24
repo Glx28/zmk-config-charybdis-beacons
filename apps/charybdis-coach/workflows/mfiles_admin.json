@@ -38,7 +38,8 @@
         },
         {
           "keys": "Shift+Tab",
-          "action": "Previous field"
+          "action": "Previous field",
+          "charybdis": "L10 (x0,y1)"
         }
       ]
     },
@@ -48,17 +49,17 @@
         {
           "keys": "Ctrl+S",
           "action": "Save configuration",
-          "charybdis": "L9 (x3,y2)"
+          "charybdis": "L10 (x5,y2)"
         },
         {
           "keys": "Ctrl+Z",
           "action": "Undo change",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+N",
           "action": "New item/object",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Delete",
@@ -73,7 +74,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -83,7 +84,7 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Alt+Enter",

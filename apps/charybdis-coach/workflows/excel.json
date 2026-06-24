@@ -8,11 +8,13 @@
       "shortcuts": [
         {
           "keys": "Ctrl+Home",
-          "action": "Go to cell A1"
+          "action": "Go to cell A1",
+          "charybdis": "L10 (x0,y0)"
         },
         {
           "keys": "Ctrl+End",
-          "action": "Go to last used cell"
+          "action": "Go to last used cell",
+          "charybdis": "L10 (x1,y0)"
         },
         {
           "keys": "Ctrl+Left",
@@ -22,20 +24,22 @@
         {
           "keys": "Ctrl+Right",
           "action": "Jump to right edge of data",
-          "charybdis": "L1 (x11,y2)"
+          "charybdis": "L10 (x10,y3)"
         },
         {
           "keys": "Ctrl+Up",
-          "action": "Jump to top edge of data"
+          "action": "Jump to top edge of data",
+          "charybdis": "L10 (x9,y0)"
         },
         {
           "keys": "Ctrl+Down",
-          "action": "Jump to bottom edge of data"
+          "action": "Jump to bottom edge of data",
+          "charybdis": "L10 (x3,y0)"
         },
         {
           "keys": "Ctrl+G",
           "action": "Go To dialog",
-          "charybdis": "L5 (x9,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+F",
@@ -49,11 +53,13 @@
         },
         {
           "keys": "Ctrl+Page Down",
-          "action": "Next sheet"
+          "action": "Next sheet",
+          "charybdis": "L10 (x3,y0)"
         },
         {
           "keys": "Ctrl+Page Up",
-          "action": "Previous sheet"
+          "action": "Previous sheet",
+          "charybdis": "L10 (x2,y0)"
         },
         {
           "keys": "Tab",
@@ -62,7 +68,8 @@
         },
         {
           "keys": "Shift+Tab",
-          "action": "Move to previous cell"
+          "action": "Move to previous cell",
+          "charybdis": "L10 (x0,y1)"
         },
         {
           "keys": "Enter",
@@ -71,7 +78,8 @@
         },
         {
           "keys": "Shift+Enter",
-          "action": "Confirm and move up"
+          "action": "Confirm and move up",
+          "charybdis": "L10 (x7,y3)"
         }
       ]
     },
@@ -81,39 +89,47 @@
         {
           "keys": "Ctrl+A",
           "action": "Select all / current region",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+End",
-          "action": "Select to last used cell"
+          "action": "Select to last used cell",
+          "charybdis": "L10 (x9,y1)"
         },
         {
           "keys": "Ctrl+Shift+Home",
-          "action": "Select to cell A1"
+          "action": "Select to cell A1",
+          "charybdis": "L10 (x10,y1)"
         },
         {
           "keys": "Ctrl+Shift+Left",
-          "action": "Select to left edge"
+          "action": "Select to left edge",
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+Shift+Right",
-          "action": "Select to right edge"
+          "action": "Select to right edge",
+          "charybdis": "L10 (x2,y1)"
         },
         {
           "keys": "Ctrl+Shift+Up",
-          "action": "Select to top edge"
+          "action": "Select to top edge",
+          "charybdis": "L10 (x3,y1)"
         },
         {
           "keys": "Ctrl+Shift+Down",
-          "action": "Select to bottom edge"
+          "action": "Select to bottom edge",
+          "charybdis": "L10 (x4,y1)"
         },
         {
           "keys": "Shift+Space",
-          "action": "Select entire row"
+          "action": "Select entire row",
+          "charybdis": "L10 (x0,y2)"
         },
         {
           "keys": "Ctrl+Space",
-          "action": "Select entire column"
+          "action": "Select entire column",
+          "charybdis": "L10 (x1,y2)"
         },
         {
           "keys": "Ctrl+Click",
@@ -142,7 +158,7 @@
         {
           "keys": "Ctrl+C",
           "action": "Copy",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x7,y2)"
         },
         {
           "keys": "Ctrl+V",
@@ -152,12 +168,12 @@
         {
           "keys": "Ctrl+X",
           "action": "Cut",
-          "charybdis": "L2 (x2,y3)"
+          "charybdis": "L10 (x9,y2)"
         },
         {
           "keys": "Ctrl+Z",
           "action": "Undo",
-          "charybdis": "L2 (x10,y3)"
+          "charybdis": "L10 (x10,y2)"
         },
         {
           "keys": "Ctrl+Y",
@@ -167,7 +183,7 @@
         {
           "keys": "Ctrl+D",
           "action": "Fill down",
-          "charybdis": "L5 (x5,y2)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+R",
@@ -176,21 +192,23 @@
         },
         {
           "keys": "Ctrl+;",
-          "action": "Insert current date"
+          "action": "Insert current date",
+          "charybdis": "L10 (x4,y2)"
         },
         {
           "keys": "Ctrl+Shift+;",
-          "action": "Insert current time"
+          "action": "Insert current time",
+          "charybdis": "L10 (x11,y0)"
         },
         {
           "keys": "Ctrl+S",
           "action": "Save",
-          "charybdis": "L9 (x3,y2)"
+          "charybdis": "L10 (x5,y2)"
         },
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste special",
-          "charybdis": "L5 (x1,y3)"
+          "charybdis": "L10 (x5,y1)"
         }
       ]
     },
@@ -200,7 +218,7 @@
         {
           "keys": "Ctrl+B",
           "action": "Bold",
-          "charybdis": "L5 (x5,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+I",
@@ -215,7 +233,7 @@
         {
           "keys": "Ctrl+1",
           "action": "Format Cells dialog",
-          "charybdis": "L9 (x1,y3)"
+          "charybdis": "L10 (x3,y2)"
         },
         {
           "keys": "Ctrl+Shift+!",
@@ -245,19 +263,22 @@
         {
           "keys": "Ctrl+-",
           "action": "Delete cells/rows/columns",
-          "charybdis": "L2 (x0,y2)"
+          "charybdis": "L10 (x2,y3)"
         },
         {
           "keys": "Ctrl+9",
-          "action": "Hide selected rows"
+          "action": "Hide selected rows",
+          "charybdis": "L10 (x0,y3)"
         },
         {
           "keys": "Ctrl+Shift+9",
-          "action": "Unhide rows"
+          "action": "Unhide rows",
+          "charybdis": "L10 (x9,y3)"
         },
         {
           "keys": "Ctrl+0",
-          "action": "Hide selected columns"
+          "action": "Hide selected columns",
+          "charybdis": "L10 (x10,y3)"
         }
       ]
     },
@@ -266,11 +287,13 @@
       "shortcuts": [
         {
           "keys": "=",
-          "action": "Start formula"
+          "action": "Start formula",
+          "charybdis": "L10 (x8,y0)"
         },
         {
           "keys": "Alt+=",
-          "action": "AutoSum"
+          "action": "AutoSum",
+          "charybdis": "L10 (x4,y0)"
         },
         {
           "keys": "Ctrl+`",

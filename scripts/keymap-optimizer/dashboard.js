@@ -11,7 +11,7 @@ try {
 
   const w = console.log;
   w("\n" + "═".repeat(60));
-  w("  CHARYBDIS KEYMAP DASHBOARD — v2.2");
+  w("  CHARYBDIS KEYMAP DASHBOARD — v2.5");
   w("═".repeat(60));
 
   w(`\n  Layout: ${canonical.sources.csv.rowCount} keys, ${Object.keys(canonical.layers).length} layers`);

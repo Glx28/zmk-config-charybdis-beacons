@@ -1,5 +1,6 @@
 """Main entry point for DEAP + pyribs evolutionary keyboard layout optimization.
 
+GPU-accelerated batch fitness evaluation + multiprocessing for operators.
 Usage: python run_evolution.py <build_dir>
 """
 import sys
@@ -9,6 +10,7 @@ import random
 import time
 import copy
 from pathlib import Path
+from multiprocessing import cpu_count
 
 import numpy as np
 
@@ -20,6 +22,13 @@ from representation import (
 )
 from fitness import FitnessEvaluator
 from operators import custom_mutate, pmx_crossover
+
+HAS_TORCH = False
+try:
+    import torch
+    HAS_TORCH = True
+except ImportError:
+    pass
 
 QD_AVAILABLE = False
 try:
@@ -108,7 +117,8 @@ def seed_population(current_genome, n_pop, positions, shortcut_pool, layer_posit
     return population[:n_pop]
 
 
-def run_nsga2(evaluator, current_genome, positions, shortcut_pool, config):
+def run_nsga2(evaluator, current_genome, positions, shortcut_pool, config,
+              usage_stats=None, conjunction_pairs=None):
     layer_positions = build_layer_to_positions(positions)
     n_pos = len(positions)
 
@@ -140,12 +150,21 @@ def run_nsga2(evaluator, current_genome, positions, shortcut_pool, config):
     cxpb = config.get("crossover_rate", 0.7)
     mutpb = config.get("mutation_rate", 0.15)
 
+    use_gpu_batch = evaluator.device != "cpu" and HAS_TORCH
     print(f"Seeding population: {pop_size} individuals, {n_pos} mutable positions")
+    print(f"Device: {evaluator.device} | GPU batch eval: {use_gpu_batch}")
+    sys.stdout.flush()
     raw_pop = seed_population(current_genome, pop_size, positions, shortcut_pool, layer_positions)
     population = [creator.Individual(ind) for ind in raw_pop]
 
-    for ind in population:
-        ind.fitness.values = toolbox.evaluate(ind)
+    def batch_evaluate(pop_list):
+        if use_gpu_batch:
+            return evaluator.evaluate_batch_gpu([list(ind) for ind in pop_list])
+        return [toolbox.evaluate(ind) for ind in pop_list]
+
+    fitnesses = batch_evaluate(population)
+    for ind, fit in zip(population, fitnesses):
+        ind.fitness.values = fit
 
     stats = tools.Statistics(lambda ind: ind.fitness.values)
     stats.register("min", lambda fits: tuple(min(f[i] for f in fits) for i in range(3)))
@@ -156,31 +175,48 @@ def run_nsga2(evaluator, current_genome, positions, shortcut_pool, config):
 
     convergence = []
     t0 = time.time()
+    plateau_count = 0
+    best_effort_ever = float('inf')
 
     for gen in range(n_gen):
         offspring = algorithms.varAnd(population, toolbox, cxpb, mutpb)
 
-        for ind in offspring:
-            if not ind.fitness.valid:
-                ind.fitness.values = toolbox.evaluate(ind)
+        invalid = [ind for ind in offspring if not ind.fitness.valid]
+        fitnesses = batch_evaluate(invalid)
+        for ind, fit in zip(invalid, fitnesses):
+            ind.fitness.values = fit
 
         population = toolbox.select(population + offspring, pop_size)
 
         record = stats.compile(population)
-        logbook.record(gen=gen, nevals=len(offspring), **record)
+        logbook.record(gen=gen, nevals=len(invalid), **record)
 
-        if gen % 50 == 0 or gen == n_gen - 1:
+        best = min(population, key=lambda ind: ind.fitness.values[0])
+        current_best = best.fitness.values[0]
+
+        if current_best < best_effort_ever - 1.0:
+            best_effort_ever = current_best
+            plateau_count = 0
+        else:
+            plateau_count += 1
+
+        if gen % 25 == 0 or gen == n_gen - 1:
             elapsed = time.time() - t0
-            best = min(population, key=lambda ind: ind.fitness.values[0])
             print(f"  Gen {gen:4d}: effort={best.fitness.values[0]:.1f} "
                   f"adj={-best.fitness.values[1]:.1f} viol={best.fitness.values[2]:.1f} "
-                  f"({elapsed:.1f}s)")
+                  f"({elapsed:.1f}s) plateau={plateau_count}")
+            sys.stdout.flush()
             convergence.append({
                 "gen": gen, "elapsed_s": round(elapsed, 1),
                 "best_effort": round(best.fitness.values[0], 2),
                 "best_adjacency": round(-best.fitness.values[1], 2),
                 "best_violations": round(best.fitness.values[2], 2),
             })
+
+        if plateau_count >= 200:
+            print(f"  EARLY STOP: effort plateaued for {plateau_count} generations at gen {gen}")
+            sys.stdout.flush()
+            break
 
     front = tools.sortNondominated(population, len(population), first_front_only=True)[0]
     front.sort(key=lambda ind: ind.fitness.values[0])
@@ -189,7 +225,7 @@ def run_nsga2(evaluator, current_genome, positions, shortcut_pool, config):
 
 def run_qd(evaluator, current_genome, positions, shortcut_pool, config):
     if not QD_AVAILABLE:
-        print("pyribs not available, skipping QD. Install with: pip install pyribs")
+        print("pyribs not available, skipping QD. Install with: pip install ribs")
         return None, []
 
     layer_positions = build_layer_to_positions(positions)
@@ -203,7 +239,9 @@ def run_qd(evaluator, current_genome, positions, shortcut_pool, config):
     )
 
     seed = np.array(current_genome, dtype=np.float64)
-    archive.add(seed, -evaluator.evaluate(current_genome)[0], evaluator.behavior_descriptors(current_genome))
+    archive.add(seed.reshape(1, -1),
+                np.array([-evaluator.evaluate(current_genome)[0]]),
+                np.array([evaluator.behavior_descriptors(current_genome)]))
 
     n_gen = min(config.get("generations", 500), 200)
     print(f"Running QD MAP-Elites: {n_gen} iterations, grid {grid_dims}")
@@ -213,7 +251,7 @@ def run_qd(evaluator, current_genome, positions, shortcut_pool, config):
             elite_idx = random.randint(0, archive.stats.num_elites - 1)
             elites = list(archive)
             if elite_idx < len(elites):
-                parent = list(elites[elite_idx].solution.astype(int))
+                parent = list(elites[elite_idx]["solution"].astype(int))
             else:
                 parent = copy.copy(current_genome)
         else:
@@ -225,19 +263,20 @@ def run_qd(evaluator, current_genome, positions, shortcut_pool, config):
         obj = -fitness_tuple[0]
         bds = evaluator.behavior_descriptors(child)
 
-        archive.add(child_arr, obj, bds)
+        archive.add(child_arr.reshape(1, -1), np.array([obj]), np.array([bds]))
 
         if gen % 50 == 0:
             print(f"  QD gen {gen}: {archive.stats.num_elites} elites, "
                   f"coverage={archive.stats.coverage:.1%}")
+            sys.stdout.flush()
 
     results = []
     for elite in archive:
-        genome = list(elite.solution.astype(int))
-        bd = elite.measures
+        genome = list(elite["solution"].astype(int))
+        bd = elite["measures"]
         results.append({
             "genome": genome,
-            "objective": float(elite.objective),
+            "objective": float(elite["objective"]),
             "behavior": {"app_balance": float(bd[0]), "thumb_utilization": float(bd[1])},
         })
 
@@ -272,7 +311,19 @@ def main():
     print(f"Shortcuts: {len(shortcut_pool)} in corpus")
     print(f"Conjunction pairs: {len(conjunction_pairs)}")
 
-    device = "cpu"
+    # Auto-detect GPU
+    import torch
+    if config.get("use_gpu", True) and torch.cuda.is_available():
+        device = "cuda"
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
+        print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
+    else:
+        device = "cpu"
+        print("GPU: not available, using CPU")
+
+    print(f"CPU cores: {cpu_count()}")
+    sys.stdout.flush()
+
     evaluator = FitnessEvaluator(
         positions, shortcut_pool, config,
         usage_stats=usage_stats,
@@ -288,10 +339,13 @@ def main():
     seed_breakdown = evaluator.evaluate_full(current_genome)
     print(f"Seed fitness: effort={seed_fitness[0]:.1f}, adj={-seed_fitness[1]:.1f}, viol={seed_fitness[2]:.1f}")
     print(f"Breakdown: {json.dumps({k: round(float(v), 2) for k, v in seed_breakdown.items()})}")
+    sys.stdout.flush()
 
     # Run NSGA-II
     print(f"\n--- NSGA-II ({config.get('pop_size', 2000)} pop, {config.get('generations', 500)} gen) ---")
-    front, convergence = run_nsga2(evaluator, current_genome, positions, shortcut_pool, config)
+    sys.stdout.flush()
+    front, convergence = run_nsga2(evaluator, current_genome, positions, shortcut_pool, config,
+                                    usage_stats=usage_stats, conjunction_pairs=conjunction_pairs)
 
     pareto_solutions = []
     for i, ind in enumerate(front[:config.get("pareto_front_size", 20)]):
@@ -299,7 +353,6 @@ def main():
         breakdown = evaluator.evaluate_full(genome)
         bd = evaluator.behavior_descriptors(genome)
         changes = decode_genome(genome, positions, shortcut_pool)
-        seed_changes = [c for c in changes if current_genome[positions[0].gene_idx if not changes else 0] != genome[0]]
 
         pareto_solutions.append({
             "id": f"evo_{i}",
@@ -320,16 +373,19 @@ def main():
     qd_archive_stats = {}
     if QD_AVAILABLE:
         print(f"\n--- Quality-Diversity MAP-Elites ---")
+        sys.stdout.flush()
         qd_elites, qd_archive = run_qd(evaluator, current_genome, positions, shortcut_pool, config)
         if qd_elites:
             qd_results = []
             for i, elite in enumerate(qd_elites[:20]):
                 genome = elite["genome"]
                 changes = decode_genome(genome, positions, shortcut_pool)
+                breakdown = evaluator.evaluate_full(genome)
                 qd_results.append({
                     "id": f"qd_{i}",
                     "objective": elite["objective"],
                     "behavior": elite["behavior"],
+                    "scoring_breakdown": {k: round(float(v), 2) for k, v in breakdown.items()},
                     "total_assignments": sum(1 for g in genome if g >= 0),
                     "changes": changes[:50],
                 })
@@ -343,6 +399,7 @@ def main():
     output = {
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "config": config,
+        "device": device,
         "positions_count": len(positions),
         "shortcuts_count": len(shortcut_pool),
         "conjunction_pairs_count": len(conjunction_pairs),
@@ -381,6 +438,7 @@ def main():
               f"{qd_archive_stats.get('coverage', 0):.1%} coverage")
     print(f"Written to: {out_path}")
     print("=" * 60)
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":

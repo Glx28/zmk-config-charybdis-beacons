@@ -32,6 +32,7 @@
     "trackball_proximity": 1.5,
     "app_transition": 1.0,
     "learning_curve": 0.5,
-    "zmk_compatibility": 20.0
+    "zmk_compatibility": 20.0,
+    "unassignment": 15.0
   }
 }

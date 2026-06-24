@@ -2676,11 +2676,12 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 3,
       "x": 4,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
+      "behavior": "Key Press",
+      "parameter": "Keyboard B",
+      "modifiers": ["Left GUI"],
+      "label": "Win+B SysTray",
+      "rationale": "Evolution-optimized thumb fill: Win+B (Focus system tray) on Window layer thumb.",
+      "apply_batch": true
     },
     {
       "layer": 3,

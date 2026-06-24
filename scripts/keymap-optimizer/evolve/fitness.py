@@ -21,7 +21,7 @@ from representation import (
 
 class FitnessEvaluator:
     def __init__(self, positions, shortcut_pool, config, usage_stats=None,
-                 conjunction_pairs=None, device="cpu"):
+                 conjunction_pairs=None, device="cpu", current_genome=None):
         self.positions = positions
         self.pool = shortcut_pool
         self.config = config
@@ -32,6 +32,7 @@ class FitnessEvaluator:
         self.n_positions = len(positions)
         self.n_shortcuts = len(shortcut_pool)
         self.layer_positions = build_layer_to_positions(positions)
+        self.current_genome = np.array(current_genome, dtype=np.int32) if current_genome is not None else None
 
         self._precompute_numpy()
         if HAS_TORCH and device != "cpu":
@@ -339,9 +340,22 @@ class FitnessEvaluator:
                     if len(sids) > 0:
                         dupe_viol[bi] += len(sids) - sids.unique().shape[0]
 
+        # Unassignment penalty: penalize removing currently-assigned shortcuts
+        unassign_viol = torch.zeros(B, device=d)
+        if self.current_genome is not None:
+            cur_t = torch.tensor(self.current_genome, device=d, dtype=torch.long)
+            cur_assigned = (cur_t >= 0)
+            now_empty = ~assigned
+            removed = cur_assigned.unsqueeze(0) & now_empty  # (B, N)
+            cur_sids = cur_t.clone()
+            cur_sids[cur_sids < 0] = S
+            cur_imp = self.t_importance[cur_sids]
+            unassign_viol = (removed.float() * (1.0 + cur_imp.unsqueeze(0) * 0.5)).sum(dim=1)
+
         viol_total = layer_viol * self.weights.get("violations", 10.0) + \
                      zmk_viol * self.weights.get("zmk_compatibility", 20.0) + \
-                     dupe_viol * 3.0
+                     dupe_viol * 3.0 + \
+                     unassign_viol * self.weights.get("unassignment", 15.0)
 
         # Return as list of tuples
         e = effort_total.cpu().numpy()
@@ -373,6 +387,7 @@ class FitnessEvaluator:
             "trackball_proximity": self._trackball_proximity(genome),
             "learning_curve": self._learning_curve(genome),
             "zmk_compatibility": self._zmk_compatibility(genome),
+            "unassignment_penalty": self._unassignment_penalty(genome),
         }
 
     def behavior_descriptors(self, genome):
@@ -421,6 +436,7 @@ class FitnessEvaluator:
         total += self._group_split_violations(genome) * 5.0
         total += self._duplicate_violations(genome) * 3.0
         total += self._zmk_compatibility(genome) * self.weights.get("zmk_compatibility", 20.0)
+        total += self._unassignment_penalty(genome) * self.weights.get("unassignment", 15.0)
         return total
 
     def _finger_balance(self, genome):
@@ -514,10 +530,22 @@ class FitnessEvaluator:
         total = top3 + other
         return top3 / total if total > 0 else 0.5
 
-    def _learning_curve(self, genome, original=None):
-        if original is None:
+    def _unassignment_penalty(self, genome):
+        """Heavy penalty for removing a shortcut that was assigned in the current layout."""
+        if self.current_genome is None:
             return 0.0
-        return sum(1 for i in range(len(genome)) if genome[i] != original[i]) * 0.5
+        penalty = 0.0
+        for i in range(len(genome)):
+            if self.current_genome[i] >= 0 and genome[i] < 0:
+                imp = self.importance_arr[self.current_genome[i]]
+                penalty += 1.0 + imp * 0.5
+        return penalty
+
+    def _learning_curve(self, genome, original=None):
+        ref = original if original is not None else self.current_genome
+        if ref is None:
+            return 0.0
+        return sum(1 for i in range(len(genome)) if genome[i] != ref[i]) * 0.5
 
     def _zmk_compatibility(self, genome):
         return float(sum(1 for i, sid in enumerate(genome) if sid >= 0 and sid in self.zmk_incompat))

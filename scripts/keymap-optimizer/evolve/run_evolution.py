@@ -324,14 +324,15 @@ def main():
     print(f"CPU cores: {cpu_count()}")
     sys.stdout.flush()
 
+    current_genome = encode_current_layout(canonical, positions, shortcut_pool, frozen)
+
     evaluator = FitnessEvaluator(
         positions, shortcut_pool, config,
         usage_stats=usage_stats,
         conjunction_pairs=conjunction_pairs,
         device=device,
+        current_genome=current_genome,
     )
-
-    current_genome = encode_current_layout(canonical, positions, shortcut_pool, frozen)
     assigned_count = sum(1 for g in current_genome if g >= 0)
     print(f"Current layout: {assigned_count}/{len(current_genome)} positions assigned")
 

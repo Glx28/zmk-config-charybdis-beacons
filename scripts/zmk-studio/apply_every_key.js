@@ -1862,9 +1862,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 11,
       "y": 3,
-      "behavior": "coach_travel_toggle",
+      "behavior": "Momentary Layer",
       "label": "Speed",
-      "rationale": "Mouse-locked speed toggle: no Window thumb hold — tap while on locked mouse layer.",
+      "rationale": "v2.4: Mouse-locked speed hold — hold for fast travel, release to return.",
+      "parameter": "8",
       "apply_batch": true,
       "full_reapply_v20": true
     },

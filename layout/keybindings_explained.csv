@@ -157,7 +157,7 @@
 "2","Mouse lock and button layer","8","3","Paste","Key Press","V","L Ctrl","v2.0: Right-hand mouse QoL — Ctrl+V paste at cursor position.","Sends L Ctrl+V."
 "2","Mouse lock and button layer","9","3","Sel All","Key Press","A","L Ctrl","v2.0: Right-hand mouse QoL — Ctrl+A select all before copy/cut.","Sends L Ctrl+A."
 "2","Mouse lock and button layer","10","3","Undo","Key Press","Z","L Ctrl","v2.0: Right-hand mouse QoL — Ctrl+Z undo after accidental edit.","Sends L Ctrl+Z."
-"2","Mouse lock and button layer","11","3","Speed","coach_travel_toggle","","","Mouse-locked speed toggle: lock mouse (L3 x10 y2), tap here — no Window thumb hold needed. Ring/pinky reach while right thumb stays on trackball.","Toggles Layer 8 snipe/travel from locked mouse layer."
+"2","Mouse lock and button layer","11","3","Speed","Momentary Layer","Layer::8","","v2.4: Mouse-locked speed hold — hold for fast travel, release to return to precision. Ring/pinky reach while right thumb stays on trackball.","Hold for speed mode, release to return."
 "2","Mouse lock and button layer","12","3","Close Win","Key Press","F4","L Alt","v2.0: Right-hand mouse QoL — Alt+F4 close window/application.","Sends L Alt+F4."
 "2","Mouse lock and button layer","3","4","Transparent","Transparent","default_transform:default_transform","","Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.","Intentionally leaves the underlying layer behavior available."
 "2","Mouse lock and button layer","4","4","Transparent","Transparent","default_transform:default_transform","","Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.","Intentionally leaves the underlying layer behavior available."

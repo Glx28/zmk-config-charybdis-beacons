@@ -6,47 +6,168 @@
     {
       "name": "Navigation",
       "shortcuts": [
-        { "keys": "Alt+Up", "action": "Go to parent folder" },
-        { "keys": "Alt+Left", "action": "Go back", "charybdis": "L2 MB4" },
-        { "keys": "Alt+Right", "action": "Go forward", "charybdis": "L2 MB5" },
-        { "keys": "Alt+D", "action": "Focus address bar" },
-        { "keys": "Ctrl+L", "action": "Focus address bar (alt)" },
-        { "keys": "Enter", "action": "Open item", "charybdis": "L2 Enter (x3,y1 or x8,y1)" },
-        { "keys": "Alt+Enter", "action": "Properties" },
-        { "keys": "Backspace", "action": "Go up one level", "charybdis": "L2 BkSp (x4,y1 or x10,y1)" }
+        {
+          "keys": "Alt+Up",
+          "action": "Parent folder",
+          "charybdis": "L5 (x1,y1)"
+        },
+        {
+          "keys": "Alt+Left",
+          "action": "Back",
+          "charybdis": "L0 (x5,y4)"
+        },
+        {
+          "keys": "Alt+Right",
+          "action": "Forward"
+        },
+        {
+          "keys": "Alt+D",
+          "action": "Focus address bar",
+          "charybdis": "L5 (x2,y1)"
+        },
+        {
+          "keys": "Ctrl+L",
+          "action": "Focus address bar (alt)",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Enter",
+          "action": "Open selected item",
+          "charybdis": "L2 (x3,y1)"
+        },
+        {
+          "keys": "Alt+Enter",
+          "action": "Properties",
+          "charybdis": "L9 (x7,y2)"
+        },
+        {
+          "keys": "Backspace",
+          "action": "Go up one level",
+          "charybdis": "L2 (x10,y1)"
+        },
+        {
+          "keys": "F4",
+          "action": "Focus address bar dropdown",
+          "charybdis": "L1 (x3,y0)"
+        }
       ]
     },
     {
-      "name": "Files & Folders",
+      "name": "File Operations",
       "shortcuts": [
-        { "keys": "Ctrl+N", "action": "New window" },
-        { "keys": "Ctrl+Shift+N", "action": "New folder" },
-        { "keys": "F2", "action": "Rename", "charybdis": "L1 F2 (x1,y0)" },
-        { "keys": "Delete", "action": "Delete to Recycle Bin" },
-        { "keys": "Shift+Delete", "action": "Permanent delete" },
-        { "keys": "Ctrl+C", "action": "Copy", "charybdis": "L2 Copy" },
-        { "keys": "Ctrl+X", "action": "Cut", "charybdis": "L2 Cut (x2,y3)" },
-        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste" },
-        { "keys": "Ctrl+Z", "action": "Undo", "charybdis": "L2 Undo" },
-        { "keys": "Ctrl+Y", "action": "Redo", "charybdis": "L2 Redo (x11,y0)" }
+        {
+          "keys": "Ctrl+N",
+          "action": "New window",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+Shift+N",
+          "action": "New folder",
+          "charybdis": "L5 (x9,y1)"
+        },
+        {
+          "keys": "F2",
+          "action": "Rename",
+          "charybdis": "L4 (x5,y2)"
+        },
+        {
+          "keys": "Delete",
+          "action": "Delete to Recycle Bin",
+          "charybdis": "L2 (x10,y1)"
+        },
+        {
+          "keys": "Shift+Delete",
+          "action": "Permanent delete"
+        },
+        {
+          "keys": "Ctrl+C",
+          "action": "Copy",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+X",
+          "action": "Cut",
+          "charybdis": "L2 (x2,y3)"
+        },
+        {
+          "keys": "Ctrl+V",
+          "action": "Paste",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+Z",
+          "action": "Undo",
+          "charybdis": "L2 (x10,y3)"
+        },
+        {
+          "keys": "Ctrl+Y",
+          "action": "Redo",
+          "charybdis": "L2 (x9,y3)"
+        },
+        {
+          "keys": "Ctrl+Shift+C",
+          "action": "Copy path",
+          "charybdis": "L5 (x9,y1)"
+        }
       ]
     },
     {
       "name": "Selection",
       "shortcuts": [
-        { "keys": "Ctrl+A", "action": "Select all", "charybdis": "L2 Sel All (x5,y3 or x9,y3)" },
-        { "keys": "Shift+Click", "action": "Select range", "charybdis": "L0 Shift falls through on L2 x0" },
-        { "keys": "Ctrl+Click", "action": "Select multiple", "charybdis": "L0 Ctrl falls through on L2 x0" },
-        { "keys": "Ctrl+Shift+6", "action": "Toggle Details pane" }
+        {
+          "keys": "Ctrl+A",
+          "action": "Select all",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+Click",
+          "action": "Select multiple (non-adjacent)"
+        },
+        {
+          "keys": "Shift+Click",
+          "action": "Select range"
+        },
+        {
+          "keys": "Ctrl+Shift+6",
+          "action": "Toggle details pane"
+        }
       ]
     },
     {
-      "name": "View",
+      "name": "View & Search",
       "shortcuts": [
-        { "keys": "Ctrl+Shift+1-8", "action": "Change view mode" },
-        { "keys": "F11", "action": "Fullscreen", "charybdis": "L1 F11" },
-        { "keys": "Ctrl+E or Ctrl+F", "action": "Search", "charybdis": "L1 Ctrl+F" },
-        { "keys": "Alt+P", "action": "Toggle preview pane" }
+        {
+          "keys": "Ctrl+E",
+          "action": "Search box",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+F",
+          "action": "Search box (alt)",
+          "charybdis": "L5 (x3,y2)"
+        },
+        {
+          "keys": "F11",
+          "action": "Fullscreen",
+          "charybdis": "L1 (x3,y3)"
+        },
+        {
+          "keys": "Alt+P",
+          "action": "Preview pane",
+          "charybdis": "L1 (x2,y2)"
+        },
+        {
+          "keys": "Ctrl+Shift+1",
+          "action": "Extra large icons"
+        },
+        {
+          "keys": "Ctrl+Shift+2",
+          "action": "Large icons"
+        },
+        {
+          "keys": "Ctrl+Shift+6",
+          "action": "Details view"
+        }
       ]
     }
   ]

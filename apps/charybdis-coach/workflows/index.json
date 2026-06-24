@@ -1,83 +1,156 @@
 {
-  "version": "1.0",
-  "description": "Workflow guide index — lists available app shortcut guides for the Charybdis Coach",
+  "version": "2.0",
+  "description": "Workflow guide index — auto-generated from app-keybindings corpus by generate_coach_workflows.js",
   "apps": [
     {
+      "id": "teams",
+      "name": "Microsoft Teams",
+      "icon": "chat",
+      "file": "teams.json",
+      "tags": [
+        "communication",
+        "meetings",
+        "chat",
+        "microsoft"
+      ]
+    },
+    {
       "id": "browser",
-      "name": "Browser",
+      "name": "Browser (Chrome/Edge)",
       "icon": "globe",
       "file": "browser.json",
-      "tags": ["chrome", "edge", "firefox", "web"]
+      "tags": [
+        "chrome",
+        "edge",
+        "firefox",
+        "web"
+      ]
     },
     {
       "id": "vscode",
-      "name": "VS Code",
+      "name": "Visual Studio Code",
       "icon": "code",
       "file": "vscode.json",
-      "tags": ["editor", "ide", "programming"]
-    },
-    {
-      "id": "explorer",
-      "name": "File Explorer",
-      "icon": "folder",
-      "file": "explorer.json",
-      "tags": ["windows", "files", "folders"]
+      "tags": [
+        "editor",
+        "ide",
+        "programming"
+      ]
     },
     {
       "id": "mfiles",
-      "name": "M-Files",
+      "name": "M-Files Desktop Client",
       "icon": "vault",
       "file": "mfiles.json",
-      "tags": ["dms", "documents", "vault"]
+      "tags": [
+        "dms",
+        "documents",
+        "vault"
+      ]
     },
     {
       "id": "windows",
       "name": "Windows 11",
       "icon": "desktop",
       "file": "windows.json",
-      "tags": ["os", "system", "desktop", "window management"]
-    },
-    {
-      "id": "excel",
-      "name": "Excel",
-      "icon": "table",
-      "file": "excel.json",
-      "tags": ["spreadsheet", "office", "microsoft"]
-    },
-    {
-      "id": "teams",
-      "name": "Teams",
-      "icon": "chat",
-      "file": "teams.json",
-      "tags": ["communication", "meetings", "chat", "microsoft"]
+      "tags": [
+        "os",
+        "system",
+        "desktop",
+        "window management"
+      ]
     },
     {
       "id": "outlook",
-      "name": "Outlook",
+      "name": "Microsoft Outlook",
       "icon": "mail",
       "file": "outlook.json",
-      "tags": ["email", "calendar", "microsoft", "office"]
+      "tags": [
+        "email",
+        "calendar",
+        "microsoft",
+        "office"
+      ]
+    },
+    {
+      "id": "excel",
+      "name": "Microsoft Excel",
+      "icon": "table",
+      "file": "excel.json",
+      "tags": [
+        "spreadsheet",
+        "office",
+        "microsoft"
+      ]
+    },
+    {
+      "id": "explorer",
+      "name": "File Explorer",
+      "icon": "folder",
+      "file": "explorer.json",
+      "tags": [
+        "windows",
+        "files",
+        "folders"
+      ]
     },
     {
       "id": "terminal",
-      "name": "Terminal",
+      "name": "Windows Terminal / PowerShell",
       "icon": "console",
       "file": "terminal.json",
-      "tags": ["powershell", "cmd", "cli", "development"]
+      "tags": [
+        "powershell",
+        "cmd",
+        "cli",
+        "development"
+      ]
     },
     {
       "id": "word",
-      "name": "Word",
+      "name": "Microsoft Word",
       "icon": "doc",
       "file": "word.json",
-      "tags": ["document", "writing", "office", "microsoft"]
+      "tags": [
+        "document",
+        "writing",
+        "office",
+        "microsoft"
+      ]
     },
     {
       "id": "powerpoint",
-      "name": "PowerPoint",
+      "name": "Microsoft PowerPoint",
       "icon": "slides",
       "file": "powerpoint.json",
-      "tags": ["presentation", "slides", "office", "microsoft"]
+      "tags": [
+        "presentation",
+        "slides",
+        "office",
+        "microsoft"
+      ]
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "icon": "chat",
+      "file": "discord.json",
+      "tags": [
+        "communication",
+        "voice",
+        "chat"
+      ]
+    },
+    {
+      "id": "mfiles_admin",
+      "name": "M-Files Admin",
+      "icon": "vault",
+      "file": "mfiles_admin.json",
+      "tags": [
+        "dms",
+        "admin",
+        "vault"
+      ]
     }
   ]
 }

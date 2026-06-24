@@ -1,0 +1,100 @@
+{
+  "id": "discord",
+  "name": "Discord",
+  "icon": "chat",
+  "categories": [
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        {
+          "keys": "Ctrl+K",
+          "action": "Quick switcher",
+          "charybdis": "L5 (x3,y2)"
+        },
+        {
+          "keys": "Alt+Up",
+          "action": "Previous channel",
+          "charybdis": "L5 (x1,y1)"
+        },
+        {
+          "keys": "Alt+Down",
+          "action": "Next channel",
+          "charybdis": "L5 (x2,y1)"
+        },
+        {
+          "keys": "Alt+Shift+Up",
+          "action": "Previous unread"
+        },
+        {
+          "keys": "Alt+Shift+Down",
+          "action": "Next unread",
+          "charybdis": "L5 (x3,y1)"
+        },
+        {
+          "keys": "Ctrl+Shift+I",
+          "action": "Open inbox",
+          "charybdis": "L5 (x9,y1)"
+        },
+        {
+          "keys": "Escape",
+          "action": "Close popups / deselect",
+          "charybdis": "L2 (x9,y1)"
+        }
+      ]
+    },
+    {
+      "name": "Messaging",
+      "shortcuts": [
+        {
+          "keys": "Enter",
+          "action": "Send message",
+          "charybdis": "L2 (x3,y1)"
+        },
+        {
+          "keys": "Shift+Enter",
+          "action": "New line"
+        },
+        {
+          "keys": "Up",
+          "action": "Edit last message",
+          "charybdis": "L1 (x9,y2)"
+        },
+        {
+          "keys": "Ctrl+B",
+          "action": "Bold",
+          "charybdis": "L5 (x5,y3)"
+        },
+        {
+          "keys": "Ctrl+I",
+          "action": "Italic",
+          "charybdis": "L9 (x9,y2)"
+        },
+        {
+          "keys": "Ctrl+Shift+X",
+          "action": "Strikethrough",
+          "charybdis": "L5 (x4,y3)"
+        },
+        {
+          "keys": "Ctrl+E",
+          "action": "Search",
+          "charybdis": "L5 (x5,y2)"
+        }
+      ]
+    },
+    {
+      "name": "Voice & Video",
+      "shortcuts": [
+        {
+          "keys": "Ctrl+Shift+M",
+          "action": "Toggle mute",
+          "charybdis": "L4 (x7,y3)"
+        },
+        {
+          "keys": "Ctrl+Shift+D",
+          "action": "Toggle deafen",
+          "charybdis": "L9 (x5,y1)"
+        }
+      ]
+    }
+  ]
+}

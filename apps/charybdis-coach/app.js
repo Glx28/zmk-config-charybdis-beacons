@@ -1265,6 +1265,13 @@
     if (state.practice.mode === "drill") {
       checkDrillAnswer(matchInfo.row);
     }
+
+    if (learnState.active && learnEls.autoAdvance?.checked) {
+      const currentStep = learnState.shortcuts[learnState.index];
+      if (currentStep && keyId(matchInfo.row) === keyId(currentStep.row)) {
+        setTimeout(learnAdvance, 500);
+      }
+    }
   });
 
   // ----- Learn overlay (fullscreen guided app training) -----

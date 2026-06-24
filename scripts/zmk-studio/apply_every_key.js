@@ -1292,11 +1292,16 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 0,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Snip",
+      "rationale": "v2.5: Mouse QoL — Win+Shift+S screenshot snip tool.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v20": true,
+      "parameter": "Keyboard Print Screen",
+      "modifiers": [
+        "L GUI",
+        "L Shift"
+      ]
     },
     {
       "layer": 2,
@@ -1428,11 +1433,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Redo",
-      "rationale": "v2.0: Right-hand mouse QoL — Ctrl+Y redo after mouse select+edit.",
+      "label": "Sel All",
+      "rationale": "v2.5: Moved from x9,y3 — duplicate of left-hand x5,y3 Sel All.",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Y",
+      "parameter": "Keyboard A",
       "modifiers": [
         "L Ctrl"
       ]
@@ -1452,11 +1457,15 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 0,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Zoom In",
+      "rationale": "v2.5: Mouse QoL — Ctrl+= zoom in while pointing.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v20": true,
+      "parameter": "Keyboard Equal",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1595,11 +1604,15 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 0,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Zoom Out",
+      "rationale": "v2.5: Mouse QoL — Ctrl+- zoom out while pointing.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v20": true,
+      "parameter": "Keyboard Minus",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1726,11 +1739,12 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 0,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Refresh",
+      "rationale": "v2.5: Mouse QoL — F5 refresh page/view while browsing.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v20": true,
+      "parameter": "Keyboard F5"
     },
     {
       "layer": 2,
@@ -1835,11 +1849,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Sel All",
-      "rationale": "v2.0: Right-hand mouse QoL — Ctrl+A select all before copy/cut.",
+      "label": "Redo",
+      "rationale": "v2.5: Redo adjacent to Undo (x10,y3) — Ctrl+Y redo after mouse select+edit.",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard A",
+      "parameter": "Keyboard Y",
       "modifiers": [
         "L Ctrl"
       ]

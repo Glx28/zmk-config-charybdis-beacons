@@ -1,40 +1,162 @@
 {
   "id": "word",
-  "name": "Word",
+  "name": "Microsoft Word",
   "icon": "doc",
   "categories": [
     {
       "name": "Formatting",
       "shortcuts": [
-        { "keys": "Ctrl+B", "action": "Bold" },
-        { "keys": "Ctrl+I", "action": "Italic" },
-        { "keys": "Ctrl+U", "action": "Underline" },
-        { "keys": "Ctrl+E", "action": "Center align" },
-        { "keys": "Ctrl+L", "action": "Left align" },
-        { "keys": "Ctrl+Shift+>", "action": "Increase font size" },
-        { "keys": "Ctrl+Shift+<", "action": "Decrease font size" }
+        {
+          "keys": "Ctrl+B",
+          "action": "Bold",
+          "charybdis": "L5 (x5,y3)"
+        },
+        {
+          "keys": "Ctrl+I",
+          "action": "Italic",
+          "charybdis": "L9 (x9,y2)"
+        },
+        {
+          "keys": "Ctrl+U",
+          "action": "Underline",
+          "charybdis": "L5 (x3,y2)"
+        },
+        {
+          "keys": "Ctrl+E",
+          "action": "Center align",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+L",
+          "action": "Left align",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+R",
+          "action": "Right align",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+J",
+          "action": "Justify",
+          "charybdis": "L5 (x7,y3)"
+        },
+        {
+          "keys": "Ctrl+Shift+>",
+          "action": "Increase font size"
+        },
+        {
+          "keys": "Ctrl+Shift+<",
+          "action": "Decrease font size"
+        },
+        {
+          "keys": "Ctrl+1",
+          "action": "Single spacing",
+          "charybdis": "L9 (x1,y3)"
+        },
+        {
+          "keys": "Ctrl+2",
+          "action": "Double spacing",
+          "charybdis": "L9 (x2,y3)"
+        }
       ]
     },
     {
       "name": "Editing",
       "shortcuts": [
-        { "keys": "Ctrl+C", "action": "Copy", "charybdis": "L2 Copy" },
-        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste" },
-        { "keys": "Ctrl+Z", "action": "Undo", "charybdis": "L2 Undo" },
-        { "keys": "Ctrl+S", "action": "Save", "charybdis": "L5 Save (x1,y2)" },
-        { "keys": "Ctrl+F", "action": "Find", "charybdis": "L1 Ctrl+F (x5,y1)" },
-        { "keys": "Ctrl+H", "action": "Replace", "charybdis": "L1 Ctrl+H (x5,y3)" },
-        { "keys": "Ctrl+Enter", "action": "Page break" },
-        { "keys": "Ctrl+Shift+V", "action": "Paste special", "charybdis": "L5 PstNF (x1,y3)" }
+        {
+          "keys": "Ctrl+C",
+          "action": "Copy",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+V",
+          "action": "Paste",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+X",
+          "action": "Cut",
+          "charybdis": "L2 (x2,y3)"
+        },
+        {
+          "keys": "Ctrl+Z",
+          "action": "Undo",
+          "charybdis": "L2 (x10,y3)"
+        },
+        {
+          "keys": "Ctrl+Y",
+          "action": "Redo",
+          "charybdis": "L2 (x9,y3)"
+        },
+        {
+          "keys": "Ctrl+S",
+          "action": "Save",
+          "charybdis": "L9 (x3,y2)"
+        },
+        {
+          "keys": "Ctrl+A",
+          "action": "Select all",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+F",
+          "action": "Find",
+          "charybdis": "L5 (x3,y2)"
+        },
+        {
+          "keys": "Ctrl+H",
+          "action": "Find and replace",
+          "charybdis": "L5 (x3,y2)"
+        },
+        {
+          "keys": "Ctrl+K",
+          "action": "Insert hyperlink",
+          "charybdis": "L5 (x3,y2)"
+        },
+        {
+          "keys": "Ctrl+Enter",
+          "action": "Page break",
+          "charybdis": "L5 (x4,y1)"
+        },
+        {
+          "keys": "Ctrl+Shift+V",
+          "action": "Paste special",
+          "charybdis": "L5 (x1,y3)"
+        }
       ]
     },
     {
       "name": "Navigation",
       "shortcuts": [
-        { "keys": "Ctrl+Home", "action": "Go to beginning" },
-        { "keys": "Ctrl+End", "action": "Go to end" },
-        { "keys": "Ctrl+P", "action": "Print" },
-        { "keys": "F7", "action": "Spell check" }
+        {
+          "keys": "Ctrl+Home",
+          "action": "Go to beginning"
+        },
+        {
+          "keys": "Ctrl+End",
+          "action": "Go to end"
+        },
+        {
+          "keys": "Ctrl+G",
+          "action": "Go to page",
+          "charybdis": "L5 (x9,y2)"
+        },
+        {
+          "keys": "Ctrl+P",
+          "action": "Print",
+          "charybdis": "L5 (x7,y2)"
+        },
+        {
+          "keys": "F7",
+          "action": "Spell check",
+          "charybdis": "L1 (x3,y1)"
+        },
+        {
+          "keys": "Ctrl+Shift+N",
+          "action": "Normal style",
+          "charybdis": "L5 (x9,y1)"
+        }
       ]
     }
   ]

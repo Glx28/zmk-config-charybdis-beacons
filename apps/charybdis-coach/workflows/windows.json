@@ -6,55 +6,287 @@
     {
       "name": "Window Management",
       "shortcuts": [
-        { "keys": "Win+D", "action": "Show/hide desktop", "charybdis": "L2 Desktop (x2,y0 or x8,y0) / L3 Win+D (x4,y1)" },
-        { "keys": "Win+Tab", "action": "Task View", "charybdis": "L2 Task View (x1,y0 or x7,y0)" },
-        { "keys": "Alt+Tab", "action": "Switch apps", "charybdis": "L2 Alt+Tab (x1,y1 or x7,y1)" },
-        { "keys": "Alt+F4", "action": "Close window", "charybdis": "L2 Close Win (x12,y3)" },
-        { "keys": "Win+Left", "action": "Snap left", "charybdis": "L3 Win+Left (x1,y3)" },
-        { "keys": "Win+Right", "action": "Snap right", "charybdis": "L3 Win+Right (x4,y3)" },
-        { "keys": "Win+Up", "action": "Maximize", "charybdis": "L3 Win+Up (x2,y3)" },
-        { "keys": "Win+Down", "action": "Minimize / restore", "charybdis": "L3 Win+Down (x3,y3)" },
-        { "keys": "Win+Shift+Left/Right", "action": "Move to other monitor", "charybdis": "L3 (x5,y1 / x7,y1)" }
+        {
+          "keys": "Alt+Tab",
+          "action": "Switch apps",
+          "charybdis": "L2 (x7,y1)"
+        },
+        {
+          "keys": "Alt+F4",
+          "action": "Close window",
+          "charybdis": "L2 (x12,y3)"
+        },
+        {
+          "keys": "Win+D",
+          "action": "Show/hide desktop",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+Tab",
+          "action": "Task View",
+          "charybdis": "L2 (x7,y0)"
+        },
+        {
+          "keys": "Win+Left",
+          "action": "Snap window left",
+          "charybdis": "L3 (x1,y3)"
+        },
+        {
+          "keys": "Win+Right",
+          "action": "Snap window right",
+          "charybdis": "L3 (x4,y3)"
+        },
+        {
+          "keys": "Win+Up",
+          "action": "Maximize window",
+          "charybdis": "L3 (x2,y3)"
+        },
+        {
+          "keys": "Win+Down",
+          "action": "Minimize / restore",
+          "charybdis": "L3 (x3,y3)"
+        },
+        {
+          "keys": "Win+Shift+Left",
+          "action": "Move to left monitor",
+          "charybdis": "L3 (x7,y1)"
+        },
+        {
+          "keys": "Win+Shift+Right",
+          "action": "Move to right monitor",
+          "charybdis": "L3 (x5,y3)"
+        },
+        {
+          "keys": "Win+M",
+          "action": "Minimize all windows",
+          "charybdis": "L3 (x11,y0)"
+        },
+        {
+          "keys": "Win+Home",
+          "action": "Minimize all except active"
+        }
       ]
     },
     {
       "name": "Virtual Desktops",
       "shortcuts": [
-        { "keys": "Win+Ctrl+D", "action": "New desktop", "charybdis": "L3 Win+Ctrl+D (x8,y3)" },
-        { "keys": "Win+Ctrl+Left/Right", "action": "Switch desktop", "charybdis": "L3 Win+Ctrl+Right (x9,y2)" },
-        { "keys": "Win+Ctrl+F4", "action": "Close desktop", "charybdis": "L3 Win+Ctrl+F4 (x9,y3)" }
+        {
+          "keys": "Win+Ctrl+D",
+          "action": "New virtual desktop",
+          "charybdis": "L3 (x8,y3)"
+        },
+        {
+          "keys": "Win+Ctrl+Left",
+          "action": "Switch desktop left",
+          "charybdis": "L3 (x7,y2)"
+        },
+        {
+          "keys": "Win+Ctrl+Right",
+          "action": "Switch desktop right",
+          "charybdis": "L3 (x9,y2)"
+        },
+        {
+          "keys": "Win+Ctrl+F4",
+          "action": "Close current desktop",
+          "charybdis": "L3 (x9,y3)"
+        }
       ]
     },
     {
-      "name": "System",
+      "name": "System Shortcuts",
       "shortcuts": [
-        { "keys": "Win+S", "action": "Search", "charybdis": "L1 Win+S (x1,y2) / L3 Win+S (x7,y2)" },
-        { "keys": "Win+E", "action": "File Explorer", "charybdis": "L3 Explorer (x10,y3)" },
-        { "keys": "Win+I", "action": "Settings", "charybdis": "L3 Settings (x11,y1)" },
-        { "keys": "Win+L", "action": "Lock PC", "charybdis": "L3 Lock (x10,y1)" },
-        { "keys": "Win+R", "action": "Run dialog", "charybdis": "L3 Run (x12,y1)" },
-        { "keys": "Win+X", "action": "Power User menu", "charybdis": "L3 Power (x12,y3)" },
-        { "keys": "Win+V", "action": "Clipboard history", "charybdis": "L3 Win+V (x2,y1)" },
-        { "keys": "Win+.", "action": "Emoji picker" },
-        { "keys": "Win+Shift+S", "action": "Screenshot", "charybdis": "L3 Win+Shift+S (x3,y1)" },
-        { "keys": "Ctrl+Shift+Esc", "action": "Task Manager" }
+        {
+          "keys": "Win+S",
+          "action": "Search",
+          "charybdis": "L3 (x3,y2)"
+        },
+        {
+          "keys": "Win+E",
+          "action": "File Explorer",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+I",
+          "action": "Settings",
+          "charybdis": "L3 (x11,y1)"
+        },
+        {
+          "keys": "Win+L",
+          "action": "Lock PC",
+          "charybdis": "L3 (x10,y1)"
+        },
+        {
+          "keys": "Win+R",
+          "action": "Run dialog",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+X",
+          "action": "Power User menu",
+          "charybdis": "L3 (x12,y3)"
+        },
+        {
+          "keys": "Win+V",
+          "action": "Clipboard history",
+          "charybdis": "L3 (x2,y1)"
+        },
+        {
+          "keys": "Win+Shift+S",
+          "action": "Screenshot (Snip)",
+          "charybdis": "L3 (x5,y3)"
+        },
+        {
+          "keys": "Win+.",
+          "action": "Emoji picker",
+          "charybdis": "L3 (x2,y0)"
+        },
+        {
+          "keys": "Ctrl+Shift+Esc",
+          "action": "Task Manager",
+          "charybdis": "L3 (x1,y0)"
+        },
+        {
+          "keys": "Win+Pause",
+          "action": "System info"
+        },
+        {
+          "keys": "Win+P",
+          "action": "Project / display mode",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+K",
+          "action": "Connect / Cast",
+          "charybdis": "L3 (x9,y0)"
+        },
+        {
+          "keys": "Win+A",
+          "action": "Quick settings / Action center",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+N",
+          "action": "Notification center",
+          "charybdis": "L3 (x5,y2)"
+        }
       ]
     },
     {
       "name": "Taskbar",
       "shortcuts": [
-        { "keys": "Win+1-9", "action": "Open pinned app N", "charybdis": "L3 Win+1-5 (x1-x5,y2)" },
-        { "keys": "Win+T", "action": "Cycle taskbar apps" },
-        { "keys": "Win+B", "action": "Focus system tray" }
+        {
+          "keys": "Win+1",
+          "action": "Open/switch pinned app 1",
+          "charybdis": "L3 (x1,y2)"
+        },
+        {
+          "keys": "Win+2",
+          "action": "Open/switch pinned app 2",
+          "charybdis": "L3 (x2,y2)"
+        },
+        {
+          "keys": "Win+3",
+          "action": "Open/switch pinned app 3",
+          "charybdis": "L3 (x3,y2)"
+        },
+        {
+          "keys": "Win+4",
+          "action": "Open/switch pinned app 4",
+          "charybdis": "L3 (x4,y2)"
+        },
+        {
+          "keys": "Win+5",
+          "action": "Open/switch pinned app 5",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+T",
+          "action": "Cycle taskbar apps",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+B",
+          "action": "Focus system tray",
+          "charybdis": "L2 (x7,y0)"
+        }
       ]
     },
     {
-      "name": "Accessibility",
+      "name": "Input & Language",
       "shortcuts": [
-        { "keys": "Win++", "action": "Magnifier zoom in" },
-        { "keys": "Win+-", "action": "Magnifier zoom out" },
-        { "keys": "Win+Esc", "action": "Close Magnifier" },
-        { "keys": "Win+U", "action": "Accessibility settings" }
+        {
+          "keys": "Win+H",
+          "action": "Voice typing",
+          "charybdis": "L3 (x3,y2)"
+        },
+        {
+          "keys": "Win+Space",
+          "action": "Switch input language"
+        },
+        {
+          "keys": "Alt+Shift",
+          "action": "Switch keyboard layout (alt)"
+        },
+        {
+          "keys": "Win+C",
+          "action": "Open Copilot",
+          "charybdis": "L3 (x5,y2)"
+        },
+        {
+          "keys": "Win+;",
+          "action": "Emoji picker",
+          "charybdis": "L3 (x11,y0)"
+        },
+        {
+          "keys": "Win+.",
+          "action": "Emoji picker (alt)",
+          "charybdis": "L3 (x2,y0)"
+        }
+      ]
+    },
+    {
+      "name": "Universal Clipboard & Edit",
+      "shortcuts": [
+        {
+          "keys": "Ctrl+C",
+          "action": "Copy",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+V",
+          "action": "Paste",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Ctrl+X",
+          "action": "Cut",
+          "charybdis": "L2 (x2,y3)"
+        },
+        {
+          "keys": "Ctrl+Z",
+          "action": "Undo",
+          "charybdis": "L2 (x10,y3)"
+        },
+        {
+          "keys": "Ctrl+Y",
+          "action": "Redo",
+          "charybdis": "L2 (x9,y3)"
+        },
+        {
+          "keys": "Ctrl+A",
+          "action": "Select all",
+          "charybdis": "L5 (x5,y2)"
+        },
+        {
+          "keys": "Delete",
+          "action": "Delete",
+          "charybdis": "L2 (x10,y1)"
+        },
+        {
+          "keys": "F2",
+          "action": "Rename",
+          "charybdis": "L4 (x5,y2)"
+        }
       ]
     }
   ]

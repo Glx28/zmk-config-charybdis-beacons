@@ -1428,6 +1428,36 @@
   if (learnEls.prevBtn) learnEls.prevBtn.addEventListener("click", () => { if (learnState.active) { learnState.index = Math.max(0, learnState.index - 1); showLearnStep(); } });
   if (learnEls.nextBtn) learnEls.nextBtn.addEventListener("click", learnAdvance);
 
+  // ----- Key input debug overlay -----
+  const keyDebugEl = document.getElementById("keyDebugOverlay");
+  const keyDebugLog = document.getElementById("keyDebugLog");
+  const keyDebugMods = document.getElementById("keyDebugMods");
+  const keyDebugToggleBtn = document.getElementById("keyDebugToggle");
+  const keyDebugCloseBtn = document.getElementById("keyDebugClose");
+  let keyDebugVisible = false;
+  const MAX_DEBUG_EVENTS = 20;
+
+  function toggleKeyDebug() {
+    keyDebugVisible = !keyDebugVisible;
+    if (keyDebugEl) keyDebugEl.classList.toggle("key-debug--hidden", !keyDebugVisible);
+  }
+
+  if (keyDebugToggleBtn) keyDebugToggleBtn.addEventListener("click", toggleKeyDebug);
+  if (keyDebugCloseBtn) keyDebugCloseBtn.addEventListener("click", () => { keyDebugVisible = false; if (keyDebugEl) keyDebugEl.classList.add("key-debug--hidden"); });
+
+  function logKeyEvent(e) {
+    if (!keyDebugVisible || !keyDebugLog) return;
+    const mods = [e.ctrlKey && "Ctrl", e.shiftKey && "Shift", e.altKey && "Alt", e.metaKey && "Win"].filter(Boolean).join("+") || "none";
+    if (keyDebugMods) keyDebugMods.textContent = `Modifiers: ${mods}`;
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="key-event-type">${e.type}</span> <span class="key-event-key">${escapeHtml(e.key)}</span> code=${escapeHtml(e.code)} mods=${mods}`;
+    keyDebugLog.prepend(li);
+    while (keyDebugLog.children.length > MAX_DEBUG_EVENTS) keyDebugLog.lastChild.remove();
+  }
+
+  document.addEventListener("keydown", logKeyEvent);
+  document.addEventListener("keyup", logKeyEvent);
+
   init().catch((error) => {
     els.keyboardMap.innerHTML = `<div class="panel selected-panel"><h2>Coach failed to load</h2><p>${escapeHtml(error.message)}</p></div>`;
   });

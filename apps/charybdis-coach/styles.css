@@ -1145,6 +1145,63 @@ svg {
   overflow: auto;
 }
 
+/* ----- Key debug overlay ----- */
+.key-debug {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 900;
+  width: 340px;
+  max-height: 280px;
+  background: rgba(10, 13, 18, 0.95);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  font-family: "Consolas", monospace;
+  font-size: 0.75rem;
+  overflow: hidden;
+}
+.key-debug--hidden { display: none; }
+.key-debug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--surface-2);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+.key-debug-header button {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.68rem;
+  cursor: pointer;
+  padding: 2px 8px;
+}
+.key-debug-mods {
+  padding: 4px 10px;
+  color: var(--warn);
+  font-size: 0.72rem;
+  border-bottom: 1px solid var(--line);
+}
+.key-debug-log {
+  margin: 0;
+  padding: 4px 10px;
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.key-debug-log li {
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(42, 58, 73, 0.3);
+  color: var(--soft);
+  line-height: 1.4;
+}
+.key-debug-log .key-event-type { color: var(--accent-2); }
+.key-debug-log .key-event-key { color: var(--accent); font-weight: 700; }
+
 .keycap.answer-correct {
   border-color: var(--accent) !important;
   box-shadow: 0 0 0 2px var(--accent), 0 0 18px rgba(76, 201, 176, 0.5);

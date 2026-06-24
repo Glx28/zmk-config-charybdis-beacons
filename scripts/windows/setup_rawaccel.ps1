@@ -115,12 +115,12 @@ $profiles = @{
 # ── List profiles ─────────────────────────────────────────────────────────────
 if ($ListProfiles) {
     Write-Host "`nAvailable Raw Accel Profiles:" -ForegroundColor Cyan
-    Write-Host "─────────────────────────────" -ForegroundColor DarkGray
+    Write-Host "-----------------------------" -ForegroundColor DarkGray
     foreach ($name in ($profiles.Keys | Sort-Object)) {
         $p = $profiles[$name]
         $s = $p.Settings
         Write-Host "  $name" -ForegroundColor Yellow -NoNewline
-        Write-Host " — $($p.Description)" -ForegroundColor White
+        Write-Host " - $($p.Description)" -ForegroundColor White
         if ($s.accelMode -ne "off") {
             Write-Host "    DPI=$($p.DPI)  sens=$($s.sensMult)  offset=$($s.offset)  accel=$($s.acceleration)  cap=$($s.capOutput)x" -ForegroundColor Gray
         }
@@ -132,7 +132,7 @@ if ($ListProfiles) {
 # ── Install helper ────────────────────────────────────────────────────────────
 if ($Install) {
     Write-Host "Raw Accel Installation Guide" -ForegroundColor Cyan
-    Write-Host "════════════════════════════" -ForegroundColor Cyan
+    Write-Host "============================" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "1. Download latest release:" -ForegroundColor White
     Write-Host "   https://github.com/RawAccelOfficial/rawaccel/releases" -ForegroundColor Yellow
@@ -242,11 +242,11 @@ Write-Host "Ensuring Windows mouse settings are at 1:1..." -ForegroundColor Whit
 Write-Host ""
 
 # ── Summary ───────────────────────────────────────────────────────────────────
-Write-Host "═══════════════════════════════════════════════" -ForegroundColor Green
+Write-Host "===============================================" -ForegroundColor Green
 Write-Host "  Raw Accel profile '$Profile' applied!" -ForegroundColor Green
-Write-Host "═══════════════════════════════════════════════" -ForegroundColor Green
+Write-Host "===============================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "IMPORTANT — Firmware CPI change needed:" -ForegroundColor Yellow
+Write-Host "IMPORTANT - Firmware CPI change needed:" -ForegroundColor Yellow
 Write-Host "  Set CONFIG_PMW3610_CPI=$($prof.DPI) in charybdis_right.conf" -ForegroundColor Yellow
 if ($Profile -ne "off") {
     Write-Host "  Remove or set zip_xy_scaler to 1 1 (Raw Accel handles scaling now)" -ForegroundColor Yellow
@@ -261,6 +261,7 @@ if ($s.accelMode -eq "off") {
 } else {
     Write-Host "  Slow trackball (< $($s.offset) counts/ms): $($s.sensMult)x sensitivity (precision)" -ForegroundColor Gray
     Write-Host "  Fast trackball: ramps up to $($s.capOutput)x via $($s.accelMode) curve" -ForegroundColor Gray
-    Write-Host "  Effective range: $($s.sensMult)x to $([math]::Round($s.sensMult * $s.capOutput, 1))x" -ForegroundColor Gray
+    $effMax = [math]::Round($s.sensMult * $s.capOutput, 1)
+    Write-Host "  Effective range: $($s.sensMult)x to ${effMax}x" -ForegroundColor Gray
 }
 Write-Host ""

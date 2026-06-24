@@ -653,38 +653,38 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 0,
       "y": 0,
       "behavior": "Key Press",
-      "label": "←",
-      "rationale": "v2.5-reorg: swapped with ← for better ergonomics (effort 7→3)",
+      "label": "F1",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Ctrl"
-      ]
+      "parameter": "Keyboard F1"
     },
     {
       "layer": 1,
       "x": 1,
       "y": 0,
       "behavior": "Key Press",
-      "label": "9 PU",
-      "rationale": "v2.5-reorg: swapped with 9 PU for better ergonomics (effort 6→3)",
+      "label": "H",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keypad 9 and PageUp"
+      "parameter": "Keyboard H",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 1,
       "x": 2,
       "y": 0,
       "behavior": "Key Press",
-      "label": "CmdPal",
-      "rationale": "v2.5-reorg: swapped with CmdPal for better ergonomics (effort 5→3)",
+      "label": "F",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Space",
+      "parameter": "Keyboard F",
       "modifiers": [
-        "L Alt"
+        "L Ctrl"
       ]
     },
     {
@@ -861,22 +861,25 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 7,
       "y": 1,
       "behavior": "Key Press",
-      "label": "F1",
-      "rationale": "v2.5-reorg: swapped with F1 for better ergonomics",
+      "label": "←",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard F1"
+      "parameter": "Keyboard LeftArrow",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 1,
       "x": 8,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Home",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "BkSp",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Home"
+      "parameter": "Keyboard Delete"
     },
     {
       "layer": 1,
@@ -1056,11 +1059,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 12,
       "y": 2,
       "behavior": "Key Press",
-      "label": "BkSp",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "Home",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Delete"
+      "parameter": "Keyboard Home"
     },
     {
       "layer": 1,
@@ -1122,14 +1125,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 5,
       "y": 3,
       "behavior": "Key Press",
-      "label": "H",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "9 PU",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard H",
-      "modifiers": [
-        "L Ctrl"
-      ]
+      "parameter": "Keypad 9 and PageUp"
     },
     {
       "layer": 1,
@@ -1150,13 +1150,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 8,
       "y": 3,
       "behavior": "Key Press",
-      "label": "F",
-      "rationale": "v2.5-reorg: swapped with F for better ergonomics (effort 7→3)",
+      "label": "CmdPal",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard F",
+      "parameter": "Space",
       "modifiers": [
-        "L Ctrl"
+        "L Alt"
       ]
     },
     {
@@ -1376,13 +1376,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 7,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Task View",
-      "rationale": "v2.0: Right-hand mouse QoL — Win+Tab opens Task View for recent apps.",
+      "label": "Next Tab",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
       "modifiers": [
-        "L GUI"
+        "L Ctrl"
       ]
     },
     {
@@ -1444,13 +1444,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 12,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Next Tab",
-      "rationale": "v2.5-reorg: swapped with Next Tab for better ergonomics (effort 7→4)",
+      "label": "Task View",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→4)",
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
       "modifiers": [
-        "L Ctrl"
+        "L GUI"
       ]
     },
     {
@@ -1458,14 +1458,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 0,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Close",
-      "rationale": "v2.5-reorg: swapped with Close for better ergonomics (effort 6→3)",
+      "label": "Esc",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→4)",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard W",
-      "modifiers": [
-        "L Ctrl"
-      ]
+      "parameter": "Keyboard Escape"
     },
     {
       "layer": 2,
@@ -1486,11 +1483,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 2,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "v2.0: Left-hand mouse QoL — Escape to cancel dialogs.",
+      "label": "Close",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Escape"
+      "parameter": "Keyboard W",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1533,14 +1533,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 7,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Alt+Tab",
-      "rationale": "v2.5-reorg: swapped with Alt+Tab for better ergonomics",
+      "label": "Win",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Alt"
-      ]
+      "parameter": "Keyboard Left GUI"
     },
     {
       "layer": 2,
@@ -1558,11 +1555,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "v2.0: Right-hand mouse QoL — Escape to cancel dialogs/menus.",
+      "label": "Refresh",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Escape"
+      "parameter": "Keyboard F5"
     },
     {
       "layer": 2,
@@ -1580,11 +1577,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Win",
-      "rationale": "v2.0: Right-hand mouse QoL — Win key to show auto-hide taskbar / Start menu.",
+      "label": "Alt+Tab",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Left GUI"
+      "parameter": "Keyboard Tab",
+      "modifiers": [
+        "L Alt"
+      ]
     },
     {
       "layer": 2,
@@ -1605,11 +1605,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 0,
       "y": 2,
       "behavior": "Key Press",
-      "label": "Zoom Out",
-      "rationale": "v2.5: Mouse QoL — Ctrl+- zoom out while pointing.",
+      "label": "Copy",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard Minus",
+      "parameter": "Keyboard C",
       "modifiers": [
         "L Ctrl"
       ]
@@ -1740,11 +1740,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 0,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Refresh",
-      "rationale": "v2.5: Mouse QoL — F5 refresh page/view while browsing.",
+      "label": "Esc",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard F5"
+      "parameter": "Keyboard Escape"
     },
     {
       "layer": 2,
@@ -1779,11 +1779,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 3,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Copy",
-      "rationale": "v2.0: Left-hand mouse QoL — Ctrl+C copy.",
+      "label": "Zoom Out",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard C",
+      "parameter": "Keyboard Minus",
       "modifiers": [
         "L Ctrl"
       ]
@@ -1986,7 +1986,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 0,
       "behavior": "Key Press",
       "label": "Emoji",
-      "rationale": "v2.5: Win+. Emoji picker on L3 x0,y0. Fills x0 column.",
+      "rationale": "v2.5: Win+. Emoji picker on L3 x0,y0.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard Period and GreaterThan",
@@ -2031,11 +2031,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 3,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Proj",
-      "rationale": "v2.2: Win+P Project / display — fills L3 y0.",
+      "label": "Emoji",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard P",
+      "parameter": "Keyboard Period and GreaterThan",
       "modifiers": [
         "L GUI"
       ],
@@ -2136,13 +2136,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Lang",
-      "rationale": "v2.5: Win+Space — Switch input language. Replaces dupe emoji picker.",
+      "label": "←",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Spacebar",
+      "parameter": "Keyboard LeftArrow",
       "modifiers": [
-        "L GUI"
+        "L GUI",
+        "L Shift"
       ],
       "full_reapply_v25": true
     },
@@ -2151,11 +2152,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 12,
       "y": 0,
       "behavior": "Key Press",
-      "label": "↓",
-      "rationale": "v2.5-reorg: swapped with ↓ for better ergonomics (effort 7→3)",
+      "label": "Emoji",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow",
+      "parameter": "Keyboard Period and GreaterThan",
       "modifiers": [
         "L GUI"
       ],
@@ -2222,13 +2223,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 4,
       "y": 1,
       "behavior": "Key Press",
-      "label": "D",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "→",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard D",
+      "parameter": "Keyboard RightArrow",
       "modifiers": [
-        "L GUI"
+        "L GUI",
+        "L Shift"
       ]
     },
     {
@@ -2236,14 +2238,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 5,
       "y": 1,
       "behavior": "Key Press",
-      "label": "←",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "Lang",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
+      "parameter": "Keyboard Spacebar",
       "modifiers": [
-        "L GUI",
-        "L Shift"
+        "L GUI"
       ]
     },
     {
@@ -2281,11 +2282,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Emoji",
-      "rationale": "v2.5-reorg: swapped with Emoji for better ergonomics",
+      "label": "↓",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Period and GreaterThan",
+      "parameter": "Keyboard DownArrow",
       "modifiers": [
         "L GUI"
       ]
@@ -2338,7 +2339,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 2,
       "behavior": "Key Press",
       "label": "Snip",
-      "rationale": "v2.5: Win+Shift+S Screenshot/Snip on L3 home row x0.",
+      "rationale": "v2.5: Win+Shift+S Screenshot/Snip.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard S",
@@ -2436,12 +2437,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 8,
       "y": 2,
       "behavior": "Key Press",
-      "label": "Tab",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "F4",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Tab",
+      "parameter": "Keyboard F4",
       "modifiers": [
+        "L Ctrl",
         "L GUI"
       ]
     },
@@ -2495,7 +2497,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 3,
       "behavior": "Key Press",
       "label": "ClipH",
-      "rationale": "v2.5: Win+V Clipboard history on L3 x0,y3.",
+      "rationale": "v2.5: Win+V Clipboard history.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard V",
@@ -2566,14 +2568,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 5,
       "y": 3,
       "behavior": "Key Press",
-      "label": "→",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "D",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow",
+      "parameter": "Keyboard D",
       "modifiers": [
-        "L GUI",
-        "L Shift"
+        "L GUI"
       ]
     },
     {
@@ -2610,13 +2611,12 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 3,
       "behavior": "Key Press",
-      "label": "F4",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "label": "Tab",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard F4",
+      "parameter": "Keyboard Tab",
       "modifiers": [
-        "L Ctrl",
         "L GUI"
       ]
     },
@@ -2879,11 +2879,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 0,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Ctrl+S",
-      "rationale": "v2.5-reorg: swapped with Ctrl+S for better ergonomics (effort 6→2)",
+      "label": "Ctrl+G",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
       "apply_batch": true,
       "full_reapply_v21": true,
-      "parameter": "Keyboard S",
+      "parameter": "Keyboard G",
       "modifiers": [
         "L Ctrl"
       ]
@@ -2893,11 +2893,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 1,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Ctrl+P",
-      "rationale": "v2.5-reorg: swapped with Ctrl+P for better ergonomics (effort 5→2)",
+      "label": "Ctrl+O",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
       "apply_batch": true,
       "full_reapply_v21": true,
-      "parameter": "Keyboard P",
+      "parameter": "Keyboard O",
       "modifiers": [
         "L Ctrl"
       ]
@@ -2929,14 +2929,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 4,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Ctrl+E",
-      "rationale": "v2.5-reorg: swapped with Ctrl+E for better ergonomics (effort 7→3)",
+      "label": "F14",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→2)",
       "apply_batch": true,
       "full_reapply_v21": true,
-      "parameter": "Keyboard E",
-      "modifiers": [
-        "L Ctrl"
-      ]
+      "parameter": "Keyboard F14"
     },
     {
       "layer": 4,
@@ -2981,11 +2978,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Ctrl+G",
-      "rationale": "v2.3: L4 power shortcut — Go to (line/page/vault).",
+      "label": "Ctrl+S",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard G",
+      "parameter": "Keyboard S",
       "modifiers": [
         "L Ctrl"
       ],
@@ -3011,11 +3008,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Ctrl+I",
-      "rationale": "v2.3: L4 power shortcut — Italic / Object info.",
+      "label": "Ctrl+B",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard I",
+      "parameter": "Keyboard B",
       "modifiers": [
         "L Ctrl"
       ],
@@ -3117,13 +3114,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 8,
       "y": 2,
       "behavior": "Key Press",
-      "label": "Ctrl+N",
-      "rationale": "v2.3: L4 power shortcut — New (file/chat/tab).",
+      "label": "Hand",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→4)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard N",
+      "parameter": "Keyboard K",
       "modifiers": [
-        "L Ctrl"
+        "L Ctrl",
+        "L Shift"
       ],
       "full_reapply_v23": true
     },
@@ -3132,23 +3130,26 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 2,
       "behavior": "Key Press",
-      "label": "F14",
-      "rationale": "v2.5-reorg: swapped with F14 for better ergonomics",
+      "label": "Ctrl+E",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard F14",
-      "full_reapply_v23": true
+      "parameter": "Keyboard E",
+      "full_reapply_v23": true,
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 4,
       "x": 10,
       "y": 2,
       "behavior": "Key Press",
-      "label": "Ctrl+O",
-      "rationale": "v2.3: L4 power shortcut — Open file.",
+      "label": "Ctrl+P",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard O",
+      "parameter": "Keyboard P",
       "modifiers": [
         "L Ctrl"
       ],
@@ -3239,11 +3240,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 4,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Ctrl+B",
-      "rationale": "v2.5-reorg: swapped with Ctrl+B for better ergonomics (effort 7→4)",
+      "label": "Ctrl+I",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
       "apply_batch": true,
       "full_reapply_v21": true,
-      "parameter": "Keyboard B",
+      "parameter": "Keyboard I",
       "modifiers": [
         "L Ctrl"
       ],
@@ -3312,14 +3313,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 10,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Hand",
-      "rationale": "v2.3: L4 power shortcut — Teams raise hand.",
+      "label": "Ctrl+N",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard K",
+      "parameter": "Keyboard N",
       "modifiers": [
-        "L Ctrl",
-        "L Shift"
+        "L Ctrl"
       ],
       "full_reapply_v23": true
     },
@@ -3441,7 +3441,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 0,
       "behavior": "Key Press",
       "label": "Hover",
-      "rationale": "v2.5: Ctrl+I Hover info / trigger suggest.",
+      "rationale": "v2.5: Ctrl+I Hover info.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard I",
@@ -3454,15 +3454,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 1,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Brkt",
-      "rationale": "v2.5-reorg: swapped with Brkt for better ergonomics (effort 6→3)",
+      "label": "SelNx",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Backslash and Pipe",
+      "parameter": "Keyboard D",
       "full_reapply_v22": true,
       "modifiers": [
-        "L Ctrl",
-        "L Shift"
+        "L Ctrl"
       ]
     },
     {
@@ -3571,11 +3570,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 10,
       "y": 0,
       "behavior": "Key Press",
-      "label": "NTerm",
-      "rationale": "v2.2: Code/IDE layer — New terminal.",
+      "label": "Explr",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Grave Accent and Tilde",
+      "parameter": "Keyboard E",
       "modifiers": [
         "L Ctrl",
         "L Shift"
@@ -3678,13 +3677,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 4,
       "y": 1,
       "behavior": "Key Press",
-      "label": "InsLn",
-      "rationale": "v2.2: Code/IDE layer — Insert line below.",
+      "label": "InsUp",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard Return Enter",
       "modifiers": [
-        "L Ctrl"
+        "L Ctrl",
+        "L Shift"
       ],
       "full_reapply_v22": true
     },
@@ -3693,14 +3693,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 5,
       "y": 1,
       "behavior": "Key Press",
-      "label": "InsUp",
-      "rationale": "v2.2: Code/IDE layer — Insert line above.",
+      "label": "InsLn",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard Return Enter",
       "modifiers": [
-        "L Ctrl",
-        "L Shift"
+        "L Ctrl"
       ],
       "full_reapply_v22": true
     },
@@ -3798,7 +3797,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 2,
       "behavior": "Key Press",
       "label": "Rename",
-      "rationale": "v2.5: F2 Rename symbol (VS Code). Home row x0.",
+      "rationale": "v2.5: F2 Rename symbol.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard F2"
@@ -3823,13 +3822,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 2,
       "y": 2,
       "behavior": "Key Press",
-      "label": "SelNx",
-      "rationale": "v2.2: Code/IDE layer — Select next occurrence.",
+      "label": "Brkt",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard D",
+      "parameter": "Keyboard Backslash and Pipe",
       "modifiers": [
-        "L Ctrl"
+        "L Ctrl",
+        "L Shift"
       ],
       "full_reapply_v22": true
     },
@@ -4021,11 +4021,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 3,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Explr",
-      "rationale": "v2.2: Code/IDE layer — Explorer panel.",
+      "label": "NTerm",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard E",
+      "parameter": "Keyboard Grave Accent and Tilde",
       "modifiers": [
         "L Ctrl",
         "L Shift"
@@ -4053,14 +4053,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 5,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Side",
-      "rationale": "v2.2: Code/IDE layer — Toggle sidebar.",
+      "label": "Rename",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard B",
-      "modifiers": [
-        "L Ctrl"
-      ],
+      "parameter": "Keyboard F2",
       "full_reapply_v22": true
     },
     {
@@ -4068,11 +4065,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 7,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Panel",
-      "rationale": "v2.2: Code/IDE layer — Toggle bottom panel.",
+      "label": "Close",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard J",
+      "parameter": "Keyboard W",
       "modifiers": [
         "L Ctrl"
       ],
@@ -5947,7 +5944,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 0,
       "behavior": "Key Press",
       "label": "Refresh",
-      "rationale": "v2.5: F5 Refresh view (M-Files).",
+      "rationale": "v2.5: F5 Refresh view.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard F5"
@@ -6068,7 +6065,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 1,
       "behavior": "Key Press",
       "label": "Back",
-      "rationale": "v2.5: Alt+Left Navigate back in M-Files.",
+      "rationale": "v2.5: Alt+Left Navigate back.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard LeftArrow",
@@ -6113,15 +6110,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 3,
       "y": 1,
       "behavior": "Key Press",
-      "label": "ASrch",
-      "rationale": "v2.2: M-Files/DMS layer — Advanced search.",
+      "label": "Rename",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard F",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
+      "parameter": "Keyboard F2",
       "full_reapply_v22": true
     },
     {
@@ -6185,11 +6178,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 1,
       "behavior": "Key Press",
-      "label": "New",
-      "rationale": "v2.5-reorg: swapped with New for better ergonomics",
+      "label": "Search",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard N",
+      "parameter": "Keyboard F",
       "modifiers": [
         "L Ctrl"
       ]
@@ -6230,7 +6223,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 2,
       "behavior": "Key Press",
       "label": "Search",
-      "rationale": "v2.5: Ctrl+F Quick search in M-Files. Home row x0.",
+      "rationale": "v2.5: Ctrl+F Quick search.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard F",
@@ -6315,30 +6308,22 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 7,
       "y": 2,
       "behavior": "Key Press",
-      "label": "Props",
-      "rationale": "v2.2: M-Files/DMS layer — Properties / metadata.",
+      "label": "Refresh",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard Return Enter",
-      "modifiers": [
-        "L Alt"
-      ],
+      "parameter": "Keyboard F5",
       "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 8,
       "y": 2,
-      "behavior": "Key Press",
-      "label": "Group",
-      "rationale": "v2.5-reorg: swapped with Group for better ergonomics (effort 6→3)",
+      "behavior": "Transparent",
+      "label": "Transparent",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard G",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
       "full_reapply_v22": true
     },
     {
@@ -6346,13 +6331,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 2,
       "behavior": "Key Press",
-      "label": "Info",
-      "rationale": "v2.2: M-Files/DMS layer — Object info.",
+      "label": "Back",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Keyboard I",
+      "parameter": "Keyboard LeftArrow",
       "modifiers": [
-        "L Ctrl"
+        "L Alt"
       ],
       "full_reapply_v22": true
     },
@@ -6409,7 +6394,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 3,
       "behavior": "Key Press",
       "label": "Rename",
-      "rationale": "v2.5: F2 Rename object in M-Files.",
+      "rationale": "v2.5: F2 Rename object.",
       "apply_batch": true,
       "full_reapply_v18": true,
       "parameter": "Keyboard F2"
@@ -6481,11 +6466,16 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 9,
       "x": 5,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Group",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard G",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 9,
@@ -6640,13 +6630,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 0,
       "y": 0,
       "behavior": "Key Press",
-      "label": "FmtCell",
-      "rationale": "v2.5-reorg: swapped with FmtCell for better ergonomics (effort 7→2)",
+      "label": "ShftEnt",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard 1 and Bang",
+      "parameter": "Keyboard Return Enter",
       "modifiers": [
-        "L Ctrl"
+        "L Shift"
       ]
     },
     {
@@ -6654,11 +6644,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 1,
       "y": 0,
       "behavior": "Key Press",
-      "label": "Save",
-      "rationale": "v2.5-reorg: swapped with Save for better ergonomics (effort 6→2)",
+      "label": "SelAll",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→4)",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard S",
+      "parameter": "Keyboard A",
       "modifiers": [
         "L Ctrl"
       ]
@@ -6892,13 +6882,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 7,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Replace",
-      "rationale": "v2.5: Excel layer.",
+      "label": "Insert",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard H",
+      "parameter": "Keyboard Equal and Plus",
       "modifiers": [
-        "L Ctrl"
+        "L Ctrl",
+        "L Shift"
       ]
     },
     {
@@ -6906,13 +6897,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 8,
       "y": 1,
       "behavior": "Key Press",
-      "label": "Find",
-      "rationale": "v2.5: Excel layer.",
+      "label": "SelRow",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard F",
+      "parameter": "Keyboard Spacebar",
       "modifiers": [
-        "L Ctrl"
+        "L Shift"
       ]
     },
     {
@@ -6977,13 +6968,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 0,
       "y": 2,
       "behavior": "Key Press",
-      "label": "SelRow",
-      "rationale": "v2.5: Excel layer.",
+      "label": "Find",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard Spacebar",
+      "parameter": "Keyboard F",
       "modifiers": [
-        "L Shift"
+        "L Ctrl"
       ]
     },
     {
@@ -7005,14 +6996,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 2,
       "y": 2,
       "behavior": "Key Press",
-      "label": "FillDn",
-      "rationale": "v2.5: Excel layer.",
+      "label": "F4 Ref",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L Ctrl"
-      ]
+      "parameter": "Keyboard F4"
     },
     {
       "layer": 10,
@@ -7118,11 +7106,11 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 2,
       "behavior": "Key Press",
-      "label": "SelAll",
-      "rationale": "v2.5: Excel layer.",
+      "label": "Save",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard A",
+      "parameter": "Keyboard S",
       "modifiers": [
         "L Ctrl"
       ]
@@ -7160,14 +7148,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 1,
       "y": 3,
       "behavior": "Key Press",
-      "label": "Insert",
-      "rationale": "v2.5: Excel layer.",
+      "label": "Replace",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard Equal and Plus",
+      "parameter": "Keyboard H",
       "modifiers": [
-        "L Ctrl",
-        "L Shift"
+        "L Ctrl"
       ]
     },
     {
@@ -7234,13 +7221,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 7,
       "y": 3,
       "behavior": "Key Press",
-      "label": "ShftEnt",
-      "rationale": "v2.5: Excel layer.",
+      "label": "FmtCell",
+      "rationale": "v2.5-reorg: swapped for ergonomics",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard Return Enter",
+      "parameter": "Keyboard 1 and Bang",
       "modifiers": [
-        "L Shift"
+        "L Ctrl"
       ]
     },
     {
@@ -7248,11 +7235,14 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 8,
       "y": 3,
       "behavior": "Key Press",
-      "label": "F4 Ref",
-      "rationale": "v2.5: Excel layer.",
+      "label": "FillDn",
+      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
       "apply_batch": true,
       "full_reapply_v25": true,
-      "parameter": "Keyboard F4"
+      "parameter": "Keyboard D",
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 10,

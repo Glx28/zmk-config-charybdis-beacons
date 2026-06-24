@@ -9,12 +9,12 @@
         {
           "keys": "Ctrl+F",
           "action": "Search/filter",
-          "charybdis": "L5 (x9,y0)"
+          "charybdis": "L9 (x9,y1)"
         },
         {
           "keys": "F5",
           "action": "Refresh",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L9 (x7,y2)"
         },
         {
           "keys": "Enter",
@@ -24,12 +24,12 @@
         {
           "keys": "Escape",
           "action": "Close dialog / cancel",
-          "charybdis": "L2 (x9,y1)"
+          "charybdis": "L2 (x0,y3)"
         },
         {
           "keys": "Alt+Left",
           "action": "Navigate back",
-          "charybdis": "L0 (x5,y4)"
+          "charybdis": "L9 (x9,y2)"
         },
         {
           "keys": "Tab",
@@ -88,8 +88,7 @@
         },
         {
           "keys": "Alt+Enter",
-          "action": "Properties",
-          "charybdis": "L9 (x7,y2)"
+          "action": "Properties"
         },
         {
           "keys": "Ctrl+P",

@@ -9,7 +9,7 @@
         {
           "keys": "Ctrl+F",
           "action": "Quick search",
-          "charybdis": "L5 (x9,y0)"
+          "charybdis": "L9 (x9,y1)"
         },
         {
           "keys": "Ctrl+Shift+F",
@@ -34,7 +34,7 @@
         {
           "keys": "Alt+Left",
           "action": "Navigate back",
-          "charybdis": "L0 (x5,y4)"
+          "charybdis": "L9 (x9,y2)"
         },
         {
           "keys": "Alt+Right",
@@ -43,7 +43,7 @@
         {
           "keys": "F5",
           "action": "Refresh view",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L9 (x7,y2)"
         }
       ]
     },
@@ -63,7 +63,7 @@
         {
           "keys": "Ctrl+Shift+U",
           "action": "Undo checkout",
-          "charybdis": "L10 (x3,y1)"
+          "charybdis": "L10 (x7,y1)"
         },
         {
           "keys": "Ctrl+N",
@@ -107,13 +107,12 @@
       "shortcuts": [
         {
           "keys": "Alt+Enter",
-          "action": "Properties / metadata card",
-          "charybdis": "L9 (x7,y2)"
+          "action": "Properties / metadata card"
         },
         {
           "keys": "Ctrl+I",
           "action": "Object info",
-          "charybdis": "L9 (x9,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+Shift+C",
@@ -143,7 +142,7 @@
         {
           "keys": "Ctrl+1",
           "action": "Switch to list view",
-          "charybdis": "L9 (x5,y1)"
+          "charybdis": "L10 (x7,y3)"
         },
         {
           "keys": "Ctrl+2",

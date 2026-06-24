@@ -14,7 +14,7 @@
         {
           "keys": "Ctrl+I",
           "action": "Italic",
-          "charybdis": "L9 (x9,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+U",
@@ -38,8 +38,7 @@
         },
         {
           "keys": "Ctrl+J",
-          "action": "Justify",
-          "charybdis": "L5 (x7,y3)"
+          "action": "Justify"
         },
         {
           "keys": "Ctrl+Shift+>",
@@ -52,7 +51,7 @@
         {
           "keys": "Ctrl+1",
           "action": "Single spacing",
-          "charybdis": "L9 (x5,y1)"
+          "charybdis": "L10 (x7,y3)"
         },
         {
           "keys": "Ctrl+2",
@@ -102,7 +101,7 @@
         {
           "keys": "Ctrl+F",
           "action": "Find",
-          "charybdis": "L5 (x9,y0)"
+          "charybdis": "L9 (x9,y1)"
         },
         {
           "keys": "Ctrl+H",
@@ -117,12 +116,12 @@
         {
           "keys": "Ctrl+Enter",
           "action": "Page break",
-          "charybdis": "L5 (x4,y1)"
+          "charybdis": "L5 (x5,y1)"
         },
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste special",
-          "charybdis": "L10 (x11,y3)"
+          "charybdis": "L5 (x3,y3)"
         }
       ]
     },

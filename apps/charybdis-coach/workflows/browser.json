@@ -19,7 +19,7 @@
         {
           "keys": "Ctrl+Tab",
           "action": "Next tab",
-          "charybdis": "L2 (x3,y0)"
+          "charybdis": "L2 (x7,y0)"
         },
         {
           "keys": "Ctrl+Shift+Tab",
@@ -34,7 +34,7 @@
         {
           "keys": "Ctrl+1",
           "action": "Switch to tab 1",
-          "charybdis": "L9 (x5,y1)"
+          "charybdis": "L10 (x7,y3)"
         },
         {
           "keys": "Ctrl+2",
@@ -88,7 +88,7 @@
         {
           "keys": "Alt+Left",
           "action": "Back",
-          "charybdis": "L0 (x5,y4)"
+          "charybdis": "L9 (x9,y2)"
         },
         {
           "keys": "Alt+Right",
@@ -97,7 +97,7 @@
         {
           "keys": "F5",
           "action": "Refresh page",
-          "charybdis": "L5 (x9,y1)"
+          "charybdis": "L9 (x7,y2)"
         },
         {
           "keys": "Ctrl+F5",
@@ -116,7 +116,7 @@
         {
           "keys": "Ctrl+Enter",
           "action": "Add www./. com to URL",
-          "charybdis": "L5 (x4,y1)"
+          "charybdis": "L5 (x5,y1)"
         },
         {
           "keys": "Alt+Home",
@@ -125,7 +125,7 @@
         {
           "keys": "Escape",
           "action": "Stop loading / close suggestion",
-          "charybdis": "L2 (x9,y1)"
+          "charybdis": "L2 (x0,y3)"
         },
         {
           "keys": "Space",
@@ -135,7 +135,7 @@
         {
           "keys": "Shift+Space",
           "action": "Scroll up one screen",
-          "charybdis": "L10 (x0,y2)"
+          "charybdis": "L10 (x8,y1)"
         }
       ]
     },
@@ -145,7 +145,7 @@
         {
           "keys": "Ctrl+F",
           "action": "Find on page",
-          "charybdis": "L5 (x9,y0)"
+          "charybdis": "L9 (x9,y1)"
         },
         {
           "keys": "Ctrl+G",
@@ -169,8 +169,7 @@
         },
         {
           "keys": "Ctrl+J",
-          "action": "Downloads",
-          "charybdis": "L5 (x7,y3)"
+          "action": "Downloads"
         },
         {
           "keys": "Ctrl+D",
@@ -214,7 +213,7 @@
         {
           "keys": "Ctrl+-",
           "action": "Zoom out",
-          "charybdis": "L10 (x2,y3)"
+          "charybdis": "L2 (x3,y3)"
         },
         {
           "keys": "Ctrl+0",
@@ -283,7 +282,7 @@
         {
           "keys": "Ctrl+Shift+V",
           "action": "Paste without formatting",
-          "charybdis": "L10 (x11,y3)"
+          "charybdis": "L5 (x3,y3)"
         },
         {
           "keys": "Ctrl+A",
@@ -327,12 +326,12 @@
         {
           "keys": "Alt+F",
           "action": "Settings menu",
-          "charybdis": "L5 (x11,y1)"
+          "charybdis": "L9 (x9,y2)"
         },
         {
           "keys": "F1",
           "action": "Help",
-          "charybdis": "L4 (x9,y2)"
+          "charybdis": "L4 (x7,y2)"
         },
         {
           "keys": "Ctrl+Shift+R",
@@ -342,7 +341,7 @@
         {
           "keys": "Ctrl+Shift+U",
           "action": "View source",
-          "charybdis": "L10 (x3,y1)"
+          "charybdis": "L10 (x7,y1)"
         }
       ]
     },
@@ -362,7 +361,7 @@
         {
           "keys": "f",
           "action": "Open link in current tab",
-          "charybdis": "L7 (x9,y2)"
+          "charybdis": "L9 (x7,y2)"
         },
         {
           "keys": "F",
@@ -451,7 +450,7 @@
         {
           "keys": "N",
           "action": "Find previous match",
-          "charybdis": "L10 (x7,y3)"
+          "charybdis": "L10 (x0,y0)"
         },
         {
           "keys": "?",
@@ -470,7 +469,7 @@
         {
           "keys": "Ctrl+Shift+S",
           "action": "Open Proton Pass popup",
-          "charybdis": "L10 (x5,y1)"
+          "charybdis": "L10 (x7,y1)"
         }
       ]
     }

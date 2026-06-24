@@ -9,7 +9,7 @@
         {
           "keys": "Alt+Tab",
           "action": "Switch apps",
-          "charybdis": "L2 (x7,y1)"
+          "charybdis": "L3 (x7,y3)"
         },
         {
           "keys": "Alt+F4",
@@ -24,7 +24,7 @@
         {
           "keys": "Win+Tab",
           "action": "Task View",
-          "charybdis": "L2 (x7,y0)"
+          "charybdis": "L3 (x9,y3)"
         },
         {
           "keys": "Win+Left",
@@ -44,17 +44,17 @@
         {
           "keys": "Win+Down",
           "action": "Minimize / restore",
-          "charybdis": "L3 (x12,y0)"
+          "charybdis": "L3 (x9,y1)"
         },
         {
           "keys": "Win+Shift+Left",
           "action": "Move to left monitor",
-          "charybdis": "L3 (x5,y1)"
+          "charybdis": "L3 (x11,y0)"
         },
         {
           "keys": "Win+Shift+Right",
           "action": "Move to right monitor",
-          "charybdis": "L3 (x5,y3)"
+          "charybdis": "L3 (x2,y0)"
         },
         {
           "keys": "Win+M",
@@ -87,7 +87,7 @@
         {
           "keys": "Win+Ctrl+F4",
           "action": "Close current desktop",
-          "charybdis": "L3 (x9,y3)"
+          "charybdis": "L3 (x8,y2)"
         }
       ]
     },
@@ -107,7 +107,7 @@
         {
           "keys": "Win+I",
           "action": "Settings",
-          "charybdis": "L3 (x9,y1)"
+          "charybdis": "L3 (x3,y1)"
         },
         {
           "keys": "Win+L",
@@ -137,7 +137,7 @@
         {
           "keys": "Win+.",
           "action": "Emoji picker",
-          "charybdis": "L3 (x9,y1)"
+          "charybdis": "L3 (x3,y0)"
         },
         {
           "keys": "Ctrl+Shift+Esc",
@@ -220,7 +220,7 @@
         {
           "keys": "Win+Space",
           "action": "Switch input language",
-          "charybdis": "L3 (x11,y0)"
+          "charybdis": "L3 (x5,y1)"
         },
         {
           "keys": "Alt+Shift",
@@ -238,7 +238,7 @@
         {
           "keys": "Win+.",
           "action": "Emoji picker (alt)",
-          "charybdis": "L3 (x9,y1)"
+          "charybdis": "L3 (x3,y0)"
         }
       ]
     },

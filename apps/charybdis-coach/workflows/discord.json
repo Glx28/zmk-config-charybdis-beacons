@@ -38,7 +38,7 @@
         {
           "keys": "Escape",
           "action": "Close popups / deselect",
-          "charybdis": "L2 (x9,y1)"
+          "charybdis": "L2 (x0,y3)"
         }
       ]
     },
@@ -53,7 +53,7 @@
         {
           "keys": "Shift+Enter",
           "action": "New line",
-          "charybdis": "L10 (x7,y3)"
+          "charybdis": "L10 (x0,y0)"
         },
         {
           "keys": "Up",
@@ -68,7 +68,7 @@
         {
           "keys": "Ctrl+I",
           "action": "Italic",
-          "charybdis": "L9 (x9,y2)"
+          "charybdis": "L5 (x7,y2)"
         },
         {
           "keys": "Ctrl+Shift+X",

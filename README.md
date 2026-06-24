@@ -222,6 +222,24 @@ Current config in `config/boards/shields/charybdis/charybdis_right.conf`:
 powershell -ExecutionPolicy Bypass -File scripts\powershell\validate_layout_bundle.ps1
 ```
 
+## Keymap Optimization Pipeline
+
+Automated analysis and optimization system in `scripts/keymap-optimizer/`:
+
+```bash
+# Run full pipeline (10 modules)
+node scripts/keymap-optimizer/run_pipeline.js
+
+# Quick dashboard view
+node scripts/keymap-optimizer/dashboard.js
+```
+
+**Pipeline modules:** parse sources → validate sync → resolve transparency → build layer graph → physical model → simulate workflows → score app shortcuts → cross-app analysis → generate candidates → generate report
+
+**Current stats:** 13 apps catalogued (500+ shortcuts), 80% mapped to Charybdis layers, 13 workflows all passing.
+
+**App keybinding corpus** (`scripts/keymap-optimizer/app-keybindings/`): Browser, VS Code, Windows, Explorer, Excel, M-Files, Teams, Outlook, Terminal, Word, Notepad++, PowerPoint, OneNote. Add new apps by dropping a JSON file and adding to `index.json`.
+
 ## Benchmarking
 
 ```powershell

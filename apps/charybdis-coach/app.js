@@ -66,15 +66,15 @@
   };
 
   const LAYER_TAB_META = {
-    "0": { glyph: "Aa", title: "Base typing" },
-    "1": { glyph: "Nav", title: "Navigation" },
-    "2": { glyph: "Mou", title: "Mouse lock" },
-    "3": { glyph: "Win", title: "Window / apps" },
-    "4": { glyph: "Sys", title: "System / BT" },
-    "5": { glyph: "Code", title: "Code / IDE" },
-    "7": { glyph: "RPG", title: "Game layer" },
-    "8": { glyph: "Spd", title: "Speed travel" },
-    "9": { glyph: "DMS", title: "M-Files / DMS" }
+    "0": { glyph: "⌨️ Aa", title: "Base typing" },
+    "1": { glyph: "🧭 Nav", title: "Navigation" },
+    "2": { glyph: "🖱️ Mou", title: "Mouse lock" },
+    "3": { glyph: "🪟 Win", title: "Window / apps" },
+    "4": { glyph: "🔧 Sys", title: "System / BT" },
+    "5": { glyph: "💻 Code", title: "Code / IDE" },
+    "7": { glyph: "🎮 RPG", title: "Game layer" },
+    "8": { glyph: "⚡ Spd", title: "Speed travel" },
+    "9": { glyph: "📁 DMS", title: "M-Files / DMS" }
   };
 
   function clean(text) {
@@ -145,6 +145,390 @@
     return match ? match[1] : "";
   }
 
+  const SINGLE_LETTER_ACTION_MAP = [
+    [/^c$/i, /^l ctrl$/i, { emoji: "📄", action: "Copy" }],
+    [/^v$/i, /^l ctrl$/i, { emoji: "📥", action: "Paste" }],
+    [/^v$/i, /gui/i, { emoji: "🗂️", action: "ClipHist" }],
+    [/^x$/i, /^l ctrl$/i, { emoji: "✂️", action: "Cut" }],
+    [/^z$/i, /^l ctrl$/i, { emoji: "↩️", action: "Undo" }],
+    [/^y$/i, /^l ctrl$/i, { emoji: "↪️", action: "Redo" }],
+    [/^s$/i, /^l ctrl$/i, { emoji: "💾", action: "Save" }],
+    [/^s$/i, /gui.*shift|shift.*gui/i, { emoji: "📸", action: "Snip" }],
+    [/^s$/i, /gui/i, { emoji: "🔍", action: "Search" }],
+    [/^a$/i, /^l ctrl$/i, { emoji: "🔲", action: "Sel All" }],
+    [/^a$/i, /gui/i, { emoji: "⚙️", action: "QSett" }],
+    [/^f$/i, /^l ctrl$/i, { emoji: "🔎", action: "Find" }],
+    [/^h$/i, /^l ctrl$/i, { emoji: "🔁", action: "Replace" }],
+    [/^h$/i, /gui/i, { emoji: "🎙️", action: "Voice" }],
+    [/^d$/i, /gui.*ctrl|ctrl.*gui/i, { emoji: "🆕", action: "NewDesk" }],
+    [/^d$/i, /^l gui$/i, { emoji: "🏠", action: "Desktop" }],
+    [/^d$/i, /^l ctrl$/i, { emoji: "🔂", action: "Dupl" }],
+    [/^e$/i, /gui/i, { emoji: "📁", action: "Explorer" }],
+    [/^e$/i, /^l ctrl$/i, { emoji: "🔍", action: "Search" }],
+    [/^n$/i, /gui/i, { emoji: "🔔", action: "Notif" }],
+    [/^n$/i, /^l ctrl$/i, { emoji: "🆕", action: "New" }],
+    [/^c$/i, /gui/i, { emoji: "🤖", action: "Copilot" }],
+    [/^w$/i, /^l ctrl$/i, { emoji: "❌", action: "Close" }],
+    [/^r$/i, /gui/i, { emoji: "▶️", action: "Run" }],
+    [/^r$/i, /^l ctrl$/i, { emoji: "🔃", action: "Refresh" }],
+    [/^l$/i, /gui/i, { emoji: "🔒", action: "Lock" }],
+    [/^l$/i, /^l ctrl$/i, { emoji: "📍", action: "AddrBar" }],
+    [/^i$/i, /gui/i, { emoji: "⚙️", action: "Settings" }],
+    [/^i$/i, /^l ctrl$/i, { emoji: "ℹ️", action: "Info" }],
+    [/^t$/i, /gui/i, { emoji: "🧲", action: "Taskbar" }],
+    [/^t$/i, /^l ctrl$/i, { emoji: "➕", action: "NewTab" }],
+    [/^b$/i, /gui/i, { emoji: "🔽", action: "SysTray" }],
+    [/^b$/i, /^l ctrl$/i, { emoji: "🅱️", action: "Bold" }],
+    [/^u$/i, /gui/i, { emoji: "♿", action: "Access" }],
+    [/^u$/i, /^l ctrl$/i, { emoji: "🔡", action: "Underln" }],
+    [/^p$/i, /^l ctrl$/i, { emoji: "🖨️", action: "Print" }],
+    [/^g$/i, /^l ctrl$/i, { emoji: "📍", action: "GoTo" }],
+    [/^k$/i, /^l ctrl$/i, { emoji: "🔗", action: "Link" }],
+    [/^o$/i, /^l ctrl$/i, { emoji: "📂", action: "Open" }],
+    [/^m$/i, /gui/i, { emoji: "⏬", action: "MinAll" }],
+    [/^m$/i, /ctrl.*shift/i, { emoji: "🔇", action: "Mute" }],
+    [/^x$/i, /gui/i, { emoji: "⚡", action: "Power" }],
+    [/^j$/i, /^l ctrl$/i, { emoji: "💿", action: "Downld" }],
+  ];
+
+  function matchSingleLetterAction(label, modifiers) {
+    const l = clean(label);
+    const m = clean(modifiers);
+    for (const [labelPat, modPat, result] of SINGLE_LETTER_ACTION_MAP) {
+      if (labelPat.test(l) && modPat.test(m)) return result;
+    }
+    return null;
+  }
+
+  const KEYCAP_EMOJI_RULES = [
+    [/^copy$/i, null, "📄"],
+    [/^paste$/i, null, "📥"],
+    [/^cut$/i, null, "✂️"],
+    [/^undo$/i, null, "↩️"],
+    [/^redo$/i, null, "↪️"],
+    [/^save$/i, null, "💾"],
+    [/^search$/i, null, "🔍"],
+    [/^find$/i, null, "🔎"],
+    [/^close$/i, null, "❌"],
+    [/^sel all$/i, null, "🔲"],
+    [/^snip$/i, null, "📸"],
+    [/^screenshot$/i, null, "📸"],
+    [/^task view$/i, null, "🪟"],
+    [/^desktop$/i, null, "🏠"],
+    [/^next tab$/i, null, "⏭️"],
+    [/^prev tab$/i, null, "⏮️"],
+    [/^refresh$/i, null, "🔃"],
+    [/^zoom in$/i, null, "🔭"],
+    [/^zoom out$/i, null, "🔬"],
+    [/^alt\+tab$/i, null, "🔀"],
+    [/^cmdpal$/i, null, "🪄"],
+    [/^run$/i, null, "▶️"],
+    [/^print$/i, null, "🖨️"],
+    [/^mute$/i, null, "🔇"],
+    [/^camera$/i, null, "📷"],
+    [/^screen$/i, null, "📡"],
+    [/^share$/i, null, "📡"],
+    [/^reply$/i, null, "↩️"],
+    [/^forward$/i, null, "➡️"],
+    [/^attach$/i, null, "📎"],
+    [/^link$/i, null, "🔗"],
+    [/^new$/i, null, "🆕"],
+    [/^del$/i, null, "🗑️"],
+    [/^delete$/i, null, "🗑️"],
+    [/^rename$/i, null, "✏️"],
+    [/^bold$/i, null, "🅱️"],
+    [/^italic$/i, null, "🔤"],
+    [/^underline$/i, null, "🔡"],
+    [/^emoji$/i, null, "😀"],
+    [/^voice$/i, null, "🎙️"],
+    [/^copilot$/i, null, "🤖"],
+    [/^lock$/i, null, "🔒"],
+    [/^settings$/i, null, "⚙️"],
+    [/^notif$/i, null, "🔔"],
+    [/^minimize$/i, null, "⏬"],
+    [/^maximize$/i, null, "⏫"],
+    [/^snap$/i, null, "🧲"],
+    [/^split$/i, null, "↔️"],
+    [/^sidebar$/i, null, "📐"],
+    [/^terminal$/i, null, "💻"],
+    [/^debug$/i, null, "🐛"],
+    [/^breakpt$/i, null, "🔴"],
+    [/^step$/i, null, "👟"],
+    [/^bookmark$/i, null, "⭐"],
+    [/^history$/i, null, "🕰️"],
+    [/^download$/i, null, "💿"],
+    [/^upload$/i, null, "☁️"],
+    [/^comment$/i, null, "💬"],
+    [/^format$/i, null, "🎨"],
+    [/^insert$/i, null, "➕"],
+    [/^duplicate$/i, null, "🔂"],
+    [/^group$/i, null, "📦"],
+    [/^export$/i, null, "📤"],
+    [/^import$/i, null, "📥"],
+    [/^check.?out$/i, null, "🔓"],
+    [/^check.?in$/i, null, "🔐"],
+    [/^send$/i, null, "📨"],
+    [/^mark read$/i, null, "👁️"],
+    [/^mark unread$/i, null, "📩"],
+    [/^flag$/i, null, "🚩"],
+    [/^calendar$/i, null, "📅"],
+    [/^chat$/i, null, "🗨️"],
+    [/^call$/i, null, "📞"],
+    [/^hang.?up$/i, null, "📵"],
+    [/^accept$/i, null, "🟢"],
+    [/^decline$/i, null, "🔴"],
+    [/^record$/i, null, "⏺️"],
+    [/^hand$/i, null, "✋"],
+    [/^blur$/i, null, "🌫️"],
+    [/^fill$/i, null, "⬇️"],
+    [/^autosum$/i, null, "🧮"],
+    [/^formula$/i, null, "🧮"],
+    [/^navigate$/i, null, "🧭"],
+    [/^home$/i, null, "🏠"],
+    [/^end$/i, null, "🔚"],
+    [/^pgup$|^pg up$|^page.?up$/i, null, "⏫"],
+    [/^pgdn$|^pg dn$|^page.?dn$|^page.?down$/i, null, "⏬"],
+    [/^1 PU$|^9 PU$/i, null, "⏫"],
+    [/^3 PD$|^7 PD$/i, null, "⏬"],
+    [/^win$/i, null, "🪟"],
+    [/^menu$/i, null, "☰"],
+    [/^power$/i, null, "⚡"],
+    [/^play$/i, null, "▶️"],
+    [/^pause$/i, null, "⏸️"],
+    [/^stop$/i, null, "⏹️"],
+    [/^next$/i, null, "⏭️"],
+    [/^prev$/i, null, "⏮️"],
+    [/^vol.?up$/i, null, "🔊"],
+    [/^vol.?dn$|^vol.?down$/i, null, "🔉"],
+    [/^mute$/i, null, "🔇"],
+    [/^bright$/i, null, "☀️"],
+    [/^hover$/i, null, "💡"],
+    [/^selnx$/i, null, "🔦"],
+    [/^stpov$/i, null, "👟"],
+    [/^stpot$/i, null, "⤴️"],
+    [/^gosym$/i, null, "🔣"],
+    [/^bkpt$/i, null, "🔴"],
+    [/^rstr$/i, null, "🔁"],
+    [/^cmnt$/i, null, "💬"],
+    [/^explr$/i, null, "🗂️"],
+    [/^newfl$/i, null, "🆕"],
+    [/^fmt$/i, null, "🎨"],
+    [/^wrap$/i, null, "🔄"],
+    [/^lnup$/i, null, "⬆️"],
+    [/^lndn$/i, null, "⬇️"],
+    [/^cpdn$/i, null, "🔂"],
+    [/^insup$/i, null, "⤴️"],
+    [/^insln$/i, null, "➕"],
+    [/^open$/i, null, "📂"],
+    [/^peek$/i, null, "👁️"],
+    [/^goln$/i, null, "📍"],
+    [/^brkt$/i, null, "🔗"],
+    [/^sett$/i, null, "⚙️"],
+    [/^delln$/i, null, "🗑️"],
+    [/^term$/i, null, "⬛"],
+    [/^selal$/i, null, "🔦"],
+    [/^indnt$/i, null, "➡️"],
+    [/^outdn$/i, null, "⬅️"],
+    [/^toggle$/i, null, "🔀"],
+    [/^copy$/i, null, "📄"],
+    [/^paste$/i, null, "📥"],
+    [/^undo$/i, null, "↩️"],
+    [/^redo$/i, null, "↪️"],
+    [/^snip$/i, null, "📸"],
+    [/^zoom in$/i, null, "🔭"],
+    [/^zoom out$/i, null, "🔬"],
+    [/^close win$/i, null, "💥"],
+    [/^minall$/i, null, "⏬"],
+    [/^cliph$/i, null, "🗂️"],
+    [/^lang$/i, null, "🌐"],
+    [/^tskmg$/i, null, "📊"],
+    [/^tskcy$/i, null, "🧲"],
+    [/^systr$/i, null, "🔽"],
+    [/^qsett$/i, null, "⚙️"],
+    [/^acces$/i, null, "♿"],
+    [/^explorer$/i, null, "📁"],
+    [/^dms$/i, null, "🏛️"],
+    [/^excel$/i, null, "📊"],
+    [/^code$/i, null, "💻"],
+    [/^hand$/i, null, "✋"],
+    [/^hangup$/i, null, "📵"],
+    [/^accept$/i, null, "🟢"],
+    [/^ctrl\+g$/i, null, "📍"],
+    [/^ctrl\+o$/i, null, "📂"],
+    [/^ctrl\+k$/i, null, "🔗"],
+    [/^ctrl\+s$/i, null, "💾"],
+    [/^ctrl\+l$/i, null, "📍"],
+    [/^ctrl\+b$/i, null, "🅱️"],
+    [/^ctrl\+u$/i, null, "🔡"],
+    [/^ctrl\+e$/i, null, "🔍"],
+    [/^ctrl\+p$/i, null, "🖨️"],
+    [/^ctrl\+r$/i, null, "🔃"],
+    [/^ctrl\+d$/i, null, "🔂"],
+    [/^ctrl\+i$/i, null, "ℹ️"],
+    [/^ctrl\+w$/i, null, "❌"],
+    [/^ctrl\+n$/i, null, "🆕"],
+    [/^mb1$/i, null, "👆"],
+    [/^mb2$/i, null, "🤞"],
+    [/^mb3$/i, null, "🖖"],
+    [/^mb4$/i, null, "👈"],
+    [/^mb5$/i, null, "👉"],
+    [/^sel all$/i, null, "🔲"],
+    [/^alt\+tab$/i, null, "🔀"],
+    [/^sidebar$/i, null, "📐"],
+    [/^probs$/i, null, "⚠️"],
+    [/^ext$/i, null, "🧩"],
+    [/^git$/i, null, "🌿"],
+    [/^srcctl$/i, null, "🌿"],
+    [/^nxtpr$/i, null, "🚨"],
+    [/^prvpr$/i, null, "🚨"],
+    [/^defn$/i, null, "🎯"],
+    [/^refs$/i, null, "🔎"],
+    [/^impl$/i, null, "🏗️"],
+    [/^type$/i, null, "🏷️"],
+    [/^select$/i, null, "🔲"],
+    [/^srch$/i, null, "🔍"],
+    [/^repl$/i, null, "🔁"],
+    [/^nxtch$/i, null, "⏭️"],
+    [/^prvch$/i, null, "⏮️"],
+    [/^inbox$/i, null, "📬"],
+    [/^newterm$/i, null, "⬛"],
+    [/^systray$/i, null, "🔽"],
+  ];
+
+  function keycapEmoji(label, modifiers, purpose) {
+    const labelClean = clean(label);
+    const modsClean = clean(modifiers);
+    const combined = `${labelClean} ${purpose}`.toLowerCase();
+    if (/base typing key for the main work layout/i.test(purpose)) return "";
+    for (const [labelPattern, modPattern, emoji] of KEYCAP_EMOJI_RULES) {
+      if (labelPattern.test(labelClean)) {
+        if (!modPattern || modPattern.test(modsClean)) return emoji;
+      }
+    }
+    if (!modsClean) return "";
+    if (/copy/i.test(combined)) return "📄";
+    if (/paste/i.test(combined)) return "📥";
+    if (/cut\b/i.test(combined)) return "✂️";
+    if (/undo/i.test(combined)) return "↩️";
+    if (/redo/i.test(combined)) return "↪️";
+    if (/save/i.test(combined)) return "💾";
+    if (/search/i.test(combined)) return "🔍";
+    if (/find/i.test(combined)) return "🔎";
+    if (/close.*tab|close.*window/i.test(combined)) return "❌";
+    if (/close/i.test(combined)) return "❌";
+    if (/select all/i.test(combined)) return "🔲";
+    if (/screenshot|snip/i.test(combined)) return "📸";
+    if (/task view/i.test(combined)) return "🪟";
+    if (/desktop/i.test(combined)) return "🏠";
+    if (/next tab/i.test(combined)) return "⏭️";
+    if (/prev.*tab/i.test(combined)) return "⏮️";
+    if (/refresh|reload/i.test(combined)) return "🔃";
+    if (/zoom.*in/i.test(combined)) return "🔭";
+    if (/zoom.*out/i.test(combined)) return "🔬";
+    if (/zoom/i.test(combined)) return "🔭";
+    if (/switch.*app|alt.*tab/i.test(combined)) return "🔀";
+    if (/command.*palette|powertoys/i.test(combined)) return "🪄";
+    if (/delete.*line/i.test(combined)) return "🗑️";
+    if (/delete|word del/i.test(combined)) return "🗑️";
+    if (/rename/i.test(combined)) return "✏️";
+    if (/clipboard/i.test(combined)) return "🗂️";
+    if (/print/i.test(combined)) return "🖨️";
+    if (/mute/i.test(combined)) return "🔇";
+    if (/camera/i.test(combined)) return "📷";
+    if (/screen.*share/i.test(combined)) return "📡";
+    if (/emoji/i.test(combined)) return "😀";
+    if (/voice/i.test(combined)) return "🎙️";
+    if (/copilot/i.test(combined)) return "🤖";
+    if (/lock.*pc/i.test(combined)) return "🔒";
+    if (/settings/i.test(combined)) return "⚙️";
+    if (/notification/i.test(combined)) return "🔔";
+    if (/minimize.*all/i.test(combined)) return "⏬";
+    if (/minimize/i.test(combined)) return "⏬";
+    if (/maximize/i.test(combined)) return "⏫";
+    if (/snap/i.test(combined)) return "🧲";
+    if (/move.*monitor/i.test(combined)) return "🖥️";
+    if (/new.*virtual/i.test(combined)) return "🆕";
+    if (/switch.*desktop/i.test(combined)) return "🔀";
+    if (/file.*explorer/i.test(combined)) return "📁";
+    if (/run.*dialog/i.test(combined)) return "▶️";
+    if (/power.*user/i.test(combined)) return "⚡";
+    if (/switch.*lang|switch.*input/i.test(combined)) return "🌐";
+    if (/toggle.*sidebar/i.test(combined)) return "📐";
+    if (/bold/i.test(combined)) return "🅱️";
+    if (/italic/i.test(combined)) return "🔤";
+    if (/underline/i.test(combined)) return "🔡";
+    if (/format/i.test(combined)) return "🎨";
+    if (/toggle.*comment/i.test(combined)) return "💬";
+    if (/comment/i.test(combined)) return "💬";
+    if (/link|hyperlink/i.test(combined)) return "🔗";
+    if (/reply/i.test(combined)) return "↩️";
+    if (/forward/i.test(combined)) return "➡️";
+    if (/attach/i.test(combined)) return "📎";
+    if (/send/i.test(combined)) return "📨";
+    if (/word.*move|word.*jump/i.test(combined)) return "⏩";
+    if (/navigat/i.test(combined)) return "🧭";
+    if (/page.*break/i.test(combined)) return "📃";
+    if (/new.*tab/i.test(combined)) return "➕";
+    if (/new.*window/i.test(combined)) return "🪟";
+    if (/new.*chat/i.test(combined)) return "🗨️";
+    if (/new.*file|new.*doc|new.*page/i.test(combined)) return "🆕";
+    if (/bookmark/i.test(combined)) return "⭐";
+    if (/favorite/i.test(combined)) return "💛";
+    if (/history/i.test(combined)) return "🕰️";
+    if (/download/i.test(combined)) return "💿";
+    if (/upload/i.test(combined)) return "☁️";
+    if (/app.*taskbar|launcher|pinned app/i.test(combined)) return "🧲";
+    if (/toggle.*output|usb.*ble/i.test(combined)) return "🔌";
+    if (/step.*over/i.test(combined)) return "👟";
+    if (/step.*into/i.test(combined)) return "⤵️";
+    if (/step.*out/i.test(combined)) return "⤴️";
+    if (/breakpoint/i.test(combined)) return "🔴";
+    if (/restart.*debug/i.test(combined)) return "🔁";
+    if (/debug/i.test(combined)) return "🐛";
+    if (/hover.*info/i.test(combined)) return "💡";
+    if (/select.*next|select.*occur/i.test(combined)) return "🔦";
+    if (/go.*symbol/i.test(combined)) return "🔣";
+    if (/explorer.*panel/i.test(combined)) return "🗂️";
+    if (/word.*wrap/i.test(combined)) return "🔄";
+    if (/move.*line/i.test(combined)) return "↕️";
+    if (/copy.*line/i.test(combined)) return "🔂";
+    if (/insert.*line/i.test(combined)) return "➕";
+    if (/split.*editor/i.test(combined)) return "↔️";
+    if (/quick.*open/i.test(combined)) return "⚡";
+    if (/peek.*def/i.test(combined)) return "👁️";
+    if (/go.*line/i.test(combined)) return "📍";
+    if (/jump.*bracket/i.test(combined)) return "🔗";
+    if (/toggle.*terminal/i.test(combined)) return "⬛";
+    if (/address.*bar/i.test(combined)) return "📍";
+    if (/select.*line|select all/i.test(combined)) return "🔲";
+    if (/duplicate/i.test(combined)) return "🔂";
+    if (/object.*info/i.test(combined)) return "ℹ️";
+    if (/raise.*hand/i.test(combined)) return "✋";
+    if (/end.*call|hang.*up/i.test(combined)) return "📵";
+    if (/accept.*call/i.test(combined)) return "🟢";
+    if (/system.*tray|focus.*tray/i.test(combined)) return "🔽";
+    if (/accessibility/i.test(combined)) return "♿";
+    if (/quick.*settings/i.test(combined)) return "⚙️";
+    if (/input.*language/i.test(combined)) return "🌐";
+    if (/cycle.*taskbar/i.test(combined)) return "🧲";
+    if (/window.*menu/i.test(combined)) return "☰";
+    if (/refresh|run/i.test(combined)) return "🔃";
+    if (/quick.*switcher/i.test(combined)) return "⚡";
+    if (/insert.*link/i.test(combined)) return "🔗";
+    if (/open.*file/i.test(combined)) return "📂";
+    if (/go.*vault|go.*page/i.test(combined)) return "📍";
+    if (/programming.*shortcut|editing.*shortcut/i.test(combined)) return "⌨️";
+    if (/control-modified/i.test(combined)) return "⌨️";
+    if (/navigation.*key.*cursor/i.test(combined)) return "🧭";
+    if (/macro.*key/i.test(combined)) return "🔧";
+    if (/rpg.*game.*action|game.*confirm/i.test(combined)) return "🎮";
+    if (/rpg.*game.*movement|game.*navigation/i.test(combined)) return "🕹️";
+    if (/mouse.*qol/i.test(combined)) return "🖱️";
+    if (/function.*key.*access/i.test(combined)) return "🎹";
+    if (/base.*typing.*key/i.test(combined)) return "";
+    return "";
+  }
+
   function classifyKey(row) {
     const behavior = clean(row.behavior);
     const behaviorLower = behavior.toLowerCase();
@@ -155,56 +539,58 @@
     const combined = `${label} ${param} ${behavior}`.toLowerCase();
 
     const coachMap = {
-      coach_l1_hold: { kind: "nav", primary: "Nav", badge: "NAV", secondary: "Hold → L1" },
-      coach_l2_hold: { kind: "mouse-hold", primary: "Mouse", badge: "MOU", secondary: "Hold → L2" },
-      coach_l3_hold: { kind: "window", primary: "Window", badge: "WIN", secondary: "Hold → L3" },
-      coach_l4_hold: { kind: "system-layer", primary: "System", badge: "SYS", secondary: "Hold → L4" },
-      coach_mouse_lock: { kind: "lock", primary: "MLock", badge: "LCK", secondary: "Lock mouse L2" },
-      coach_game_lock: { kind: "game", primary: "Game", badge: "GM", secondary: "Lock → L7" },
-      coach_base: { kind: "home", primary: "Base", badge: "HOME", secondary: "Return L0" },
-      coach_travel_toggle: { kind: "speed", primary: "Speed", badge: "SPD", secondary: "Toggle L8" },
-      coach_travel_off: { kind: "speed-off", primary: "Prec", badge: "PRC", secondary: "Exit speed" },
-      coach_recover_base: { kind: "home", primary: "Base", badge: "HOME", secondary: "Recover L0" },
-      coach_scroll_toggle: { kind: "scroll", primary: "Scroll", badge: "SCR", secondary: "Toggle L6" },
-      coach_l8_hold: { kind: "speed-hold", primary: "Speed", badge: "SPD", secondary: "Hold L8" }
+      coach_l1_hold: { kind: "nav", primary: "Nav", badge: "🧭", secondary: "Hold → L1" },
+      coach_l2_hold: { kind: "mouse-hold", primary: "Mouse", badge: "🖱️", secondary: "Hold → L2" },
+      coach_l3_hold: { kind: "window", primary: "Window", badge: "🪟", secondary: "Hold → L3" },
+      coach_l4_hold: { kind: "system-layer", primary: "System", badge: "🔧", secondary: "Hold → L4" },
+      coach_mouse_lock: { kind: "lock", primary: "MLock", badge: "🔒", secondary: "Lock mouse L2" },
+      coach_game_lock: { kind: "game", primary: "Game", badge: "🎮", secondary: "Lock → L7" },
+      coach_base: { kind: "home", primary: "Base", badge: "🏠", secondary: "Return L0" },
+      coach_travel_toggle: { kind: "speed", primary: "Speed", badge: "⚡", secondary: "Toggle L8" },
+      coach_travel_off: { kind: "speed-off", primary: "Prec", badge: "🎯", secondary: "Exit speed" },
+      coach_recover_base: { kind: "home", primary: "Base", badge: "🏠", secondary: "Recover L0" },
+      coach_scroll_toggle: { kind: "scroll", primary: "Scroll", badge: "📜", secondary: "Toggle L6" },
+      coach_l8_hold: { kind: "speed-hold", primary: "Speed", badge: "⚡", secondary: "Hold L8" }
     };
     if (coachMap[behaviorLower]) return { ...coachMap[behaviorLower] };
 
     if (/reset|bootloader/i.test(behavior) || /reset|bootloader/i.test(label)) {
-      return { kind: "danger", primary: label || "Reset", badge: "!", secondary: behavior };
+      return { kind: "danger", primary: label || "Reset", badge: "⚠️", secondary: behavior };
     }
     if (/studio/i.test(behavior)) {
-      return { kind: "studio", primary: "Studio", badge: "STU", secondary: "Unlock" };
+      return { kind: "studio", primary: "Studio", badge: "🔓", secondary: "Unlock" };
     }
     if (/transparent|none/i.test(behavior)) {
       return { kind: "transparent", primary: "·", badge: "", secondary: "" };
     }
     if (/mouse key press/i.test(behavior)) {
       const btn = label.replace(/mouse key press/i, "").trim() || param.replace(/select:/i, "") || "Btn";
-      return { kind: "mouse-btn", primary: btn, badge: "MB", secondary: shortHint(param, 14) };
+      const mbEmojis = { MB1: "👆", MB2: "🤞", MB3: "🖖", MB4: "👈", MB5: "👉" };
+      const mbEmoji = mbEmojis[btn.toUpperCase()] || "🖱️";
+      return { kind: "mouse-btn", primary: btn, badge: mbEmoji, secondary: shortHint(param, 14) };
     }
     if (/bluetooth/i.test(behavior)) {
-      return { kind: "bluetooth", primary: label || "BT", badge: "BT", secondary: shortHint(param, 16) };
+      return { kind: "bluetooth", primary: label || "BT", badge: "📶", secondary: shortHint(param, 16) };
     }
     if (/output/i.test(behavior)) {
-      return { kind: "output", primary: label || "Out", badge: "OUT", secondary: shortHint(param, 16) };
+      return { kind: "output", primary: label || "Out", badge: "🔌", secondary: shortHint(param, 16) };
     }
     if (/toggle layer/i.test(behavior)) {
       const layer = layerParam(row);
-      if (layer === "6") return { kind: "scroll", primary: "Scroll", badge: "SCR", secondary: "Toggle L6" };
-      if (layer === "8") return { kind: "speed", primary: "Speed", badge: "SPD", secondary: "Toggle L8" };
-      return { kind: "toggle", primary: label || `T${layer}`, badge: "TG", secondary: `Toggle L${layer}` };
+      if (layer === "6") return { kind: "scroll", primary: "Scroll", badge: "📜", secondary: "Toggle L6" };
+      if (layer === "8") return { kind: "speed", primary: "Speed", badge: "⚡", secondary: "Toggle L8" };
+      return { kind: "toggle", primary: label || `T${layer}`, badge: "🔀", secondary: `Toggle L${layer}` };
     }
     if (/momentary layer/i.test(behavior)) {
       const layer = layerParam(row);
-      if (layer === "8") return { kind: "speed-hold", primary: "Speed", badge: "SPD", secondary: "Hold L8" };
-      return { kind: "momentary", primary: label || `M${layer}`, badge: "MO", secondary: `Hold L${layer}` };
+      if (layer === "8") return { kind: "speed-hold", primary: "Speed", badge: "⚡", secondary: "Hold L8" };
+      return { kind: "momentary", primary: label || `M${layer}`, badge: "👆", secondary: `Hold L${layer}` };
     }
     if (/to layer/i.test(behavior)) {
       const layer = layerParam(row);
-      if (layer === "0") return { kind: "home", primary: "Exit", badge: "X", secondary: "To L0" };
-      if (layer === "7") return { kind: "game", primary: "Game", badge: "GM", secondary: "To L7" };
-      return { kind: "jump", primary: label || `L${layer}`, badge: "GO", secondary: `To L${layer}` };
+      if (layer === "0") return { kind: "home", primary: "Exit", badge: "🏠", secondary: "To L0" };
+      if (layer === "7") return { kind: "game", primary: "Game", badge: "🎮", secondary: "To L7" };
+      return { kind: "jump", primary: label || `L${layer}`, badge: "➡️", secondary: `To L${layer}` };
     }
 
     if (/leftarrow|←/i.test(combined)) return { kind: "arrow", primary: "←", badge: "", secondary: shortHint(modifiers, 12) };
@@ -215,10 +601,10 @@
     if (/key press/i.test(behavior)) {
       const primary = label || param.replace(/^Keyboard\s+/i, "").split(" and ")[0] || "?";
       if (/^f\d{1,2}$/i.test(primary)) {
-        return { kind: "function", primary: primary.toUpperCase(), badge: "Fn", secondary: shortHint(modifiers, 12) };
+        return { kind: "function", primary: primary.toUpperCase(), badge: "🎹", secondary: shortHint(modifiers, 12) };
       }
       if (/shift|ctrl|control|alt|gui|win/i.test(`${primary} ${label}`)) {
-        return { kind: "modifier", primary: label || primary, badge: "Mod", secondary: shortHint(modifiers, 12) };
+        return { kind: "modifier", primary: label || primary, badge: "⇧", secondary: shortHint(modifiers, 12) };
       }
       if (/space|spacebar|␣/i.test(`${primary} ${label}`)) {
         return { kind: "space", primary: "␣", badge: "", secondary: shortHint(modifiers, 12) };
@@ -227,13 +613,26 @@
         return { kind: "enter", primary: "↵", badge: "", secondary: shortHint(modifiers, 12) };
       }
       if (/delete|bksp|backspace/i.test(`${primary} ${label}`)) {
-        return { kind: "edit", primary: label || "Del", badge: "", secondary: shortHint(modifiers, 12) };
+        const delEmoji = /base typing/i.test(clean(row.purpose)) ? "" : "🗑️";
+        return { kind: "edit", primary: label || "Del", badge: delEmoji, secondary: shortHint(modifiers, 12) };
       }
       if (/tab/i.test(`${primary} ${label}`)) {
-        return { kind: "edit", primary: "Tab", badge: "", secondary: shortHint(modifiers, 12) };
+        const tabEmoji = /base typing/i.test(clean(row.purpose)) ? "" : "↔️";
+        return { kind: "edit", primary: "Tab", badge: tabEmoji, secondary: shortHint(modifiers, 12) };
       }
       if (/escape|esc/i.test(`${primary} ${label}`)) {
-        return { kind: "edit", primary: "Esc", badge: "", secondary: shortHint(modifiers, 12) };
+        const escEmoji = /base typing/i.test(clean(row.purpose)) ? "" : "🚫";
+        return { kind: "edit", primary: "Esc", badge: escEmoji, secondary: shortHint(modifiers, 12) };
+      }
+      if (/^[a-z]$/i.test(primary) && modifiers) {
+        const singleMatch = matchSingleLetterAction(primary, modifiers);
+        if (singleMatch) {
+          return { kind: "letter", primary: singleMatch.action, badge: singleMatch.emoji, secondary: shortHint(modifiers, 14) };
+        }
+      }
+      const keyEmoji = keycapEmoji(primary, modifiers, clean(row.purpose));
+      if (keyEmoji) {
+        return { kind: "letter", primary, badge: keyEmoji, secondary: shortHint(modifiers, 14) };
       }
       return {
         kind: "letter",
@@ -413,6 +812,7 @@
 
   function renderStatus() {
     els.activeLayer.textContent = state.liveLayer || state.displayedLayer || "0";
+    try { updateRailStrip(); } catch {}
     document.querySelectorAll(".layer-tab").forEach((tab) => {
       const layer = tab.dataset.layer;
       tab.classList.toggle("active", layer === state.displayedLayer);
@@ -659,6 +1059,270 @@
     renderWorkflow();
   }
 
+  const ACTION_EMOJI_MAP = [
+    [/\bcopy\b/i, "📄"],
+    [/\bpaste\b/i, "📥"],
+    [/\bcut\b/i, "✂️"],
+    [/\bundo\b/i, "↩️"],
+    [/\bredo\b/i, "↪️"],
+    [/\bsave\b/i, "💾"],
+    [/\bprint\b/i, "🖨️"],
+    [/\bsearch\b|quick search/i, "🔍"],
+    [/\bfind\b/i, "🔎"],
+    [/\breplace\b/i, "🔁"],
+    [/\bdelete\b|clear cell/i, "🗑️"],
+    [/\brename\b/i, "✏️"],
+    [/\bnew tab\b/i, "➕"],
+    [/\bclose tab\b|close editor\b|close pane/i, "❌"],
+    [/\bnext tab\b|switch.*tab/i, "⏭️"],
+    [/\bprevious tab\b/i, "⏮️"],
+    [/\breopen closed tab\b|restore closed/i, "♻️"],
+    [/\bnew window\b/i, "🪟"],
+    [/\bnew file\b|new document\b|new page\b|new item/i, "🆕"],
+    [/\bnew folder\b/i, "📁"],
+    [/\bnew chat\b|new message/i, "🗨️"],
+    [/\bnew slide\b/i, "🖼️"],
+    [/\bopen file\b|open document\b|open selected/i, "📂"],
+    [/\brefresh\b|reload/i, "🔃"],
+    [/\bbookmark\b/i, "⭐"],
+    [/\bfavorites\b/i, "💛"],
+    [/\bhistory\b/i, "🕰️"],
+    [/\bdownload\b/i, "💿"],
+    [/\bzoom in\b/i, "🔭"],
+    [/\bzoom out\b/i, "🔬"],
+    [/\breset zoom\b|zoom 100/i, "🔭"],
+    [/\bfullscreen\b/i, "🔲"],
+    [/\bbold\b/i, "🅱️"],
+    [/\bitalic\b/i, "🔤"],
+    [/\bunderline\b/i, "🔡"],
+    [/\bstrikethrough\b/i, "✖️"],
+    [/\bformat\b/i, "🎨"],
+    [/\bcomment\b/i, "💬"],
+    [/\bsend message\b|^send\b|send \(/i, "📨"],
+    [/\breply\b/i, "↩️"],
+    [/\bforward\b(?!.*pane)/i, "➡️"],
+    [/\bback\b(?!ground)|go back|navigate back/i, "⬅️"],
+    [/\battach\b/i, "📎"],
+    [/\bupload\b/i, "☁️"],
+    [/\binsert link\b|hyperlink\b/i, "🔗"],
+    [/\binsert.*date\b/i, "📅"],
+    [/\binsert.*time\b/i, "🕐"],
+    [/\bemoji\b/i, "😀"],
+    [/\bclipboard history\b/i, "🗂️"],
+    [/\bscreenshot\b|snip\b/i, "📸"],
+    [/\block pc\b/i, "🔒"],
+    [/\bvoice typing\b/i, "🎙️"],
+    [/\bcopilot\b/i, "🤖"],
+    [/\btask manager\b/i, "📊"],
+    [/\bsettings\b|settings menu/i, "⚙️"],
+    [/\bnotification\b/i, "🔔"],
+    [/\bmute\b|toggle mute/i, "🔇"],
+    [/\bcamera\b|toggle camera/i, "📷"],
+    [/\bscreen share\b/i, "📡"],
+    [/\braise.*hand|lower.*hand/i, "✋"],
+    [/\bhang up\b|end call\b/i, "📵"],
+    [/\baccept call\b/i, "🟢"],
+    [/\bdecline call\b/i, "🔴"],
+    [/\brecording\b|start recording/i, "⏺️"],
+    [/\bstart.*debug\b|continue debug/i, "▶️"],
+    [/\bstop debug\b/i, "⏹️"],
+    [/\bbreakpoint\b/i, "🔴"],
+    [/\bstep over\b/i, "👟"],
+    [/\bstep into\b/i, "⤵️"],
+    [/\bstep out\b/i, "⤴️"],
+    [/\brestart debug\b/i, "🔁"],
+    [/\bcommand palette\b/i, "🪄"],
+    [/\bquick open\b|quick switcher/i, "⚡"],
+    [/\btoggle terminal\b/i, "⬛"],
+    [/\bnew terminal\b/i, "⬛"],
+    [/\btoggle sidebar\b/i, "📐"],
+    [/\bsplit\b.*editor|split pane/i, "↔️"],
+    [/\bgo to definition\b/i, "🎯"],
+    [/\bpeek definition\b/i, "👁️"],
+    [/\bgo to line\b|go to page/i, "📍"],
+    [/\bgo to symbol\b/i, "🔣"],
+    [/\bexplorer panel\b/i, "📂"],
+    [/\bsource control\b/i, "🌿"],
+    [/\bextensions panel\b/i, "🧩"],
+    [/\bproblems panel\b/i, "⚠️"],
+    [/\bnext problem\b/i, "🚨"],
+    [/\bprevious problem\b/i, "🚨"],
+    [/\bselect all\b/i, "🔲"],
+    [/\bindent\b/i, "➡️"],
+    [/\boutdent\b/i, "⬅️"],
+    [/\bmove line\b/i, "↕️"],
+    [/\bcopy line\b/i, "🔂"],
+    [/\bdelete line\b/i, "🗑️"],
+    [/\binsert line\b/i, "➕"],
+    [/\bswitch apps\b/i, "🔀"],
+    [/\bclose window\b/i, "❌"],
+    [/\bshow.*desktop\b/i, "🏠"],
+    [/\btask view\b/i, "🪟"],
+    [/\bsnap window\b/i, "🧲"],
+    [/\bmaximize\b/i, "⏫"],
+    [/\bminimize\b/i, "⏬"],
+    [/\bmove to.*monitor\b/i, "🖥️"],
+    [/\bvirtual desktop\b|new virtual/i, "🆕"],
+    [/\bswitch desktop\b/i, "🔀"],
+    [/\bclose.*desktop\b/i, "❌"],
+    [/\bfile explorer\b/i, "📁"],
+    [/\brun dialog\b/i, "▶️"],
+    [/\bpower user\b/i, "⚡"],
+    [/\bswitch.*language\b|switch.*input/i, "🌐"],
+    [/\bactivity\b/i, "📊"],
+    [/\bchat\b/i, "🗨️"],
+    [/\bcalendar\b|appointment|meeting/i, "📅"],
+    [/\bcalls\b/i, "📞"],
+    [/\bfiles\b/i, "📁"],
+    [/\bmail\b|inbox/i, "📧"],
+    [/\bmark as read\b/i, "👁️"],
+    [/\bmark as unread\b/i, "📩"],
+    [/\bflag\b|follow up/i, "🚩"],
+    [/\bspell check\b/i, "📝"],
+    [/\bnumber format\b|currency format|percent format|general format/i, "💲"],
+    [/\bformula\b|autosum/i, "🧮"],
+    [/\bcalculate\b/i, "🧮"],
+    [/\bfill down\b|fill right\b/i, "⬇️"],
+    [/\bparent folder\b|go up/i, "⬆️"],
+    [/\bhide.*rows\b|hide.*columns\b/i, "👁️‍🗨️"],
+    [/\bunhide\b/i, "👁️"],
+    [/\binsert cell|insert.*row|insert.*column/i, "➕"],
+    [/\bdelete cell|delete.*row|delete.*column/i, "🗑️"],
+    [/\bgroup\b/i, "📦"],
+    [/\bungroup\b/i, "📦"],
+    [/\bduplicate\b/i, "🔂"],
+    [/\bslideshow\b|start from\b/i, "▶️"],
+    [/\bend slideshow\b/i, "⏹️"],
+    [/\bnext slide\b/i, "⏭️"],
+    [/\bprevious slide\b/i, "⏮️"],
+    [/\bblack screen\b/i, "⬛"],
+    [/\bwhite screen\b/i, "⬜"],
+    [/\bcheck out\b/i, "🔓"],
+    [/\bcheck in\b/i, "🔐"],
+    [/\bundo checkout\b/i, "↩️"],
+    [/\bversion history\b/i, "📜"],
+    [/\bworkflow\b/i, "🔄"],
+    [/\bassign\b/i, "👤"],
+    [/\bnotif/i, "🔔"],
+    [/\brelationship\b/i, "🔗"],
+    [/\bvault\b/i, "🏦"],
+    [/\bobject info\b/i, "ℹ️"],
+    [/\bcopy.*link\b|copy.*path\b|copy.*url\b/i, "🔗"],
+    [/\bhuddle\b/i, "🎧"],
+    [/\bdeafen\b/i, "🔈"],
+    [/\bautofill\b|login/i, "🔑"],
+    [/\bdevtools\b|inspect/i, "🛠️"],
+    [/\bconsole\b/i, "⬛"],
+    [/\bdevice toolbar\b/i, "📱"],
+    [/\bread aloud\b/i, "🔊"],
+    [/\bview.*source\b|page source/i, "🔬"],
+    [/\bscroll\b/i, "📜"],
+    [/\bfocus.*input\b|focus.*address/i, "📍"],
+    [/\bautocomplete\b/i, "⚡"],
+    [/\bprevious command\b|next command/i, "📜"],
+    [/\bclear screen\b/i, "🧹"],
+    [/\breverse search\b/i, "🔍"],
+    [/\bpreview pane\b/i, "👁️"],
+    [/\bproperties\b|metadata/i, "🏷️"],
+    [/\bexport\b/i, "📤"],
+    [/\btoggle ui\b/i, "👁️"],
+    [/\bmove tool\b/i, "↔️"],
+    [/\bframe tool\b/i, "🖼️"],
+    [/\brectangle\b/i, "⬜"],
+    [/\btext tool\b/i, "✏️"],
+    [/\bpen tool\b/i, "🖊️"],
+    [/\beyedropper\b/i, "💧"],
+    [/\bhand.*pan\b/i, "✋"],
+    [/\bto do\b/i, "☑️"],
+    [/\bnew line\b/i, "↵"],
+    [/\bpage break\b/i, "📃"],
+    [/\balign\b/i, "📐"],
+    [/\bspacing\b/i, "📏"],
+    [/\bnormal style\b/i, "📝"],
+    [/\bhelp\b/i, "❓"],
+    [/\bkeyboard shortcuts\b|show shortcuts/i, "⌨️"],
+    [/\bblur\b|background blur/i, "🌫️"],
+    [/\binprivate\b|incognito\b/i, "🕶️"],
+    [/\bopen.*pinned\b|taskbar\b|system tray/i, "📌"],
+    [/\babsolute ref\b/i, "📌"],
+    [/\barray formula\b/i, "📊"],
+    [/\bshow.*formula\b/i, "📊"],
+    [/\bedit cell\b/i, "✏️"],
+    [/\bcancel\b/i, "❌"],
+    [/\bnext section\b|previous section/i, "📑"],
+    [/\bexpand\b/i, "📐"],
+    [/\bconnect\b|cast\b/i, "📡"],
+    [/\bproject.*display/i, "📺"],
+    [/\bquick settings\b|action center/i, "⚙️"],
+    [/\bedit last/i, "✏️"],
+    [/\bselect.*occurrence/i, "🔦"],
+    [/\bjump to.*bracket/i, "🔗"],
+    [/\bformat selection\b|format document/i, "🎨"],
+    [/\baccept suggestion\b/i, "✅"],
+  ];
+
+  const CATEGORY_EMOJI_MAP = {
+    "Window Management": "🪟",
+    "Virtual Desktops": "🖥️",
+    "System Shortcuts": "🔧",
+    "Taskbar": "📌",
+    "Input & Language": "🌐",
+    "Universal Clipboard & Edit": "📋",
+    "Clipboard & Edit": "📋",
+    "Tab Management": "📑",
+    "Navigation": "🧭",
+    "Find & Page": "🔎",
+    "Zoom & View": "🔍",
+    "Developer Tools": "🛠️",
+    "Vimium Extension": "⌨️",
+    "Proton Pass Extension": "🔑",
+    "Edge Specific": "🌐",
+    "General": "⚙️",
+    "Messaging": "💬",
+    "Meetings & Calls": "📞",
+    "File Operations": "📁",
+    "Editing": "✏️",
+    "Multi-cursor": "🖊️",
+    "Search & Replace": "🔎",
+    "Search & Navigation": "🔍",
+    "Debug": "🐛",
+    "Selection": "⬛",
+    "Formatting": "🎨",
+    "Rows & Columns": "📊",
+    "Formulas": "🧮",
+    "View & Search": "🔍",
+    "Mail Navigation": "📧",
+    "Mail Actions": "📨",
+    "Calendar": "📅",
+    "Tabs & Panes": "📑",
+    "Terminal Actions": "💻",
+    "Zoom & Settings": "⚙️",
+    "Slideshow": "▶️",
+    "Tools": "🔧",
+    "Objects": "📦",
+    "View": "👁️",
+    "Document Operations": "📄",
+    "Metadata & Properties": "📋",
+    "Views & Selection": "👁️",
+    "Workflow & Assignments": "🔄",
+    "Admin Operations": "🔧",
+    "Voice & Video": "🎥",
+    "Calls": "📞",
+    "Search": "🔍",
+    "File": "📁",
+  };
+
+  function emojiForAction(action) {
+    for (const [pattern, emoji] of ACTION_EMOJI_MAP) {
+      if (pattern.test(action)) return emoji;
+    }
+    return "";
+  }
+
+  function emojiForCategory(name) {
+    return CATEGORY_EMOJI_MAP[name] || "";
+  }
+
   function renderWorkflow() {
     if (!els.workflowContent) return;
     const app = workflowState.activeApp;
@@ -673,14 +1337,18 @@
         const text = `${s.keys} ${s.action} ${s.charybdis || ""}`.toLowerCase();
         const hidden = query && !text.includes(query);
         const cls = hidden ? ' class="workflow-shortcut filtered-out"' : ' class="workflow-shortcut"';
-        let row = `<div${cls}><span class="workflow-keys">${escapeHtml(s.keys)}</span><span class="workflow-action">${escapeHtml(s.action)}</span>`;
+        const actionEmoji = emojiForAction(s.action);
+        const actionDisplay = actionEmoji ? `${actionEmoji} ${s.action}` : s.action;
+        let row = `<div${cls}><span class="workflow-keys">${escapeHtml(s.keys)}</span><span class="workflow-action">${escapeHtml(actionDisplay)}</span>`;
         if (s.charybdis) row += `<span class="workflow-charybdis">${escapeHtml(s.charybdis)}</span>`;
         row += "</div>";
         return { html: row, hidden };
       });
       const anyVisible = rows.some((r) => !r.hidden);
+      const catEmoji = emojiForCategory(cat.name);
+      const catDisplay = catEmoji ? `${catEmoji} ${cat.name}` : cat.name;
       if (anyVisible || !query) {
-        html += `<div class="workflow-category"><div class="workflow-category-name">${escapeHtml(cat.name)}</div>`;
+        html += `<div class="workflow-category"><div class="workflow-category-name">${escapeHtml(catDisplay)}</div>`;
         html += rows.map((r) => r.html).join("");
         html += "</div>";
       }
@@ -1045,6 +1713,76 @@
     applyFilters();
   });
 
+  // ----- Collapsible panels -----
+  const layerRail = document.getElementById("layerRail");
+  const railTitle = document.getElementById("railTitle");
+  const railColorStrip = document.getElementById("railColorStrip");
+  const inspectorPanel = document.getElementById("inspectorPanel");
+
+  const LAYER_STRIP_COLORS = {
+    "0": "#4cc9b0", "1": "#3dd6c6", "2": "#b78cff", "3": "#6eb5ff",
+    "4": "#ff9f6e", "5": "#56d4e8", "7": "#a78bfa", "8": "#ffb347", "9": "#e8a44c"
+  };
+
+  function buildRailColorStrip() {
+    if (!railColorStrip) return;
+    railColorStrip.innerHTML = "";
+    for (const layer of LAYERS) {
+      const swatch = document.createElement("div");
+      swatch.className = "rail-swatch";
+      swatch.dataset.layer = layer;
+      const color = LAYER_STRIP_COLORS[layer] || "#4cc9b0";
+      swatch.style.background = color;
+      swatch.style.setProperty("--swatch-color", color);
+      swatch.title = (LAYER_TAB_META[layer]?.title || `Layer ${layer}`);
+      swatch.addEventListener("click", (e) => {
+        e.stopPropagation();
+        state.displayedLayer = layer;
+        render();
+        updateRailStrip();
+      });
+      railColorStrip.appendChild(swatch);
+    }
+    updateRailStrip();
+  }
+
+  function updateRailStrip() {
+    if (!railColorStrip) return;
+    railColorStrip.querySelectorAll(".rail-swatch").forEach((sw) => {
+      sw.classList.toggle("active", sw.dataset.layer === state.displayedLayer);
+    });
+  }
+
+  function toggleRail() {
+    layerRail.classList.toggle("collapsed");
+  }
+
+  function toggleInspector() {
+    inspectorPanel.classList.toggle("collapsed");
+  }
+
+  if (railTitle) railTitle.addEventListener("click", toggleRail);
+  if (railColorStrip) railColorStrip.addEventListener("click", (e) => {
+    if (e.target === railColorStrip) toggleRail();
+  });
+  if (layerRail) layerRail.addEventListener("click", (e) => {
+    if (layerRail.classList.contains("collapsed") && e.target === layerRail) toggleRail();
+  });
+  if (inspectorPanel) {
+    inspectorPanel.addEventListener("click", (e) => {
+      if (inspectorPanel.classList.contains("collapsed")) {
+        e.stopPropagation();
+        toggleInspector();
+      }
+    });
+  }
+
+  const inspectorCollapseBtn = document.getElementById("inspectorCollapseBtn");
+  if (inspectorCollapseBtn) inspectorCollapseBtn.addEventListener("click", toggleInspector);
+
+  if (inspectorPanel) inspectorPanel.classList.add("collapsed");
+  buildRailColorStrip();
+
   els.fullscreenButton.addEventListener("click", async () => {
     if (!document.fullscreenElement) {
       await document.documentElement.requestFullscreen();
@@ -1294,17 +2032,17 @@
   };
 
   const LAYER_ACCESS_INFO = {
-    "0": "Base layer — no thumb hold needed",
-    "1": "Hold <strong>Nav</strong> (left thumb x3,y4)",
-    "2": "Hold <strong>Mouse</strong> (left thumb x5,y5) or Mouse Lock (L3 x10,y2)",
-    "3": "Hold <strong>Window</strong> (right thumb x8,y4)",
-    "4": "Hold <strong>System</strong> (right thumb x7,y4)",
-    "5": "Toggle <strong>Code</strong> (hold Nav → tap x0,y1)",
-    "7": "Lock <strong>Game</strong> (hold Window → tap x12,y2)",
-    "8": "Toggle <strong>Speed</strong> (hold Nav → tap x4,y2)",
-    "9": "Toggle <strong>M-Files</strong> (hold System → tap x2,y3)",
+    "0": "⌨️ Base layer — no thumb hold needed",
+    "1": "🧭 Hold <strong>Nav</strong> (left thumb x3,y4)",
+    "2": "🖱️ Hold <strong>Mouse</strong> (left thumb x5,y5) or Mouse Lock (L3 x10,y2)",
+    "3": "🪟 Hold <strong>Window</strong> (right thumb x8,y4)",
+    "4": "🔧 Hold <strong>System</strong> (right thumb x7,y4)",
+    "5": "💻 Toggle <strong>Code</strong> (hold Nav → tap x0,y1)",
+    "7": "🎮 Lock <strong>Game</strong> (hold Window → tap x12,y2)",
+    "8": "⚡ Toggle <strong>Speed</strong> (hold Nav → tap x4,y2)",
+    "9": "📁 Toggle <strong>M-Files</strong> (hold System → tap x2,y3)",
   };
-  const LAYER_FULL_NAMES = { "0": "Base", "1": "Nav (Layer 1)", "2": "Mouse (Layer 2)", "3": "Window (Layer 3)", "4": "System (Layer 4)", "5": "Code/IDE (Layer 5)", "7": "Game (Layer 7)", "8": "Speed (Layer 8)", "9": "M-Files (Layer 9)" };
+  const LAYER_FULL_NAMES = { "0": "⌨️ Base", "1": "🧭 Nav (Layer 1)", "2": "🖱️ Mouse (Layer 2)", "3": "🪟 Window (Layer 3)", "4": "🔧 System (Layer 4)", "5": "💻 Code/IDE (Layer 5)", "7": "🎮 Game (Layer 7)", "8": "⚡ Speed (Layer 8)", "9": "📁 M-Files (Layer 9)" };
   const LAYER_COLORS = { "0": "#4cc9b0", "1": "#3dd6c6", "2": "#b78cff", "3": "#6eb5ff", "4": "#ff9f6e", "5": "#56d4e8", "7": "#a78bfa", "8": "#ffb347", "9": "#e8a44c" };
   const DANGEROUS_KEYS = new Set(["Alt+F4", "Ctrl+W", "Win+D", "Win+L", "Ctrl+Shift+Esc", "Alt+Tab", "Win+Tab"]);
 

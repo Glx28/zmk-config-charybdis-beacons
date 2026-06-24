@@ -19,7 +19,8 @@
     { "id": "terminal", "file": "terminal.json", "user_weight": 0.4, "notes": "Terminal 3% active — development CLI" },
     { "id": "word", "file": "word.json", "user_weight": 0.3, "notes": "Word — occasional document writing" },
     { "id": "powerpoint", "file": "powerpoint.json", "user_weight": 0.2, "notes": "PowerPoint — occasional presentations" },
-    { "id": "discord", "file": "discord.json", "user_weight": 0.2, "notes": "Discord — background, occasional voice/chat" }
+    { "id": "discord", "file": "discord.json", "user_weight": 0.2, "notes": "Discord — background, occasional voice/chat" },
+    { "id": "mfiles_admin", "file": "mfiles_admin.json", "user_weight": 0.85, "notes": "M-Files Admin 20% — critical work admin tool" }
   ],
   "removed": [
     { "id": "notepadpp", "reason": "User does not use Notepad++" },

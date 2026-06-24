@@ -32,7 +32,17 @@
       "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" run view 27841343230 --log-failed)",
       "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" run watch)",
       "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" run view 27844558647)",
-      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" run download 27844558647 -D firmware)"
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" run download 27844558647 -D firmware)",
+      "Bash(node scripts/keymap-optimizer/run_pipeline.js --verbose)",
+      "Bash(node -e \"const r=require\\('./scripts/keymap-optimizer/lib/io'\\).readBuild\\('sync_report.json'\\); console.log\\('MISMATCHES:'\\); r.diffs.slice\\(0,10\\).forEach\\(d=>console.log\\(d.key,d.field,'csv='+d.csv_value,'apply='+d.apply_value\\)\\); console.log\\('...total:',r.diffs.length\\); console.log\\('ALIASES:',r.aliases.length\\)\")",
+      "Bash(node -e \"const r=require\\('./scripts/keymap-optimizer/lib/io'\\).readBuild\\('sync_report.json'\\); r.diffs.forEach\\(d=>console.log\\(d.key,d.field,'csv='+JSON.stringify\\(d.csv_value\\),'apply='+JSON.stringify\\(d.apply_value\\)\\)\\)\")",
+      "Bash(node -c scripts/simulate_ergonomics.js)",
+      "Bash(node -c scripts/keymap-optimizer/run_pipeline.js)",
+      "Bash(node scripts/keymap-optimizer/run_pipeline.js)",
+      "Bash(node scripts/keymap-optimizer/score_app_shortcuts.js)",
+      "Bash(node -e ' *)",
+      "Bash(node scripts/keymap-optimizer/generate_candidates.js)",
+      "Bash(node -c scripts/zmk-studio/apply_every_key.js)"
     ],
     "deny": [],
     "ask": []

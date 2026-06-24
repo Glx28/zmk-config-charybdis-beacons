@@ -87,7 +87,7 @@ Next tuning variables if needed: `zip_xy_scaler` with `track-remainders` for smo
 | 1 | Navigation, editing, function keys; left-hand Scroll (3,2) + Speed (4,2) + Code toggle (0,1) | — |
 | 2 | Mouse lock and buttons; right-pinky Scroll toggle (12,2) | — |
 | 3 | Window/app/desktop; Mouse Lock (10,2), Speed-hold (11,2); y0 filled with Win extras | — |
-| 4 | Bluetooth, output, system, F13-F24 sequential; DMS toggle (2,3) | — |
+| 4 | BT/system (y0), F13-F24 (left y1-y3), cross-app power shortcuts (right y1-y3), Teams meeting controls (right y3), DMS toggle (2,3) | — |
 | 5 | Code/IDE layer (44 VS Code shortcuts); toggle from L1 0,1 | — |
 | 6 | Scroll overlay (transparent; firmware scroll layer) | scroll-layers |
 | 7 | RPG/game | — |

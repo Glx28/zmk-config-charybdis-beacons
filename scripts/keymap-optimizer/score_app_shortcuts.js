@@ -41,6 +41,36 @@ function findShortcutOnLayout(shortcut, resolved, canonical) {
 
   if (!parsed.base_key || /^Click$/i.test(parsed.base_key)) return matches;
 
+  const BASE_KEY_ALIASES = {
+    "`": ["GRAVE ACCENT AND TILDE", "GRAVE"],
+    "/": ["FORWARDSLASH AND QUESTIONMARK", "FORWARDSLASH"],
+    "\\": ["BACKSLASH AND PIPE", "BACKSLASH"],
+    ";": ["SEMICOLON AND COLON", "SEMICOLON"],
+    "'": ["LEFT APOS AND DOUBLE", "APOSTROPHE"],
+    ",": ["COMMA AND LESSTHAN", "COMMA"],
+    ".": ["PERIOD AND GREATERTHAN", "PERIOD"],
+    "-": ["DASH AND UNDERSCORE", "MINUS"],
+    "=": ["EQUAL AND PLUS", "EQUAL"],
+    "[": ["LEFT BRACE", "LEFT BRACKET"],
+    "]": ["RIGHT BRACE", "RIGHT BRACKET"],
+    "BACKSPACE": ["DELETE"],
+    "ESC": ["ESCAPE"],
+    "ESCAPE": ["ESCAPE"],
+    "ENTER": ["RETURN ENTER", "RETURN"],
+    "SPACE": ["SPACEBAR"],
+    "TAB": ["TAB"],
+    "HOME": ["HOME"],
+    "END": ["END"],
+    "PAGEUP": ["PAGEUP", "9 AND PAGEUP"],
+    "PAGEDOWN": ["PAGEDOWN", "3 AND PAGEDN"],
+    "DELETE": ["DELETE FORWARD"],
+    "UP": ["UPARROW"], "DOWN": ["DOWNARROW"], "LEFT": ["LEFTARROW"], "RIGHT": ["RIGHTARROW"],
+    "PAUSE": ["PAUSE"],
+  };
+  for (let i = 1; i <= 24; i++) BASE_KEY_ALIASES[`F${i}`] = [`F${i}`];
+  for (let i = 0; i <= 9; i++) BASE_KEY_ALIASES[String(i)] = [`${i} AND`];
+  for (const ch of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") BASE_KEY_ALIASES[ch] = [ch];
+
   for (const ctx of LAYER_CONTEXTS) {
     const ctxData = resolved.contexts[ctx.name];
     if (!ctxData) continue;
@@ -54,12 +84,15 @@ function findShortcutOnLayout(shortcut, resolved, canonical) {
 
       let paramMatch = false;
       if (paramNorm === baseNorm) paramMatch = true;
-      else if (paramNorm.includes(baseNorm) && baseNorm.length >= 1) paramMatch = true;
+      else if (paramNorm.includes(baseNorm) && baseNorm.length >= 2) paramMatch = true;
       else {
-        const letterMatch = /^[A-Z]$/.test(baseNorm) && paramNorm === baseNorm;
-        const fkeyMatch = /^F\d+$/.test(baseNorm) && paramNorm === baseNorm;
-        const arrowMatch = /^(LEFT|RIGHT|UP|DOWN)$/i.test(baseNorm) && paramNorm.includes(baseNorm.toUpperCase() + "ARROW");
-        if (letterMatch || fkeyMatch || arrowMatch) paramMatch = true;
+        const aliases = BASE_KEY_ALIASES[baseNorm] || BASE_KEY_ALIASES[parsed.base_key] || [];
+        for (const alias of aliases) {
+          if (paramNorm === alias.toUpperCase() || paramNorm.includes(alias.toUpperCase())) {
+            paramMatch = true;
+            break;
+          }
+        }
       }
 
       if (!paramMatch) continue;

@@ -13,6 +13,9 @@
     { "id": "windows", "file": "windows.json", "user_weight": 1.0, "notes": "OS-level shortcuts — always active" },
     { "id": "explorer", "file": "explorer.json", "user_weight": 0.7, "notes": "File management — frequent" },
     { "id": "excel", "file": "excel.json", "user_weight": 0.6, "notes": "Spreadsheet work — regular" },
-    { "id": "mfiles", "file": "mfiles.json", "user_weight": 0.8, "notes": "Document management — work daily" }
+    { "id": "mfiles", "file": "mfiles.json", "user_weight": 0.8, "notes": "Document management — work daily" },
+    { "id": "teams", "file": "teams.json", "user_weight": 0.7, "notes": "Communication — meetings and chat" },
+    { "id": "outlook", "file": "outlook.json", "user_weight": 0.6, "notes": "Email — daily" },
+    { "id": "terminal", "file": "terminal.json", "user_weight": 0.8, "notes": "Terminal/PowerShell — development" }
   ]
 }

@@ -1,0 +1,35 @@
+{
+  "id": "teams",
+  "name": "Microsoft Teams",
+  "icon": "chat",
+  "categories": [
+    {
+      "name": "Meetings",
+      "shortcuts": [
+        { "keys": "Ctrl+Shift+M", "action": "Toggle mute", "charybdis": "L5 Probs (x12,y1) shares Ctrl+Shift+M" },
+        { "keys": "Ctrl+Shift+O", "action": "Toggle camera" },
+        { "keys": "Ctrl+Shift+E", "action": "Screen share" },
+        { "keys": "Ctrl+Shift+K", "action": "Raise/lower hand" },
+        { "keys": "Ctrl+Shift+H", "action": "Hang up / leave" }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Ctrl+E", "action": "Search / command bar" },
+        { "keys": "Ctrl+1-6", "action": "Switch views (Activity/Chat/Teams/Calendar/Calls/Files)" },
+        { "keys": "Ctrl+N", "action": "New chat" },
+        { "keys": "Ctrl+/", "action": "Show commands" }
+      ]
+    },
+    {
+      "name": "Messaging",
+      "shortcuts": [
+        { "keys": "Enter", "action": "Send message", "charybdis": "L2 Enter (x3,y1 or x8,y1)" },
+        { "keys": "Shift+Enter", "action": "New line in message" },
+        { "keys": "Ctrl+B", "action": "Bold" },
+        { "keys": "Ctrl+I", "action": "Italic" }
+      ]
+    }
+  ]
+}

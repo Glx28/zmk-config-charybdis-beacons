@@ -1,0 +1,28 @@
+{
+  "id": "terminal",
+  "name": "Terminal",
+  "icon": "console",
+  "categories": [
+    {
+      "name": "Tabs & Panes",
+      "shortcuts": [
+        { "keys": "Ctrl+Shift+T", "action": "New tab" },
+        { "keys": "Ctrl+Shift+W", "action": "Close tab/pane" },
+        { "keys": "Ctrl+Tab", "action": "Next tab", "charybdis": "L2 Next Tab (x3,y0 or x9,y0)" },
+        { "keys": "Alt+Shift+D", "action": "Split pane" },
+        { "keys": "Alt+Arrow", "action": "Focus pane" }
+      ]
+    },
+    {
+      "name": "Terminal Actions",
+      "shortcuts": [
+        { "keys": "Ctrl+C", "action": "Copy / Cancel", "charybdis": "L2 Copy" },
+        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste" },
+        { "keys": "Ctrl+L", "action": "Clear screen" },
+        { "keys": "Ctrl+R", "action": "Reverse search history" },
+        { "keys": "Tab", "action": "Autocomplete" },
+        { "keys": "Up/Down", "action": "History navigation" }
+      ]
+    }
+  ]
+}

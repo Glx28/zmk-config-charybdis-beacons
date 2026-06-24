@@ -1,0 +1,40 @@
+{
+  "id": "outlook",
+  "name": "Outlook",
+  "icon": "mail",
+  "categories": [
+    {
+      "name": "Mail Actions",
+      "shortcuts": [
+        { "keys": "Ctrl+N", "action": "New mail" },
+        { "keys": "Ctrl+R", "action": "Reply" },
+        { "keys": "Ctrl+Shift+R", "action": "Reply all" },
+        { "keys": "Ctrl+F", "action": "Forward", "charybdis": "L1 Ctrl+F (x5,y1)" },
+        { "keys": "Ctrl+Enter", "action": "Send message" },
+        { "keys": "Delete", "action": "Delete message" },
+        { "keys": "Ctrl+Q", "action": "Mark as read" },
+        { "keys": "Ctrl+U", "action": "Mark as unread" }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Ctrl+1", "action": "Switch to Mail" },
+        { "keys": "Ctrl+2", "action": "Switch to Calendar" },
+        { "keys": "Ctrl+E", "action": "Search" },
+        { "keys": "Ctrl+Shift+I", "action": "Go to Inbox" }
+      ]
+    },
+    {
+      "name": "Editing",
+      "shortcuts": [
+        { "keys": "Ctrl+C", "action": "Copy", "charybdis": "L2 Copy" },
+        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste" },
+        { "keys": "Ctrl+Z", "action": "Undo", "charybdis": "L2 Undo" },
+        { "keys": "Ctrl+B", "action": "Bold" },
+        { "keys": "Ctrl+K", "action": "Insert hyperlink" },
+        { "keys": "Ctrl+Shift+V", "action": "Paste as plain text" }
+      ]
+    }
+  ]
+}

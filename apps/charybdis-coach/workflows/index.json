@@ -43,6 +43,27 @@
       "icon": "table",
       "file": "excel.json",
       "tags": ["spreadsheet", "office", "microsoft"]
+    },
+    {
+      "id": "teams",
+      "name": "Teams",
+      "icon": "chat",
+      "file": "teams.json",
+      "tags": ["communication", "meetings", "chat", "microsoft"]
+    },
+    {
+      "id": "outlook",
+      "name": "Outlook",
+      "icon": "mail",
+      "file": "outlook.json",
+      "tags": ["email", "calendar", "microsoft", "office"]
+    },
+    {
+      "id": "terminal",
+      "name": "Terminal",
+      "icon": "console",
+      "file": "terminal.json",
+      "tags": ["powershell", "cmd", "cli", "development"]
     }
   ]
 }

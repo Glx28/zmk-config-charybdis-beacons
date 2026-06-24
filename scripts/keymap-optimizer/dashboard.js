@@ -36,9 +36,14 @@ try {
   w(`  │ ${"".padEnd(45)} tot=${String(workflows.summary.total_weighted_effort.toFixed(0)).padStart(3)} │`);
   w("  └─────────────────────────────────────────────────┘");
 
-  w("\n  ┌─ SYNC STATUS ──────────────────────────────────┐");
-  w(`  │ CSV↔Apply: ${sync.summary.matched} matched, ${sync.diffs.length} mismatches, ${sync.aliases.length} aliases    │`);
-  w(`  │ Workflow refs: ${sync.workflow_refs.valid}/${sync.workflow_refs.total} valid                        │`);
+  w("\n  ┌─ SYNC & ANALYSIS ─────────────────────────────┐");
+  w(`  │ CSV↔Apply: ${sync.summary.matched} matched, ${sync.diffs.length} mismatches               │`);
+  w(`  │ Workflow refs: ${String(sync.workflow_refs.valid).padStart(2)}/${String(sync.workflow_refs.total).padStart(2)} valid                          │`);
+  try {
+    const cross = readBuild("cross_app_analysis.json");
+    w(`  │ Universal shortcuts: ${cross.summary.universal_count} (${cross.summary.universal_mapped} mapped)         │`);
+    w(`  │ Shortcut conflicts: ${(cross.shortcut_conflicts||[]).length} (same key, diff action)   │`);
+  } catch {}
   w("  └────────────────────────────────────────────────┘");
 
   w("\n  ┌─ LAYER MAP ────────────────────────────────────┐");

@@ -21,6 +21,7 @@
     { "id": "notepadpp", "file": "notepadpp.json", "user_weight": 0.5, "notes": "Notepad++ — text editing" },
     { "id": "powerpoint", "file": "powerpoint.json", "user_weight": 0.4, "notes": "PowerPoint — presentations" },
     { "id": "onenote", "file": "onenote.json", "user_weight": 0.5, "notes": "OneNote — notes and organization" },
-    { "id": "figma", "file": "figma.json", "user_weight": 0.3, "notes": "Figma — design tool" }
+    { "id": "figma", "file": "figma.json", "user_weight": 0.3, "notes": "Figma — design tool" },
+    { "id": "slack", "file": "slack.json", "user_weight": 0.6, "notes": "Slack — team communication" }
   ]
 }

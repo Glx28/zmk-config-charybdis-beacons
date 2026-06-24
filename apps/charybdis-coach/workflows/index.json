@@ -64,6 +64,13 @@
       "icon": "console",
       "file": "terminal.json",
       "tags": ["powershell", "cmd", "cli", "development"]
+    },
+    {
+      "id": "word",
+      "name": "Word",
+      "icon": "doc",
+      "file": "word.json",
+      "tags": ["document", "writing", "office", "microsoft"]
     }
   ]
 }

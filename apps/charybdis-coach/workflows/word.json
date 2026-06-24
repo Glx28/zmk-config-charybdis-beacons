@@ -1,0 +1,41 @@
+{
+  "id": "word",
+  "name": "Word",
+  "icon": "doc",
+  "categories": [
+    {
+      "name": "Formatting",
+      "shortcuts": [
+        { "keys": "Ctrl+B", "action": "Bold" },
+        { "keys": "Ctrl+I", "action": "Italic" },
+        { "keys": "Ctrl+U", "action": "Underline" },
+        { "keys": "Ctrl+E", "action": "Center align" },
+        { "keys": "Ctrl+L", "action": "Left align" },
+        { "keys": "Ctrl+Shift+>", "action": "Increase font size" },
+        { "keys": "Ctrl+Shift+<", "action": "Decrease font size" }
+      ]
+    },
+    {
+      "name": "Editing",
+      "shortcuts": [
+        { "keys": "Ctrl+C", "action": "Copy", "charybdis": "L2 Copy" },
+        { "keys": "Ctrl+V", "action": "Paste", "charybdis": "L2 Paste" },
+        { "keys": "Ctrl+Z", "action": "Undo", "charybdis": "L2 Undo" },
+        { "keys": "Ctrl+S", "action": "Save", "charybdis": "L5 Save (x1,y2)" },
+        { "keys": "Ctrl+F", "action": "Find", "charybdis": "L1 Ctrl+F (x5,y1)" },
+        { "keys": "Ctrl+H", "action": "Replace", "charybdis": "L1 Ctrl+H (x5,y3)" },
+        { "keys": "Ctrl+Enter", "action": "Page break" },
+        { "keys": "Ctrl+Shift+V", "action": "Paste special", "charybdis": "L5 PstNF (x1,y3)" }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "shortcuts": [
+        { "keys": "Ctrl+Home", "action": "Go to beginning" },
+        { "keys": "Ctrl+End", "action": "Go to end" },
+        { "keys": "Ctrl+P", "action": "Print" },
+        { "keys": "F7", "action": "Spell check" }
+      ]
+    }
+  ]
+}

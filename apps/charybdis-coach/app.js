@@ -1,5 +1,5 @@
 (function () {
-  const LAYERS = ["0", "1", "2", "3", "4", "7", "8"];
+  const LAYERS = ["0", "1", "2", "3", "4", "5", "7", "8", "9"];
   const X_LEFT = [0, 1, 2, 3, 4, 5];
   const X_RIGHT = [7, 8, 9, 10, 11, 12];
   const MAX_EVENTS = 12;
@@ -70,8 +70,10 @@
     "2": { glyph: "Mou", title: "Mouse lock" },
     "3": { glyph: "Win", title: "Window / apps" },
     "4": { glyph: "Sys", title: "System / BT" },
+    "5": { glyph: "Code", title: "Code / IDE" },
     "7": { glyph: "RPG", title: "Game layer" },
-    "8": { glyph: "Spd", title: "Speed travel" }
+    "8": { glyph: "Spd", title: "Speed travel" },
+    "9": { glyph: "DMS", title: "M-Files / DMS" }
   };
 
   function clean(text) {

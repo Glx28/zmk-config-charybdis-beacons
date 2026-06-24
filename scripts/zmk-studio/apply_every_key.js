@@ -27,9 +27,9 @@ Speed uses coach_travel_toggle (tap latch); fallback in Studio is Toggle Layer 8
 
 window.CHARYBDIS_FINAL_LAYOUT = {
   "project": "Charybdis Ultimate Keyboard Experience",
-  "version": "v2.0-mouse-qol-right-hand-shortcuts",
+  "version": "v2.2-code-mfiles-layers",
   "device": "V&Z-Charydbis",
-  "policy": "Full ZMK Studio reapply. v2.0 adds mouse QoL bindings on Layer 2 for BOTH hands. Right hand: Row 0 window mgmt (Task View, Desktop, tab cycling, Redo, Del), Row 1 core actions (Alt+Tab, Enter, Esc, BkSp, Win, Close), Row 2 mouse buttons (MB4-MB1-MB2-MB3-MB5-Scroll), Row 3 clipboard (Copy, Paste, Sel All, Undo, Speed, Close Win). Left hand: Row 0 window mgmt (Task View, Desktop, Next/Prev Tab, Scroll), Row 1 core actions (Alt+Tab, Esc, Enter, BkSp, Close), Row 2 mouse buttons (MB1-MB2-MB3-MB4-MB5 on home row), Row 3 clipboard (Undo, Cut, Copy, Paste, Sel All). x0 columns stay transparent for modifier fall-through (Esc/Tab/Shift/Ctrl). Exits unchanged.",
+  "policy": "Full ZMK Studio reapply. v2.2. Right hand: Row 0 window mgmt (Task View, Desktop, tab cycling, Redo, Del), Row 1 core actions (Alt+Tab, Enter, Esc, BkSp, Win, Close), Row 2 mouse buttons (MB4-MB1-MB2-MB3-MB5-Scroll), Row 3 clipboard (Copy, Paste, Sel All, Undo, Speed, Close Win). Left hand: Row 0 window mgmt (Task View, Desktop, Next/Prev Tab, Scroll), Row 1 core actions (Alt+Tab, Esc, Enter, BkSp, Close), Row 2 mouse buttons (MB1-MB2-MB3-MB4-MB5 on home row), Row 3 clipboard (Undo, Cut, Copy, Paste, Sel All). x0 columns stay transparent for modifier fall-through (Esc/Tab/Shift/Ctrl). Exits unchanged. v2.2 adds Code/IDE layer (L5, 44 shortcuts), M-Files/DMS layer (L9, 22 shortcuts), and fills L3 y0 with window extras.",
   "generatedFrom": "scripts/zmk-studio/verify_every_key.js EXPECTED_CSV",
   "keyCount": 616,
   "keys": [
@@ -784,11 +784,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 1,
       "x": 0,
       "y": 1,
-      "behavior": "coach_game_lock",
-      "label": "Game",
-      "rationale": "Left-hand game lock: hold Nav, tap Game, release Nav — locks Layer 7 (plain To Layer did not persist after Nav release).",
+      "behavior": "Toggle Layer",
+      "label": "Code",
+      "rationale": "v2.2: Toggle Code/IDE layer. Game lock still on L3 x12,y2.",
       "apply_batch": true,
-      "full_reapply_v20": true
+      "full_reapply_v20": true,
+      "parameter": "5",
+      "full_reapply_v22": true
     },
     {
       "layer": 1,
@@ -1306,7 +1308,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L GUI"]
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 2,
@@ -1318,7 +1322,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard D",
-      "modifiers": ["L GUI"]
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 2,
@@ -1330,7 +1336,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1342,7 +1350,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L Ctrl", "L Shift"]
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 2,
@@ -1365,7 +1376,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L GUI"]
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 2,
@@ -1377,7 +1390,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard D",
-      "modifiers": ["L GUI"]
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 2,
@@ -1389,7 +1404,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1401,7 +1418,10 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L Ctrl", "L Shift"]
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ]
     },
     {
       "layer": 2,
@@ -1413,7 +1433,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Y",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1446,7 +1468,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L Alt"]
+      "modifiers": [
+        "L Alt"
+      ]
     },
     {
       "layer": 2,
@@ -1491,7 +1515,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard W",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1503,7 +1529,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Tab",
-      "modifiers": ["L Alt"]
+      "modifiers": [
+        "L Alt"
+      ]
     },
     {
       "layer": 2,
@@ -1559,7 +1587,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard W",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1712,7 +1742,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Z",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1724,7 +1756,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard X",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1736,7 +1770,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard C",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1748,7 +1784,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard V",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1760,7 +1798,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard A",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1772,7 +1812,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard C",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1784,7 +1826,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard V",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1796,7 +1840,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard A",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1808,7 +1854,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard Z",
-      "modifiers": ["L Ctrl"]
+      "modifiers": [
+        "L Ctrl"
+      ]
     },
     {
       "layer": 2,
@@ -1830,7 +1878,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v20": true,
       "parameter": "Keyboard F4",
-      "modifiers": ["L Alt"]
+      "modifiers": [
+        "L Alt"
+      ]
     },
     {
       "layer": 2,
@@ -1929,101 +1979,152 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 3,
       "x": 1,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "TskMg",
+      "rationale": "v2.2: Ctrl+Shift+Esc Task Manager — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Escape",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 2,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Emoji",
+      "rationale": "v2.2: Win+. Emoji picker — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Period and GreaterThan",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 3,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Proj",
+      "rationale": "v2.2: Win+P Project / display — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard P",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 4,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "QSett",
+      "rationale": "v2.2: Win+A Quick Settings — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard A",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 5,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Notif",
+      "rationale": "v2.2: Win+N Notifications — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard N",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 7,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "TskCy",
+      "rationale": "v2.2: Win+T Cycle taskbar — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard T",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 8,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SysTr",
+      "rationale": "v2.2: Win+B System tray — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard B",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 9,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Cast",
+      "rationale": "v2.2: Win+K Connect / Cast — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard K",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 10,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Acces",
+      "rationale": "v2.2: Win+U Accessibility — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard U",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
       "x": 11,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Emoji",
+      "rationale": "v2.2: Win+; Emoji picker (alt) — fills L3 y0.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard SemiColon and Colon",
+      "modifiers": [
+        "L GUI"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 3,
@@ -2172,7 +2273,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v21": true,
       "parameter": "Keyboard L",
-      "modifiers": ["L GUI"]
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 3,
@@ -2184,7 +2287,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v21": true,
       "parameter": "Keyboard I",
-      "modifiers": ["L GUI"]
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 3,
@@ -2196,7 +2301,9 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "apply_batch": true,
       "full_reapply_v21": true,
       "parameter": "Keyboard R",
-      "modifiers": ["L GUI"]
+      "modifiers": [
+        "L GUI"
+      ]
     },
     {
       "layer": 3,
@@ -3006,11 +3113,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 2,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.1: Freed by F-key dedup. Available for future macros.",
+      "behavior": "Toggle Layer",
+      "label": "DMS",
+      "rationale": "v2.2: Toggle M-Files/DMS layer.",
       "apply_batch": true,
-      "full_reapply_v21": true
+      "full_reapply_v21": true,
+      "parameter": "9",
+      "full_reapply_v22": true
     },
     {
       "layer": 4,
@@ -3196,111 +3305,157 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 5,
       "x": 1,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Debug",
+      "rationale": "v2.2: Code/IDE layer — Start/continue debug.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F5",
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 2,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Stop",
+      "rationale": "v2.2: Code/IDE layer — Stop debugging.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F5",
+      "modifiers": [
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 3,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "StpOv",
+      "rationale": "v2.2: Code/IDE layer — Step over.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F10",
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 4,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "StpIn",
+      "rationale": "v2.2: Code/IDE layer — Step into.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F11",
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 5,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "StpOt",
+      "rationale": "v2.2: Code/IDE layer — Step out.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F11",
+      "modifiers": [
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 7,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "BkPt",
+      "rationale": "v2.2: Code/IDE layer — Toggle breakpoint.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F9",
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 8,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Rstr",
+      "rationale": "v2.2: Code/IDE layer — Restart debug.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F5",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 9,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Sett",
+      "rationale": "v2.2: Code/IDE layer — Settings.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Comma and LessThan",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 10,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "NTerm",
+      "rationale": "v2.2: Code/IDE layer — New terminal.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Grave Accent and Tilde",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 11,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "NewFl",
+      "rationale": "v2.2: Code/IDE layer — New file.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard N",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 12,
       "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Fmt",
+      "rationale": "v2.2: Code/IDE layer — Format document.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
@@ -3316,111 +3471,171 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 5,
       "x": 1,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "LnUp",
+      "rationale": "v2.2: Code/IDE layer — Move line up.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard UpArrow",
+      "modifiers": [
+        "L Alt"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 2,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "LnDn",
+      "rationale": "v2.2: Code/IDE layer — Move line down.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard DownArrow",
+      "modifiers": [
+        "L Alt"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 3,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "CpDn",
+      "rationale": "v2.2: Code/IDE layer — Copy line down.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard DownArrow",
+      "modifiers": [
+        "L Shift",
+        "L Alt"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 4,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "InsLn",
+      "rationale": "v2.2: Code/IDE layer — Insert line below.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Return Enter",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 5,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "InsUp",
+      "rationale": "v2.2: Code/IDE layer — Insert line above.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Return Enter",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 7,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Outd",
+      "rationale": "v2.2: Code/IDE layer — Outdent.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Left Brace",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 8,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ind",
+      "rationale": "v2.2: Code/IDE layer — Indent.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Right Brace",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 9,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Brkt",
+      "rationale": "v2.2: Code/IDE layer — Jump to bracket.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Backslash and Pipe",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 10,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelAl",
+      "rationale": "v2.2: Code/IDE layer — Select all occurrences.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard L",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 11,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Peek",
+      "rationale": "v2.2: Code/IDE layer — Peek definition.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F12",
+      "modifiers": [
+        "L Alt"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 12,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Probs",
+      "rationale": "v2.2: Code/IDE layer — Problems panel.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard M",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
@@ -3436,111 +3651,171 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 5,
       "x": 1,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Save",
+      "rationale": "v2.2: Code/IDE layer — Save.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard S",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 2,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelNx",
+      "rationale": "v2.2: Code/IDE layer — Select next occurrence.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard D",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 3,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Cmnt",
+      "rationale": "v2.2: Code/IDE layer — Toggle comment.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard ForwardSlash and QuestionMark",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 4,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "DelLn",
+      "rationale": "v2.2: Code/IDE layer — Delete line.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard K",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 5,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Term",
+      "rationale": "v2.2: Code/IDE layer — Toggle terminal.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Grave Accent and Tilde",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 7,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Open",
+      "rationale": "v2.2: Code/IDE layer — Quick open file.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard P",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 8,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "CmdP",
+      "rationale": "v2.2: Code/IDE layer — Command palette.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard P",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 9,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "GoLn",
+      "rationale": "v2.2: Code/IDE layer — Go to line.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard G",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 10,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "GoSym",
+      "rationale": "v2.2: Code/IDE layer — Go to symbol.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard O",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 11,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SrchF",
+      "rationale": "v2.2: Code/IDE layer — Search across files.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 12,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Git",
+      "rationale": "v2.2: Code/IDE layer — Source control.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard G",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
@@ -3556,121 +3831,179 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 5,
       "x": 1,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "PstNF",
+      "rationale": "v2.2: Code/IDE layer — Paste no formatting.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard V",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 2,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "BlkCm",
+      "rationale": "v2.2: Code/IDE layer — Block comment.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard A",
+      "modifiers": [
+        "L Shift",
+        "L Alt"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 3,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Explr",
+      "rationale": "v2.2: Code/IDE layer — Explorer panel.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard E",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 4,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Ext",
+      "rationale": "v2.2: Code/IDE layer — Extensions panel.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard X",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 5,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Side",
+      "rationale": "v2.2: Code/IDE layer — Toggle sidebar.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard B",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 7,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Panel",
+      "rationale": "v2.2: Code/IDE layer — Toggle bottom panel.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard J",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 8,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Split",
+      "rationale": "v2.2: Code/IDE layer — Split editor.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Backslash and Pipe",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 9,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "SelLn",
+      "rationale": "v2.2: Code/IDE layer — Select line.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard L",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 10,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "RplFl",
+      "rationale": "v2.2: Code/IDE layer — Replace in files.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard H",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 11,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "NxtPr",
+      "rationale": "v2.2: Code/IDE layer — Next problem.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F8",
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 12,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "PrvPr",
+      "rationale": "v2.2: Code/IDE layer — Prev problem.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F8",
+      "modifiers": [
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 3,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit Code/IDE layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
@@ -3686,31 +4019,34 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 5,
       "x": 5,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit Code/IDE layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 7,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit Code/IDE layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
       "x": 8,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit Code/IDE layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 5,
@@ -5582,71 +5918,110 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 9,
       "x": 1,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "WfSt",
+      "rationale": "v2.2: M-Files/DMS layer — Change workflow state.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard W",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 2,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Asgn",
+      "rationale": "v2.2: M-Files/DMS layer — Assign to user.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard A",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 3,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "ASrch",
+      "rationale": "v2.2: M-Files/DMS layer — Advanced search.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 4,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Fav",
+      "rationale": "v2.2: M-Files/DMS layer — Add to favorites.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard M",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 5,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "DLoad",
+      "rationale": "v2.2: M-Files/DMS layer — Download copy.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard D",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 7,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Print",
+      "rationale": "v2.2: M-Files/DMS layer — Print.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard P",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 8,
       "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Vault",
+      "rationale": "v2.2: M-Files/DMS layer — Go to vault.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard G",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
@@ -5702,111 +6077,170 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 9,
       "x": 1,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "ChkOt",
+      "rationale": "v2.2: M-Files/DMS layer — Check out.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard E",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 2,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "ChkIn",
+      "rationale": "v2.2: M-Files/DMS layer — Check in.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard E",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 3,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Save",
+      "rationale": "v2.2: M-Files/DMS layer — Save.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard S",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 4,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "New",
+      "rationale": "v2.2: M-Files/DMS layer — New object.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard N",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 5,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Open",
+      "rationale": "v2.2: M-Files/DMS layer — Open document.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard O",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 7,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Props",
+      "rationale": "v2.2: M-Files/DMS layer — Properties / metadata.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard Return Enter",
+      "modifiers": [
+        "L Alt"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 8,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "CpLnk",
+      "rationale": "v2.2: M-Files/DMS layer — Copy object link.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard C",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 9,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Info",
+      "rationale": "v2.2: M-Files/DMS layer — Object info.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard I",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 10,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Hist",
+      "rationale": "v2.2: M-Files/DMS layer — Version history.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard H",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 11,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Rel",
+      "rationale": "v2.2: M-Files/DMS layer — Add relationship.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard K",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 12,
       "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "UndCO",
+      "rationale": "v2.2: M-Files/DMS layer — Undo checkout.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard U",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
@@ -5822,41 +6256,63 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 9,
       "x": 1,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "List",
+      "rationale": "v2.2: M-Files/DMS layer — List view.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard 1 and Bang",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 2,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Icon",
+      "rationale": "v2.2: M-Files/DMS layer — Icon view.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard 2 and At",
+      "modifiers": [
+        "L Ctrl"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 3,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Group",
+      "rationale": "v2.2: M-Files/DMS layer — Group by.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard G",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 4,
       "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "Key Press",
+      "label": "Notif",
+      "rationale": "v2.2: M-Files/DMS layer — Send notification.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "parameter": "Keyboard F5",
+      "modifiers": [
+        "L Ctrl",
+        "L Shift"
+      ],
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
@@ -5932,11 +6388,12 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 9,
       "x": 3,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
@@ -5952,31 +6409,34 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 9,
       "x": 5,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 7,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 9,
       "x": 8,
       "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
+      "behavior": "coach_base",
+      "label": "Base",
+      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
       "apply_batch": true,
-      "full_reapply_v18": true
+      "full_reapply_v18": true,
+      "full_reapply_v22": true
     },
     {
       "layer": 9,

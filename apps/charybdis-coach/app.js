@@ -42,6 +42,7 @@
     practicePrompt: document.getElementById("practicePrompt"),
     practiceScore: document.getElementById("practiceScore"),
     practiceMastery: document.getElementById("practiceMastery"),
+    practiceAppSelect: document.getElementById("practiceAppSelect"),
     workflowAppSelect: document.getElementById("workflowAppSelect"),
     workflowSearch: document.getElementById("workflowSearch"),
     workflowContent: document.getElementById("workflowContent")
@@ -705,6 +706,22 @@
       els.workflowAppSelect.value = saved;
       loadWorkflowApp(saved);
     }
+    populatePracticeAppSelect();
+  }
+
+  async function populatePracticeAppSelect() {
+    if (!els.practiceAppSelect || !workflowState.index) return;
+    els.practiceAppSelect.innerHTML = '<option value="">Layer mode (current layer)</option>';
+    for (const entry of (workflowState.index.apps || [])) {
+      const opt = document.createElement("option");
+      opt.value = entry.id;
+      opt.textContent = `${entry.name} shortcuts`;
+      els.practiceAppSelect.appendChild(opt);
+      if (!workflowState.apps.has(entry.id)) {
+        const data = await loadJson(`../../apps/charybdis-coach/workflows/${entry.file}`, null);
+        if (data) workflowState.apps.set(entry.id, data);
+      }
+    }
   }
 
   async function init() {
@@ -848,10 +865,35 @@
 
   function startQuiz() {
     setActiveMode("quiz");
+    const appId = getSelectedPracticeApp();
+    if (appId) {
+      state.practice.appShortcuts = appShortcutRows(appId);
+      if (!state.practice.appShortcuts.length) {
+        setPrompt(`No mapped shortcuts found for this app. Select a different app or use layer mode.`);
+        return;
+      }
+    } else {
+      state.practice.appShortcuts = null;
+    }
     nextQuiz();
   }
 
   function nextQuiz() {
+    const appId = getSelectedPracticeApp();
+    if (appId && state.practice.appShortcuts?.length) {
+      const shortcuts = state.practice.appShortcuts;
+      const idx = Math.floor(Math.random() * shortcuts.length);
+      const sc = shortcuts[idx];
+      state.practice.target = sc.row;
+      state.practice.appContext = sc;
+      if (sc.row.layer !== state.displayedLayer) {
+        state.displayedLayer = sc.row.layer;
+        render();
+      }
+      selectKey(sc.row);
+      setPrompt(`APP QUIZ — In ${appId}, find the key for: "${sc.appAction}" (${sc.appKeys})  ·  Layer ${sc.row.layer}`);
+      return;
+    }
     const target = pickWeightedTarget(practiceableRows(state.displayedLayer));
     state.practice.target = target;
     if (!target) {
@@ -877,7 +919,16 @@
 
   function startGuided() {
     setActiveMode("guided");
-    state.practice.guidedList = practiceableRows(state.displayedLayer);
+    const appId = getSelectedPracticeApp();
+    if (appId) {
+      state.practice.appShortcuts = appShortcutRows(appId);
+      state.practice.guidedList = state.practice.appShortcuts.map((s) => s.row);
+      state.practice.guidedAppData = state.practice.appShortcuts;
+    } else {
+      state.practice.guidedList = practiceableRows(state.displayedLayer);
+      state.practice.guidedAppData = null;
+      state.practice.appShortcuts = null;
+    }
     state.practice.guidedIndex = 0;
     guidedShow();
   }
@@ -885,15 +936,24 @@
   function guidedShow() {
     const list = state.practice.guidedList;
     if (!list.length) {
-      setPrompt("Nothing to tour on this layer.");
+      setPrompt("Nothing to tour. " + (getSelectedPracticeApp() ? "No mapped shortcuts for this app." : "Switch layers and try again."));
       return;
     }
     const i = ((state.practice.guidedIndex % list.length) + list.length) % list.length;
     state.practice.guidedIndex = i;
     const row = list[i];
+    if (row.layer !== state.displayedLayer) {
+      state.displayedLayer = row.layer;
+      render();
+    }
     selectKey(row);
     flashKey(row, "answer-correct");
-    setPrompt(`GUIDED ${i + 1}/${list.length} — "${clean(row.visual_label)}": ${clean(row.purpose) || clean(row.usage_notes)}  ·  press Drill/Quiz to practice, or click another key to advance.`);
+    const appData = state.practice.guidedAppData?.[i];
+    if (appData) {
+      setPrompt(`APP GUIDE ${i + 1}/${list.length} — ${appData.category}: "${appData.appAction}" (${appData.appKeys})  ·  Key: "${clean(row.visual_label)}" on Layer ${row.layer}  ·  click to advance`);
+    } else {
+      setPrompt(`GUIDED ${i + 1}/${list.length} — "${clean(row.visual_label)}": ${clean(row.purpose) || clean(row.usage_notes)}  ·  click another key to advance.`);
+    }
     state.practice.guidedIndex = i + 1;
   }
 
@@ -904,9 +964,40 @@
     });
   }
 
+  function getSelectedPracticeApp() {
+    return els.practiceAppSelect?.value || "";
+  }
+
+  function appShortcutRows(appId) {
+    const app = workflowState.apps.get(appId);
+    if (!app) return [];
+    const results = [];
+    for (const cat of (app.categories || [])) {
+      for (const s of (cat.shortcuts || [])) {
+        if (!s.charybdis) continue;
+        const layerMatch = s.charybdis.match(/L(\d+)/);
+        if (!layerMatch) continue;
+        const layer = layerMatch[1];
+        const posMatch = s.charybdis.match(/x(\d+),\s*y(\d+)/);
+        let matchedRow = null;
+        if (posMatch) {
+          matchedRow = (state.rowsByLayer.get(layer) || []).find((r) => r.x === posMatch[1] && r.y === posMatch[2]);
+        }
+        if (!matchedRow) {
+          matchedRow = (state.rowsByLayer.get(layer) || []).find((r) => clean(r.visual_label).toLowerCase() === s.action.toLowerCase().split(" ")[0]);
+        }
+        if (matchedRow) {
+          results.push({ row: matchedRow, appAction: s.action, appKeys: s.keys, category: cat.name });
+        }
+      }
+    }
+    return results;
+  }
+
   function stopPractice() {
     state.practice.mode = null;
     state.practice.target = null;
+    state.practice.appShortcuts = null;
     setActiveMode(null);
     setPrompt("Practice stopped. Pick a mode to start again.");
   }

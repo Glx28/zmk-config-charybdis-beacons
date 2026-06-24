@@ -1084,14 +1084,41 @@ JoinList(items, separator) {
 ; =========
 ; Firmware-side macros can emit these rare chords over BLE. AutoHotkey swallows
 ; them and updates runtime\charybdis_state.json for the web coach.
-^!+F13::CoachBeacon("hold", "1", "down")
-^!+F14::CoachBeacon("hold", "1", "up")
-^!+F15::CoachBeacon("hold", "2", "down")
-^!+F16::CoachBeacon("hold", "2", "up")
-^!+F17::CoachBeacon("hold", "3", "down")
-^!+F18::CoachBeacon("hold", "3", "up")
-^!+F19::CoachBeacon("hold", "4", "down")
-^!+F20::CoachBeacon("hold", "4", "up")
+; Debounce: "up" beacons are delayed 300ms — if a "down" for the same layer
+; arrives within that window, the release is cancelled (spurious key-repeat).
+global PendingRelease := Map()
+
+DebouncedHoldUp(layer) {
+    global PendingRelease
+    PendingRelease[layer] := A_TickCount
+    layerCopy := layer
+    SetTimer(() => FinishRelease(layerCopy), -300)
+}
+
+FinishRelease(layer) {
+    global PendingRelease
+    if PendingRelease.Has(layer) && (A_TickCount - PendingRelease[layer]) >= 280 {
+        PendingRelease.Delete(layer)
+        CoachBeacon("hold", layer, "up")
+    }
+}
+
+DebouncedHoldDown(layer) {
+    global PendingRelease
+    if PendingRelease.Has(layer) {
+        PendingRelease.Delete(layer)
+    }
+    CoachBeacon("hold", layer, "down")
+}
+
+^!+F13::DebouncedHoldDown("1")
+^!+F14::DebouncedHoldUp("1")
+^!+F15::DebouncedHoldDown("2")
+^!+F16::DebouncedHoldUp("2")
+^!+F17::DebouncedHoldDown("3")
+^!+F18::DebouncedHoldUp("3")
+^!+F19::DebouncedHoldDown("4")
+^!+F20::DebouncedHoldUp("4")
 ^!+F21::CoachBeacon("lock", "2", "enter")
 ^!+F22::CoachBeacon("lock", "0", "exit")
 ^!+F23::CoachBeacon("lock", "7", "enter")

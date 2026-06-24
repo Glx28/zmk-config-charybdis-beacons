@@ -51,18 +51,18 @@
 File: `config/boards/shields/charybdis/charybdis_right.conf`
 
 ```conf
-CONFIG_PMW3610_CPI=600              # fine counts; halved to 300 effective by keymap scaler
+CONFIG_PMW3610_CPI=400              # fine counts; halved to 200 effective by keymap scaler
 CONFIG_PMW3610_CPI_DIVIDOR=1        # MUST stay 1 — see dead-zone warning below
 CONFIG_PMW3610_SNIPE_CPI=3200       # Speed mode (Layer 8); x0.5 scaler = 1600 effective travel
 CONFIG_PMW3610_SCROLL_TICK=70
-CONFIG_PMW3610_POLLING_RATE_125_SW=y
+CONFIG_PMW3610_POLLING_RATE_250=y
 CONFIG_PMW3610_SMART_ALGORITHM=y
 CONFIG_PMW3610_INVERT_X=y
 CONFIG_PMW3610_ORIENTATION_90=y
 ```
 
 Overlay: `scroll-layers = <6>`, `snipe-layers = <8>`.
-Keymap: `&zip_xy_scaler 1 2` (halve, smooth via track-remainders). **Effective precision = 600 × 0.5 × Windows 1:1 = 300** — matches the old "150 CPI × Windows sens 20 (≈2×)" feel, but smooth (600 fine counts) at Windows 1:1. The scaler also halves snipe, so travel ceiling = SNIPE 3200 × 0.5 = 1600 effective. Windows `MouseSensitivity=10` (1:1). To change overall speed without a reflash, use the Windows slider; to change the precision/travel *ratio*, change CPI vs SNIPE_CPI (both quantized to multiples of 200).
+Keymap: `&zip_xy_scaler 1 2` (halve, smooth via track-remainders). **Effective precision = 400 × 0.5 × Windows 1:1 = 200** — 33% slower than the previous 300 for better fine control. 400 fine counts/inch with track-remainders keeps movement smooth. The scaler also halves snipe, so travel ceiling = SNIPE 3200 × 0.5 = 1600 effective (8× base). Windows `MouseSensitivity=10` (1:1). Native 250 Hz polling for smoother curves at lower DPI.
 
 ### ⚠️ CPI_DIVIDOR dead zone — DO NOT raise CPI to fake a lower number
 The sensor minimum is CPI 200 (driver steps in units of 200: `reg = cpi/200`). `CPI_DIVIDOR` is **raw integer division of each poll's delta with NO remainder carry** (`pmw3610.c`: `x = delta / dividor`). At DIVIDOR>1, a slow turn (1..DIVIDOR-1 counts/poll) floors to 0 and is **silently dropped** — the "slow movement = no input" dead zone. The earlier 600/4 "=150" setting caused exactly this. **Keep CPI=200, DIVIDOR=1.** For finer-than-200 precision, scale DOWN with `&zip_xy_scaler <mult> <div>` + `track-remainders` in the keymap — that input processor carries the remainder, so it stays smooth.
@@ -75,9 +75,10 @@ The sensor minimum is CPI 200 (driver steps in units of 200: `reg = cpi/200`). `
 | P1 | 300 | 1 | 1600 | 2:1 | 50-62% hit rate, stage 2/5 paths |
 | P2 | 200 | 1 | 400 | 2:1 | ~75% hit rate, stage 2/5 consistent |
 | (bad) | 600 | 4 | 1000 | 1:1 | Effective ~150 BUT integer-division dead zone: slow movement dropped. Reverted. |
-| Current | 200 | 1 | 1000 | 1:1 | Smooth/responsive (P2 resolution) + scaler 1:1 removes path distortion. |
+| P2.5 | 600 | 1 | 3200 | 1:2 | 300 eff. Smooth (600 fine counts) + 1600 speed. Felt too fast for normal. |
+| Current | 400 | 1 | 3200 | 1:2 | 200 eff @ 250 Hz polling. 400 fine counts, 1600 speed (8×). Slower normal, same travel. |
 
-Next tuning variables if needed: `zip_xy_scaler` with `track-remainders` for smooth sub-200, Smart Algorithm on/off, polling rate 250 vs 125_SW, scroll tick.
+Next tuning variables if needed: `zip_xy_scaler` ratio (1/3 for ~133 eff), Smart Algorithm on/off, scroll tick, CPI 200 with scaler 1/1 for max speed ratio.
 
 ## Layer Map & Mode Access
 

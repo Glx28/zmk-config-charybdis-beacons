@@ -16,11 +16,11 @@
     quick-tap-ms = <150>;
 };
 
-// XY scaler 1:2 (halve). Sensor runs 600 CPI for fine/smooth counts; this scaler
-// halves to 300 effective at Windows 1:1 — matches the old "150 CPI x sens 20" feel.
-// zip_xy_scaler has track-remainders (zmk core), so the /2 carries fractional
-// movement = smooth, no dead zone (unlike the driver's CPI_DIVIDOR). Applies to
-// snipe too: SNIPE 3200 x 0.5 = 1600 effective travel on Layer 8 (scaler caps travel at 1600).
+// XY scaler 1:2 (halve). Sensor runs 400 CPI for fine/smooth counts; this scaler
+// halves to 200 effective at Windows 1:1. zip_xy_scaler has track-remainders (zmk
+// core), so the /2 carries fractional movement = smooth, no dead zone (unlike the
+// driver's CPI_DIVIDOR). Applies to snipe too: SNIPE 3200 x 0.5 = 1600 effective
+// travel on Layer 8. Base 200 vs speed 1600 = 8x ratio for 3-monitor travel.
 &mmv_input_listener { input-processors = <&zip_xy_scaler 1 2>; };
 
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };

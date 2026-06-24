@@ -58,7 +58,7 @@ function run(config) {
       }
 
       if (/^toggle layer$/i.test(binding.behavior)) {
-        const target = Number(binding.parameter) || 0;
+        const target = Number(String(binding.parameter).replace(/^Layer::/, "")) || 0;
         edges.push({
           from: Number(layerId), to: target,
           key: { x, y }, mechanism: "toggle", behavior: binding.behavior,
@@ -68,7 +68,7 @@ function run(config) {
       }
 
       if (/^momentary layer$/i.test(binding.behavior)) {
-        const target = Number(binding.parameter) || 0;
+        const target = Number(String(binding.parameter).replace(/^Layer::/, "")) || 0;
         edges.push({
           from: Number(layerId), to: target,
           key: { x, y }, mechanism: "momentary", behavior: binding.behavior,
@@ -78,7 +78,7 @@ function run(config) {
       }
 
       if (/^to layer$/i.test(binding.behavior)) {
-        const target = Number(binding.parameter) || 0;
+        const target = Number(String(binding.parameter).replace(/^Layer::/, "")) || 0;
         edges.push({
           from: Number(layerId), to: target,
           key: { x, y }, mechanism: "to_layer", behavior: binding.behavior,

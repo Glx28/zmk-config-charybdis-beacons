@@ -39,6 +39,20 @@ function run(config) {
     modFreq[modKey] = (modFreq[modKey] || 0) + c.total_importance;
   }
 
+  // Conflict detection: same shortcut, different actions across apps
+  const conflicts = [];
+  for (const [key, combo] of comboMap) {
+    if (combo.apps.length < 2) continue;
+    const actions = new Set(combo.apps.map(a => a.action.toLowerCase()));
+    if (actions.size > 1) {
+      conflicts.push({
+        keys: combo.keys,
+        app_count: combo.apps.length,
+        actions: combo.apps.map(a => ({ app: a.app, action: a.action })),
+      });
+    }
+  }
+
   const output = {
     timestamp: new Date().toISOString(),
     summary: {
@@ -58,6 +72,7 @@ function run(config) {
       apps: c.apps.map(a => `${a.app}:${a.action}`).join(", "),
     })),
     modifier_importance: Object.entries(modFreq).sort((a, b) => b[1] - a[1]).map(([mod, imp]) => ({ modifier: mod, total_importance: imp })),
+    shortcut_conflicts: conflicts.slice(0, 20),
   };
 
   writeBuild("cross_app_analysis.json", output);

@@ -93,6 +93,25 @@ function run(config) {
     w("");
   }
 
+  // Efficiency bars
+  w("## App Efficiency (weighted accessibility)\n");
+  w("```");
+  for (const app of appScores.apps) {
+    const bar = "█".repeat(Math.round(app.efficiency_pct / 3)) + "░".repeat(33 - Math.round(app.efficiency_pct / 3));
+    w(`  ${app.name.slice(0, 20).padEnd(20)} ${bar} ${app.efficiency_pct}%`);
+  }
+  w("```\n");
+
+  // Layer access paths
+  w("## Layer Access Paths\n");
+  const graphData = readBuild("layer_graph.json");
+  for (const edge of graphData.edges.filter(e => e.from === 0 || e.from <= 4)) {
+    const fromName = LAYER_NAMES[edge.from] || `L${edge.from}`;
+    const toName = LAYER_NAMES[edge.to] || `L${edge.to}`;
+    w(`- **L${edge.from}** (${fromName}) → **L${edge.to}** (${toName}) via ${edge.mechanism} at x${edge.key.x},y${edge.key.y}`);
+  }
+  w("");
+
   // Workflow results
   w("## Workflow Simulation Results\n");
   w("| Workflow | Effort | Weight | Weighted | Pass |");

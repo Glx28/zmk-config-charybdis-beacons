@@ -10,6 +10,7 @@ const MODULES = [
   { name: "simulate_workflows", path: "./simulate_workflows", fatal: false },
   { name: "score_app_shortcuts", path: "./score_app_shortcuts", fatal: false },
   { name: "generate_candidates", path: "./generate_candidates", fatal: false },
+  { name: "analyze_cross_app", path: "./analyze_cross_app", fatal: false },
   { name: "generate_report", path: "./generate_report", fatal: false },
 ];
 

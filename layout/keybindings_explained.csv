@@ -98,7 +98,7 @@
 "1","Navigation, function keys, programming/editing helpers","4","3","F12","Key Press","F12","","Function key access.","Sends F12."
 "1","Navigation, function keys, programming/editing helpers","5","3","9 PU","Key Press","Keypad 9 and PageUp","","Navigation key for cursor/page movement.","Sends Keypad 9 and PageUp."
 "1","Navigation, function keys, programming/editing helpers","7","3","C","Key Press","C","L Ctrl","Control-modified editing shortcut.","Sends L Ctrl+C."
-"1","Navigation, function keys, programming/editing helpers","8","3","CmdPal","Key Press","Space","L Alt","v1.9: Left-hand Alt+Space PowerToys Command Palette: hold Nav thumb + tap S position.","Sends L Alt+Space."
+"1","Navigation, function keys, programming/editing helpers","8","3","CmdPal","Key Press","Spacebar","L Alt,L GUI","v2.6: Win+Alt+Space PowerToys Command Palette default — works across machines.","Sends L Alt+L GUI+Spacebar."
 "1","Navigation, function keys, programming/editing helpers","9","3","[","Key Press","Left Bracket","","Programming [ scancode on Nav layer. On Norwegian Windows this types å (same HID as base å); switch to US English (Win+Space / F16) for literal [ in code. Coach matches via event.code.","Norwegian Windows: å. US English layout: [."
 "1","Navigation, function keys, programming/editing helpers","10","3","]","Key Press","Right Bracket","","Programming ] scancode on Nav layer. On Norwegian Windows this is the ^ dead-key position, not ]. Use US English layout for literal ] in code.","Norwegian Windows: ^ dead key. US English layout: ]."
 "1","Navigation, function keys, programming/editing helpers","11","3","\","Key Press","Backslash","","Programming backslash on Nav layer. Norwegian Windows maps this key differently from US; use US English layout for C/JS/Python escapes and Windows paths.","Layout-dependent; prefer US English for \\ in code."
@@ -214,7 +214,7 @@
 "3","Window, app, language, mouse/game/travel control","8","3","D","Key Press","D","L Ctrl+L GUI","Window, app, language, or desktop workflow shortcut.","Sends L Ctrl+L GUI+D."
 "3","Window, app, language, mouse/game/travel control","9","3","Tab","Key Press","Tab","L GUI","Window, app, language, or desktop workflow shortcut.","Sends L GUI+Tab."
 "3","Window, app, language, mouse/game/travel control","10","3","Explorer","Key Press","E","L GUI","v2.1: Win+E open File Explorer — right ring bottom.","Sends L GUI+E."
-"3","Window, app, language, mouse/game/travel control","11","3","CmdPal","Key Press","Space","L Alt","v1.9: Right-hand Alt+Space PowerToys: hold Window thumb + tap pinky position.","Sends L Alt+Space."
+"3","Window, app, language, mouse/game/travel control","11","3","CmdPal","Key Press","Spacebar","L Alt,L GUI","v2.6: Win+Alt+Space PowerToys Command Palette default — works across machines.","Sends L Alt+L GUI+Spacebar."
 "3","Window, app, language, mouse/game/travel control","12","3","Power","Key Press","X","L GUI","v2.1: Win+X open Power User menu — right far pinky bottom.","Sends L GUI+X."
 "3","Window, app, language, mouse/game/travel control","3","4","Transparent","Transparent","default_transform:default_transform","","Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.","Intentionally leaves the underlying layer behavior available."
 "3","Window, app, language, mouse/game/travel control","4","4","SysTray","Key Press","B","L GUI","Focus system tray (Win+B). Evolution-optimized thumb fill for Window layer.","Sends L GUI+B."

@@ -16,17 +16,6 @@ zmk-studio-*.json
 zmk-studio-*.csv
 consoleoutput.txt
 
-# Runtime state files
-runtime/*.json
-runtime/*.jsonl
-runtime/*.pid
-runtime/*.txt
-runtime/*.png
-runtime/trackball_benchmarks/results/
-runtime/chrome-coach-profile/
-runtime/chrome-coach-profile-mobile/
-runtime/chrome-coach-profile-mobile2/
-
 # Python
 __pycache__/
 *.pyc
@@ -56,7 +45,7 @@ Thumbs.db
 *~
 desktop.ini
 
-# One-off fix/debug scripts (archived, not needed for daily use)
+# One-off fix/debug scripts
 scripts/zmk-studio/archive/
 scripts/check_duplicates.js
 
@@ -68,17 +57,14 @@ mcps/
 terminals/
 grok*.md
 project-handoff.md
-runtime/ULTIMATE_HANDOFF.md
+
+# Firmware backups
 firmware/*_BACKUP_*.uf2
 
 # Nested firmware clone (same remote; use root config/ for CI)
 zmk-config-charybdis-beacons/
 
-# Keep runtime directory but ignore its contents
-!runtime/.gitkeep
-
 # CI build UF2 artifacts (prebuilt copies live in firmware/)
 *.uf2
 !firmware/*.uf2
-# ...but never the timestamped backups (re-assert AFTER the un-ignore so this wins)
 firmware/*_BACKUP_*.uf2

@@ -1151,12 +1151,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 3,
       "behavior": "Key Press",
       "label": "CmdPal",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
+      "rationale": "v2.6: Win+Alt+Space PowerToys default — works across machines.",
       "apply_batch": true,
       "full_reapply_v18": true,
-      "parameter": "Space",
+      "parameter": "Keyboard Spacebar",
       "modifiers": [
-        "L Alt"
+        "L Alt",
+        "L GUI"
       ]
     },
     {
@@ -1297,7 +1298,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "rationale": "v2.5: Mouse QoL — Win+Shift+S screenshot snip tool.",
       "apply_batch": true,
       "full_reapply_v20": true,
-      "parameter": "Keyboard PrintScreen and SysReq",
+      "parameter": "Keyboard PrintScreen",
       "modifiers": [
         "L GUI",
         "L Shift"
@@ -2639,12 +2640,13 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 3,
       "behavior": "Key Press",
-      "parameter": "Space",
+      "parameter": "Keyboard Spacebar",
       "modifiers": [
-        "L Alt"
+        "L Alt",
+        "L GUI"
       ],
       "label": "CmdPal",
-      "rationale": "v1.9: Right-hand Alt+Space PowerToys: hold Window thumb + tap pinky position.",
+      "rationale": "v2.6: Win+Alt+Space PowerToys default — works across machines.",
       "apply_batch": true,
       "full_reapply_v19": true
     },
@@ -7823,7 +7825,7 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
     "Keyboard Home","Keyboard I","Keyboard J","Keyboard K","Keyboard L","Keyboard Left Apos and Double",
     "Keyboard Left Brace","Keyboard Left GUI","Keyboard LeftAlt","Keyboard LeftArrow","Keyboard LeftControl",
     "Keyboard LeftShift","Keyboard M","Keyboard N","Keyboard O","Keyboard P","Keyboard PageDown",
-    "Keyboard PageUp","Keyboard Period","Keyboard Period and GreaterThan","Keyboard PrintScreen and SysReq",
+    "Keyboard PageUp","Keyboard Period","Keyboard Period and GreaterThan","Keyboard PrintScreen",
     "Keyboard Q","Keyboard R","Keyboard Return Enter","Keyboard Right Brace","Keyboard RightArrow",
     "Keyboard RightAlt","Keyboard RightControl","Keyboard RightShift","Keyboard Right GUI",
     "Keyboard S","Keyboard SemiColon and Colon","Keyboard Spacebar","Keyboard T","Keyboard Tab",

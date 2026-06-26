@@ -57,6 +57,7 @@ mcps/
 terminals/
 grok*.md
 project-handoff.md
+AGENTS.md
 
 # Firmware backups
 firmware/*_BACKUP_*.uf2

@@ -1,7420 +1,7339 @@
 /*
-Canonical Charybdis v2.5 ZMK Studio EVERY-KEY reapply payload.
-v2.5: L2 x0 populated (Snip/Zoom/Refresh), Redo/Undo adjacency swap, sync fixes.
-
-Usage:
-1. Open https://zmk.studio/ and connect the keyboard.
-2. Open DevTools > Console.
-3. Paste this entire file.
-4. Confirm the prompt. It reapplies every visible key.
-5. Run scripts/zmk-studio/verify_every_key.js afterwards.
-6. This script never clicks Save. Save manually only after verification passes.
-
-616 visible keys across 11 layers.
-
-Norwegian Windows (L0): coach labels ø/æ/å at 11,2 / 12,2 / 12,1 use US HID scancodes
-(SemiColon / Apostrophe / Left Brace); 12,3 is Backslash and Pipe. Windows NO renders glyphs.
-Exit-to-base: coach_base on L1 5,4, L2 5/7/8 y4, L7 3/5/7/8 y4; coach_travel_off on L8 7/8 y4.
-
-Studio coach behaviors available in current firmware (2026-06-23):
-  coach_l1_hold, coach_l2_hold, coach_l3_hold, coach_l4_hold,
-  coach_mouse_lock, coach_game_lock, coach_base, coach_recover_base,
-  coach_travel_toggle, coach_travel_off
-NOT yet in Studio until next firmware flash:
-  coach_scroll_toggle  → apply uses Toggle Layer 6 instead.
-Speed uses coach_travel_toggle (tap latch); fallback in Studio is Toggle Layer 8.
+Charybdis optimizer layout — evolved-gen150
+616 key changes across layers [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].
+Self-contained: paste this one file in ZMK Studio console to apply all changes.
 */
+
+
+// Post-apply summary — runs after apply_every_key.js finishes
+window._CHARYBDIS_APPLY_ERRORS = window._CHARYBDIS_APPLY_ERRORS || [];
+window._CHARYBDIS_APPLY_SKIPPED = window._CHARYBDIS_APPLY_SKIPPED || [];
+const _origError = console.error.bind(console);
+const _origWarn = console.warn.bind(console);
+console.error = function(...args) {
+  const msg = args.map(String).join(" ");
+  if (msg.includes("UNKNOWN KEY") || msg.includes("NO MATCHING") || msg.includes("Failed L")) {
+    window._CHARYBDIS_APPLY_ERRORS.push(msg);
+  }
+  _origError(...args);
+};
+console.warn = function(...args) {
+  const msg = args.map(String).join(" ");
+  if (msg.includes("No exact visible") || msg.includes("Verify manually")) {
+    window._CHARYBDIS_APPLY_ERRORS.push(msg);
+  }
+  _origWarn(...args);
+};
+
 
 window.CHARYBDIS_FINAL_LAYOUT = {
-  "project": "Charybdis Ultimate Keyboard Experience",
-  "version": "v2.5",
-  "device": "V&Z-Charydbis",
-  "policy": "Full ZMK Studio reapply v2.5. 616 keys, 11 layers (9 active). L0 Base QWERTY, L1 Nav, L2 Mouse (both hands, x0 Snip/Zoom/Refresh), L3 Window, L4 System/BT + cross-app power shortcuts, L5 Code/IDE (44), L6 Scroll overlay, L7 Game, L8 Speed overlay, L9 M-Files/DMS (22). L10 reserved.",
-  "generatedFrom": "scripts/zmk-studio/verify_every_key.js EXPECTED_CSV",
+  "project": "Charybdis Optimizer Layout",
+  "version": "evolved-gen150",
   "keyCount": 616,
   "keys": [
-    {
-      "layer": 0,
-      "x": 0,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Escape"
-    },
-    {
-      "layer": 0,
-      "x": 1,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "1",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 1 and Bang"
-    },
-    {
-      "layer": 0,
-      "x": 2,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "2",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 2 and At"
-    },
-    {
-      "layer": 0,
-      "x": 3,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "3",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 3 and Hash"
-    },
-    {
-      "layer": 0,
-      "x": 4,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "4",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 4 and Dollar"
-    },
-    {
-      "layer": 0,
-      "x": 5,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "5",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 5 and Percent"
-    },
-    {
-      "layer": 0,
-      "x": 7,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "6",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 6 and Caret"
-    },
-    {
-      "layer": 0,
-      "x": 8,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "7",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 7 and Ampersand"
-    },
-    {
-      "layer": 0,
-      "x": 9,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "8",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 8 and Star"
-    },
-    {
-      "layer": 0,
-      "x": 10,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "9",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 9 and Left Bracket"
-    },
-    {
-      "layer": 0,
-      "x": 11,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "0",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 0 and Right Bracket"
-    },
-    {
-      "layer": 0,
-      "x": 12,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "BkSp",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Delete"
-    },
-    {
-      "layer": 0,
-      "x": 0,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Tab",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Tab"
-    },
-    {
-      "layer": 0,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Q",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Q"
-    },
-    {
-      "layer": 0,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "W",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard W"
-    },
-    {
-      "layer": 0,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "E",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard E"
-    },
-    {
-      "layer": 0,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "R",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard R"
-    },
-    {
-      "layer": 0,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "T",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard T"
-    },
-    {
-      "layer": 0,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Y",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Y"
-    },
-    {
-      "layer": 0,
-      "x": 8,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "U",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard U"
-    },
-    {
-      "layer": 0,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "I",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard I"
-    },
-    {
-      "layer": 0,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "O",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard O"
-    },
-    {
-      "layer": 0,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "P",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard P"
-    },
-    {
-      "layer": 0,
-      "x": 12,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "å",
-      "rationale": "Norwegian å. Sends the [ scancode (Studio name 'Keyboard Left Brace', same key as Layer 1 x9 y3) = å on Norwegian Windows.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Left Brace"
-    },
-    {
-      "layer": 0,
-      "x": 0,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Shft",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftShift"
-    },
-    {
-      "layer": 0,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "A",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard A"
-    },
-    {
-      "layer": 0,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "S",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard S"
-    },
-    {
-      "layer": 0,
-      "x": 3,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "D",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard D"
-    },
-    {
-      "layer": 0,
-      "x": 4,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F"
-    },
-    {
-      "layer": 0,
-      "x": 5,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "G",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard G"
-    },
-    {
-      "layer": 0,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "H",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard H"
-    },
-    {
-      "layer": 0,
-      "x": 8,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "J",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard J"
-    },
-    {
-      "layer": 0,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "K",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard K"
-    },
-    {
-      "layer": 0,
-      "x": 10,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "L",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard L"
-    },
-    {
-      "layer": 0,
-      "x": 11,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "ø",
-      "rationale": "Norwegian ø. SemiColon scancode unchanged; Windows Norwegian layout renders it as ø.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard SemiColon and Colon"
-    },
-    {
-      "layer": 0,
-      "x": 12,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "æ",
-      "rationale": "Norwegian æ. Apostrophe scancode unchanged; Windows Norwegian layout renders it as æ.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Left Apos and Double"
-    },
-    {
-      "layer": 0,
-      "x": 0,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Ctrl",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftControl"
-    },
-    {
-      "layer": 0,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Z",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Z"
-    },
-    {
-      "layer": 0,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "X",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard X"
-    },
-    {
-      "layer": 0,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "C",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard C"
-    },
-    {
-      "layer": 0,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "V",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard V"
-    },
-    {
-      "layer": 0,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "B",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard B"
-    },
-    {
-      "layer": 0,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "N",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard N"
-    },
-    {
-      "layer": 0,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "M",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard M"
-    },
-    {
-      "layer": 0,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": ",",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Comma and LessThan"
-    },
-    {
-      "layer": 0,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": ".",
-      "rationale": "v1.9: Period must be on base layer for typing flow. Moves [ to Layer 1.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Period and GreaterThan"
-    },
-    {
-      "layer": 0,
-      "x": 11,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "/",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard ForwardSlash and QuestionMark"
-    },
-    {
-      "layer": 0,
-      "x": 12,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "\\",
-      "rationale": "International English backslash (moved from x12 y1; å now on x12 y1 for Norwegian Windows).",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Backslash and Pipe"
-    },
-    {
-      "layer": 0,
-      "x": 3,
-      "y": 4,
-      "behavior": "coach_l1_hold",
-      "label": "Nav",
-      "rationale": "Coach beacon: momentary layer 1 with BLE layer-state broadcast.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 0,
-      "x": 4,
-      "y": 4,
-      "behavior": "Key Press",
-      "label": "␣",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Spacebar"
-    },
-    {
-      "layer": 0,
-      "x": 5,
-      "y": 4,
-      "behavior": "Key Press",
-      "label": "Alt",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftAlt",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 0,
-      "x": 7,
-      "y": 4,
-      "behavior": "coach_l4_hold",
-      "label": "System",
-      "rationale": "Coach beacon: momentary layer 4 with BLE layer-state broadcast.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 0,
-      "x": 8,
-      "y": 4,
-      "behavior": "coach_l3_hold",
-      "label": "Window",
-      "rationale": "Coach beacon: momentary layer 3 with BLE layer-state broadcast.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 0,
-      "x": 4,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB1"
-    },
-    {
-      "layer": 0,
-      "x": 5,
-      "y": 5,
-      "behavior": "coach_l2_hold",
-      "label": "Mouse",
-      "rationale": "Coach beacon: momentary layer 2 with BLE layer-state broadcast.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 0,
-      "x": 7,
-      "y": 5,
-      "behavior": "Key Press",
-      "label": "Ret",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Return Enter"
-    },
-    {
-      "layer": 1,
-      "x": 0,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F1",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F1"
-    },
-    {
-      "layer": 1,
-      "x": 1,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "H",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard H",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 2,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 3,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F4",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F4"
-    },
-    {
-      "layer": 1,
-      "x": 4,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F11",
-      "rationale": "v2.5-reorg: swapped with F11 for better ergonomics (effort 8→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F11"
-    },
-    {
-      "layer": 1,
-      "x": 5,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F6",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F6"
-    },
-    {
-      "layer": 1,
-      "x": 7,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F7",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F7"
-    },
-    {
-      "layer": 1,
-      "x": 8,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F8",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F8"
-    },
-    {
-      "layer": 1,
-      "x": 9,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F9",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F9"
-    },
-    {
-      "layer": 1,
-      "x": 10,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F10",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F10"
-    },
-    {
-      "layer": 1,
-      "x": 11,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F11",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F11"
-    },
-    {
-      "layer": 1,
-      "x": 12,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F12",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F12"
-    },
-    {
-      "layer": 1,
-      "x": 0,
-      "y": 1,
-      "behavior": "Toggle Layer",
-      "label": "Code",
-      "rationale": "v2.2: Toggle Code/IDE layer. Game lock still on L3 x12,y2.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "5",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 1,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F5",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5"
-    },
-    {
-      "layer": 1,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F6",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F6"
-    },
-    {
-      "layer": 1,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F7",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F7"
-    },
-    {
-      "layer": 1,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F8",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F8"
-    },
-    {
-      "layer": 1,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "V",
-      "rationale": "v2.5-reorg: swapped with V for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 8,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "BkSp",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Delete"
-    },
-    {
-      "layer": 1,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F2",
-      "rationale": "v2.5-reorg: swapped with F2 for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F2"
-    },
-    {
-      "layer": 1,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "3 PD",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keypad 3 and PageDn"
-    },
-    {
-      "layer": 1,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "End",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard End"
-    },
-    {
-      "layer": 1,
-      "x": 12,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "BkSp",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Delete"
-    },
-    {
-      "layer": 1,
-      "x": 0,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Shft",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftShift"
-    },
-    {
-      "layer": 1,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "parameter": "Keyboard LeftArrow",
-      "label": "←",
-      "rationale": "v2.5-reorg: swapped with ← for better ergonomics (effort 4→2)",
-      "apply_batch": true,
-      "full_reapply_v19": true
-    },
-    {
-      "layer": 1,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "parameter": "Keyboard F3",
-      "label": "F3",
-      "rationale": "v2.5-reorg: swapped with F3 for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v19": true
-    },
-    {
-      "layer": 1,
-      "x": 3,
-      "y": 2,
-      "behavior": "Momentary Layer",
-      "label": "Scroll",
-      "rationale": "Left-hand scroll hold (Layer 6). Hold to scroll, release to stop.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "6"
-    },
-    {
-      "layer": 1,
-      "x": 4,
-      "y": 2,
-      "behavior": "coach_travel_toggle",
-      "label": "Speed",
-      "rationale": "Left-hand speed toggle: hold Nav, tap Speed, release Nav — travel stays on, thumb free.",
-      "apply_batch": true,
-      "full_reapply_v20": true
-    },
-    {
-      "layer": 1,
-      "x": 5,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Delete",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Delete",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Search",
-      "rationale": "v2.5-reorg: swapped with Search for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "S",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 8,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "↓",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow"
-    },
-    {
-      "layer": 1,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "↑",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard UpArrow"
-    },
-    {
-      "layer": 1,
-      "x": 10,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow"
-    },
-    {
-      "layer": 1,
-      "x": 11,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 12,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Home",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Home"
-    },
-    {
-      "layer": 1,
-      "x": 0,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Ctrl",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftControl"
-    },
-    {
-      "layer": 1,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "F9",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F9"
-    },
-    {
-      "layer": 1,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "F10",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F10"
-    },
-    {
-      "layer": 1,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "F5",
-      "rationale": "v2.5-reorg: swapped with F5 for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5"
-    },
-    {
-      "layer": 1,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "F12",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F12"
-    },
-    {
-      "layer": 1,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "9 PU",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keypad 9 and PageUp"
-    },
-    {
-      "layer": 1,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "C",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard C",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "CmdPal",
-      "rationale": "v2.6: Win+Alt+Space PowerToys default — works across machines.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Spacebar",
-      "modifiers": [
-        "L Alt",
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 1,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "[",
-      "rationale": "v1.9: Move bracket from base to Layer 1 programming layer. Replaces duplicate period.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Left Brace"
-    },
-    {
-      "layer": 1,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "]",
-      "rationale": "v1.9: Add ] bracket for programming pairs on Layer 1.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Right Brace"
-    },
-    {
-      "layer": 1,
-      "x": 11,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "\\",
-      "rationale": "v1.9: Add \\ backslash for programming (file paths, escapes) on Layer 1.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Backslash and Pipe"
-    },
-    {
-      "layer": 1,
-      "x": 12,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "-",
-      "rationale": "v1.9: Move minus from base layer to Layer 1. Displaced by apostrophe on base.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "Keyboard Dash and Underscore"
-    },
-    {
-      "layer": 1,
-      "x": 3,
-      "y": 4,
-      "behavior": "Key Press",
-      "label": "Alt",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftAlt"
-    },
-    {
-      "layer": 1,
-      "x": 4,
-      "y": 4,
-      "behavior": "Key Press",
-      "label": "␣",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Spacebar"
-    },
-    {
-      "layer": 1,
-      "x": 5,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "Coach beacon: Nav thumb exit to base; clears locked/toggled coach state (Ctrl+Alt+Shift+F22).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 1,
-      "x": 7,
-      "y": 4,
-      "behavior": "None",
-      "label": "None",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 1,
-      "x": 8,
-      "y": 4,
-      "behavior": "None",
-      "label": "None",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 1,
-      "x": 4,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB1"
-    },
-    {
-      "layer": 1,
-      "x": 5,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB2"
-    },
-    {
-      "layer": 1,
-      "x": 7,
-      "y": 5,
-      "behavior": "Key Press",
-      "label": "Ret",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Return Enter"
-    },
-    {
-      "layer": 2,
-      "x": 0,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Snip",
-      "rationale": "v2.5: Mouse QoL — Win+Shift+S screenshot snip tool.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard PrintScreen",
-      "modifiers": [
-        "L GUI",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 1,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Task View",
-      "rationale": "v2.0: Left-hand mouse QoL — Win+Tab opens Task View.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 2,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Desktop",
-      "rationale": "v2.0: Left-hand mouse QoL — Win+D toggles show desktop.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 3,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Next Tab",
-      "rationale": "v2.0: Left-hand mouse QoL — Ctrl+Tab cycles to next tab.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 4,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Prev Tab",
-      "rationale": "v2.0: Left-hand mouse QoL — Ctrl+Shift+Tab cycles to previous tab.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 5,
-      "y": 0,
-      "behavior": "Momentary Layer",
-      "label": "Scroll",
-      "rationale": "v2.0: Left-hand mouse QoL — hold for scroll overlay.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "6"
-    },
-    {
-      "layer": 2,
-      "x": 7,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Next Tab",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 8,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Desktop",
-      "rationale": "v2.0: Right-hand mouse QoL — Win+D toggles show desktop.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 9,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Del",
-      "rationale": "v2.5-reorg: swapped with Del for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Delete Forward"
-    },
-    {
-      "layer": 2,
-      "x": 10,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Prev Tab",
-      "rationale": "v2.0: Right-hand mouse QoL — Ctrl+Shift+Tab cycles to previous tab.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 11,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Sel All",
-      "rationale": "v2.5: Moved from x9,y3 — duplicate of left-hand x5,y3 Sel All.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard A",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 12,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Task View",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→4)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 0,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→4)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Escape"
-    },
-    {
-      "layer": 2,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Alt+Tab",
-      "rationale": "v2.5-reorg: swapped with Alt+Tab for better ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Close",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard W",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Enter",
-      "rationale": "v2.0: Left-hand mouse QoL — Enter to confirm.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Return Enter"
-    },
-    {
-      "layer": 2,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "BkSp",
-      "rationale": "v2.0: Left-hand mouse QoL — Backspace for corrections.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Delete"
-    },
-    {
-      "layer": 2,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Zoom In",
-      "rationale": "v2.5-reorg: swapped with Zoom In for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Equals and Plus",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Win",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Left GUI"
-    },
-    {
-      "layer": 2,
-      "x": 8,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Enter",
-      "rationale": "v2.0: Right-hand mouse QoL — Enter to confirm dialogs/actions while navigating.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Return Enter"
-    },
-    {
-      "layer": 2,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Refresh",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard F5"
-    },
-    {
-      "layer": 2,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "BkSp",
-      "rationale": "v2.0: Right-hand mouse QoL — Backspace for quick corrections.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Delete"
-    },
-    {
-      "layer": 2,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Alt+Tab",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 12,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Cut",
-      "rationale": "v2.5-reorg: swapped with Cut for better ergonomics (effort 6→4)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard X",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 0,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Copy",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard C",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 1,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "MB1",
-      "rationale": "v2.0: Left-hand mouse QoL — primary click on home row.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "MB1"
-    },
-    {
-      "layer": 2,
-      "x": 2,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "MB2",
-      "rationale": "v2.0: Left-hand mouse QoL — right click on home row.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "MB2"
-    },
-    {
-      "layer": 2,
-      "x": 3,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "MB3",
-      "rationale": "v2.0: Left-hand mouse QoL — middle click on home row.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "MB3"
-    },
-    {
-      "layer": 2,
-      "x": 4,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "MB4",
-      "rationale": "v2.0: Left-hand mouse QoL — back button on home row.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "MB4"
-    },
-    {
-      "layer": 2,
-      "x": 5,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "MB5",
-      "rationale": "v2.0: Left-hand mouse QoL — forward button on home row.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "MB5"
-    },
-    {
-      "layer": 2,
-      "x": 7,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB4"
-    },
-    {
-      "layer": 2,
-      "x": 8,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB1"
-    },
-    {
-      "layer": 2,
-      "x": 9,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB2"
-    },
-    {
-      "layer": 2,
-      "x": 10,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB3"
-    },
-    {
-      "layer": 2,
-      "x": 11,
-      "y": 2,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB5"
-    },
-    {
-      "layer": 2,
-      "x": 12,
-      "y": 2,
-      "behavior": "Toggle Layer",
-      "label": "Scroll",
-      "rationale": "Right-pinky scroll toggle (Layer 6). coach_scroll_toggle not in current Studio build — use Toggle Layer until firmware is reflashed.",
-      "apply_batch": true,
-      "full_reapply_v19": true,
-      "parameter": "6"
-    },
-    {
-      "layer": 2,
-      "x": 0,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Escape"
-    },
-    {
-      "layer": 2,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Undo",
-      "rationale": "v2.0: Left-hand mouse QoL — Ctrl+Z undo.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Z",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Close",
-      "rationale": "v2.5-reorg: swapped with Close for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard W",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Zoom Out",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Dash and Underscore",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Sel All",
-      "rationale": "v2.5-reorg: swapped with Sel All for better ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard A",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Paste",
-      "rationale": "v2.5-reorg: swapped with Paste for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Copy",
-      "rationale": "v2.0: Right-hand mouse QoL — Ctrl+C copy after mouse selection.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard C",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Redo",
-      "rationale": "v2.5-reorg: swapped with Redo for better ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Y",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Paste",
-      "rationale": "v2.5-reorg: swapped with Paste for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Undo",
-      "rationale": "v2.0: Right-hand mouse QoL — Ctrl+Z undo after accidental edit.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard Z",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 11,
-      "y": 3,
-      "behavior": "Momentary Layer",
-      "label": "Speed",
-      "rationale": "v2.4: Mouse-locked speed hold — hold for fast travel, release to return.",
-      "parameter": "8",
-      "apply_batch": true,
-      "full_reapply_v20": true
-    },
-    {
-      "layer": 2,
-      "x": 12,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Close Win",
-      "rationale": "v2.0: Right-hand mouse QoL — Alt+F4 close window/application.",
-      "apply_batch": true,
-      "full_reapply_v20": true,
-      "parameter": "Keyboard F4",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 2,
-      "x": 3,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 2,
-      "x": 4,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 2,
-      "x": 5,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "Coach beacon: thumb exit from locked mouse layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 2,
-      "x": 7,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "Coach beacon: exit locked mouse layer back to base (Ctrl+Alt+Shift+F22).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 2,
-      "x": 8,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "Coach beacon: second thumb exit from locked mouse layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 2,
-      "x": 4,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB1"
-    },
-    {
-      "layer": 2,
-      "x": 5,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB2"
-    },
-    {
-      "layer": 2,
-      "x": 7,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Mouse Key Press",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB3"
-    },
-    {
-      "layer": 3,
-      "x": 0,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Emoji",
-      "rationale": "v2.5: Win+. Emoji picker on L3 x0,y0.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Period and GreaterThan",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 1,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "v2.5-reorg: swapped with ← for better ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Shift",
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 2,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "v2.5-reorg: swapped with → for better ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow",
-      "modifiers": [
-        "L Shift",
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 3,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Emoji",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Period and GreaterThan",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 4,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "QSett",
-      "rationale": "v2.2: Win+A Quick Settings — fills L3 y0.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard A",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 5,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Notif",
-      "rationale": "v2.2: Win+N Notifications — fills L3 y0.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard N",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "TskCy",
-      "rationale": "v2.2: Win+T Cycle taskbar — fills L3 y0.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard T",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 8,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "SysTr",
-      "rationale": "v2.2: Win+B System tray — fills L3 y0.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard B",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 9,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Copilot",
-      "rationale": "v2.5: Win+C — Open Copilot. Replaces Win+K Cast (rare).",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard C",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 3,
-      "x": 10,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Acces",
-      "rationale": "v2.2: Win+U Accessibility — fills L3 y0.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard U",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 3,
-      "x": 11,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L GUI",
-        "L Shift"
-      ],
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 3,
-      "x": 12,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Emoji",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Period and GreaterThan",
-      "modifiers": [
-        "L GUI"
-      ],
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 3,
-      "x": 0,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "MinAll",
-      "rationale": "v2.5: Win+M Minimize all windows.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard M",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "␣",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Spacebar",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "V",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "v2.5-reorg: swapped with → for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow",
-      "modifiers": [
-        "L GUI",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Lang",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Spacebar",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "TskMg",
-      "rationale": "v2.5-reorg: swapped with TskMg for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Escape",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 8,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "`",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Grave Accent and Tilde",
-      "modifiers": [
-        "L Shift",
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "↓",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Lock",
-      "rationale": "v2.1: Win+L lock PC — right ring upper row.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard L",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Settings",
-      "rationale": "v2.1: Win+I open Settings — right pinky upper row.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard I",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 12,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Run",
-      "rationale": "v2.1: Win+R open Run dialog — right far pinky upper row.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard R",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 0,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Snip",
-      "rationale": "v2.5: Win+Shift+S Screenshot/Snip.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard S",
-      "modifiers": [
-        "L GUI",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "3",
-      "rationale": "v2.5-reorg: swapped with 3 for better ergonomics (effort 4→2)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 3 and Hash",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "2",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 2 and At",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 3,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "1",
-      "rationale": "v2.5-reorg: swapped with 1 for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 1 and Bang",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 4,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "4",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 4 and Dollar",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 5,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "5",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 5 and Percent",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "parameter": "S",
-      "modifiers": [
-        "L GUI"
-      ],
-      "label": "Search",
-      "rationale": "v1.9: Right-hand Win+S: hold Window thumb + tap H position.",
-      "apply_batch": true,
-      "full_reapply_v19": true
-    },
-    {
-      "layer": 3,
-      "x": 8,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F4",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F4",
-      "modifiers": [
-        "L Ctrl",
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "v2.5-reorg: swapped with ← for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 10,
-      "y": 2,
-      "behavior": "coach_mouse_lock",
-      "label": "Mouse Lock",
-      "rationale": "Coach beacon: lock to layer 2 (mouse mode).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 11,
-      "y": 2,
-      "behavior": "coach_travel_toggle",
-      "label": "Speed",
-      "rationale": "Right-hand speed toggle: hold Window, tap Speed, release Window — thumb free for trackball.",
-      "apply_batch": true,
-      "full_reapply_v20": true
-    },
-    {
-      "layer": 3,
-      "x": 12,
-      "y": 2,
-      "behavior": "coach_game_lock",
-      "label": "Game",
-      "rationale": "Coach beacon: lock to layer 7 (game/RPG).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 0,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "ClipH",
-      "rationale": "v2.5: Win+V Clipboard history.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "v2.5-reorg: swapped with → for better ergonomics (effort 5→2)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow",
-      "modifiers": [
-        "L Ctrl",
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "↑",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard UpArrow",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Voice",
-      "rationale": "v2.5-reorg: swapped with Voice for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard H",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "S",
-      "rationale": "v2.5-reorg: swapped with S for better ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard S",
-      "modifiers": [
-        "L Shift",
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "D",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Tab",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "D",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L Ctrl",
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Tab",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Explorer",
-      "rationale": "v2.1: Win+E open File Explorer — replaces duplicate Win+Tab.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard E",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 11,
-      "y": 3,
-      "behavior": "Key Press",
-      "parameter": "Keyboard Spacebar",
-      "modifiers": [
-        "L Alt",
-        "L GUI"
-      ],
-      "label": "CmdPal",
-      "rationale": "v2.6: Win+Alt+Space PowerToys default — works across machines.",
-      "apply_batch": true,
-      "full_reapply_v19": true
-    },
-    {
-      "layer": 3,
-      "x": 12,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Power",
-      "rationale": "v2.1: Win+X open Power User menu — right far pinky bottom.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard X",
-      "modifiers": [
-        "L GUI"
-      ]
-    },
-    {
-      "layer": 3,
-      "x": 3,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 4,
-      "y": 4,
-      "behavior": "Key Press",
-      "parameter": "Keyboard B",
-      "modifiers": ["Left GUI"],
-      "label": "Win+B SysTray",
-      "rationale": "Evolution-optimized thumb fill: Win+B (Focus system tray) on Window layer thumb.",
-      "apply_batch": true
-    },
-    {
-      "layer": 3,
-      "x": 5,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 8,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 4,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 5,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 3,
-      "x": 7,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 0,
-      "y": 0,
-      "behavior": "Bluetooth",
-      "label": "Bluetooth",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "BT_SEL 0"
-    },
-    {
-      "layer": 4,
-      "x": 1,
-      "y": 0,
-      "behavior": "Bluetooth",
-      "label": "Bluetooth",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "BT_SEL 1"
-    },
-    {
-      "layer": 4,
-      "x": 2,
-      "y": 0,
-      "behavior": "Bluetooth",
-      "label": "Bluetooth",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "BT_SEL 2"
-    },
-    {
-      "layer": 4,
-      "x": 3,
-      "y": 0,
-      "behavior": "Bluetooth",
-      "label": "Bluetooth",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "BT_SEL 3"
-    },
-    {
-      "layer": 4,
-      "x": 4,
-      "y": 0,
-      "behavior": "Bluetooth",
-      "label": "Bluetooth",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "BT_SEL 4"
-    },
-    {
-      "layer": 4,
-      "x": 5,
-      "y": 0,
-      "behavior": "Bluetooth",
-      "label": "Bluetooth",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Clear Selected Profile"
-    },
-    {
-      "layer": 4,
-      "x": 7,
-      "y": 0,
-      "behavior": "Output Selection",
-      "label": "Output Selection",
-      "rationale": "Firmware-only &out behavior; not exposed in this ZMK Studio build.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "studio_skip": true,
-      "parameter": "BLE Output"
-    },
-    {
-      "layer": 4,
-      "x": 8,
-      "y": 0,
-      "behavior": "Output Selection",
-      "label": "Output Selection",
-      "rationale": "Firmware-only &out behavior; not exposed in this ZMK Studio build.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "studio_skip": true,
-      "parameter": "USB Output"
-    },
-    {
-      "layer": 4,
-      "x": 9,
-      "y": 0,
-      "behavior": "Output Selection",
-      "label": "Output Selection",
-      "rationale": "Firmware-only &out behavior; not exposed in this ZMK Studio build.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "studio_skip": true,
-      "parameter": "Toggle Outputs"
-    },
-    {
-      "layer": 4,
-      "x": 10,
-      "y": 0,
-      "behavior": "Studio Unlock",
-      "label": "Studio Unlock",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 11,
-      "y": 0,
-      "behavior": "Reset",
-      "label": "Reset",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 12,
-      "y": 0,
-      "behavior": "Bootloader",
-      "label": "Bootloader",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 0,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Ctrl+G",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard G",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 4,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Ctrl+O",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard O",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 4,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F15",
-      "rationale": "v2.1: Sequential F13-F24.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F15"
-    },
-    {
-      "layer": 4,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F16",
-      "rationale": "v2.1: Sequential F13-F24.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F16"
-    },
-    {
-      "layer": 4,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F14",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→2)",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F14"
-    },
-    {
-      "layer": 4,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F18",
-      "rationale": "v2.1: Sequential F13-F24.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F18"
-    },
-    {
-      "layer": 4,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "F17",
-      "rationale": "v2.5-reorg: swapped with F17 for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F17",
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 8,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Ctrl+K",
-      "rationale": "v2.3: L4 power shortcut — Quick switcher / Insert link.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard K",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Ctrl+S",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard S",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Ctrl+L",
-      "rationale": "v2.5-reorg: swapped with Ctrl+L for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard L",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Ctrl+B",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard B",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 12,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Ctrl+U",
-      "rationale": "v2.3: L4 power shortcut — Underline / Upload.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard U",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 0,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F19",
-      "rationale": "v2.1: Sequential F13-F24. F19-F23 on home row.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F19"
-    },
-    {
-      "layer": 4,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F20",
-      "rationale": "v2.1: Sequential F13-F24.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F20"
-    },
-    {
-      "layer": 4,
-      "x": 3,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F21",
-      "rationale": "v2.1: Sequential F13-F24.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F21"
-    },
-    {
-      "layer": 4,
-      "x": 4,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5-reorg: swapped with (transparent) for better ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v21": true
-    },
-    {
-      "layer": 4,
-      "x": 5,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F23",
-      "rationale": "v2.1: Sequential F13-F24.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F23"
-    },
-    {
-      "layer": 4,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F13",
-      "rationale": "v2.5-reorg: swapped with F13 for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F13",
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 8,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Hand",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→4)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard K",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Ctrl+E",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard E",
-      "full_reapply_v23": true,
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 4,
-      "x": 10,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Ctrl+P",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard P",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 11,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Ctrl+R",
-      "rationale": "v2.3: L4 power shortcut — Reply / Refresh / Run.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard R",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 12,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Share",
-      "rationale": "v2.5-reorg: swapped with Share for better ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard E",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 0,
-      "y": 3,
-      "behavior": "Toggle Layer",
-      "label": "Excel",
-      "rationale": "v2.5: Toggle Excel layer (L10). Hold System thumb + tap here.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "10"
-    },
-    {
-      "layer": 4,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "F24",
-      "rationale": "v2.1: Sequential F13-F24. F24 on bottom row.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard F24"
-    },
-    {
-      "layer": 4,
-      "x": 2,
-      "y": 3,
-      "behavior": "Toggle Layer",
-      "label": "DMS",
-      "rationale": "v2.2: Toggle M-Files/DMS layer.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "9",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 4,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Ctrl+D",
-      "rationale": "v2.3: L4 power shortcut — Duplicate / Delete / Bookmark.",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Ctrl+I",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
-      "apply_batch": true,
-      "full_reapply_v21": true,
-      "parameter": "Keyboard I",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "F22",
-      "rationale": "v2.5-reorg: swapped with F22 for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F22"
-    },
-    {
-      "layer": 4,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Mute",
-      "rationale": "v2.3: L4 power shortcut — Teams mute toggle.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard M",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Camera",
-      "rationale": "v2.3: L4 power shortcut — Teams camera toggle.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard O",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Ctrl+W",
-      "rationale": "v2.5-reorg: swapped with Ctrl+W for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard W",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Ctrl+N",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard N",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 11,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Hangup",
-      "rationale": "v2.3: L4 power shortcut — Teams end call.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard H",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 12,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Accept",
-      "rationale": "v2.3: L4 power shortcut — Teams accept call.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard A",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v23": true
-    },
-    {
-      "layer": 4,
-      "x": 3,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 4,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 5,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 7,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 8,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 4,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 5,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 4,
-      "x": 7,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 5,
-      "x": 0,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Hover",
-      "rationale": "v2.5: Ctrl+I Hover info.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard I",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 5,
-      "x": 1,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "SelNx",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard D",
-      "full_reapply_v22": true,
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 5,
-      "x": 2,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Stop",
-      "rationale": "v2.2: Code/IDE layer — Stop debugging.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5",
-      "modifiers": [
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 3,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "StpOv",
-      "rationale": "v2.2: Code/IDE layer — Step over.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F10",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 4,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "GoSym",
-      "rationale": "v2.5-reorg: swapped with GoSym for better ergonomics (effort 8→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard O",
-      "full_reapply_v22": true,
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 5,
-      "x": 5,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "StpOt",
-      "rationale": "v2.2: Code/IDE layer — Step out.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F11",
-      "modifiers": [
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 7,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "BkPt",
-      "rationale": "v2.2: Code/IDE layer — Toggle breakpoint.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F9",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 8,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Rstr",
-      "rationale": "v2.2: Code/IDE layer — Restart debug.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 9,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Cmnt",
-      "rationale": "v2.5-reorg: swapped with Cmnt for better ergonomics (effort 4→2)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard ForwardSlash and QuestionMark",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 10,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Explr",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard E",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 11,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "NewFl",
-      "rationale": "v2.2: Code/IDE layer — New file.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard N",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 12,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Fmt",
-      "rationale": "v2.2: Code/IDE layer — Format document.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 0,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Wrap",
-      "rationale": "v2.5: Alt+Z Toggle word wrap.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Z",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 5,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "LnUp",
-      "rationale": "v2.2: Code/IDE layer — Move line up.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard UpArrow",
-      "modifiers": [
-        "L Alt"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "LnDn",
-      "rationale": "v2.2: Code/IDE layer — Move line down.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow",
-      "modifiers": [
-        "L Alt"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "CpDn",
-      "rationale": "v2.2: Code/IDE layer — Copy line down.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow",
-      "modifiers": [
-        "L Shift",
-        "L Alt"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "InsUp",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Return Enter",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "InsLn",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Return Enter",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Split",
-      "rationale": "v2.5-reorg: swapped with Split for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Backslash and Pipe",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 8,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Open",
-      "rationale": "v2.5-reorg: swapped with Open for better ergonomics (effort 7→2)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard P",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Debug",
-      "rationale": "v2.5-reorg: swapped with Debug for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "SelAl",
-      "rationale": "v2.2: Code/IDE layer — Select all occurrences.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard L",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Peek",
-      "rationale": "v2.2: Code/IDE layer — Peek definition.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F12",
-      "modifiers": [
-        "L Alt"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 12,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "GoLn",
-      "rationale": "v2.5-reorg: swapped with GoLn for better ergonomics (effort 6→2)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard G",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 0,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Rename",
-      "rationale": "v2.5: F2 Rename symbol.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F2"
-    },
-    {
-      "layer": 5,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Save",
-      "rationale": "v2.2: Code/IDE layer — Save.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard S",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Brkt",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Backslash and Pipe",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 3,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Sett",
-      "rationale": "v2.5-reorg: swapped with Sett for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Comma and LessThan",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 4,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "DelLn",
-      "rationale": "v2.2: Code/IDE layer — Delete line.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard K",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 5,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Term",
-      "rationale": "v2.2: Code/IDE layer — Toggle terminal.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Grave Accent and Tilde",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Ind",
-      "rationale": "v2.5-reorg: swapped with Ind for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Right Brace",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 8,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "CmdP",
-      "rationale": "v2.2: Code/IDE layer — Command palette.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard P",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Probs",
-      "rationale": "v2.5-reorg: swapped with Probs for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard M",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 10,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "StpIn",
-      "rationale": "v2.5-reorg: swapped with StpIn for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F11",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 11,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "SrchF",
-      "rationale": "v2.2: Code/IDE layer — Search across files.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 12,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Git",
-      "rationale": "v2.2: Code/IDE layer — Source control.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard G",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 0,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Close",
-      "rationale": "v2.5: Ctrl+W Close editor tab.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard W",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 5,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "PstNF",
-      "rationale": "v2.2: Code/IDE layer — Paste no formatting.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "BlkCm",
-      "rationale": "v2.2: Code/IDE layer — Block comment.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard A",
-      "modifiers": [
-        "L Shift",
-        "L Alt"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "NTerm",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Grave Accent and Tilde",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Ext",
-      "rationale": "v2.2: Code/IDE layer — Extensions panel.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard X",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Rename",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F2",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Close",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard W",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Outd",
-      "rationale": "v2.5-reorg: swapped with Outd for better ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Left Brace",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "SelLn",
-      "rationale": "v2.2: Code/IDE layer — Select line.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard L",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "RplFl",
-      "rationale": "v2.2: Code/IDE layer — Replace in files.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard H",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 11,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "NxtPr",
-      "rationale": "v2.2: Code/IDE layer — Next problem.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F8",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 12,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "PrvPr",
-      "rationale": "v2.2: Code/IDE layer — Prev problem.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F8",
-      "modifiers": [
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 3,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit Code/IDE layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 4,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 5,
-      "x": 5,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit Code/IDE layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 7,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit Code/IDE layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 8,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit Code/IDE layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 5,
-      "x": 4,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 5,
-      "x": 5,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 5,
-      "x": 7,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 0,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 1,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 2,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 3,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 4,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 5,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 7,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 8,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 9,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 10,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 11,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 12,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 0,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 1,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 2,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 3,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 4,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 5,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 7,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 8,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 9,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 10,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 11,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 12,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 0,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 1,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 2,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 3,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 4,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 5,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 7,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 8,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 9,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 10,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 11,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 12,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 0,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 1,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 2,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 3,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 4,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 5,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 7,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 8,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 9,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 10,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 11,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 12,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 3,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 4,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 5,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 7,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 8,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 4,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 5,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 6,
-      "x": 7,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 0,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 1,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 2,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 3,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 4,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 5,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 7,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 8,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 9,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 10,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 11,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 12,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 0,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "9 PU",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keypad 9 and PageUp"
-    },
-    {
-      "layer": 7,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "↑",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard UpArrow"
-    },
-    {
-      "layer": 7,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "3 PD",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keypad 3 and PageDn"
-    },
-    {
-      "layer": 7,
-      "x": 4,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 5,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 7,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Game layer right half cleaned: movement cluster moved to x8-x11 (intuitive copy of left).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 8,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Game layer right half: column-mirror cluster x9-x11 (x8 transparent).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "3 PD",
-      "rationale": "Game layer: right-hand column-mirror of left x3.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keypad 3 and PageDn"
-    },
-    {
-      "layer": 7,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "↑",
-      "rationale": "Game layer: right-hand column-mirror of left x2.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard UpArrow"
-    },
-    {
-      "layer": 7,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "9 PU",
-      "rationale": "Game layer: right-hand column-mirror of left x1.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keypad 9 and PageUp"
-    },
-    {
-      "layer": 7,
-      "x": 12,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 0,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow"
-    },
-    {
-      "layer": 7,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "↓",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow"
-    },
-    {
-      "layer": 7,
-      "x": 3,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow"
-    },
-    {
-      "layer": 7,
-      "x": 4,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Z",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Z"
-    },
-    {
-      "layer": 7,
-      "x": 5,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 7,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 8,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Z",
-      "rationale": "Game layer: right-hand column-mirror of left x4 (Z at x8).",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Z"
-    },
-    {
-      "layer": 7,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "←",
-      "rationale": "Game layer: left arrow on left column of right-hand cluster (x9).",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow"
-    },
-    {
-      "layer": 7,
-      "x": 10,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "↓",
-      "rationale": "Game layer: right-hand column-mirror of left x2.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard DownArrow"
-    },
-    {
-      "layer": 7,
-      "x": 11,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "→",
-      "rationale": "Game layer: right arrow on right column of right-hand cluster (x11).",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard RightArrow"
-    },
-    {
-      "layer": 7,
-      "x": 12,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 0,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "X",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard X"
-    },
-    {
-      "layer": 7,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "C",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard C"
-    },
-    {
-      "layer": 7,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Shft",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftShift"
-    },
-    {
-      "layer": 7,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Escape"
-    },
-    {
-      "layer": 7,
-      "x": 5,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 7,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Game layer right half cleaned: cluster moved to x8-x11 (intuitive copy of left).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Esc",
-      "rationale": "Game layer: right-hand column-mirror of left x4 (Esc at x8).",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Escape"
-    },
-    {
-      "layer": 7,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Shft",
-      "rationale": "Game layer: right-hand column-mirror of left x3.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftShift"
-    },
-    {
-      "layer": 7,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "C",
-      "rationale": "Game layer: right-hand column-mirror of left x2.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard C"
-    },
-    {
-      "layer": 7,
-      "x": 11,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "X",
-      "rationale": "Game layer: right-hand column-mirror of left x1.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard X"
-    },
-    {
-      "layer": 7,
-      "x": 12,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 3,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Exit Base",
-      "rationale": "Coach beacon: exit locked game layer to base; clears lockedLayer 7 in beacon listener (Ctrl+Alt+Shift+F22).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 4,
-      "y": 4,
-      "behavior": "Key Press",
-      "label": "␣",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Spacebar"
-    },
-    {
-      "layer": 7,
-      "x": 5,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Exit Base",
-      "rationale": "Coach beacon: second thumb exit from locked game layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 7,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Exit Base",
-      "rationale": "Coach beacon: right-thumb exit from locked game layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 8,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Exit Base",
-      "rationale": "Coach beacon: second right-thumb exit from locked game layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 7,
-      "x": 4,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Click",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB1"
-    },
-    {
-      "layer": 7,
-      "x": 5,
-      "y": 5,
-      "behavior": "Mouse Key Press",
-      "label": "Right Click",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "MB2"
-    },
-    {
-      "layer": 7,
-      "x": 7,
-      "y": 5,
-      "behavior": "Key Press",
-      "label": "Ret",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard Return Enter"
-    },
-    {
-      "layer": 8,
-      "x": 0,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 1,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 2,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 3,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 4,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 5,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 7,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 8,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 9,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 10,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 11,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 12,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 0,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 1,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 2,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 3,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 4,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 5,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 7,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 8,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 9,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 10,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 11,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 12,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 0,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 1,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 2,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 3,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 4,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 5,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 7,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 8,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 9,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 10,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 11,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 12,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 0,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 1,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 2,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 3,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 4,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 5,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 7,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 8,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 9,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 10,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 11,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 12,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 3,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 4,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 5,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 7,
-      "y": 4,
-      "behavior": "coach_travel_off",
-      "label": "Exit Travel",
-      "rationale": "Coach beacon: exit speed/travel overlay; clears toggled layer 8 (Ctrl+Alt+Win+F14).",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 8,
-      "y": 4,
-      "behavior": "coach_travel_off",
-      "label": "Exit Travel",
-      "rationale": "Coach beacon: second thumb exit from speed/travel overlay.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 4,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 5,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 8,
-      "x": 7,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 0,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Refresh",
-      "rationale": "v2.5: F5 Refresh view.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5"
-    },
-    {
-      "layer": 9,
-      "x": 1,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 2,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 3,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 4,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 5,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 7,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 8,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 9,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 10,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 11,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 12,
-      "y": 0,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 0,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Back",
-      "rationale": "v2.5: Alt+Left Navigate back.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 9,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "WfSt",
-      "rationale": "v2.2: M-Files/DMS layer — Change workflow state.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard W",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Asgn",
-      "rationale": "v2.2: M-Files/DMS layer — Assign to user.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard A",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Rename",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F2",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Fav",
-      "rationale": "v2.2: M-Files/DMS layer — Add to favorites.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard M",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "List",
-      "rationale": "v2.5-reorg: swapped with List for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 1 and Bang",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Print",
-      "rationale": "v2.2: M-Files/DMS layer — Print.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard P",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 8,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5-reorg: swapped with (transparent) for better ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Search",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 9,
-      "x": 10,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 11,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 12,
-      "y": 1,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 0,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Search",
-      "rationale": "v2.5: Ctrl+F Quick search.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 9,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Save",
-      "rationale": "v2.5-reorg: swapped with Save for better ergonomics (effort 4→2)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard S",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "ChkIn",
-      "rationale": "v2.2: M-Files/DMS layer — Check in.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard E",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 3,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "ChkOt",
-      "rationale": "v2.5-reorg: swapped with ChkOt for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard E",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 4,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5-reorg: swapped with (transparent) for better ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 5,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Icon",
-      "rationale": "v2.5-reorg: swapped with Icon for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard 2 and At",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Refresh",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5",
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 8,
-      "y": 2,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Back",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Alt"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 10,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Hist",
-      "rationale": "v2.2: M-Files/DMS layer — Version history.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard H",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 11,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Rel",
-      "rationale": "v2.2: M-Files/DMS layer — Add relationship.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard K",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 12,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "UndCO",
-      "rationale": "v2.2: M-Files/DMS layer — Undo checkout.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard U",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 0,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Rename",
-      "rationale": "v2.5: F2 Rename object.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F2"
-    },
-    {
-      "layer": 9,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "DLoad",
-      "rationale": "v2.5-reorg: swapped with DLoad for better ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Open",
-      "rationale": "v2.5-reorg: swapped with Open for better ergonomics (effort 4→2)",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard O",
-      "modifiers": [
-        "L Ctrl"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "CpLnk",
-      "rationale": "v2.5-reorg: swapped with CpLnk for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard C",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Notif",
-      "rationale": "v2.2: M-Files/DMS layer — Send notification.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard F5",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Group",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard G",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 9,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Vault",
-      "rationale": "v2.5-reorg: swapped with Vault for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "parameter": "Keyboard G",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 9,
-      "x": 8,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 9,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 10,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 11,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 12,
-      "y": 3,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 3,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 4,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 5,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 7,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 8,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.2: Exit M-Files/DMS layer to base.",
-      "apply_batch": true,
-      "full_reapply_v18": true,
-      "full_reapply_v22": true
-    },
-    {
-      "layer": 9,
-      "x": 4,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 5,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 9,
-      "x": 7,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "Full-layout reapply generated from final v1.8 verifier expected map.",
-      "apply_batch": true,
-      "full_reapply_v18": true
-    },
-    {
-      "layer": 10,
-      "x": 0,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "ShftEnt",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Return Enter",
-      "modifiers": [
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 1,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "SelAll",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 6→4)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard A",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 2,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Copy",
-      "rationale": "v2.5-reorg: swapped with Copy for better ergonomics (effort 5→2)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard C",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 3,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Cut",
-      "rationale": "v2.5-reorg: swapped with Cut for better ergonomics (effort 4→2)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard X",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 4,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "AutoSum",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Equals and Plus",
-      "modifiers": [
-        "L Alt"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 5,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "ShowFml",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Grave Accent and Tilde",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 7,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "F2 Edit",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard F2"
-    },
-    {
-      "layer": 10,
-      "x": 8,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "=",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Equals and Plus"
-    },
-    {
-      "layer": 10,
-      "x": 9,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Ctrl+Up",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard UpArrow",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 10,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "Ctrl+Dn",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard DownArrow",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 11,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "PasteSp",
-      "rationale": "v2.5-reorg: swapped with PasteSp for better ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 12,
-      "y": 0,
-      "behavior": "Key Press",
-      "label": "GoTo",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard G",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 0,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "ShftTab",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Tab",
-      "modifiers": [
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 1,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Sel Left",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard LeftArrow",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 2,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Sel Right",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard RightArrow",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 3,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Sel Up",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard UpArrow",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 4,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Sel Down",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard DownArrow",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 5,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "InsTime",
-      "rationale": "v2.5-reorg: swapped with InsTime for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard SemiColon and Colon",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 7,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Insert",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Equals and Plus",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 8,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "SelRow",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→5)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Spacebar",
-      "modifiers": [
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 9,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "InsDate",
-      "rationale": "v2.5-reorg: swapped with InsDate for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard SemiColon and Colon",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 10,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "SelHome",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Home",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 11,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "Redo",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Y",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 12,
-      "y": 1,
-      "behavior": "Key Press",
-      "label": "FillRt",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard R",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 0,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Find",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard F",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 1,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "SelCol",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Spacebar",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 2,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "F4 Ref",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard F4"
-    },
-    {
-      "layer": 10,
-      "x": 3,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Ctrl+Home",
-      "rationale": "v2.5-reorg: swapped with Ctrl+Home for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Home",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 4,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "SelEnd",
-      "rationale": "v2.5-reorg: swapped with SelEnd for better ergonomics (effort 6→3)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard End",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 5,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Ctrl+End",
-      "rationale": "v2.5-reorg: swapped with Ctrl+End for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard End",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 7,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "PrevSht",
-      "rationale": "v2.5-reorg: swapped with PrevSht for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard PageUp",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 8,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Paste",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard V",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 9,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "NextSht",
-      "rationale": "v2.5-reorg: swapped with NextSht for better ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard PageDown",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 10,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Undo",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Z",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 11,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Save",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard S",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 12,
-      "y": 2,
-      "behavior": "Key Press",
-      "label": "Bold",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard B",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 0,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "HideRow",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard 9 and Left Bracket",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 1,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Replace",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 5→3)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard H",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 2,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "Delete",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Dash and Underscore",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 3,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "NumFmt",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard 1 and Bang",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 4,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "CurFmt",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard 4 and Dollar",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 5,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "PctFmt",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard 5 and Percent",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 7,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "FmtCell",
-      "rationale": "v2.5-reorg: swapped for ergonomics",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard 1 and Bang",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 8,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "FillDn",
-      "rationale": "v2.5-reorg: swapped for ergonomics (effort 7→3)",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 9,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "UnhideR",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard 9 and Left Bracket",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 10,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "HideCol",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard 0 and Right Bracket",
-      "modifiers": [
-        "L Ctrl"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 11,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "GenFmt",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Grave Accent and Tilde",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 12,
-      "y": 3,
-      "behavior": "Key Press",
-      "label": "ArrFml",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true,
-      "parameter": "Keyboard Return Enter",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ]
-    },
-    {
-      "layer": 10,
-      "x": 3,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 10,
-      "x": 4,
-      "y": 4,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 10,
-      "x": 5,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 10,
-      "x": 7,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 10,
-      "x": 8,
-      "y": 4,
-      "behavior": "coach_base",
-      "label": "Base",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 10,
-      "x": 4,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 10,
-      "x": 5,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    },
-    {
-      "layer": 10,
-      "x": 7,
-      "y": 5,
-      "behavior": "Transparent",
-      "label": "Transparent",
-      "rationale": "v2.5: Excel layer.",
-      "apply_batch": true,
-      "full_reapply_v25": true
-    }
-  ]
-}
-;
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [],
+    "label": "Esc",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [],
+    "label": "1",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [],
+    "label": "2",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 3 and Hash",
+    "modifiers": [],
+    "label": "3",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 4 and Dollar",
+    "modifiers": [],
+    "label": "4",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 5 and Percent",
+    "modifiers": [],
+    "label": "5",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 6 and Caret",
+    "modifiers": [],
+    "label": "6",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 7 and Ampersand",
+    "modifiers": [],
+    "label": "7",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 8 and Star",
+    "modifiers": [],
+    "label": "8",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 9 and Left Bracket",
+    "modifiers": [],
+    "label": "9",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 0 and Right Bracket",
+    "modifiers": [],
+    "label": "0",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [],
+    "label": "BkSp",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [],
+    "label": "Tab",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Q",
+    "modifiers": [],
+    "label": "Q",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [],
+    "label": "W",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [],
+    "label": "E",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [],
+    "label": "R",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [],
+    "label": "T",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Y",
+    "modifiers": [],
+    "label": "Y",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [],
+    "label": "U",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [],
+    "label": "I",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [],
+    "label": "O",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [],
+    "label": "P",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Brace",
+    "modifiers": [],
+    "label": "\u00e5",
+    "rationale": "Norwegian \u00e5. Sends the [ scancode (ZMK Studio name 'Left Brace', same key as Layer 1 x9 y3) = \u00e5 on Norwegian Windows. Label is for the coach only.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftShift",
+    "modifiers": [],
+    "label": "Shft",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [],
+    "label": "A",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [],
+    "label": "S",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [],
+    "label": "D",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [],
+    "label": "F",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [],
+    "label": "G",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [],
+    "label": "H",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard J",
+    "modifiers": [],
+    "label": "J",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [],
+    "label": "K",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [],
+    "label": "L",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [],
+    "label": "\u00f8",
+    "rationale": "Norwegian \u00f8. Keycode is unchanged (SemiColon scancode); Windows Norwegian layout renders it as \u00f8. Label is for the coach only.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Apos and Double",
+    "modifiers": [],
+    "label": "\u00e6",
+    "rationale": "Norwegian \u00e6. Keycode is unchanged (Apostrophe/Quote scancode); Windows Norwegian layout renders it as \u00e6. Label is for the coach only.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftControl",
+    "modifiers": [],
+    "label": "Ctrl",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [],
+    "label": "Z",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [],
+    "label": "X",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [],
+    "label": "C",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [],
+    "label": "V",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [],
+    "label": "B",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [],
+    "label": "N",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard M",
+    "modifiers": [],
+    "label": "M",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Comma and LessThan",
+    "modifiers": [],
+    "label": ",",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [],
+    "label": ".",
+    "rationale": "CRITICAL v1.9: Period must be on base layer for typing flow. Moves [ to Layer 1.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [],
+    "label": "/",
+    "rationale": "Base typing key for the main work layout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Backslash and Pipe",
+    "modifiers": [],
+    "label": "\\",
+    "rationale": "International backslash/pipe (US HID). On Norwegian Windows this key is layout-dependent (often |); not English apostrophe \u2014 use Win+Space to US English for ' in contractions, or type \u00f8/\u00e6 on their base positions.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_l1_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Nav",
+    "rationale": "Hold Nav for layer 1 navigation/editing.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [],
+    "label": "\u2423",
+    "rationale": "Thumb/control key for typing, layer access, mouse access, or Enter.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftAlt",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt",
+    "rationale": "Thumb/control key for typing, layer access, mouse access, or Enter.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 4,
+    "behavior": "coach_l4_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "System",
+    "rationale": "Hold System for layer 4 Bluetooth/output/helpers.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 4,
+    "behavior": "coach_l3_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Window",
+    "rationale": "Hold Window for layer 3 window/app/desktop control.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [],
+    "label": "Down",
+    "rationale": "Arrow key for navigation.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 5,
+    "behavior": "coach_l2_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Mouse",
+    "rationale": "Hold Mouse for layer 2 mouse lock/buttons.",
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [],
+    "label": "Ret",
+    "rationale": "Thumb/control key for typing, layer access, mouse access, or Enter.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+B",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+B.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "F",
+    "rationale": "Programming/editing shortcut for find, replace, word movement, or word deletion.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+1",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+1.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+I",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+I.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+G",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+G.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+O",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+O.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 1,
+    "behavior": "Toggle Layer",
+    "parameter": "Layer::5",
+    "modifiers": [],
+    "label": "Code",
+    "rationale": "v2.2: Toggle Code/IDE layer (Layer 5). Replaces duplicate game lock (game lock remains on L3 x12,y2).",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F12",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+F12",
+    "rationale": "Evolved (evo_best_gen150): Sends L Alt+F12.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Tab",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+Tab.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+W",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+W.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Right",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+L Alt+RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "V",
+    "rationale": "Control-modified editing shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+E",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+E.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+H",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+H.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+R",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+R.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+C",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+C.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+G",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+G.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [],
+    "label": "leftarrow_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends LeftArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+U",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+U.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 2,
+    "behavior": "Momentary Layer",
+    "parameter": "Layer::6",
+    "modifiers": [],
+    "label": "Scroll",
+    "rationale": "Left-hand scroll hold (hold Nav with left thumb, hold here with middle finger). Release to stop scrolling.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 2,
+    "behavior": "coach_travel_toggle",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Speed",
+    "rationale": "Left-hand speed/travel toggle (hold Nav, tap here, release Nav). Speed stays on until tapped again or Exit Travel on Layer 8. Right hand stays on trackball. Mirrors right-hand speed on Layer 3.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F2",
+    "modifiers": [],
+    "label": "f2",
+    "rationale": "Evolved (evo_best_gen150): Sends F2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Search",
+    "rationale": "v1.9: Left-hand Win+S Windows Search: hold Nav thumb + tap A position.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [],
+    "label": "\u2193",
+    "rationale": "Navigation key for cursor/page movement.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [],
+    "label": "\u2191",
+    "rationale": "Navigation key for cursor/page movement.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [],
+    "label": "\u2192",
+    "rationale": "Navigation key for cursor/page movement.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+End",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+End.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [],
+    "label": "f5",
+    "rationale": "Evolved (evo_best_gen150): Sends F5.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [],
+    "label": "Up",
+    "rationale": "Evolved (evo_best_gen150): Sends UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+A",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+A.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "C",
+    "rationale": "Control-modified editing shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+K",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+K.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 3,
+    "behavior": "coach_game_lock",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_game_lock",
+    "rationale": "Evolved (evo_best_gen150): coach_game_lock",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+L Alt+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+N",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+N.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+2",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Comma and LessThan",
+    "modifiers": [],
+    "label": "comma_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends <.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+P",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+P.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+-",
+    "rationale": "Zoom out.",
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left GUI",
+    "modifiers": [],
+    "label": "left gui",
+    "rationale": "Evolved (evo_best_gen150): Sends LeftGUI.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PrintScreen and SysReq",
+    "modifiers": [
+      "L GUI",
+      "L Shift"
+    ],
+    "label": "Snip",
+    "rationale": "v2.5: Mouse QoL \u2014 Win+Shift+S screenshot snip tool for capturing while browsing.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F9",
+    "modifiers": [],
+    "label": "f9",
+    "rationale": "Evolved (evo_best_gen150): Sends F9.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Desktop",
+    "rationale": "v2.0: Left-hand mouse QoL \u2014 Win+D toggles show desktop.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F10",
+    "modifiers": [],
+    "label": "f10",
+    "rationale": "Evolved (evo_best_gen150): Sends F10.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+G",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+G.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 0,
+    "behavior": "Momentary Layer",
+    "parameter": "Layer::6",
+    "modifiers": [],
+    "label": "Scroll",
+    "rationale": "v2.0: Left-hand mouse QoL \u2014 hold for scroll overlay.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+2",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+F",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+F.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+E",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+E.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+K",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+K.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Close",
+    "rationale": "v2.0: Left-hand mouse QoL \u2014 Ctrl+W close tab.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [],
+    "label": "Enter",
+    "rationale": "Evolved (evo_best_gen150): Sends Enter.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [],
+    "label": "F5",
+    "rationale": "Evolved (evo_best_gen150): Sends F5.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Zoom In",
+    "rationale": "v2.5: Mouse QoL \u2014 Ctrl+= zoom in for detailed viewing while pointing.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left GUI",
+    "modifiers": [],
+    "label": "Win",
+    "rationale": "v2.0: Right-hand mouse QoL \u2014 Win key to show auto-hide taskbar / Start menu.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [],
+    "label": "Enter",
+    "rationale": "v2.0: Right-hand mouse QoL \u2014 Enter to confirm dialogs/actions while navigating.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+S",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+S.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [],
+    "label": "minus",
+    "rationale": "Evolved (evo_best_gen150): Sends _.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F6",
+    "modifiers": [],
+    "label": "f6",
+    "rationale": "Evolved (evo_best_gen150): Sends F6.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Cut",
+    "rationale": "v2.0: Left-hand mouse QoL \u2014 Ctrl+X cut (unique to left hand).",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 2,
+    "behavior": "Mouse Key Press",
+    "parameter": "MB4",
+    "modifiers": [],
+    "label": "MB4",
+    "rationale": "Evolved (evo_best_gen150): Mouse Key Press: MB4",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+H",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+H.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 2,
+    "behavior": "Mouse Key Press",
+    "parameter": "select:MB2",
+    "modifiers": [],
+    "label": "MB2",
+    "rationale": "v2.0: Left-hand mouse QoL \u2014 right click on home row.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 2,
+    "behavior": "Mouse Key Press",
+    "parameter": "select:MB3",
+    "modifiers": [],
+    "label": "MB3",
+    "rationale": "v2.0: Left-hand mouse QoL \u2014 middle click on home row.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+I",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+I.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 6 and Caret",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+6",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+6.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+C",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+C.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [],
+    "label": "f4",
+    "rationale": "Evolved (evo_best_gen150): Sends F4.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 2,
+    "behavior": "coach_travel_toggle",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_travel_toggle",
+    "rationale": "Evolved (evo_best_gen150): coach_travel_toggle",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 2,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_base",
+    "rationale": "Evolved (evo_best_gen150): coach_base",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [],
+    "label": "f5",
+    "rationale": "Evolved (evo_best_gen150): Sends F5.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 2,
+    "behavior": "Toggle Layer",
+    "parameter": "Layer::6",
+    "modifiers": [],
+    "label": "Scroll",
+    "rationale": "v1.9: Right-hand scroll toggle: in mouse mode, tap pinky to toggle Layer 6 scroll overlay.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+A",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+L Alt+A.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+G",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+G.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+E",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+E.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Paste",
+    "rationale": "v2.0: Left-hand mouse QoL \u2014 Ctrl+V paste.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+L Alt+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keypad 9 and PageUp",
+    "modifiers": [],
+    "label": "pageup",
+    "rationale": "Evolved (evo_best_gen150): Sends Keypad 9 and PageUp.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Undo",
+    "rationale": "v2.0: Right-hand mouse QoL \u2014 Ctrl+Z undo after accidental edit.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 3,
+    "behavior": "Momentary Layer",
+    "parameter": "Layer::8",
+    "modifiers": [],
+    "label": "Speed",
+    "rationale": "v2.4: Mouse-locked speed hold \u2014 hold for fast travel, release to return to precision. Ring/pinky reach while right thumb stays on trackball.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Enter",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+Enter.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageUp",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Page Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+PageUp.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [],
+    "label": "forwardslash_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends ?.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Brace",
+    "modifiers": [],
+    "label": "left brace_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends {.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Brace",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+[",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+{.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Right Brace",
+    "modifiers": [],
+    "label": "right brace_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends }.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [],
+    "label": "equal",
+    "rationale": "Evolved (evo_best_gen150): Sends =.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Emoji",
+    "rationale": "Win+. Emoji picker on L3 x0,y0. Fills x0 column.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "QSett",
+    "rationale": "v2.2: Win+A \u2014 Quick Settings. Fills empty L3 y0.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Notif",
+    "rationale": "v2.2: Win+N \u2014 Notifications. Fills empty L3 y0.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "TskCy",
+    "rationale": "v2.2: Win+T \u2014 Cycle taskbar. Fills empty L3 y0.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+P",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+P.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL",
+    "modifiers": [],
+    "label": "BT",
+    "rationale": "Bluetooth selection.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 9 and Left Bracket",
+    "modifiers": [],
+    "label": "left bracket_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends 9.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 1,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 1",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Evolved (evo_best_gen150): Bluetooth: BT_SEL 1",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F17",
+    "modifiers": [],
+    "label": "f17",
+    "rationale": "Evolved (evo_best_gen150): Sends F17.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "\u2192",
+    "rationale": "Window, app, language, or desktop workflow shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard M",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+M",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+M.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Lang",
+    "rationale": "Win+Space \u2014 Switch input language. Replaces dupe emoji picker.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "TskMg",
+    "rationale": "v2.2: Ctrl+Shift+Esc \u2014 Task Manager. Fills empty L3 y0.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+V",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+V.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F16",
+    "modifiers": [],
+    "label": "f16",
+    "rationale": "Evolved (evo_best_gen150): Sends F16.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+K",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+K.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F8",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+F8",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+F8.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+U",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+U.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+G",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+G.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "1",
+    "rationale": "Windows app/taskbar launcher shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 4 and Dollar",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "4",
+    "rationale": "Windows app/taskbar launcher shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 5 and Percent",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "5",
+    "rationale": "Windows app/taskbar launcher shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Search",
+    "rationale": "Windows Search (Win+S) on home row.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+/",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+?.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [],
+    "label": ";",
+    "rationale": "Semicolon key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+H",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+H.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+E",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+E.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+O",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+O.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Voice",
+    "rationale": "Win+H \u2014 Voice typing. Fills L3 transparent slot.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Shift",
+      "L GUI"
+    ],
+    "label": "S",
+    "rationale": "Window, app, language, or desktop workflow shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Tab",
+    "rationale": "Window, app, language, or desktop workflow shortcut.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Y",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Y",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+Y.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 3,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 3",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Evolved (evo_best_gen150): Bluetooth: BT_SEL 3",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+R",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+R.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Tab",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+Tab.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+N",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+N.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keypad 3 and PageDn",
+    "modifiers": [],
+    "label": "keypad 3",
+    "rationale": "Evolved (evo_best_gen150): Sends Keypad 3 and PageDn.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "SysTray",
+    "rationale": "Focus system tray (Win+B). Evolution-optimized thumb fill for Window layer.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Left",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+LeftArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 0",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Bluetooth profile management.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 1",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Bluetooth profile management.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 2",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Bluetooth profile management.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 3",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Bluetooth profile management.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 4",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Bluetooth profile management.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+X",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+X.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F6",
+    "modifiers": [],
+    "label": "f6",
+    "rationale": "Evolved (evo_best_gen150): Sends F6.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 10,
+    "y": 0,
+    "behavior": "Studio Unlock",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Studio Unlock",
+    "rationale": "Unlocks ZMK Studio access from the keyboard.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Enter",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+Enter.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 0,
+    "behavior": "Bootloader",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Bootloader",
+    "rationale": "Bootloader entry for flashing firmware.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+G",
+    "rationale": "v2.3: L4 power shortcut \u2014 Go to (line/page/vault).",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+O",
+    "rationale": "v2.3: L4 power shortcut \u2014 Open file.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F15",
+    "modifiers": [],
+    "label": "F15",
+    "rationale": "v2.1: Sequential F13-F24 macro keys.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F16",
+    "modifiers": [],
+    "label": "F16",
+    "rationale": "v2.1: Sequential F13-F24 macro keys.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F14",
+    "modifiers": [],
+    "label": "F14",
+    "rationale": "v2.1: Sequential F13-F24 macro keys.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [],
+    "label": "return enter",
+    "rationale": "Evolved (evo_best_gen150): Sends Enter.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+S",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+S.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [],
+    "label": "end",
+    "rationale": "Evolved (evo_best_gen150): Sends End.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+L",
+    "rationale": "v2.3: L4 power shortcut \u2014 Address bar / Select line.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [],
+    "label": "delete",
+    "rationale": "Evolved (evo_best_gen150): Sends Delete.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+U",
+    "rationale": "v2.3: L4 power shortcut \u2014 Underline / Upload.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [],
+    "label": "Backspace",
+    "rationale": "Evolved (evo_best_gen150): Sends Delete.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F19",
+    "modifiers": [],
+    "label": "F19",
+    "rationale": "v2.1: Sequential F13-F24 macro keys. F19-F23 on home row.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F20",
+    "modifiers": [],
+    "label": "F20",
+    "rationale": "v2.1: Sequential F13-F24 macro keys.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F21",
+    "modifiers": [],
+    "label": "F21",
+    "rationale": "v2.1: Sequential F13-F24 macro keys.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+I",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+I.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Right Brace",
+    "modifiers": [],
+    "label": "right bracket",
+    "rationale": "Evolved (evo_best_gen150): Sends }.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftShift",
+    "modifiers": [],
+    "label": "leftshift",
+    "rationale": "Evolved (evo_best_gen150): Sends LeftShift.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Brace",
+    "modifiers": [],
+    "label": "left bracket",
+    "rationale": "Evolved (evo_best_gen150): Sends {.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F12",
+    "modifiers": [],
+    "label": "f12",
+    "rationale": "Evolved (evo_best_gen150): Sends F12.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [],
+    "label": "f5",
+    "rationale": "Evolved (evo_best_gen150): Sends F5.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Share",
+    "rationale": "v2.3: L4 power shortcut \u2014 Teams screen share.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 3,
+    "behavior": "Toggle Layer",
+    "parameter": "10",
+    "modifiers": [],
+    "label": "Excel",
+    "rationale": "Toggle Excel layer (L10). Hold System thumb + tap here.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+L Alt+UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 3,
+    "behavior": "Toggle Layer",
+    "parameter": "Layer::9",
+    "modifiers": [],
+    "label": "DMS",
+    "rationale": "v2.2: Toggle M-Files/DMS layer (Layer 9). Uses freed F-key slot.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+D",
+    "rationale": "v2.3: L4 power shortcut \u2014 Duplicate / Delete / Bookmark.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [],
+    "label": "Tab",
+    "rationale": "Evolved (evo_best_gen150): Sends Tab.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F22",
+    "modifiers": [],
+    "label": "F22",
+    "rationale": "v2.1: Sequential F13-F24 macro keys.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+V",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+V.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [],
+    "label": "home",
+    "rationale": "Evolved (evo_best_gen150): Sends Home.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F11",
+    "modifiers": [],
+    "label": "f11",
+    "rationale": "Evolved (evo_best_gen150): Sends F11.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F7",
+    "modifiers": [],
+    "label": "f7",
+    "rationale": "Evolved (evo_best_gen150): Sends F7.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Hangup",
+    "rationale": "v2.3: L4 power shortcut \u2014 Teams end call.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Accept",
+    "rationale": "v2.3: L4 power shortcut \u2014 Teams accept call.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Tab",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+Tab.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+T",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+T.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+D",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L Ctrl+D.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F9",
+    "modifiers": [],
+    "label": "f9",
+    "rationale": "Evolved (evo_best_gen150): Sends F9.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+/",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+?.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [],
+    "label": "forwardslash_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends ?.",
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Stop",
+    "rationale": "v2.2: Code/IDE \u2014 Stop debugging.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "GoSym",
+    "rationale": "v2.2: Code/IDE \u2014 Go to symbol.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+H",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+H.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+G",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+G.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+D",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L Ctrl+D.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Explr",
+    "rationale": "v2.2: Code/IDE \u2014 Explorer panel.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Wrap",
+    "rationale": "Alt+Z Toggle word wrap.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+F",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+F.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F18",
+    "modifiers": [],
+    "label": "f18",
+    "rationale": "Evolved (evo_best_gen150): Sends F18.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+Right",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L Ctrl+RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "InsUp",
+    "rationale": "v2.2: Code/IDE \u2014 Insert line above.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+`",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+`.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+W",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+W.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F1",
+    "modifiers": [],
+    "label": "f1",
+    "rationale": "Evolved (evo_best_gen150): Sends F1.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Backslash and Pipe",
+    "modifiers": [],
+    "label": "backslash",
+    "rationale": "Evolved (evo_best_gen150): Sends |.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+N",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+N.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Save",
+    "rationale": "v2.2: Code/IDE \u2014 Save.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard J",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+J",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+J.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Comma and LessThan",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Sett",
+    "rationale": "v2.2: Code/IDE \u2014 Settings.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "DelLn",
+    "rationale": "v2.2: Code/IDE \u2014 Delete line.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+S",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+S.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+L",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 2,
+    "behavior": "coach_travel_toggle",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_travel_toggle",
+    "rationale": "Evolved (evo_best_gen150): coach_travel_toggle",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "PstNF",
+    "rationale": "v2.2: Code/IDE \u2014 Paste no formatting.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "NTerm",
+    "rationale": "v2.2: Code/IDE \u2014 New terminal.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ext",
+    "rationale": "v2.2: Code/IDE \u2014 Extensions panel.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F8",
+    "modifiers": [],
+    "label": "f8",
+    "rationale": "Evolved (evo_best_gen150): Sends F8.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keypad 3 and PageDn",
+    "modifiers": [],
+    "label": "keypad 3",
+    "rationale": "Evolved (evo_best_gen150): Sends Keypad 3 and PageDn.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Base",
+    "rationale": "Exit Code layer to base.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+=",
+    "rationale": "Evolved (evo_best_gen150): Sends L Alt+=.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Left",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+LeftArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Q",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Q",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+Q.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Space",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+Space.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F10",
+    "modifiers": [],
+    "label": "F10",
+    "rationale": "Evolved (evo_best_gen150): Sends F10.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L GUI",
+      "L Shift"
+    ],
+    "label": "Win+Shift+Left",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L Shift+LeftArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Right",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+R",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+R.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Right",
+    "rationale": "Evolved (evo_best_gen150): Sends L Alt+RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 5 and Percent",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+5",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+5.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Left",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+LeftArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F9",
+    "modifiers": [],
+    "label": "F9",
+    "rationale": "Evolved (evo_best_gen150): Sends F9.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 3 and Hash",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+3",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+3.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Space",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+Space.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 4 and Dollar",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+4",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+4.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [],
+    "label": "F5",
+    "rationale": "Evolved (evo_best_gen150): Sends F5.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Alt"
+    ],
+    "label": "Ctrl+Alt+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Alt+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift++",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+=.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F11",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+F11",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+F11.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L GUI",
+      "L Shift"
+    ],
+    "label": "Win+Shift+Right",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L Shift+RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [],
+    "label": "F4",
+    "rationale": "Evolved (evo_best_gen150): Sends F4.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+I",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+I.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+T",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+T.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 6 and Caret",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+6",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+6.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Right",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 0 and Right Bracket",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+0",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+0.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keypad 9 and PageUp",
+    "modifiers": [],
+    "label": "9 PU",
+    "rationale": "RPG/game movement or menu navigation.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [],
+    "label": "\u2191",
+    "rationale": "RPG/game movement or menu navigation.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keypad 3 and PageDn",
+    "modifiers": [],
+    "label": "3 PD",
+    "rationale": "RPG/game movement or menu navigation.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 4,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 8,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keypad 3 and PageDn",
+    "modifiers": [],
+    "label": "3 PD",
+    "rationale": "RPG/game movement or menu navigation. Right-hand column-mirror of left x3 (reversed cluster).",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [],
+    "label": "\u2191",
+    "rationale": "RPG/game movement or menu navigation. Right-hand column-mirror of left x2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keypad 9 and PageUp",
+    "modifiers": [],
+    "label": "9 PU",
+    "rationale": "RPG/game movement or menu navigation. Right-hand column-mirror of left x1.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [],
+    "label": "\u2190",
+    "rationale": "RPG/game movement or menu navigation.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [],
+    "label": "\u2193",
+    "rationale": "RPG/game movement or menu navigation.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [],
+    "label": "\u2192",
+    "rationale": "RPG/game movement or menu navigation.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [],
+    "label": "Z",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [],
+    "label": "Z",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key. Right-hand column-mirror of left x4 (outer column).",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [],
+    "label": "\u2190",
+    "rationale": "RPG/game movement: left arrow on left column of right-hand cluster (x9).",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [],
+    "label": "\u2193",
+    "rationale": "RPG/game movement or menu navigation. Right-hand column-mirror of left x2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [],
+    "label": "\u2192",
+    "rationale": "RPG/game movement: right arrow on right column of right-hand cluster (x11).",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [],
+    "label": "X",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [],
+    "label": "C",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftShift",
+    "modifiers": [],
+    "label": "Shft",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [],
+    "label": "Esc",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [],
+    "label": "Esc",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key. Right-hand column-mirror of left x4 (outer column).",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftShift",
+    "modifiers": [],
+    "label": "Shft",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key. Right-hand column-mirror of left x3.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [],
+    "label": "C",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key. Right-hand column-mirror of left x2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [],
+    "label": "X",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key. Right-hand column-mirror of left x1.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Exit Base",
+    "rationale": "Left-thumb exit from locked game layer to base. Must use coach_base (not plain To Layer) so the beacon listener clears lockedLayer 7.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [],
+    "label": "\u2423",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 5,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Exit Base",
+    "rationale": "Left support-thumb exit from locked game layer to base.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 7,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Exit Base",
+    "rationale": "Right-thumb exit from locked game layer to base.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 8,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Exit Base",
+    "rationale": "Second right-thumb exit from locked game layer to base.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 4,
+    "y": 5,
+    "behavior": "Mouse Key Press",
+    "parameter": "select:MB1",
+    "modifiers": [],
+    "label": "Click",
+    "rationale": "Mouse button binding: select:MB1.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 5,
+    "y": 5,
+    "behavior": "Mouse Key Press",
+    "parameter": "select:MB2",
+    "modifiers": [],
+    "label": "Right Click",
+    "rationale": "Mouse button binding: select:MB2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 7,
+    "x": 7,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [],
+    "label": "Ret",
+    "rationale": "RPG/game action, cancel, menu, dash, pause, or confirm key.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [],
+    "label": "escape",
+    "rationale": "Evolved (evo_best_gen150): Sends Escape.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+Space",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+Space.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F11",
+    "modifiers": [],
+    "label": "F11",
+    "rationale": "Evolved (evo_best_gen150): Sends F11.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+S",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+S.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [],
+    "label": "home",
+    "rationale": "Evolved (evo_best_gen150): Sends Home.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+Right",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L Ctrl+RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Esc",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+Escape.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Z",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+Z.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+-",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+_.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F6",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+F6",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+F6.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left GUI",
+    "modifiers": [],
+    "label": "left gui",
+    "rationale": "Evolved (evo_best_gen150): Sends LeftGUI.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+`",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+`.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+F4",
+    "rationale": "Evolved (evo_best_gen150): Sends L Alt+F4.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Alt+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+.",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+>.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+B",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Shift+B.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [],
+    "label": "tab",
+    "rationale": "Evolved (evo_best_gen150): Sends Tab.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+.",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+>.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+;",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+:.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L Alt+UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Home",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+Home.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 4,
+    "behavior": "coach_travel_off",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Exit Travel",
+    "rationale": "Right-thumb exit from speed/travel overlay. Must use coach_travel_off (not plain To Layer) so the beacon listener clears toggled layer 8.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [],
+    "label": "Delete",
+    "rationale": "Evolved (evo_best_gen150): Sends Delete.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F10",
+    "modifiers": [],
+    "label": "F10",
+    "rationale": "Evolved (evo_best_gen150): Sends F10.",
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+End",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+End.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F2",
+    "modifiers": [],
+    "label": "f2",
+    "rationale": "Evolved (evo_best_gen150): Sends F2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "WfSt",
+    "rationale": "v2.2: M-Files \u2014 Change workflow state.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Asgn",
+    "rationale": "v2.2: M-Files \u2014 Assign to user.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard M",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Fav",
+    "rationale": "v2.2: M-Files \u2014 Add to favorites.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "List",
+    "rationale": "v2.2: M-Files \u2014 List view.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Print",
+    "rationale": "v2.2: M-Files \u2014 Print.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Shift+L Alt+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keypad 9 and PageUp",
+    "modifiers": [],
+    "label": "pageup",
+    "rationale": "Evolved (evo_best_gen150): Sends Keypad 9 and PageUp.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Save",
+    "rationale": "v2.2: M-Files \u2014 Save.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "ChkIn",
+    "rationale": "v2.2: M-Files \u2014 Check in.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Tab",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+Tab.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Icon",
+    "rationale": "v2.2: M-Files \u2014 Icon view.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftShift",
+    "modifiers": [],
+    "label": "leftshift",
+    "rationale": "Evolved (evo_best_gen150): Sends LeftShift.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Hist",
+    "rationale": "v2.2: M-Files \u2014 Version history.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Rel",
+    "rationale": "v2.2: M-Files \u2014 Add relationship.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "UndCO",
+    "rationale": "v2.2: M-Files \u2014 Undo checkout.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "DLoad",
+    "rationale": "v2.2: M-Files \u2014 Download copy.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Open",
+    "rationale": "v2.2: M-Files \u2014 Open document.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "CpLnk",
+    "rationale": "v2.2: M-Files \u2014 Copy object link.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Notif",
+    "rationale": "v2.2: M-Files \u2014 Send notification.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Group",
+    "rationale": "v2.2: M-Files \u2014 Group by.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Vault",
+    "rationale": "v2.2: M-Files \u2014 Go to vault.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [],
+    "label": "rightarrow_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends RightArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+DownArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "ShftEnt",
+    "rationale": "Confirm and move up (Shift+Enter).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "SelAll",
+    "rationale": "Select all / current region (Ctrl+A).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Copy",
+    "rationale": "Copy (Ctrl+C).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Cut",
+    "rationale": "Cut (Ctrl+X).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "AutoSum",
+    "rationale": "AutoSum (Alt+=).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Dn",
+    "rationale": "Jump to bottom edge of data region.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+C",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+C.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "ShftTab",
+    "rationale": "Move to previous cell (Shift+Tab).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Sel\u2190",
+    "rationale": "Select to left edge of data.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Sel\u2191",
+    "rationale": "Select to top edge of data.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "InsTime",
+    "rationale": "Insert current time (Ctrl+Shift+;).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 1,
+    "behavior": "coach_mouse_lock",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_mouse_lock",
+    "rationale": "Evolved (evo_best_gen150): coach_mouse_lock",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "SelHome",
+    "rationale": "Select to cell A1 (Ctrl+Shift+Home).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+B",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+B.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 1,
+    "behavior": "coach_game_lock",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_game_lock",
+    "rationale": "Evolved (evo_best_gen150): coach_game_lock",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Find",
+    "rationale": "Find (Ctrl+F).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "SelCol",
+    "rationale": "Select entire column (Ctrl+Space).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [],
+    "label": "F4 $Ref",
+    "rationale": "Toggle absolute reference ($) in formulas.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "SelEnd",
+    "rationale": "Select to last used cell (Ctrl+Shift+End).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+L",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Paste",
+    "rationale": "Paste (Ctrl+V).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageDown",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "NextSht",
+    "rationale": "Next sheet tab (Ctrl+Page Down).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Undo",
+    "rationale": "Undo (Ctrl+Z).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+2",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+2.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+N",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+N.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 9 and Left Bracket",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "HideRow",
+    "rationale": "Hide selected rows (Ctrl+9).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Replace",
+    "rationale": "Find and replace (Ctrl+H).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Delete",
+    "rationale": "Delete cells/rows/columns (Ctrl+-).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "NumFmt",
+    "rationale": "Number format (Ctrl+Shift+!).",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Alt"
+    ],
+    "label": "Ctrl+Alt+Up",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+L Alt+UpArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageDown",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Page Down",
+    "rationale": "Evolved (evo_best_gen150): Sends L Ctrl+PageDown.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+E",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+E.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [],
+    "label": "grave accent_combo",
+    "rationale": "Evolved (evo_best_gen150): Sends `.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Left",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+LeftArrow.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Base",
+    "rationale": "Exit Excel layer to base.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F13",
+    "modifiers": [],
+    "label": "f13",
+    "rationale": "Evolved (evo_best_gen150): Sends F13.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+T",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+T.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Transparen",
+    "rationale": "Evolved (evo_best_gen150): Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "default_transform:default_transform",
+    "modifiers": [],
+    "label": "Transparent",
+    "rationale": "Transparent/reserved: falls through to lower active layer or does nothing if no lower binding applies.",
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+D",
+    "rationale": "Evolved (evo_best_gen150): Sends L GUI+L Ctrl+D.",
+    "apply_batch": true
+  }
+]
+};
 
-/*
-ZMK Studio best-effort layout assistant/applier.
+window.CHARYBDIS_MODE = "applyLayer";
+window.CHARYBDIS_APPLY_LAYER_INDEX = "all";
+window.CHARYBDIS_ENABLE_LAYER_APPLY = true;
 
-USAGE IN ZMK STUDIO DEVTOOLS CONSOLE:
-1. Open https://zmk.studio/ and connect the V&Z-Charydbis.
-2. Export a fresh backup first with export_current_layout_console.js.
-3. Paste this script into DevTools Console.
-4. Set mode from the Console before pasting this script, for example:
-   window.CHARYBDIS_MODE = "dryRun";
-   window.CHARYBDIS_MODE = "manualSteps";
-   window.CHARYBDIS_MODE = "oneKeyTest";
-   window.CHARYBDIS_MODE = "applyLayer";
-5. Or edit MODE below:
-   - "dryRun"      : print planned changes only. Default and safest.
-   - "manualSteps" : print exact manual ZMK Studio steps.
-   - "oneKeyTest" : apply one harmless test key only, then stop.
-   - "applyLayer" : disabled unless ENABLE_LAYER_APPLY is true.
-6. Never save until you verify the UI manually. This script never clicks Save.
-
-This file is already a complete ready-to-paste payload for the final
-operational layout.
-
-By default, this script applies only JSON entries with "apply_batch": true.
-Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
-*/
+console.log("Applying " + window.CHARYBDIS_FINAL_LAYOUT.keyCount + " keys across layers [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]...");
 
 (async function CharybdisStudioAssistant() {
   const MODE = window.CHARYBDIS_MODE || "applyLayer";
@@ -7825,7 +7744,7 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
     "Keyboard Home","Keyboard I","Keyboard J","Keyboard K","Keyboard L","Keyboard Left Apos and Double",
     "Keyboard Left Brace","Keyboard Left GUI","Keyboard LeftAlt","Keyboard LeftArrow","Keyboard LeftControl",
     "Keyboard LeftShift","Keyboard M","Keyboard N","Keyboard O","Keyboard P","Keyboard PageDown",
-    "Keyboard PageUp","Keyboard Period","Keyboard Period and GreaterThan","Keyboard PrintScreen",
+    "Keyboard PageUp","Keyboard Period","Keyboard Period and GreaterThan","Keyboard PrintScreen and SysReq",
     "Keyboard Q","Keyboard R","Keyboard Return Enter","Keyboard Right Brace","Keyboard RightArrow",
     "Keyboard RightAlt","Keyboard RightControl","Keyboard RightShift","Keyboard Right GUI",
     "Keyboard S","Keyboard SemiColon and Colon","Keyboard Spacebar","Keyboard T","Keyboard Tab",
@@ -7838,7 +7757,14 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
 
   async function setComboboxKeyParameter(parameter) {
     if (parameter && parameter.startsWith("Keyboard ") && !KNOWN_KEY_NAMES.has(parameter)) {
-      throw new Error(`UNKNOWN KEY NAME: "${parameter}" is not in KNOWN_KEY_NAMES. This would silently fall to "Keyboard B". Fix the parameter name in the layout data. See scripts/zmk-studio/zmk_studio_key_names.json for valid names.`);
+      const candidates = [...KNOWN_KEY_NAMES].filter(k => {
+        const pWords = parameter.toLowerCase().split(/\s+/);
+        return pWords.some(w => w.length > 2 && k.toLowerCase().includes(w));
+      });
+      console.error(`UNKNOWN KEY: "${parameter}"`);
+      if (candidates.length) console.log("  Candidates:", candidates.join(", "));
+      window._CHARYBDIS_APPLY_ERRORS.push({parameter, candidates, layer: arguments[0]?.layer, x: arguments[0]?.x, y: arguments[0]?.y});
+      return;
     }
 
     const input = findKeyInput();
@@ -7875,7 +7801,14 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
       chosen.el.click();
       await sleep(350);
     } else {
-      throw new Error(`NO MATCHING OPTION for "${parameter}". Refusing to proceed — would silently select wrong key (likely "Keyboard B"). Check the parameter name.`);
+      const allOptions = [...document.querySelectorAll("[role=option], li")]
+        .filter(el => el.offsetParent !== null)
+        .map(el => el.textContent.trim())
+        .filter(Boolean);
+      console.error(`NO MATCH: "${parameter}"`);
+      if (allOptions.length) console.log("  Visible options:", allOptions.slice(0, 10).join(", "));
+      window._CHARYBDIS_APPLY_ERRORS.push({parameter, visibleOptions: allOptions.slice(0, 10)});
+      return;
     }
 
     document.activeElement?.blur?.();
@@ -8190,4 +8123,199 @@ Set window.CHARYBDIS_APPLY_ONLY_BATCH = false only for manual experiments.
 })();
 
 
+
+
+
+
+// Restore console and print summary with suggestions
+setTimeout(function() {
+  if (typeof _origError !== "undefined") {
+    console.error = _origError;
+    console.warn = _origWarn;
+  }
+  const errors = window._CHARYBDIS_APPLY_ERRORS || [];
+  const total = window.CHARYBDIS_FINAL_LAYOUT?.keyCount || 0;
+  console.log("\n" + "=".repeat(60));
+  console.log("APPLY SUMMARY");
+  console.log("=".repeat(60));
+  console.log("Total keys: " + total);
+  console.log("Errors: " + errors.length);
+  if (errors.length > 0) {
+    console.log("\nFAILED KEYS WITH SUGGESTIONS:");
+    errors.forEach(function(e) {
+      if (typeof e === "object") {
+        const pos = e.layer !== undefined ? "L" + e.layer + " (" + e.x + "," + e.y + ")" : "";
+        console.log("  " + pos + " " + (e.parameter || ""));
+        if (e.candidates && e.candidates.length) {
+          console.log("    Candidates: " + e.candidates.join(", "));
+        }
+        if (e.visibleOptions && e.visibleOptions.length) {
+          console.log("    Visible options: " + e.visibleOptions.join(", "));
+        }
+      } else {
+        console.log("  " + e);
+      }
+    });
+    console.log("\nFix these parameter names in export_zmk.py, regenerate, and re-apply.");
+  } else {
+    console.log("All keys applied or already correct.");
+  }
+  console.log("=".repeat(60));
+}, 2000);
+
+
+
+
+// Restore console and print summary with suggestions
+setTimeout(function() {
+  if (typeof _origError !== "undefined") {
+    console.error = _origError;
+    console.warn = _origWarn;
+  }
+  const errors = window._CHARYBDIS_APPLY_ERRORS || [];
+  const total = window.CHARYBDIS_FINAL_LAYOUT?.keyCount || 0;
+  console.log("\n" + "=".repeat(60));
+  console.log("APPLY SUMMARY");
+  console.log("=".repeat(60));
+  console.log("Total keys: " + total);
+  console.log("Errors: " + errors.length);
+  if (errors.length > 0) {
+    console.log("\nFAILED KEYS WITH SUGGESTIONS:");
+    errors.forEach(function(e) {
+      if (typeof e === "object") {
+        const pos = e.layer !== undefined ? "L" + e.layer + " (" + e.x + "," + e.y + ")" : "";
+        console.log("  " + pos + " " + (e.parameter || ""));
+        if (e.candidates && e.candidates.length) {
+          console.log("    Candidates: " + e.candidates.join(", "));
+        }
+        if (e.visibleOptions && e.visibleOptions.length) {
+          console.log("    Visible options: " + e.visibleOptions.join(", "));
+        }
+      } else {
+        console.log("  " + e);
+      }
+    });
+    console.log("\nFix these parameter names in export_zmk.py, regenerate, and re-apply.");
+  } else {
+    console.log("All keys applied or already correct.");
+  }
+  console.log("=".repeat(60));
+}, 2000);
+
+
+
+
+// Restore console and print summary with suggestions
+setTimeout(function() {
+  if (typeof _origError !== "undefined") {
+    console.error = _origError;
+    console.warn = _origWarn;
+  }
+  const errors = window._CHARYBDIS_APPLY_ERRORS || [];
+  const total = window.CHARYBDIS_FINAL_LAYOUT?.keyCount || 0;
+  console.log("\n" + "=".repeat(60));
+  console.log("APPLY SUMMARY");
+  console.log("=".repeat(60));
+  console.log("Total keys: " + total);
+  console.log("Errors: " + errors.length);
+  if (errors.length > 0) {
+    console.log("\nFAILED KEYS WITH SUGGESTIONS:");
+    errors.forEach(function(e) {
+      if (typeof e === "object") {
+        const pos = e.layer !== undefined ? "L" + e.layer + " (" + e.x + "," + e.y + ")" : "";
+        console.log("  " + pos + " " + (e.parameter || ""));
+        if (e.candidates && e.candidates.length) {
+          console.log("    Candidates: " + e.candidates.join(", "));
+        }
+        if (e.visibleOptions && e.visibleOptions.length) {
+          console.log("    Visible options: " + e.visibleOptions.join(", "));
+        }
+      } else {
+        console.log("  " + e);
+      }
+    });
+    console.log("\nFix these parameter names in export_zmk.py, regenerate, and re-apply.");
+  } else {
+    console.log("All keys applied or already correct.");
+  }
+  console.log("=".repeat(60));
+}, 2000);
+
+
+
+
+// Restore console and print summary with suggestions
+setTimeout(function() {
+  if (typeof _origError !== "undefined") {
+    console.error = _origError;
+    console.warn = _origWarn;
+  }
+  const errors = window._CHARYBDIS_APPLY_ERRORS || [];
+  const total = window.CHARYBDIS_FINAL_LAYOUT?.keyCount || 0;
+  console.log("\n" + "=".repeat(60));
+  console.log("APPLY SUMMARY");
+  console.log("=".repeat(60));
+  console.log("Total keys: " + total);
+  console.log("Errors: " + errors.length);
+  if (errors.length > 0) {
+    console.log("\nFAILED KEYS WITH SUGGESTIONS:");
+    errors.forEach(function(e) {
+      if (typeof e === "object") {
+        const pos = e.layer !== undefined ? "L" + e.layer + " (" + e.x + "," + e.y + ")" : "";
+        console.log("  " + pos + " " + (e.parameter || ""));
+        if (e.candidates && e.candidates.length) {
+          console.log("    Candidates: " + e.candidates.join(", "));
+        }
+        if (e.visibleOptions && e.visibleOptions.length) {
+          console.log("    Visible options: " + e.visibleOptions.join(", "));
+        }
+      } else {
+        console.log("  " + e);
+      }
+    });
+    console.log("\nFix these parameter names in export_zmk.py, regenerate, and re-apply.");
+  } else {
+    console.log("All keys applied or already correct.");
+  }
+  console.log("=".repeat(60));
+}, 2000);
+
+
+
+
+// Restore console and print summary with suggestions
+setTimeout(function() {
+  if (typeof _origError !== "undefined") {
+    console.error = _origError;
+    console.warn = _origWarn;
+  }
+  const errors = window._CHARYBDIS_APPLY_ERRORS || [];
+  const total = window.CHARYBDIS_FINAL_LAYOUT?.keyCount || 0;
+  console.log("\n" + "=".repeat(60));
+  console.log("APPLY SUMMARY");
+  console.log("=".repeat(60));
+  console.log("Total keys: " + total);
+  console.log("Errors: " + errors.length);
+  if (errors.length > 0) {
+    console.log("\nFAILED KEYS WITH SUGGESTIONS:");
+    errors.forEach(function(e) {
+      if (typeof e === "object") {
+        const pos = e.layer !== undefined ? "L" + e.layer + " (" + e.x + "," + e.y + ")" : "";
+        console.log("  " + pos + " " + (e.parameter || ""));
+        if (e.candidates && e.candidates.length) {
+          console.log("    Candidates: " + e.candidates.join(", "));
+        }
+        if (e.visibleOptions && e.visibleOptions.length) {
+          console.log("    Visible options: " + e.visibleOptions.join(", "));
+        }
+      } else {
+        console.log("  " + e);
+      }
+    });
+    console.log("\nFix these parameter names in export_zmk.py, regenerate, and re-apply.");
+  } else {
+    console.log("All keys applied or already correct.");
+  }
+  console.log("=".repeat(60));
+}, 2000);
 

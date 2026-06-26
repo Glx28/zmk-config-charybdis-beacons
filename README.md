@@ -2,6 +2,8 @@
 
 ZMK firmware configuration for a Charybdis split keyboard with PMW3610 thumb trackball. This repo is the source of truth for the keyboard layout — firmware builds run via GitHub Actions, and layout changes are applied through [ZMK Studio](https://zmk.studio/).
 
+Part of the [Charybdis Keyboard System](https://github.com/Glx28/charybdis-tools#readme) — see the parent README for full setup and how data flows between repos.
+
 ## Hardware
 
 | Component | Detail |

@@ -72,18 +72,22 @@ The keyboard has 11 layers (0-10). Only one layer is "active" at a time (plus tr
 
 ### Layer access map
 
+> **Note for evolved layouts:** The optimizer dynamically assigns shortcuts to layers. The canonical layout uses L2 for mouse/trackball, but the optimizer may place mouse buttons on any layer it finds optimal. Layer roles below describe the canonical design — evolved layouts may differ.
+
 ```
 Layer 0 (Base) ─── always active, QWERTY + Norwegian letters
   ├─ LEFT THUMB (x3,y4) HOLD ──→ Layer 1 (Navigation)
-  ├─ LEFT THUMB (x5,y5) HOLD ──→ Layer 2 (Mouse)
+  ├─ LEFT THUMB (x5,y5) HOLD ──→ Layer 2 (Mouse in canonical; dynamically assigned in evolved)
   ├─ RIGHT THUMB (x8,y4) HOLD ──→ Layer 3 (Window)
   └─ RIGHT THUMB (x7,y4) HOLD ──→ Layer 4 (System/BT)
 
 Layer 3 (Window) has mode switches:
-  ├─ x10,y2 ──→ Layer 2 LOCK (Mouse Lock — stays until exit)
+  ├─ x10,y2 ──→ Layer 2 LOCK (Mouse Lock in canonical; dynamically assigned in evolved)
   ├─ x11,y2 ──→ Layer 8 TOGGLE (Speed — tap on/off)
   └─ x12,y2 ──→ Layer 7 LOCK (Game — stays until exit)
 ```
+
+**Dynamic assignment:** The v2 optimizer does not enforce "L2 = mouse". It places mouse buttons (MB1–MB5) on whichever layer minimizes effort for the user's actual shortcut corpus. The canonical layout uses L2 for mouse because that's where the designer placed them — the optimizer may choose a different layer if it yields better fitness. Always check the evolved `keybindings_explained.csv` to see where mouse buttons actually landed.
 
 ### The thumb-hold constraint (CRITICAL)
 
@@ -93,7 +97,9 @@ When a thumb holds a layer key, **that thumb is busy**. This has cascading effec
 2. **The holding hand's finger keys (y0-y3) ARE reachable** — fingers still work normally.
 3. **The other hand is completely free** — all keys reachable.
 
-**Example:** Left thumb holds Mouse (Layer 2). Left hand fingers can press MB1, Copy, etc. on L2. But left thumb can't also press Space (x4,y4) or Alt (x5,y4) — those are other thumb keys on the same hand.
+**Example:** Left thumb holds a momentary layer. Left hand fingers can press shortcuts on that layer. But left thumb can't also press Space (x4,y4) or Alt (x5,y4) — those are other thumb keys on the same hand.
+
+In the canonical layout, this is Layer 2 (Mouse). In evolved layouts, the optimizer may assign mouse buttons to any layer — the same thumb-hold constraint applies regardless.
 
 **This is why mouse buttons are on finger rows (y2), NOT on thumb keys.** When the left thumb holds the Mouse layer, the left index/middle/ring can still click MB1/MB2/MB3 on the home row.
 
@@ -113,10 +119,10 @@ When a thumb holds a layer key, **that thumb is busy**. This has cascading effec
 ## 3. How to Audit a Layer
 
 ### Step 1: Map the physical layout
-For each layer, create a grid showing what every key does:
+For each layer, create a grid showing what every key does. This example shows the canonical layout's L2 (Mouse) — evolved layouts may place mouse buttons on any layer:
 
 ```
-Layer 2 (Mouse) — LEFT HAND:
+Layer 2 (Mouse in canonical; evolved layouts may differ) — LEFT HAND:
 ┌─────────┬──────────┬─────────┬──────────┬──────────┬────────┐
 │Trans(Esc)│Task View │Desktop  │Next Tab  │Prev Tab  │Scroll  │ y0
 ├─────────┼──────────┼─────────┼──────────┼──────────┼────────┤

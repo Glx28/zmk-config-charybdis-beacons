@@ -1,552 +1,7379 @@
 /*
-Charybdis v2.5 ZMK Studio full-key verifier.
-
-Usage:
-1. Open https://zmk.studio/ and connect the keyboard.
-2. Open DevTools > Console.
-3. Paste this whole file and press Enter.
-4. Wait until it finishes. It clicks through every visible layer and every visible key.
-5. It compares every visible key against the EXPECTED_CSV baseline below.
-6. It downloads JSON and CSV verification reports.
-
-This script does not edit keys and does not click Save.
-
-=== EXPECTED_CSV baseline status ===
-The embedded EXPECTED_CSV is from v1.8. It has NOT been regenerated for v2.0-v2.5 changes.
-After applying the v2.5 layout in ZMK Studio (via apply_every_key.js), regenerate this
-baseline from Studio's ACTUAL output using:
-  scripts/zmk-studio/export_current_layout_console.js
-Then paste the exported CSV over EXPECTED_CSV below.
-
-The source of truth is layout/keybindings_explained.csv (616 keys, 11 layers).
+Charybdis optimizer layout VERIFY — evolved-run7-best
+Verifies 559 evolved changes across layers [0, 1, 2, 3, 4, 5, 6, 8, 9, 10].
+Paste in ZMK Studio console AFTER applying. Does not edit or save.
 */
 
-(async function VerifyFinalV18PointerTravelFullLiveZmkStudioLayout() {
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const STARTED_AT = new Date().toISOString();
-  const EXPECTED_CSV = "\"layer\",\"layer_name\",\"x\",\"y\",\"visual_label\",\"visual_text\",\"visual_behavior\",\"behavior\",\"parameter_summary\",\"text_parameters\",\"select_parameters\",\"checked_modifiers\"\\r\\n\"0\",\"0\",\"0\",\"0\",\"Esc\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Escape\",\"default_transform: | Key::Keyboard Escape\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"1\",\"0\",\"1\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 1 and Bang\",\"default_transform: | Key::Keyboard 1 and Bang\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"2\",\"0\",\"2\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 2 and At\",\"default_transform: | Key::Keyboard 2 and At\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"3\",\"0\",\"3\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 3 and Hash\",\"default_transform: | Key::Keyboard 3 and Hash\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"4\",\"0\",\"4\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 4 and Dollar\",\"default_transform: | Key::Keyboard 4 and Dollar\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"5\",\"0\",\"5\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 5 and Percent\",\"default_transform: | Key::Keyboard 5 and Percent\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"7\",\"0\",\"6\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 6 and Caret\",\"default_transform: | Key::Keyboard 6 and Caret\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"8\",\"0\",\"7\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 7 and Ampersand\",\"default_transform: | Key::Keyboard 7 and Ampersand\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"9\",\"0\",\"8\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 8 and Star\",\"default_transform: | Key::Keyboard 8 and Star\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"10\",\"0\",\"9\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 9 and Left Bracket\",\"default_transform: | Key::Keyboard 9 and Left Bracket\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"11\",\"0\",\"0\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 0 and Right Bracket\",\"default_transform: | Key::Keyboard 0 and Right Bracket\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"12\",\"0\",\"BkSp\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Delete\",\"default_transform: | Key::Keyboard Delete\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"0\",\"1\",\"Tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"1\",\"1\",\"Q\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Q\",\"default_transform: | Key::Keyboard Q\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"2\",\"1\",\"W\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard W\",\"default_transform: | Key::Keyboard W\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"3\",\"1\",\"E\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"4\",\"1\",\"R\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard R\",\"default_transform: | Key::Keyboard R\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"5\",\"1\",\"T\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard T\",\"default_transform: | Key::Keyboard T\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"7\",\"1\",\"Y\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Y\",\"default_transform: | Key::Keyboard Y\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"8\",\"1\",\"U\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard U\",\"default_transform: | Key::Keyboard U\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"9\",\"1\",\"I\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard I\",\"default_transform: | Key::Keyboard I\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"10\",\"1\",\"O\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard O\",\"default_transform: | Key::Keyboard O\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"11\",\"1\",\"P\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard P\",\"default_transform: | Key::Keyboard P\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"12\",\"1\",\"å\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Left Brace\",\"default_transform: | Key::Keyboard Left Brace\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"0\",\"2\",\"Shft\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftShift\",\"default_transform: | Key::Keyboard LeftShift\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"1\",\"2\",\"A\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard A\",\"default_transform: | Key::Keyboard A\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"2\",\"2\",\"S\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"3\",\"2\",\"D\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard D\",\"default_transform: | Key::Keyboard D\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"4\",\"2\",\"F\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F\",\"default_transform: | Key::Keyboard F\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"5\",\"2\",\"G\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"7\",\"2\",\"H\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"8\",\"2\",\"J\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard J\",\"default_transform: | Key::Keyboard J\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"9\",\"2\",\"K\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard K\",\"default_transform: | Key::Keyboard K\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"10\",\"2\",\"L\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard L\",\"default_transform: | Key::Keyboard L\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"11\",\"2\",\"ø\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard SemiColon and Colon\",\"default_transform: | Key::Keyboard SemiColon and Colon\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"12\",\"2\",\"æ\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Left Apos and Double\",\"default_transform: | Key::Keyboard Left Apos and Double\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"0\",\"3\",\"Ctrl\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftControl\",\"default_transform: | Key::Keyboard LeftControl\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"1\",\"3\",\"Z\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Z\",\"default_transform: | Key::Keyboard Z\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"2\",\"3\",\"X\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard X\",\"default_transform: | Key::Keyboard X\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"3\",\"3\",\"C\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"4\",\"3\",\"V\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard V\",\"default_transform: | Key::Keyboard V\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"5\",\"3\",\"B\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard B\",\"default_transform: | Key::Keyboard B\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"7\",\"3\",\"N\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard N\",\"default_transform: | Key::Keyboard N\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"8\",\"3\",\"M\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard M\",\"default_transform: | Key::Keyboard M\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"9\",\"3\",\",\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Comma and LessThan\",\"default_transform: | Key::Keyboard Comma and LessThan\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"10\",\"3\",\".\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Period and GreaterThan\",\"default_transform: | Key::Keyboard Period and GreaterThan\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"11\",\"3\",\"/\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard ForwardSlash and QuestionMark\",\"default_transform: | Key::Keyboard ForwardSlash and QuestionMark\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"12\",\"3\",\"\\\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Backslash and Pipe\",\"default_transform: | Key::Keyboard Backslash and Pipe\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"3\",\"4\",\"Nav\",\"coach_l1_hold\",\"coach_l1_hold\",\"coach_l1_hold\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"4\",\"4\",\"␣\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Spacebar\",\"default_transform: | Key::Keyboard Spacebar\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"5\",\"4\",\"Alt\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard LeftAlt\",\"default_transform: | Key::Keyboard LeftAlt\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"0\",\"0\",\"7\",\"4\",\"System\",\"coach_l4_hold\",\"coach_l4_hold\",\"coach_l4_hold\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"8\",\"4\",\"Window\",\"coach_l3_hold\",\"coach_l3_hold\",\"coach_l3_hold\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"4\",\"5\",\"Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"5\",\"5\",\"Mouse\",\"coach_l2_hold\",\"coach_l2_hold\",\"coach_l2_hold\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"0\",\"0\",\"7\",\"5\",\"Ret\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"0\",\"0\",\"Win+B\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard B\",\"default_transform: | Key::Keyboard B\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"1\",\"1\",\"1\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"2\",\"0\",\"F\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard F\",\"default_transform: | Key::Keyboard F\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"3\",\"0\",\"Ctrl+1\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 1 and Bang\",\"default_transform: | Key::Keyboard 1 and Bang\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"4\",\"0\",\"Win+I\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard I\",\"default_transform: | Key::Keyboard I\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"1\",\"1\",\"5\",\"0\",\"Ctrl+Shift+G\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"1\",\"1\",\"7\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"8\",\"0\",\"Ctrl+O\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard O\",\"default_transform: | Key::Keyboard O\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"9\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"10\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"11\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"12\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"0\",\"1\",\"Code\",\"Toggle Layer\",\"Toggle Layer\",\"Toggle Layer\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | Layer::5\",\"\"\\r\\n\"1\",\"1\",\"1\",\"1\",\"Alt+F12\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard F12\",\"default_transform: | Key::Keyboard F12\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"1\",\"1\",\"2\",\"1\",\"Win+Tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"1\",\"1\",\"3\",\"1\",\"Ctrl+Shift+W\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard W\",\"default_transform: | Key::Keyboard W\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"1\",\"1\",\"4\",\"1\",\"Shift+Alt+Right\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L Alt+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L Shift+L Alt\"\\r\\n\"1\",\"1\",\"5\",\"1\",\"V\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard V\",\"default_transform: | Key::Keyboard V\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"7\",\"1\",\"Ctrl+Shift+E\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"1\",\"1\",\"8\",\"1\",\"Ctrl+Shift+H\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"1\",\"1\",\"9\",\"1\",\"Win+R\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard R\",\"default_transform: | Key::Keyboard R\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"1\",\"1\",\"10\",\"1\",\"Ctrl+Shift+C\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"1\",\"1\",\"11\",\"1\",\"Ctrl+Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"12\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"0\",\"2\",\"Ctrl+G\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"1\",\"2\",\"leftarrow_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"2\",\"2\",\"Ctrl+Shift+U\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard U\",\"default_transform: | Key::Keyboard U\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"1\",\"1\",\"3\",\"2\",\"Scroll\",\"Momentary Layer\",\"Momentary Layer\",\"Momentary Layer\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | Layer::6\",\"\"\\r\\n\"1\",\"1\",\"4\",\"2\",\"Speed\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"5\",\"2\",\"f2\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F2\",\"default_transform: | Key::Keyboard F2\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"7\",\"2\",\"Search\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"8\",\"2\",\"↓\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"9\",\"2\",\"↑\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"10\",\"2\",\"→\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"11\",\"2\",\"Ctrl+End\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard End\",\"default_transform: | Key::Keyboard End\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"12\",\"2\",\"Win+Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"1\",\"1\",\"0\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"1\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"2\",\"3\",\"f5\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F5\",\"default_transform: | Key::Keyboard F5\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"3\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"4\",\"3\",\"Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"5\",\"3\",\"Ctrl+Shift+A\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard A\",\"default_transform: | Key::Keyboard A\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"1\",\"1\",\"7\",\"3\",\"C\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"8\",\"3\",\"Ctrl+K\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard K\",\"default_transform: | Key::Keyboard K\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"9\",\"3\",\"coach_game_lock\",\"coach_game_lock\",\"coach_game_lock\",\"coach_game_lock\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"10\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"11\",\"3\",\"Shift+Alt+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L Alt+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Shift+L Alt\"\\r\\n\"1\",\"1\",\"12\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"3\",\"4\",\"Win+N\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard N\",\"default_transform: | Key::Keyboard N\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"1\",\"1\",\"4\",\"4\",\"Ctrl+2\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 2 and At\",\"default_transform: | Key::Keyboard 2 and At\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"5\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"7\",\"4\",\"comma_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Comma and LessThan\",\"default_transform: | Key::Keyboard Comma and LessThan\",\"default_transform:default_transform\",\"\"\\r\\n\"1\",\"1\",\"8\",\"4\",\"Ctrl+P\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard P\",\"default_transform: | Key::Keyboard P\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"4\",\"5\",\"Ctrl+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"5\",\"5\",\"Ctrl+-\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Dash and Underscore\",\"default_transform: | Key::Keyboard Dash and Underscore\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"1\",\"1\",\"7\",\"5\",\"left gui\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Left GUI\",\"default_transform: | Key::Keyboard Left GUI\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"0\",\"0\",\"Snip\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L GUI+Keyboard PrintScreen and SysReq\",\"default_transform: | Key::Keyboard PrintScreen and SysReq\",\"default_transform:default_transform\",\"L Shift+L GUI\"\\r\\n\"2\",\"2\",\"1\",\"0\",\"f9\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F9\",\"default_transform: | Key::Keyboard F9\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"2\",\"0\",\"Desktop\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard D\",\"default_transform: | Key::Keyboard D\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"2\",\"2\",\"3\",\"0\",\"f10\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F10\",\"default_transform: | Key::Keyboard F10\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"4\",\"0\",\"Ctrl+Shift+G\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"2\",\"2\",\"5\",\"0\",\"Scroll\",\"Momentary Layer\",\"Momentary Layer\",\"Momentary Layer\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | Layer::6\",\"\"\\r\\n\"2\",\"2\",\"7\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"8\",\"0\",\"Ctrl+2\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 2 and At\",\"default_transform: | Key::Keyboard 2 and At\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"9\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"10\",\"0\",\"Ctrl+F\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard F\",\"default_transform: | Key::Keyboard F\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"11\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"12\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"0\",\"1\",\"Win+E\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"2\",\"2\",\"1\",\"1\",\"Ctrl+Shift+K\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard K\",\"default_transform: | Key::Keyboard K\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"2\",\"2\",\"2\",\"1\",\"Close\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard W\",\"default_transform: | Key::Keyboard W\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"3\",\"1\",\"Enter\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"4\",\"1\",\"F5\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F5\",\"default_transform: | Key::Keyboard F5\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"5\",\"1\",\"Zoom In\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Equals and Plus\",\"default_transform: | Key::Keyboard Equals and Plus\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"7\",\"1\",\"Win\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Left GUI\",\"default_transform: | Key::Keyboard Left GUI\",\"default_transform:default_transform\",\"\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"8\",\"1\",\"Enter\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"9\",\"1\",\"Ctrl+S\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"10\",\"1\",\"minus\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Dash and Underscore\",\"default_transform: | Key::Keyboard Dash and Underscore\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"11\",\"1\",\"f6\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F6\",\"default_transform: | Key::Keyboard F6\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"12\",\"1\",\"Cut\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard X\",\"default_transform: | Key::Keyboard X\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"0\",\"2\",\"MB4\",\"Mouse Key Press\",\"Mouse Key Press\",\"Mouse Key Press\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | select:default_transform\",\"\"\\r\\n\"2\",\"2\",\"1\",\"2\",\"Ctrl+H\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"2\",\"2\",\"MB2\",\"Mouse Key Press\",\"Mouse Key Press\",\"Mouse Key Press\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | select:default_transform\",\"\"\\r\\n\"2\",\"2\",\"3\",\"2\",\"MB3\",\"Mouse Key Press\",\"Mouse Key Press\",\"Mouse Key Press\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | select:default_transform\",\"\"\\r\\n\"2\",\"2\",\"4\",\"2\",\"Ctrl+I\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard I\",\"default_transform: | Key::Keyboard I\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"5\",\"2\",\"Ctrl+6\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 6 and Caret\",\"default_transform: | Key::Keyboard 6 and Caret\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"7\",\"2\",\"Ctrl+C\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"8\",\"2\",\"f4\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F4\",\"default_transform: | Key::Keyboard F4\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"9\",\"2\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"10\",\"2\",\"coach_base\",\"coach_base\",\"coach_base\",\"coach_base\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"11\",\"2\",\"f5\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F5\",\"default_transform: | Key::Keyboard F5\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"12\",\"2\",\"Scroll\",\"Toggle Layer\",\"Toggle Layer\",\"Toggle Layer\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | Layer::6\",\"\"\\r\\n\"2\",\"2\",\"0\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"1\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"2\",\"3\",\"Shift+Alt+A\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L Alt+Keyboard A\",\"default_transform: | Key::Keyboard A\",\"default_transform:default_transform\",\"L Shift+L Alt\"\\r\\n\"2\",\"2\",\"3\",\"3\",\"Ctrl+G\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"4\",\"3\",\"Ctrl+Shift+E\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"2\",\"2\",\"5\",\"3\",\"Paste\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard V\",\"default_transform: | Key::Keyboard V\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"7\",\"3\",\"Shift+Alt+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L Alt+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Shift+L Alt\"\\r\\n\"2\",\"2\",\"8\",\"3\",\"pageup\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 9 and PageUp\",\"default_transform: | Key::Keyboard 9 and PageUp\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"9\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"10\",\"3\",\"Undo\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Z\",\"default_transform: | Key::Keyboard Z\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"11\",\"3\",\"Speed\",\"Momentary Layer\",\"Momentary Layer\",\"Momentary Layer\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | Layer::8\",\"\"\\r\\n\"2\",\"2\",\"12\",\"3\",\"Ctrl+Shift+Enter\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"2\",\"2\",\"3\",\"4\",\"Ctrl+Page Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard PageUp\",\"default_transform: | Key::Keyboard PageUp\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"4\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"5\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"7\",\"4\",\"forwardslash_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard ForwardSlash and QuestionMark\",\"default_transform: | Key::Keyboard ForwardSlash and QuestionMark\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"8\",\"4\",\"left brace_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Left Brace\",\"default_transform: | Key::Keyboard Left Brace\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"4\",\"5\",\"Ctrl+[\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Left Brace\",\"default_transform: | Key::Keyboard Left Brace\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"2\",\"2\",\"5\",\"5\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"2\",\"2\",\"7\",\"5\",\"right brace_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Right Brace\",\"default_transform: | Key::Keyboard Right Brace\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"0\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"1\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"2\",\"0\",\"equal\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Equals and Plus\",\"default_transform: | Key::Keyboard Equals and Plus\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"3\",\"0\",\"Emoji\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard Period and GreaterThan\",\"default_transform: | Key::Keyboard Period and GreaterThan\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"4\",\"0\",\"QSett\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard A\",\"default_transform: | Key::Keyboard A\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"5\",\"0\",\"Notif\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard N\",\"default_transform: | Key::Keyboard N\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"7\",\"0\",\"TskCy\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard T\",\"default_transform: | Key::Keyboard T\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"8\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"9\",\"0\",\"Ctrl+P\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard P\",\"default_transform: | Key::Keyboard P\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"10\",\"0\",\"BT?\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"3\",\"3\",\"11\",\"0\",\"left bracket_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 9 and Left Bracket\",\"default_transform: | Key::Keyboard 9 and Left Bracket\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"12\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"0\",\"1\",\"BT1\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform: | Profile::1\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"3\",\"3\",\"1\",\"1\",\"f17\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F17\",\"default_transform: | Key::Keyboard F17\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"2\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"3\",\"1\",\"→\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"4\",\"1\",\"Win+M\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard M\",\"default_transform: | Key::Keyboard M\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"5\",\"1\",\"Lang\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard Spacebar\",\"default_transform: | Key::Keyboard Spacebar\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"7\",\"1\",\"TskMg\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Escape\",\"default_transform: | Key::Keyboard Escape\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"8\",\"1\",\"Ctrl+Shift+V\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard V\",\"default_transform: | Key::Keyboard V\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"3\",\"3\",\"9\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"10\",\"1\",\"f16\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F16\",\"default_transform: | Key::Keyboard F16\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"11\",\"1\",\"Ctrl+Shift+K\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard K\",\"default_transform: | Key::Keyboard K\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"3\",\"3\",\"12\",\"1\",\"Shift+F8\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+Keyboard F8\",\"default_transform: | Key::Keyboard F8\",\"default_transform:default_transform\",\"L Shift\"\\r\\n\"3\",\"3\",\"0\",\"2\",\"Ctrl+U\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard U\",\"default_transform: | Key::Keyboard U\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"1\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"2\",\"2\",\"Ctrl+G\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"3\",\"2\",\"1\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard 1 and Bang\",\"default_transform: | Key::Keyboard 1 and Bang\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"4\",\"2\",\"4\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard 4 and Dollar\",\"default_transform: | Key::Keyboard 4 and Dollar\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"5\",\"2\",\"5\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard 5 and Percent\",\"default_transform: | Key::Keyboard 5 and Percent\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"7\",\"2\",\"Search\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"8\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"9\",\"2\",\"Ctrl+/\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard ForwardSlash and QuestionMark\",\"default_transform: | Key::Keyboard ForwardSlash and QuestionMark\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"10\",\"2\",\";\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard SemiColon and Colon\",\"default_transform: | Key::Keyboard SemiColon and Colon\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"11\",\"2\",\"Ctrl+Shift+H\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"3\",\"3\",\"12\",\"2\",\"Ctrl+Shift+E\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"3\",\"3\",\"0\",\"3\",\"Ctrl+O\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard O\",\"default_transform: | Key::Keyboard O\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"1\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"2\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"3\",\"3\",\"Voice\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"4\",\"3\",\"S\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L GUI+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L Shift+L GUI\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"5\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"7\",\"3\",\"Tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"3\",\"3\",\"8\",\"3\",\"Ctrl+Y\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Y\",\"default_transform: | Key::Keyboard Y\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"9\",\"3\",\"BT3\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform: | Profile::3\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"3\",\"3\",\"10\",\"3\",\"Ctrl+R\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard R\",\"default_transform: | Key::Keyboard R\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"11\",\"3\",\"Ctrl+Tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"3\",\"3\",\"12\",\"3\",\"Ctrl+Shift+N\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard N\",\"default_transform: | Key::Keyboard N\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"3\",\"3\",\"3\",\"4\",\"keypad 3\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 3 and PageDn\",\"default_transform: | Key::Keyboard 3 and PageDn\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"4\",\"4\",\"SysTray\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard B\",\"default_transform: | Key::Keyboard B\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"5\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"7\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"8\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"4\",\"5\",\"Win+Left\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"3\",\"3\",\"5\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"3\",\"3\",\"7\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"0\",\"0\",\"BT0\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform: | Profile::0\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"4\",\"4\",\"1\",\"0\",\"BT1\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform: | Profile::1\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"4\",\"4\",\"2\",\"0\",\"BT2\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform: | Profile::2\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"4\",\"4\",\"3\",\"0\",\"BT3\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform: | Profile::3\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"4\",\"4\",\"4\",\"0\",\"BT4\",\"Bluetooth\",\"Bluetooth\",\"Bluetooth\",\"default_transform\",\"default_transform: | Profile::4\",\"default_transform:default_transform | select:Select Profile\",\"\"\\r\\n\"4\",\"4\",\"5\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"7\",\"0\",\"Ctrl+Shift+X\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard X\",\"default_transform: | Key::Keyboard X\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"4\",\"4\",\"8\",\"0\",\"f6\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F6\",\"default_transform: | Key::Keyboard F6\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"9\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"10\",\"0\",\"Studio Unlock\",\"Studio Unlock\",\"Studio Unlock\",\"Studio Unlock\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"11\",\"0\",\"Ctrl+Enter\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"12\",\"0\",\"Bootloader\",\"Bootloader\",\"Bootloader\",\"Bootloader\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"0\",\"1\",\"Ctrl+G\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"1\",\"1\",\"Ctrl+O\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard O\",\"default_transform: | Key::Keyboard O\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"2\",\"1\",\"F15\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F15\",\"default_transform: | Key::Keyboard F15\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"3\",\"1\",\"F16\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F16\",\"default_transform: | Key::Keyboard F16\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"4\",\"1\",\"F14\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F14\",\"default_transform: | Key::Keyboard F14\",\"default_transform:default_transform\",\"\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"5\",\"1\",\"return enter\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"7\",\"1\",\"Ctrl+S\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"8\",\"1\",\"end\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard End\",\"default_transform: | Key::Keyboard End\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"9\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"10\",\"1\",\"Ctrl+L\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard L\",\"default_transform: | Key::Keyboard L\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"11\",\"1\",\"delete\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Delete\",\"default_transform: | Key::Keyboard Delete\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"12\",\"1\",\"Ctrl+U\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard U\",\"default_transform: | Key::Keyboard U\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"0\",\"2\",\"Backspace\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Delete\",\"default_transform: | Key::Keyboard Delete\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"1\",\"2\",\"F19\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F19\",\"default_transform: | Key::Keyboard F19\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"2\",\"2\",\"F20\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F20\",\"default_transform: | Key::Keyboard F20\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"3\",\"2\",\"F21\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F21\",\"default_transform: | Key::Keyboard F21\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"4\",\"2\",\"Ctrl+I\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard I\",\"default_transform: | Key::Keyboard I\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"5\",\"2\",\"right bracket\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Right Brace\",\"default_transform: | Key::Keyboard Right Brace\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"7\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"8\",\"2\",\"leftshift\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftShift\",\"default_transform: | Key::Keyboard LeftShift\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"9\",\"2\",\"left bracket\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Left Brace\",\"default_transform: | Key::Keyboard Left Brace\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"10\",\"2\",\"f12\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F12\",\"default_transform: | Key::Keyboard F12\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"11\",\"2\",\"f5\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F5\",\"default_transform: | Key::Keyboard F5\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"12\",\"2\",\"Share\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"0\",\"3\",\"Excel\",\"Toggle Layer\",\"Toggle Layer\",\"Toggle Layer\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | Layer::10\",\"\"\\r\\n\"4\",\"4\",\"1\",\"3\",\"Shift+Alt+Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L Alt+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L Shift+L Alt\"\\r\\n\"4\",\"4\",\"2\",\"3\",\"DMS\",\"Toggle Layer\",\"Toggle Layer\",\"Toggle Layer\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | Layer::9\",\"\"\\r\\n\"4\",\"4\",\"3\",\"3\",\"Ctrl+D\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard D\",\"default_transform: | Key::Keyboard D\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"4\",\"3\",\"Tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"5\",\"3\",\"F22\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F22\",\"default_transform: | Key::Keyboard F22\",\"default_transform:default_transform\",\"\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"7\",\"3\",\"Ctrl+Shift+V\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard V\",\"default_transform: | Key::Keyboard V\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"4\",\"4\",\"8\",\"3\",\"home\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Home\",\"default_transform: | Key::Keyboard Home\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"9\",\"3\",\"f11\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F11\",\"default_transform: | Key::Keyboard F11\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"10\",\"3\",\"f7\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F7\",\"default_transform: | Key::Keyboard F7\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"11\",\"3\",\"Hangup\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"4\",\"4\",\"12\",\"3\",\"Accept\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard A\",\"default_transform: | Key::Keyboard A\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"4\",\"4\",\"3\",\"4\",\"Ctrl+Tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"4\",\"4\",\"Ctrl+T\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard T\",\"default_transform: | Key::Keyboard T\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"5\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"7\",\"4\",\"Win+Ctrl+D\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L GUI+Keyboard D\",\"default_transform: | Key::Keyboard D\",\"default_transform:default_transform\",\"L Ctrl+L GUI\"\\r\\n\"4\",\"4\",\"8\",\"4\",\"f9\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F9\",\"default_transform: | Key::Keyboard F9\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"4\",\"5\",\"Ctrl+/\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard ForwardSlash and QuestionMark\",\"default_transform: | Key::Keyboard ForwardSlash and QuestionMark\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"4\",\"4\",\"5\",\"5\",\"forwardslash_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard ForwardSlash and QuestionMark\",\"default_transform: | Key::Keyboard ForwardSlash and QuestionMark\",\"default_transform:default_transform\",\"\"\\r\\n\"4\",\"4\",\"7\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"0\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"1\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"2\",\"0\",\"Stop\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+Keyboard F5\",\"default_transform: | Key::Keyboard F5\",\"default_transform:default_transform\",\"L Shift\"\\r\\n\"5\",\"5\",\"3\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"4\",\"0\",\"GoSym\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard O\",\"default_transform: | Key::Keyboard O\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"5\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"7\",\"0\",\"Ctrl+Shift+H\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"5\",\"5\",\"8\",\"0\",\"Ctrl+G\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"5\",\"5\",\"9\",\"0\",\"Win+Ctrl+D\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L GUI+Keyboard D\",\"default_transform: | Key::Keyboard D\",\"default_transform:default_transform\",\"L Ctrl+L GUI\"\\r\\n\"5\",\"5\",\"10\",\"0\",\"Explr\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"11\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"12\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"0\",\"1\",\"Wrap\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard Z\",\"default_transform: | Key::Keyboard Z\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"5\",\"5\",\"1\",\"1\",\"Ctrl+Shift+F\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard F\",\"default_transform: | Key::Keyboard F\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"5\",\"5\",\"2\",\"1\",\"f18\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F18\",\"default_transform: | Key::Keyboard F18\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"3\",\"1\",\"Win+Ctrl+Right\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L GUI+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L Ctrl+L GUI\"\\r\\n\"5\",\"5\",\"4\",\"1\",\"InsUp\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"5\",\"1\",\"Ctrl+Shift+`\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Grave Accent and Tilde\",\"default_transform: | Key::Keyboard Grave Accent and Tilde\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"5\",\"5\",\"7\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"8\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"9\",\"1\",\"Ctrl+W\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard W\",\"default_transform: | Key::Keyboard W\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"5\",\"5\",\"10\",\"1\",\"f1\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F1\",\"default_transform: | Key::Keyboard F1\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"11\",\"1\",\"backslash\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Backslash and Pipe\",\"default_transform: | Key::Keyboard Backslash and Pipe\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"12\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"0\",\"2\",\"Ctrl+N\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard N\",\"default_transform: | Key::Keyboard N\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"5\",\"5\",\"1\",\"2\",\"Save\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"5\",\"5\",\"2\",\"2\",\"Ctrl+J\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard J\",\"default_transform: | Key::Keyboard J\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"5\",\"5\",\"3\",\"2\",\"Sett\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Comma and LessThan\",\"default_transform: | Key::Keyboard Comma and LessThan\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"4\",\"2\",\"DelLn\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard K\",\"default_transform: | Key::Keyboard K\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"5\",\"5\",\"5\",\"2\",\"Ctrl+Shift+S\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"5\",\"5\",\"7\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"8\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"9\",\"2\",\"Ctrl+L\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard L\",\"default_transform: | Key::Keyboard L\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"5\",\"5\",\"10\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"11\",\"2\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"coach_travel_toggle\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"12\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"0\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"1\",\"3\",\"PstNF\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard V\",\"default_transform: | Key::Keyboard V\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"5\",\"5\",\"2\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"3\",\"3\",\"NTerm\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Grave Accent and Tilde\",\"default_transform: | Key::Keyboard Grave Accent and Tilde\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"4\",\"3\",\"Ext\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard X\",\"default_transform: | Key::Keyboard X\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"5\",\"5\",\"5\",\"3\",\"f8\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F8\",\"default_transform: | Key::Keyboard F8\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"7\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"8\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"9\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"10\",\"3\",\"keypad 3\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 3 and PageDn\",\"default_transform: | Key::Keyboard 3 and PageDn\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"11\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"12\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"3\",\"4\",\"Base\",\"coach_base\",\"coach_base\",\"coach_base\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"4\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"5\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"7\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"8\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"4\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"5\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"5\",\"5\",\"7\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"0\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"1\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"2\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"3\",\"0\",\"Alt+=\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard Equals and Plus\",\"default_transform: | Key::Keyboard Equals and Plus\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"6\",\"6\",\"4\",\"0\",\"Ctrl+Left\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"5\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"7\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"8\",\"0\",\"Ctrl+Q\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Q\",\"default_transform: | Key::Keyboard Q\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"9\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"10\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"11\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"12\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"0\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"1\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"2\",\"1\",\"Ctrl+Space\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Spacebar\",\"default_transform: | Key::Keyboard Spacebar\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"3\",\"1\",\"F10\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F10\",\"default_transform: | Key::Keyboard F10\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"4\",\"1\",\"Win+Shift+Left\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L GUI+Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"L Shift+L GUI\"\\r\\n\"6\",\"6\",\"5\",\"1\",\"Ctrl+Right\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"7\",\"1\",\"Ctrl+Shift+R\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard R\",\"default_transform: | Key::Keyboard R\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"8\",\"1\",\"Alt+Right\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"6\",\"6\",\"9\",\"1\",\"Ctrl+5\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 5 and Percent\",\"default_transform: | Key::Keyboard 5 and Percent\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"10\",\"1\",\"Ctrl+Shift+Left\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"11\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"12\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"0\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"1\",\"2\",\"Ctrl+Shift+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"2\",\"2\",\"F9\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F9\",\"default_transform: | Key::Keyboard F9\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"3\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"4\",\"2\",\"Ctrl+3\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 3 and Hash\",\"default_transform: | Key::Keyboard 3 and Hash\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"5\",\"2\",\"Win+Space\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard Spacebar\",\"default_transform: | Key::Keyboard Spacebar\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"6\",\"6\",\"7\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"8\",\"2\",\"Ctrl+4\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 4 and Dollar\",\"default_transform: | Key::Keyboard 4 and Dollar\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"9\",\"2\",\"F5\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F5\",\"default_transform: | Key::Keyboard F5\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"10\",\"2\",\"Ctrl+Alt+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Alt+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Ctrl+L Alt\"\\r\\n\"6\",\"6\",\"11\",\"2\",\"Ctrl+Shift+Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"12\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"0\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"1\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"2\",\"3\",\"Ctrl+Shift++\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Equals and Plus\",\"default_transform: | Key::Keyboard Equals and Plus\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"3\",\"3\",\"Shift+F11\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+Keyboard F11\",\"default_transform: | Key::Keyboard F11\",\"default_transform:default_transform\",\"L Shift\"\\r\\n\"6\",\"6\",\"4\",\"3\",\"Win+Shift+Right\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L GUI+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L Shift+L GUI\"\\r\\n\"6\",\"6\",\"5\",\"3\",\"F4\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F4\",\"default_transform: | Key::Keyboard F4\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"7\",\"3\",\"Ctrl+Shift+I\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard I\",\"default_transform: | Key::Keyboard I\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"8\",\"3\",\"Ctrl+Shift+T\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard T\",\"default_transform: | Key::Keyboard T\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"9\",\"3\",\"Ctrl+6\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 6 and Caret\",\"default_transform: | Key::Keyboard 6 and Caret\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"10\",\"3\",\"Ctrl+Shift+Right\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"6\",\"6\",\"11\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"12\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"3\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"4\",\"4\",\"Ctrl+0\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 0 and Right Bracket\",\"default_transform: | Key::Keyboard 0 and Right Bracket\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"6\",\"6\",\"5\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"7\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"8\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"4\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"5\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"6\",\"6\",\"7\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"0\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"1\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"2\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"3\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"4\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"5\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"7\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"8\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"9\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"10\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"11\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"12\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"0\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"1\",\"1\",\"9 PU\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 9 and PageUp\",\"default_transform: | Key::Keyboard 9 and PageUp\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"2\",\"1\",\"↑\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"3\",\"1\",\"3 PD\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 3 and PageDn\",\"default_transform: | Key::Keyboard 3 and PageDn\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"4\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"5\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"7\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"8\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"9\",\"1\",\"3 PD\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 3 and PageDn\",\"default_transform: | Key::Keyboard 3 and PageDn\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"10\",\"1\",\"↑\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"11\",\"1\",\"9 PU\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 9 and PageUp\",\"default_transform: | Key::Keyboard 9 and PageUp\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"12\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"0\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"1\",\"2\",\"←\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"2\",\"2\",\"↓\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"3\",\"2\",\"→\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"4\",\"2\",\"Z\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Z\",\"default_transform: | Key::Keyboard Z\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"5\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"7\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"8\",\"2\",\"Z\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Z\",\"default_transform: | Key::Keyboard Z\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"9\",\"2\",\"←\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"10\",\"2\",\"↓\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"11\",\"2\",\"→\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"12\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"0\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"1\",\"3\",\"X\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard X\",\"default_transform: | Key::Keyboard X\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"2\",\"3\",\"C\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"3\",\"3\",\"Shft\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftShift\",\"default_transform: | Key::Keyboard LeftShift\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"4\",\"3\",\"Esc\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Escape\",\"default_transform: | Key::Keyboard Escape\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"5\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"7\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"8\",\"3\",\"Esc\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Escape\",\"default_transform: | Key::Keyboard Escape\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"9\",\"3\",\"Shft\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftShift\",\"default_transform: | Key::Keyboard LeftShift\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"10\",\"3\",\"C\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"11\",\"3\",\"X\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard X\",\"default_transform: | Key::Keyboard X\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"12\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"3\",\"4\",\"Exit Base\",\"coach_base\",\"coach_base\",\"coach_base\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"4\",\"4\",\"␣\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Spacebar\",\"default_transform: | Key::Keyboard Spacebar\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"5\",\"4\",\"Exit Base\",\"coach_base\",\"coach_base\",\"coach_base\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"7\",\"4\",\"Exit Base\",\"coach_base\",\"coach_base\",\"coach_base\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"8\",\"4\",\"Exit Base\",\"coach_base\",\"coach_base\",\"coach_base\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"7\",\"7\",\"4\",\"5\",\"Click\",\"Mouse Key Press\",\"Mouse Key Press\",\"Mouse Key Press\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | select:default_transform\",\"\"\\r\\n\"7\",\"7\",\"5\",\"5\",\"Right Click\",\"Mouse Key Press\",\"Mouse Key Press\",\"Mouse Key Press\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform | select:default_transform\",\"\"\\r\\n\"7\",\"7\",\"7\",\"5\",\"Ret\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"0\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"1\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"2\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"3\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"4\",\"0\",\"escape\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Escape\",\"default_transform: | Key::Keyboard Escape\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"5\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"7\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"8\",\"0\",\"Shift+Space\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+Keyboard Spacebar\",\"default_transform: | Key::Keyboard Spacebar\",\"default_transform:default_transform\",\"L Shift\"\\r\\n\"8\",\"8\",\"9\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"10\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"11\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"12\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"0\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"1\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"2\",\"1\",\"F11\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F11\",\"default_transform: | Key::Keyboard F11\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"3\",\"1\",\"Ctrl+Shift+S\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"8\",\"8\",\"4\",\"1\",\"home\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Home\",\"default_transform: | Key::Keyboard Home\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"5\",\"1\",\"Win+Ctrl+Right\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L GUI+Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"L Ctrl+L GUI\"\\r\\n\"8\",\"8\",\"7\",\"1\",\"Ctrl+Shift+Esc\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Escape\",\"default_transform: | Key::Keyboard Escape\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"8\",\"8\",\"8\",\"1\",\"Ctrl+Shift+Z\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Z\",\"default_transform: | Key::Keyboard Z\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"8\",\"8\",\"9\",\"1\",\"Ctrl+-\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Dash and Underscore\",\"default_transform: | Key::Keyboard Dash and Underscore\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"8\",\"8\",\"10\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"11\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"12\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"0\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"1\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"2\",\"2\",\"Ctrl+Shift+F6\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard F6\",\"default_transform: | Key::Keyboard F6\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"8\",\"8\",\"3\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"4\",\"2\",\"left gui\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Left GUI\",\"default_transform: | Key::Keyboard Left GUI\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"5\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"7\",\"2\",\"Ctrl+Shift+`\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Grave Accent and Tilde\",\"default_transform: | Key::Keyboard Grave Accent and Tilde\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"8\",\"8\",\"8\",\"2\",\"Alt+F4\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard F4\",\"default_transform: | Key::Keyboard F4\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"8\",\"8\",\"9\",\"2\",\"Alt+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"8\",\"8\",\"10\",\"2\",\"Ctrl+.\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Period and GreaterThan\",\"default_transform: | Key::Keyboard Period and GreaterThan\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"8\",\"8\",\"11\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"12\",\"2\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"0\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"1\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"2\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"3\",\"3\",\"Ctrl+Shift+B\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard B\",\"default_transform: | Key::Keyboard B\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"8\",\"8\",\"4\",\"3\",\"tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"5\",\"3\",\"Win+.\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard Period and GreaterThan\",\"default_transform: | Key::Keyboard Period and GreaterThan\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"8\",\"8\",\"7\",\"3\",\"Win+;\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard SemiColon and Colon\",\"default_transform: | Key::Keyboard SemiColon and Colon\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"8\",\"8\",\"8\",\"3\",\"Alt+Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"8\",\"8\",\"9\",\"3\",\"Ctrl+Home\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Home\",\"default_transform: | Key::Keyboard Home\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"8\",\"8\",\"10\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"11\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"12\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"3\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"4\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"5\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"7\",\"4\",\"Exit Travel\",\"coach_travel_off\",\"coach_travel_off\",\"coach_travel_off\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"8\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"4\",\"5\",\"Delete\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Delete\",\"default_transform: | Key::Keyboard Delete\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"5\",\"5\",\"F10\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F10\",\"default_transform: | Key::Keyboard F10\",\"default_transform:default_transform\",\"\"\\r\\n\"8\",\"8\",\"7\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"0\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"1\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"2\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"3\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"4\",\"0\",\"Ctrl+End\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard End\",\"default_transform: | Key::Keyboard End\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"9\",\"9\",\"5\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"7\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"8\",\"0\",\"Ctrl+Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"9\",\"9\",\"9\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"10\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"11\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"12\",\"0\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"0\",\"1\",\"f2\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F2\",\"default_transform: | Key::Keyboard F2\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"1\",\"1\",\"WfSt\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard W\",\"default_transform: | Key::Keyboard W\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"9\",\"9\",\"2\",\"1\",\"Asgn\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard A\",\"default_transform: | Key::Keyboard A\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"9\",\"9\",\"3\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"4\",\"1\",\"Fav\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard M\",\"default_transform: | Key::Keyboard M\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"9\",\"9\",\"5\",\"1\",\"List\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 1 and Bang\",\"default_transform: | Key::Keyboard 1 and Bang\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"7\",\"1\",\"Print\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard P\",\"default_transform: | Key::Keyboard P\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"9\",\"9\",\"8\",\"1\",\"Shift+Alt+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+L Alt+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Shift+L Alt\"\\r\\n\"9\",\"9\",\"9\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"10\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"11\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"12\",\"1\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"0\",\"2\",\"pageup\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard 9 and PageUp\",\"default_transform: | Key::Keyboard 9 and PageUp\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"1\",\"2\",\"Save\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard S\",\"default_transform: | Key::Keyboard S\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"2\",\"2\",\"ChkIn\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"9\",\"9\",\"3\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"4\",\"2\",\"Win+Tab\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"9\",\"9\",\"5\",\"2\",\"Icon\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 2 and At\",\"default_transform: | Key::Keyboard 2 and At\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"7\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"8\",\"2\",\"leftshift\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard LeftShift\",\"default_transform: | Key::Keyboard LeftShift\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"9\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"10\",\"2\",\"Hist\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"9\",\"9\",\"11\",\"2\",\"Rel\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard K\",\"default_transform: | Key::Keyboard K\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"9\",\"9\",\"12\",\"2\",\"UndCO\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard U\",\"default_transform: | Key::Keyboard U\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"9\",\"9\",\"0\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"1\",\"3\",\"DLoad\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard D\",\"default_transform: | Key::Keyboard D\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"2\",\"3\",\"Open\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard O\",\"default_transform: | Key::Keyboard O\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"3\",\"3\",\"CpLnk\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"4\",\"3\",\"Notif\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard F5\",\"default_transform: | Key::Keyboard F5\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"9\",\"9\",\"5\",\"3\",\"Group\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"7\",\"3\",\"Vault\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard G\",\"default_transform: | Key::Keyboard G\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"8\",\"3\",\"rightarrow_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard RightArrow\",\"default_transform: | Key::Keyboard RightArrow\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"9\",\"3\",\"Ctrl+Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"9\",\"9\",\"10\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"11\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"12\",\"3\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"3\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"4\",\"4\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"5\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"7\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"8\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"4\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"5\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"9\",\"9\",\"7\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"0\",\"0\",\"ShftEnt\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+Keyboard Return Enter\",\"default_transform: | Key::Keyboard Return Enter\",\"default_transform:default_transform\",\"L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"1\",\"0\",\"SelAll\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard A\",\"default_transform: | Key::Keyboard A\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"2\",\"0\",\"Copy\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"3\",\"0\",\"Cut\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard X\",\"default_transform: | Key::Keyboard X\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"4\",\"0\",\"AutoSum\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Alt+Keyboard Equals and Plus\",\"default_transform: | Key::Keyboard Equals and Plus\",\"default_transform:default_transform\",\"L Alt\"\\r\\n\"10\",\"10\",\"5\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"7\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"8\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"9\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"10\",\"0\",\"Ctrl+Dn\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard DownArrow\",\"default_transform: | Key::Keyboard DownArrow\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"10\",\"10\",\"11\",\"0\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"12\",\"0\",\"Win+C\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard C\",\"default_transform: | Key::Keyboard C\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"0\",\"1\",\"ShftTab\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Shift+Keyboard Tab\",\"default_transform: | Key::Keyboard Tab\",\"default_transform:default_transform\",\"L Shift\"\\r\\n\"10\",\"10\",\"1\",\"1\",\"Sel←\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"10\",\"10\",\"2\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"3\",\"1\",\"Sel↑\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"10\",\"10\",\"4\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"5\",\"1\",\"InsTime\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard SemiColon and Colon\",\"default_transform: | Key::Keyboard SemiColon and Colon\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"7\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"8\",\"1\",\"coach_mouse_lock\",\"coach_mouse_lock\",\"coach_mouse_lock\",\"coach_mouse_lock\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"9\",\"1\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"10\",\"1\",\"SelHome\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard Home\",\"default_transform: | Key::Keyboard Home\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"10\",\"10\",\"11\",\"1\",\"Win+B\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard B\",\"default_transform: | Key::Keyboard B\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"12\",\"1\",\"coach_game_lock\",\"coach_game_lock\",\"coach_game_lock\",\"coach_game_lock\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"0\",\"2\",\"Find\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard F\",\"default_transform: | Key::Keyboard F\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"1\",\"2\",\"SelCol\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Spacebar\",\"default_transform: | Key::Keyboard Spacebar\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"10\",\"10\",\"2\",\"2\",\"F4 $Ref\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F4\",\"default_transform: | Key::Keyboard F4\",\"default_transform:default_transform\",\"\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"3\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"4\",\"2\",\"SelEnd\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard End\",\"default_transform: | Key::Keyboard End\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"5\",\"2\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"7\",\"2\",\"Win+L\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard L\",\"default_transform: | Key::Keyboard L\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"8\",\"2\",\"Paste\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard V\",\"default_transform: | Key::Keyboard V\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"10\",\"10\",\"9\",\"2\",\"NextSht\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard PageDown\",\"default_transform: | Key::Keyboard PageDown\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"10\",\"2\",\"Undo\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Z\",\"default_transform: | Key::Keyboard Z\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"10\",\"10\",\"11\",\"2\",\"Win+2\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard 2 and At\",\"default_transform: | Key::Keyboard 2 and At\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"12\",\"2\",\"Win+N\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard N\",\"default_transform: | Key::Keyboard N\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"0\",\"3\",\"HideRow\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard 9 and Left Bracket\",\"default_transform: | Key::Keyboard 9 and Left Bracket\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"10\",\"10\",\"1\",\"3\",\"Replace\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard H\",\"default_transform: | Key::Keyboard H\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"\",\"\",\"\",\"\",\"\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"2\",\"3\",\"Delete\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard Dash and Underscore\",\"default_transform: | Key::Keyboard Dash and Underscore\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"10\",\"10\",\"3\",\"3\",\"NumFmt\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Shift+Keyboard 1 and Bang\",\"default_transform: | Key::Keyboard 1 and Bang\",\"default_transform:default_transform\",\"L Ctrl+L Shift\"\\r\\n\"10\",\"10\",\"4\",\"3\",\"Ctrl+Alt+Up\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L Alt+Keyboard UpArrow\",\"default_transform: | Key::Keyboard UpArrow\",\"default_transform:default_transform\",\"L Ctrl+L Alt\"\\r\\n\"10\",\"10\",\"5\",\"3\",\"Ctrl+Page Down\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+Keyboard PageDown\",\"default_transform: | Key::Keyboard PageDown\",\"default_transform:default_transform\",\"L Ctrl\"\\r\\n\"10\",\"10\",\"7\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"8\",\"3\",\"Win+E\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard E\",\"default_transform: | Key::Keyboard E\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"9\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"10\",\"3\",\"grave accent_combo\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard Grave Accent and Tilde\",\"default_transform: | Key::Keyboard Grave Accent and Tilde\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"11\",\"3\",\"Win+Left\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard LeftArrow\",\"default_transform: | Key::Keyboard LeftArrow\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"12\",\"3\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"3\",\"4\",\"Base\",\"coach_base\",\"coach_base\",\"coach_base\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"4\",\"4\",\"f13\",\"Key Press\",\"Key Press\",\"Key Press\",\"Keyboard F13\",\"default_transform: | Key::Keyboard F13\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"5\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"7\",\"4\",\"Win+T\",\"Key Press\",\"Key Press\",\"Key Press\",\"L GUI+Keyboard T\",\"default_transform: | Key::Keyboard T\",\"default_transform:default_transform\",\"L GUI\"\\r\\n\"10\",\"10\",\"8\",\"4\",\"Transparen\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"4\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"5\",\"5\",\"Transparent\",\"Transparent\",\"Transparent\",\"Transparent\",\"default_transform\",\"default_transform:\",\"default_transform:default_transform\",\"\"\\r\\n\"10\",\"10\",\"7\",\"5\",\"Win+Ctrl+D\",\"Key Press\",\"Key Press\",\"Key Press\",\"L Ctrl+L GUI+Keyboard D\",\"default_transform: | Key::Keyboard D\",\"default_transform:default_transform\",\"L Ctrl+L GUI\"";
-  function clean(text) {
-    return (text || "").replace(/\s+/g, " ").trim();
+window.CHARYBDIS_LAYER_ACCESS_REPORT = {
+  "valid": true,
+  "reachable_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "required_layers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "access_costs": {
+    "0": 0.0,
+    "1": 1.5,
+    "2": 2.5,
+    "3": 3.5,
+    "4": 1.5,
+    "5": 3.5,
+    "6": 1.5,
+    "7": 3.5,
+    "10": 5.5,
+    "9": 3.5,
+    "8": 3.5
   }
+};
 
-  function qa(selector, root = document) {
-    return [...root.querySelectorAll(selector)];
+
+(async function VerifyEvolvedLayout() {
+  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+  const clean = (s) => String(s || "").trim();
+  const qa = (sel, root) => [...(root || document).querySelectorAll(sel)];
+
+  const expected = [
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [],
+    "label": "escape",
+    "rationale": "Optimizer (run7-best): _base_escape (Base key: Escape)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [],
+    "label": "tab",
+    "rationale": "Optimizer (run7-best): _base_tab (Base key: Tab)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftShift",
+    "modifiers": [],
+    "label": "leftshift",
+    "rationale": "Optimizer (run7-best): _base_leftshift (Base key: LeftShift)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 0,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftControl",
+    "modifiers": [],
+    "label": "leftcontrol",
+    "rationale": "Optimizer (run7-best): _base_leftcontrol (Base key: LeftControl)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 9 and Left Bracket",
+    "modifiers": [],
+    "label": "9",
+    "rationale": "Optimizer (run7-best): _base_9 (Base key: 9 and Left Bracket)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [],
+    "label": "o",
+    "rationale": "Optimizer (run7-best): _base_o (Base key: O)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [],
+    "label": "l",
+    "rationale": "Optimizer (run7-best): _base_l (Base key: L)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [],
+    "label": "period",
+    "rationale": "Optimizer (run7-best): _base_period (Base key: Period and GreaterThan)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 0 and Right Bracket",
+    "modifiers": [],
+    "label": "0",
+    "rationale": "Optimizer (run7-best): _base_0 (Base key: 0 and Right Bracket)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [],
+    "label": "p",
+    "rationale": "Optimizer (run7-best): _base_p (Base key: P)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [],
+    "label": "semicolon",
+    "rationale": "Optimizer (run7-best): _base_semicolon (Base key: SemiColon and Colon)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [],
+    "label": "forwardslash",
+    "rationale": "Optimizer (run7-best): _base_forwardslash (Base key: ForwardSlash and QuestionMark)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [],
+    "label": "delete",
+    "rationale": "Optimizer (run7-best): _base_delete (Base key: Delete)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Brace",
+    "modifiers": [],
+    "label": "left brace",
+    "rationale": "Optimizer (run7-best): _base_left brace (Base key: Left Brace)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Apos and Double",
+    "modifiers": [],
+    "label": "left apos",
+    "rationale": "Optimizer (run7-best): _base_left apos (Base key: Left Apos and Double)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 12,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Backslash and Pipe",
+    "modifiers": [],
+    "label": "backslash",
+    "rationale": "Optimizer (run7-best): _base_backslash (Base key: Backslash and Pipe)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [],
+    "label": "1",
+    "rationale": "Optimizer (run7-best): _base_1 (Base key: 1 and Bang)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Q",
+    "modifiers": [],
+    "label": "q",
+    "rationale": "Optimizer (run7-best): _base_q (Base key: Q)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [],
+    "label": "a",
+    "rationale": "Optimizer (run7-best): _base_a (Base key: A)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [],
+    "label": "z",
+    "rationale": "Optimizer (run7-best): _base_z (Base key: Z)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [],
+    "label": "2",
+    "rationale": "Optimizer (run7-best): _base_2 (Base key: 2 and At)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [],
+    "label": "w",
+    "rationale": "Optimizer (run7-best): _base_w (Base key: W)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [],
+    "label": "s",
+    "rationale": "Optimizer (run7-best): _base_s (Base key: S)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [],
+    "label": "x",
+    "rationale": "Optimizer (run7-best): _base_x (Base key: X)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 3 and Hash",
+    "modifiers": [],
+    "label": "3",
+    "rationale": "Optimizer (run7-best): _base_3 (Base key: 3 and Hash)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [],
+    "label": "e",
+    "rationale": "Optimizer (run7-best): _base_e (Base key: E)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [],
+    "label": "d",
+    "rationale": "Optimizer (run7-best): _base_d (Base key: D)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [],
+    "label": "c",
+    "rationale": "Optimizer (run7-best): _base_c (Base key: C)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_l1_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_l1_hold",
+    "rationale": "Optimizer (run7-best): _base_coach_l1_hold (Base key: coach_l1_hold)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 4 and Dollar",
+    "modifiers": [],
+    "label": "4",
+    "rationale": "Optimizer (run7-best): _base_4 (Base key: 4 and Dollar)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [],
+    "label": "r",
+    "rationale": "Optimizer (run7-best): _base_r (Base key: R)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [],
+    "label": "f",
+    "rationale": "Optimizer (run7-best): _base_f (Base key: F)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [],
+    "label": "v",
+    "rationale": "Optimizer (run7-best): _base_v (Base key: V)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [],
+    "label": "spacebar",
+    "rationale": "Optimizer (run7-best): _base_spacebar (Base key: Spacebar)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 4,
+    "y": 5,
+    "behavior": "coach_l2_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_l2_hold",
+    "rationale": "Optimizer (run7-best): _base_coach_l2_hold (Base key: coach_l2_hold)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 5 and Percent",
+    "modifiers": [],
+    "label": "5",
+    "rationale": "Optimizer (run7-best): _base_5 (Base key: 5 and Percent)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [],
+    "label": "t",
+    "rationale": "Optimizer (run7-best): _base_t (Base key: T)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [],
+    "label": "g",
+    "rationale": "Optimizer (run7-best): _base_g (Base key: G)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [],
+    "label": "b",
+    "rationale": "Optimizer (run7-best): _base_b (Base key: B)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 5,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [],
+    "label": "downarrow_combo",
+    "rationale": "Optimizer (run7-best): _base_downarrow_combo (Base key: DownArrow)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 6 and Caret",
+    "modifiers": [],
+    "label": "6",
+    "rationale": "Optimizer (run7-best): _base_6 (Base key: 6 and Caret)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Y",
+    "modifiers": [],
+    "label": "y",
+    "rationale": "Optimizer (run7-best): _base_y (Base key: Y)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [],
+    "label": "h",
+    "rationale": "Optimizer (run7-best): _base_h (Base key: H)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [],
+    "label": "n",
+    "rationale": "Optimizer (run7-best): _base_n (Base key: N)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 4,
+    "behavior": "coach_l3_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_l3_hold",
+    "rationale": "Optimizer (run7-best): _base_coach_l3_hold (Base key: coach_l3_hold)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 7,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [],
+    "label": "return enter",
+    "rationale": "Optimizer (run7-best): _base_return enter (Base key: Return Enter)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 7 and Ampersand",
+    "modifiers": [],
+    "label": "7",
+    "rationale": "Optimizer (run7-best): _base_7 (Base key: 7 and Ampersand)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [],
+    "label": "u",
+    "rationale": "Optimizer (run7-best): _base_u (Base key: U)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard J",
+    "modifiers": [],
+    "label": "j",
+    "rationale": "Optimizer (run7-best): _base_j (Base key: J)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard M",
+    "modifiers": [],
+    "label": "m",
+    "rationale": "Optimizer (run7-best): _base_m (Base key: M)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 8,
+    "y": 4,
+    "behavior": "coach_l4_hold",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_l4_hold",
+    "rationale": "Optimizer (run7-best): _base_coach_l4_hold (Base key: coach_l4_hold)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 8 and Star",
+    "modifiers": [],
+    "label": "8",
+    "rationale": "Optimizer (run7-best): _base_8 (Base key: 8 and Star)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [],
+    "label": "i",
+    "rationale": "Optimizer (run7-best): _base_i (Base key: I)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [],
+    "label": "k",
+    "rationale": "Optimizer (run7-best): _base_k (Base key: K)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 0,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Comma and LessThan",
+    "modifiers": [],
+    "label": "comma",
+    "rationale": "Optimizer (run7-best): _base_comma (Base key: Comma and LessThan)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+1",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+1 (Extra large icons)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [],
+    "label": "f4",
+    "rationale": "Optimizer (run7-best): _base_f4 (Base key: F4)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 0,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 0 and Right Bracket",
+    "modifiers": [],
+    "label": "right bracket_combo",
+    "rationale": "Optimizer (run7-best): _base_right bracket_combo (Base key: 0 and Right Bracket)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 1",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Optimizer (run7-best): _base_bt_sel 1 (Base key: BT_SEL 1)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+V",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+V (Paste without formatting)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Enter",
+    "rationale": "Optimizer (run7-best): Ctrl+Enter (Send (expanded mode))",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+E",
+    "rationale": "Optimizer (run7-best): Ctrl+E (Search / command bar)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Alt",
+      "L Shift"
+    ],
+    "label": "Alt+Shift+Down",
+    "rationale": "Optimizer (run7-best): Alt+Shift+Down (Next unread)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Comma and LessThan",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+<",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+< (Decrease font size)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+F",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+F (Format document)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Brace",
+    "modifiers": [],
+    "label": "left brace_combo",
+    "rationale": "Optimizer (run7-best): _base_left brace_combo (Base key: Left Brace)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+`",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+` (New terminal)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [],
+    "label": "end_combo",
+    "rationale": "Optimizer (run7-best): _base_end_combo (Base key: End)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F18",
+    "modifiers": [],
+    "label": "f18",
+    "rationale": "Optimizer (run7-best): _base_f18 (Base key: F18)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 12,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F14",
+    "modifiers": [],
+    "label": "f14",
+    "rationale": "Optimizer (run7-best): _base_f14 (Base key: F14)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 1,
+    "behavior": "Toggle Layer",
+    "parameter": "Layer::5",
+    "modifiers": [],
+    "label": "Toggle Layer",
+    "rationale": "Optimizer (run7-best): _base_toggle_layer_layer::5 (Base key: Layer::5)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+2",
+    "rationale": "Optimizer (run7-best): Ctrl+2 (Chat)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F3",
+    "modifiers": [],
+    "label": "F3",
+    "rationale": "Optimizer (run7-best): F3 (Find next)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+H",
+    "rationale": "Optimizer (run7-best): Ctrl+H (Find and replace)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [],
+    "label": "Enter",
+    "rationale": "Optimizer (run7-best): Enter (Send message)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+G",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+G (Source control panel)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard J",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+J",
+    "rationale": "Optimizer (run7-best): Ctrl+J (Toggle bottom panel)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 2,
+    "behavior": "Momentary Layer",
+    "parameter": "Layer::6",
+    "modifiers": [],
+    "label": "Momentary Layer",
+    "rationale": "Optimizer (run7-best): _base_momentary_layer_layer::6 (Base key: Layer::6)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F11",
+    "modifiers": [],
+    "label": "F11",
+    "rationale": "Optimizer (run7-best): F11 (Step into)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F1",
+    "modifiers": [],
+    "label": "F1",
+    "rationale": "Optimizer (run7-best): F1 (Help)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PrintScreen and SysReq",
+    "modifiers": [],
+    "label": "printscreen_combo",
+    "rationale": "Optimizer (run7-best): _base_printscreen_combo (Base key: PrintScreen)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F1",
+    "modifiers": [],
+    "label": "f1",
+    "rationale": "Optimizer (run7-best): _base_f1 (Base key: F1)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F6",
+    "modifiers": [],
+    "label": "f6",
+    "rationale": "Optimizer (run7-best): _base_f6 (Base key: F6)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F3",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+F3",
+    "rationale": "Optimizer (run7-best): Shift+F3 (Find previous)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F7",
+    "modifiers": [],
+    "label": "F7",
+    "rationale": "Optimizer (run7-best): F7 (Spell check)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F10",
+    "modifiers": [],
+    "label": "f10",
+    "rationale": "Optimizer (run7-best): _base_f10 (Base key: F10)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [],
+    "label": "f5",
+    "rationale": "Optimizer (run7-best): _base_f5 (Base key: F5)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+>",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+> (Increase font size)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 5,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F8",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+F8",
+    "rationale": "Optimizer (run7-best): Shift+F8 (Go to previous problem)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Z",
+    "rationale": "Optimizer (run7-best): Ctrl+Z (Undo)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Z",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Z",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Z (Redo)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Y",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Y",
+    "rationale": "Optimizer (run7-best): Ctrl+Y (Redo (alt))",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+X",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+X (Expand compose box)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+X",
+    "rationale": "Optimizer (run7-best): Ctrl+X (Cut)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 7,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 9 and Left Bracket",
+    "modifiers": [],
+    "label": "left bracket_combo",
+    "rationale": "Optimizer (run7-best): _base_left bracket_combo (Base key: 9 and Left Bracket)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+C",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+C (Inspect element)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Up",
+    "rationale": "Optimizer (run7-best): Alt+Up (Move line up)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+C",
+    "rationale": "Optimizer (run7-best): Ctrl+C (Copy)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Down",
+    "rationale": "Optimizer (run7-best): Alt+Down (Move line down)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+K",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+K (Delete line)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Down",
+    "rationale": "Optimizer (run7-best): Shift+Alt+Down (Copy line down)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+V",
+    "rationale": "Optimizer (run7-best): Ctrl+V (Paste)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 1,
+    "x": 9,
+    "y": 3,
+    "behavior": "coach_game_lock",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_game_lock",
+    "rationale": "Optimizer (run7-best): _base_coach_game_lock (Base key: coach_game_lock)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [],
+    "label": "dash_combo",
+    "rationale": "Optimizer (run7-best): _base_dash_combo (Base key: Dash and Underscore)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [],
+    "label": "leftarrow",
+    "rationale": "Optimizer (run7-best): _base_leftarrow (Base key: LeftArrow)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 0,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [],
+    "label": "rightarrow",
+    "rationale": "Optimizer (run7-best): _base_rightarrow (Base key: RightArrow)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [],
+    "label": "semicolon_combo",
+    "rationale": "Optimizer (run7-best): _base_semicolon_combo (Base key: SemiColon and Colon)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+Tab",
+    "rationale": "Optimizer (run7-best): Shift+Tab (Outdent)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 2,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_base",
+    "rationale": "Optimizer (run7-best): _base_coach_base (Base key: coach_base)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F12",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+F12",
+    "rationale": "Optimizer (run7-best): Alt+F12 (Peek definition)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+W",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+W (Change workflow state)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [],
+    "label": "dash",
+    "rationale": "Optimizer (run7-best): _base_dash (Base key: Dash and Underscore)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard M",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+M",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+M (Toggle mute)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 11,
+    "y": 3,
+    "behavior": "Momentary Layer",
+    "parameter": "Layer::8",
+    "modifiers": [],
+    "label": "Momentary Layer",
+    "rationale": "Optimizer (run7-best): _base_momentary_layer_layer::8 (Base key: Layer::8)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F17",
+    "modifiers": [],
+    "label": "f17",
+    "rationale": "Optimizer (run7-best): _base_f17 (Base key: F17)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 2,
+    "behavior": "Toggle Layer",
+    "parameter": "Layer::6",
+    "modifiers": [],
+    "label": "Toggle Layer",
+    "rationale": "Optimizer (run7-best): _base_toggle_layer_layer::6 (Base key: Layer::6)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 12,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+1",
+    "rationale": "Optimizer (run7-best): Win+1 (Open/switch pinned app 1)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F12",
+    "modifiers": [],
+    "label": "f12",
+    "rationale": "Optimizer (run7-best): _base_f12 (Base key: F12)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Alt"
+    ],
+    "label": "Ctrl+Alt+Down",
+    "rationale": "Optimizer (run7-best): Ctrl+Alt+Down (Add cursor below)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Tab",
+    "rationale": "Optimizer (run7-best): Alt+Tab (Switch apps)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 1,
+    "y": 3,
+    "behavior": "Mouse Key Press",
+    "parameter": "MB3",
+    "modifiers": [],
+    "label": "MB3",
+    "rationale": "Optimizer (run7-best): _base_select:mb3 (Base key: default_transform)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Alt"
+    ],
+    "label": "Ctrl+Alt+Up",
+    "rationale": "Optimizer (run7-best): Ctrl+Alt+Up (Add cursor above)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+S",
+    "rationale": "Optimizer (run7-best): Win+S (Search)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Left",
+    "rationale": "Optimizer (run7-best): Win+Left (Snap window left)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F11",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+F11",
+    "rationale": "Optimizer (run7-best): Shift+F11 (Step out)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Right Brace",
+    "modifiers": [],
+    "label": "right brace",
+    "rationale": "Optimizer (run7-best): _base_right brace (Base key: Right Brace)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Right",
+    "rationale": "Optimizer (run7-best): Win+Right (Snap window right)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 3,
+    "behavior": "Mouse Key Press",
+    "parameter": "MB1",
+    "modifiers": [],
+    "label": "MB1",
+    "rationale": "Optimizer (run7-best): _base_select:mb1 (Base key: MB1)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+O",
+    "rationale": "Optimizer (run7-best): Ctrl+O (Open document)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [],
+    "label": "leftarrow_combo",
+    "rationale": "Optimizer (run7-best): _base_leftarrow_combo (Base key: LeftArrow)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [],
+    "label": "Backspace",
+    "rationale": "Optimizer (run7-best): Backspace (Go back / up)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 3,
+    "behavior": "Mouse Key Press",
+    "parameter": "MB5",
+    "modifiers": [],
+    "label": "MB5",
+    "rationale": "Optimizer (run7-best): _base_select:mb5 (Base key: MB5)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 4,
+    "behavior": "Mouse Key Press",
+    "parameter": "MB2",
+    "modifiers": [],
+    "label": "MB2",
+    "rationale": "Optimizer (run7-best): _base_select:mb2 (Base key: default_transform)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [],
+    "label": "downarrow",
+    "rationale": "Optimizer (run7-best): _base_downarrow (Base key: DownArrow)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 0,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 2",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Optimizer (run7-best): _base_bt_sel 2 (Base key: BT_SEL 2)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F10",
+    "modifiers": [],
+    "label": "F10",
+    "rationale": "Optimizer (run7-best): F10 (Step over)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [],
+    "label": "uparrow",
+    "rationale": "Optimizer (run7-best): _base_uparrow (Base key: UpArrow)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [],
+    "label": "end",
+    "rationale": "Optimizer (run7-best): _base_end (Base key: End)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 4,
+    "behavior": "Bootloader",
+    "parameter": "",
+    "modifiers": [],
+    "label": "Bootloader",
+    "rationale": "Optimizer (run7-best): _base_bootloader (Base key: Bootloader)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F9",
+    "modifiers": [],
+    "label": "F9",
+    "rationale": "Optimizer (run7-best): F9 (Toggle breakpoint)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F9",
+    "modifiers": [],
+    "label": "f9",
+    "rationale": "Optimizer (run7-best): _base_f9 (Base key: F9)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [],
+    "label": "forwardslash_combo",
+    "rationale": "Optimizer (run7-best): _base_forwardslash_combo (Base key: ForwardSlash and QuestionMark)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Left",
+    "rationale": "Optimizer (run7-best): Ctrl+Left (Jump to left edge of data)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Right",
+    "rationale": "Optimizer (run7-best): Ctrl+Right (Jump to right edge of data)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 2,
+    "behavior": "Mouse Key Press",
+    "parameter": "MB4",
+    "modifiers": [],
+    "label": "MB4",
+    "rationale": "Optimizer (run7-best): _base_select:mb4 (Base key: default_transform)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [],
+    "label": "F4",
+    "rationale": "Optimizer (run7-best): F4 (Toggle absolute ref ($))",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [],
+    "label": "uparrow_combo",
+    "rationale": "Optimizer (run7-best): _base_uparrow_combo (Base key: UpArrow)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F15",
+    "modifiers": [],
+    "label": "f15",
+    "rationale": "Optimizer (run7-best): _base_f15 (Base key: F15)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+U",
+    "rationale": "Optimizer (run7-best): Ctrl+U (Mark as unread)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 2,
+    "behavior": "coach_travel_toggle",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_travel_toggle",
+    "rationale": "Optimizer (run7-best): _base_coach_travel_toggle (Base key: coach_travel_toggle)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 2,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+R",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+R (Reply all)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F22",
+    "modifiers": [],
+    "label": "f22",
+    "rationale": "Optimizer (run7-best): _base_f22 (Base key: F22)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageDown",
+    "modifiers": [],
+    "label": "pagedown_combo",
+    "rationale": "Optimizer (run7-best): _base_pagedown_combo (Base key: PageDown)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F13",
+    "modifiers": [],
+    "label": "f13",
+    "rationale": "Optimizer (run7-best): _base_f13 (Base key: F13)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F11",
+    "modifiers": [],
+    "label": "f11",
+    "rationale": "Optimizer (run7-best): _base_f11 (Base key: F11)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Comma and LessThan",
+    "modifiers": [],
+    "label": "comma_combo",
+    "rationale": "Optimizer (run7-best): _base_comma_combo (Base key: Comma and LessThan)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Right",
+    "rationale": "Optimizer (run7-best): Alt+Right (Forward)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Tab",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Tab (Previous tab)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageUp",
+    "modifiers": [],
+    "label": "pageup_combo",
+    "rationale": "Optimizer (run7-best): _base_pageup_combo (Base key: PageUp)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F7",
+    "modifiers": [],
+    "label": "f7",
+    "rationale": "Optimizer (run7-best): _base_f7 (Base key: F7)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [],
+    "label": "equals_combo",
+    "rationale": "Optimizer (run7-best): _base_equals_combo (Base key: Equals and Plus)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [],
+    "label": "Delete",
+    "rationale": "Optimizer (run7-best): Delete (Delete)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+T",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+T (Reopen closed tab)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F8",
+    "modifiers": [],
+    "label": "f8",
+    "rationale": "Optimizer (run7-best): _base_f8 (Base key: F8)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 2,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 4",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Optimizer (run7-best): _base_bt_sel 4 (Base key: BT_SEL 4)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F2",
+    "modifiers": [],
+    "label": "f2",
+    "rationale": "Optimizer (run7-best): _base_f2 (Base key: F2)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [],
+    "label": "grave accent",
+    "rationale": "Optimizer (run7-best): _base_grave accent (Base key: Grave Accent and Tilde)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [],
+    "label": "F5",
+    "rationale": "Optimizer (run7-best): F5 (Refresh page)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F2",
+    "modifiers": [],
+    "label": "F2",
+    "rationale": "Optimizer (run7-best): F2 (Rename)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 3,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 3",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Optimizer (run7-best): _base_bt_sel 3 (Base key: BT_SEL 3)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [],
+    "label": "period_combo",
+    "rationale": "Optimizer (run7-best): _base_period_combo (Base key: Period and GreaterThan)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F19",
+    "modifiers": [],
+    "label": "f19",
+    "rationale": "Optimizer (run7-best): _base_f19 (Base key: F19)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 3,
+    "behavior": "coach_mouse_lock",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_mouse_lock",
+    "rationale": "Optimizer (run7-best): _base_coach_mouse_lock (Base key: coach_mouse_lock)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F20",
+    "modifiers": [],
+    "label": "f20",
+    "rationale": "Optimizer (run7-best): _base_f20 (Base key: F20)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 2,
+    "behavior": "coach_game_lock",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_game_lock",
+    "rationale": "Optimizer (run7-best): _base_coach_game_lock (Base key: coach_game_lock)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 3,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftAlt",
+    "modifiers": [],
+    "label": "leftalt",
+    "rationale": "Optimizer (run7-best): _base_leftalt (Base key: LeftAlt)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 0,
+    "y": 3,
+    "behavior": "Toggle Layer",
+    "parameter": "Layer::10",
+    "modifiers": [],
+    "label": "Toggle Layer",
+    "rationale": "Optimizer (run7-best): _base_toggle_layer_layer::10 (Base key: Layer::10)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+I",
+    "rationale": "Optimizer (run7-best): Win+I (Settings)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+P",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+P (Command palette)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+L",
+    "rationale": "Optimizer (run7-best): Win+L (Lock PC)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+`",
+    "rationale": "Optimizer (run7-best): Ctrl+` (Toggle terminal)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard ForwardSlash and QuestionMark",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+/",
+    "rationale": "Optimizer (run7-best): Ctrl+/ (Toggle line comment)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard X",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+X",
+    "rationale": "Optimizer (run7-best): Win+X (Power User menu)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+.",
+    "rationale": "Optimizer (run7-best): Win+. (Emoji picker)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F12",
+    "modifiers": [],
+    "label": "F12",
+    "rationale": "Optimizer (run7-best): F12 (Go to definition)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Esc",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Esc (Task Manager)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 4 and Dollar",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+4",
+    "rationale": "Optimizer (run7-best): Win+4 (Open/switch pinned app 4)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+D",
+    "rationale": "Optimizer (run7-best): Ctrl+D (Select next occurrence)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 2,
+    "y": 3,
+    "behavior": "Toggle Layer",
+    "parameter": "Layer::9",
+    "modifiers": [],
+    "label": "Toggle Layer",
+    "rationale": "Optimizer (run7-best): _base_toggle_layer_layer::9 (Base key: Layer::9)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 5 and Percent",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+5",
+    "rationale": "Optimizer (run7-best): Win+5 (Open/switch pinned app 5)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+P",
+    "rationale": "Optimizer (run7-best): Ctrl+P (Quick open file)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+;",
+    "rationale": "Optimizer (run7-best): Win+; (Emoji picker)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 3,
+    "y": 4,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL 0",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Optimizer (run7-best): _base_bt_sel 0 (Base key: BT_SEL 0)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+Space",
+    "rationale": "Optimizer (run7-best): Shift+Space (Select entire row)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+S",
+    "rationale": "Optimizer (run7-best): Ctrl+S (Save)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+-",
+    "rationale": "Optimizer (run7-best): Ctrl+- (Delete cells/rows/columns)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [],
+    "label": "equals",
+    "rationale": "Optimizer (run7-best): _base_equals (Base key: Equals and Plus)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Home",
+    "rationale": "Optimizer (run7-best): Ctrl+Home (Go to cell A1)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+R",
+    "rationale": "Optimizer (run7-best): Win+R (Run dialog)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+End",
+    "rationale": "Optimizer (run7-best): Ctrl+End (Go to last used cell)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Up",
+    "rationale": "Optimizer (run7-best): Ctrl+Up (Jump to top edge of data)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [],
+    "label": "Tab",
+    "rationale": "Optimizer (run7-best): Tab (Indent / accept suggestion)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 4,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Down",
+    "rationale": "Optimizer (run7-best): Ctrl+Down (Jump to bottom edge of data)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 0,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+2",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+2 (Large icons)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageDown",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Page Down",
+    "rationale": "Optimizer (run7-best): Ctrl+Page Down (Next sheet)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+E",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+E (Check in document)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageUp",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Page Up",
+    "rationale": "Optimizer (run7-best): Ctrl+Page Up (Previous sheet)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Left",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Left (Select to left edge)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 2,
+    "behavior": "coach_travel_toggle",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_travel_toggle",
+    "rationale": "Optimizer (run7-best): _base_coach_travel_toggle (Base key: coach_travel_toggle)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Right",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Right (Select to right edge)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+~",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+~ (General format)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Space",
+    "rationale": "Optimizer (run7-best): Ctrl+Space (Select entire column)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Enter",
+    "rationale": "Optimizer (run7-best): Alt+Enter (Properties / metadata card)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Down",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Down (Select to bottom edge)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Up",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Up (Select to top edge)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+N",
+    "rationale": "Optimizer (run7-best): Ctrl+N (New mail)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift++",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift++ (Insert cells/rows/columns)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+=",
+    "rationale": "Optimizer (run7-best): Alt+= (AutoSum)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard R",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+R",
+    "rationale": "Optimizer (run7-best): Ctrl+R (Reply)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+F5",
+    "rationale": "Optimizer (run7-best): Ctrl+F5 (Hard refresh (bypass cache))",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_base",
+    "rationale": "Optimizer (run7-best): _base_coach_base (Base key: coach_base)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+D",
+    "rationale": "Optimizer (run7-best): Alt+D (Focus address bar (alt))",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+1",
+    "rationale": "Optimizer (run7-best): Ctrl+1 (Activity)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl++",
+    "rationale": "Optimizer (run7-best): Ctrl++ (Zoom in)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Home",
+    "rationale": "Optimizer (run7-best): Alt+Home (Open home page)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 4,
+    "y": 5,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+Delete",
+    "rationale": "Optimizer (run7-best): Shift+Delete (Permanent delete)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 9 and Left Bracket",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+9",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+9 (Unhide rows)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+;",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+; (Insert current time)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 6 and Caret",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+6",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+6 (Toggle details pane)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 0 and Right Bracket",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+0",
+    "rationale": "Optimizer (run7-best): Ctrl+0 (Reset zoom)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 3 and Hash",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+3",
+    "rationale": "Optimizer (run7-best): Ctrl+3 (Teams/channels)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard J",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+J",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+J (Open Console)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+P",
+    "rationale": "Optimizer (run7-best): Alt+P (Preview pane)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+F",
+    "rationale": "Optimizer (run7-best): Alt+F (Settings menu)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 4 and Dollar",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+4",
+    "rationale": "Optimizer (run7-best): Ctrl+4 (Calendar)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 5,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+N",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+N (New folder)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 2,
+    "behavior": "Bluetooth",
+    "parameter": "BT_SEL ?",
+    "modifiers": [],
+    "label": "Bluetooth",
+    "rationale": "Optimizer (run7-best): _base_bt_sel ? (Base key: BT_SEL ?)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F6",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+F6",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+F6 (Next section)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+I",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+I (Go to Inbox)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Tab",
+    "rationale": "Optimizer (run7-best): Ctrl+Tab (Next tab)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard W",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+W",
+    "rationale": "Optimizer (run7-best): Ctrl+W (Close tab)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+Left",
+    "rationale": "Optimizer (run7-best): Alt+Left (Back)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard I",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+I",
+    "rationale": "Optimizer (run7-best): Ctrl+I (Italic)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Delete Forward",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Del",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Del (Clear browsing data)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+L",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+L (Autofill login)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Q",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+Q",
+    "rationale": "Optimizer (run7-best): Ctrl+Q (Mark as read)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 8 and Star",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+8",
+    "rationale": "Optimizer (run7-best): Ctrl+8 (Switch to tab 8)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+S",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+S (Attach file)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+F",
+    "rationale": "Optimizer (run7-best): Ctrl+F (Find)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Alt",
+      "L Shift"
+    ],
+    "label": "Alt+Shift+Up",
+    "rationale": "Optimizer (run7-best): Alt+Shift+Up (Previous unread)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+K",
+    "rationale": "Optimizer (run7-best): Ctrl+K (Insert link)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard U",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+U",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+U (Mark as unread)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard L",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+L",
+    "rationale": "Optimizer (run7-best): Ctrl+L (Focus address bar)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_base",
+    "rationale": "Optimizer (run7-best): _base_coach_base (Base key: coach_base)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+B",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+B (Toggle background blur)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+Left",
+    "rationale": "Optimizer (run7-best): Win+Ctrl+Left (Switch desktop left)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+D",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+D (Decline call)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+Right",
+    "rationale": "Optimizer (run7-best): Win+Ctrl+Right (Switch desktop right)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+D",
+    "rationale": "Optimizer (run7-best): Win+Ctrl+D (New virtual desktop)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [],
+    "label": "home",
+    "rationale": "Optimizer (run7-best): _base_home (Base key: Home)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [],
+    "label": "rightarrow_combo",
+    "rationale": "Optimizer (run7-best): _base_rightarrow_combo (Base key: RightArrow)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Period and GreaterThan",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+.",
+    "rationale": "Optimizer (run7-best): Ctrl+. (Show commands)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard K",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+K",
+    "rationale": "Optimizer (run7-best): Win+K (Connect / Cast)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 7 and Ampersand",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+7",
+    "rationale": "Optimizer (run7-best): Ctrl+7 (Switch to tab 7)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 6 and Caret",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+6",
+    "rationale": "Optimizer (run7-best): Ctrl+6 (Files)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+T",
+    "rationale": "Optimizer (run7-best): Ctrl+T (New tab)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 6,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 5 and Percent",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+5",
+    "rationale": "Optimizer (run7-best): Ctrl+5 (Calls)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Home",
+    "rationale": "Optimizer (run7-best): Win+Home (Minimize all except active)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [],
+    "label": "Down",
+    "rationale": "Optimizer (run7-best): Down (Next command)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [
+      "L Alt"
+    ],
+    "label": "Alt+F4",
+    "rationale": "Optimizer (run7-best): Alt+F4 (Close window)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Q",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Q",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Q (New meeting)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 9 and Left Bracket",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+9",
+    "rationale": "Optimizer (run7-best): Ctrl+9 (Hide selected rows)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+D",
+    "rationale": "Optimizer (run7-best): Win+D (Show/hide desktop)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard End",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+End",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+End (Select to last used cell)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Home",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Home (Select to cell A1)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Tab",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Tab",
+    "rationale": "Optimizer (run7-best): Win+Tab (Task View)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 1,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard SemiColon and Colon",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+;",
+    "rationale": "Optimizer (run7-best): Ctrl+; (Insert current date)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 1 and Bang",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+!",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+! (Number format)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Up",
+    "rationale": "Optimizer (run7-best): Win+Up (Maximize window)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 4 and Dollar",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+$",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+$ (Currency format)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 5 and Percent",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+%",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+% (Percent format)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard DownArrow",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Down",
+    "rationale": "Optimizer (run7-best): Win+Down (Minimize / restore)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Dash and Underscore",
+    "modifiers": [
+      "L Alt",
+      "L Shift"
+    ],
+    "label": "Alt+Shift+-",
+    "rationale": "Optimizer (run7-best): Alt+Shift+- (Split pane horizontal)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 3,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F16",
+    "modifiers": [],
+    "label": "f16",
+    "rationale": "Optimizer (run7-best): _base_f16 (Base key: F16)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Equals and Plus",
+    "modifiers": [
+      "L Alt",
+      "L Shift"
+    ],
+    "label": "Alt+Shift++",
+    "rationale": "Optimizer (run7-best): Alt+Shift++ (Split pane vertical)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L GUI",
+      "L Shift"
+    ],
+    "label": "Win+Shift+Left",
+    "rationale": "Optimizer (run7-best): Win+Shift+Left (Move to left monitor)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageDown",
+    "modifiers": [],
+    "label": "Page Down",
+    "rationale": "Optimizer (run7-best): Page Down (Next slide)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left GUI",
+    "modifiers": [],
+    "label": "left gui",
+    "rationale": "Optimizer (run7-best): _base_left gui (Base key: Left GUI)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard G",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+G",
+    "rationale": "Optimizer (run7-best): Ctrl+G (Go to line)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 4,
+    "behavior": "coach_travel_off",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_travel_off",
+    "rationale": "Optimizer (run7-best): _base_coach_travel_off (Base key: coach_travel_off)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard PageUp",
+    "modifiers": [],
+    "label": "Page Up",
+    "rationale": "Optimizer (run7-best): Page Up (Previous slide)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L GUI",
+      "L Shift"
+    ],
+    "label": "Win+Shift+Right",
+    "rationale": "Optimizer (run7-best): Win+Shift+Right (Move to right monitor)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F6",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+F6",
+    "rationale": "Optimizer (run7-best): Ctrl+F6 (Previous section)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 8,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Home",
+    "modifiers": [],
+    "label": "home_combo",
+    "rationale": "Optimizer (run7-best): _base_home_combo (Base key: Home)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard M",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+M",
+    "rationale": "Optimizer (run7-best): Win+M (Minimize all windows)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard E",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+E",
+    "rationale": "Optimizer (run7-best): Win+E (File Explorer)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 8,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F4",
+    "modifiers": [
+      "L GUI",
+      "L Ctrl"
+    ],
+    "label": "Win+Ctrl+F4",
+    "rationale": "Optimizer (run7-best): Win+Ctrl+F4 (Close current desktop)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard P",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+P",
+    "rationale": "Optimizer (run7-best): Win+P (Project / display mode)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard V",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+V",
+    "rationale": "Optimizer (run7-best): Win+V (Clipboard history)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+A",
+    "rationale": "Optimizer (run7-best): Win+A (Quick settings / Action center)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard N",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+N",
+    "rationale": "Optimizer (run7-best): Win+N (Notification center)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard S",
+    "modifiers": [
+      "L GUI",
+      "L Shift"
+    ],
+    "label": "Win+Shift+S",
+    "rationale": "Optimizer (run7-best): Win+Shift+S (Screenshot (Snip))",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard T",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+T",
+    "rationale": "Optimizer (run7-best): Win+T (Cycle taskbar apps)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+B",
+    "rationale": "Optimizer (run7-best): Win+B (Focus system tray)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 2 and At",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+2",
+    "rationale": "Optimizer (run7-best): Win+2 (Open/switch pinned app 2)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 1,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 1,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_base",
+    "rationale": "Optimizer (run7-best): _base_coach_base (Base key: coach_base)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard 3 and Hash",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+3",
+    "rationale": "Optimizer (run7-best): Win+3 (Open/switch pinned app 3)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 2,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+H",
+    "rationale": "Optimizer (run7-best): Win+H (Voice typing)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 3,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+Space",
+    "rationale": "Optimizer (run7-best): Win+Space (Switch input language)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F21",
+    "modifiers": [],
+    "label": "f21",
+    "rationale": "Optimizer (run7-best): _base_f21 (Base key: F21)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard C",
+    "modifiers": [
+      "L GUI"
+    ],
+    "label": "Win+C",
+    "rationale": "Optimizer (run7-best): Win+C (Open Copilot)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 2,
+    "behavior": "Momentary Layer",
+    "parameter": "Layer::6",
+    "modifiers": [],
+    "label": "Momentary Layer",
+    "rationale": "Optimizer (run7-best): _base_momentary_layer_layer::6 (Base key: Layer::6)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 9,
+    "x": 9,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 0,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Backslash and Pipe",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+\\",
+    "rationale": "Optimizer (run7-best): Ctrl+\\ (Split editor)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Right Brace",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+]",
+    "rationale": "Optimizer (run7-best): Ctrl+] (Indent line)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 10,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard H",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+H",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+H (Hang up / end call)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Grave Accent and Tilde",
+    "modifiers": [],
+    "label": "grave accent_combo",
+    "rationale": "Optimizer (run7-best): _base_grave accent_combo (Base key: Grave Accent and Tilde)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Comma and LessThan",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+,",
+    "rationale": "Optimizer (run7-best): Ctrl+, (Open settings)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 11,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Up",
+    "rationale": "Optimizer (run7-best): Shift+Alt+Up (Copy line up)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+Enter",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+Enter (Insert line above)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 12,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 0,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+F5",
+    "rationale": "Optimizer (run7-best): Shift+F5 (Stop debugging)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Left Brace",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+[",
+    "rationale": "Optimizer (run7-best): Ctrl+[ (Outdent line)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 1,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard B",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+B",
+    "rationale": "Optimizer (run7-best): Ctrl+B (Bold)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard LeftArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Left",
+    "rationale": "Optimizer (run7-best): Shift+Alt+Left (Shrink selection)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 2,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F5",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+F5",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+F5 (Restart debugging)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard RightArrow",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+Right",
+    "rationale": "Optimizer (run7-best): Shift+Alt+Right (Expand selection)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Return Enter",
+    "modifiers": [
+      "L Shift"
+    ],
+    "label": "Shift+Enter",
+    "rationale": "Optimizer (run7-best): Shift+Enter (New line in message)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard M",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+M",
+    "rationale": "Optimizer (run7-best): Ctrl+M (Add to favorites)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 3,
+    "y": 4,
+    "behavior": "coach_base",
+    "parameter": "",
+    "modifiers": [],
+    "label": "coach_base",
+    "rationale": "Optimizer (run7-best): _base_coach_base (Base key: coach_base)",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Escape",
+    "modifiers": [],
+    "label": "Escape",
+    "rationale": "Optimizer (run7-best): Escape (Close / go back)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Backslash and Pipe",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+\\",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+\\ (Jump to matching bracket)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard O",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+O",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+O (Toggle camera)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 4,
+    "behavior": "Key Press",
+    "parameter": "Keyboard D",
+    "modifiers": [
+      "L Alt",
+      "L Shift"
+    ],
+    "label": "Alt+Shift+D",
+    "rationale": "Optimizer (run7-best): Alt+Shift+D (Split pane (auto))",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 4,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 5,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 1,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 2,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 3,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 7,
+    "y": 5,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Cleared by optimizer (run7-best)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Shift",
+      "L Alt"
+    ],
+    "label": "Shift+Alt+A",
+    "rationale": "Optimizer (run7-best): Shift+Alt+A (Toggle block comment)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard Spacebar",
+    "modifiers": [],
+    "label": "Space",
+    "rationale": "Optimizer (run7-best): Space (Scroll down one screen)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Ctrl",
+      "L Shift"
+    ],
+    "label": "Ctrl+Shift+A",
+    "rationale": "Optimizer (run7-best): Ctrl+Shift+A (Accept call)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 8,
+    "y": 4,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 0,
+    "behavior": "Transparent",
+    "parameter": "",
+    "modifiers": [],
+    "label": "",
+    "rationale": "Optimizer (run7-best): unchanged transparent",
+    "optimizer_changed": false,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 1,
+    "behavior": "Key Press",
+    "parameter": "Keyboard A",
+    "modifiers": [
+      "L Ctrl"
+    ],
+    "label": "Ctrl+A",
+    "rationale": "Optimizer (run7-best): Ctrl+A (Select all)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 2,
+    "behavior": "Key Press",
+    "parameter": "Keyboard F8",
+    "modifiers": [],
+    "label": "F8",
+    "rationale": "Optimizer (run7-best): F8 (Go to next problem)",
+    "optimizer_changed": true,
+    "apply_batch": true
+  },
+  {
+    "layer": 10,
+    "x": 9,
+    "y": 3,
+    "behavior": "Key Press",
+    "parameter": "Keyboard UpArrow",
+    "modifiers": [],
+    "label": "Up",
+    "rationale": "Optimizer (run7-best): Up (Edit last sent message)",
+    "optimizer_changed": true,
+    "apply_batch": true
   }
+];
+  const layers = [0, 1, 2, 3, 4, 5, 6, 8, 9, 10];
+  const accessReport = window.CHARYBDIS_LAYER_ACCESS_REPORT || {};
 
-  function visible(el) {
-    if (!el) return false;
-    const rect = el.getBoundingClientRect();
-    const cs = getComputedStyle(el);
-    return rect.width > 1 && rect.height > 1 && cs.display !== "none" && cs.visibility !== "hidden" && cs.opacity !== "0";
-  }
+  // --- Layer selection (mirrors apply script) ---
 
-  function labelFor(el) {
-    const aria = clean(el.getAttribute("aria-label") || "");
-    if (aria) return aria;
-
-    const labelledBy = clean(el.getAttribute("aria-labelledby") || "");
-    if (labelledBy) {
-      return labelledBy
-        .split(/\s+/)
-        .map((id) => clean(document.getElementById(id)?.textContent))
-        .filter(Boolean)
-        .join(" ");
-    }
-
-    const id = el.getAttribute("id");
-    if (id) {
-      const explicit = document.querySelector(`label[for="${CSS.escape(id)}"]`);
-      if (explicit) return clean(explicit.textContent);
-    }
-
-    return clean(el.closest("label")?.textContent || el.closest("div")?.querySelector("label")?.textContent || "");
-  }
-
-  function selectedOptionText(select) {
-    return clean(select.options[select.selectedIndex]?.textContent || select.value || "");
-  }
-
-  function visibleSelects() {
-    return qa("select").filter(visible);
-  }
-
-  function visibleInputs() {
-    return qa("input").filter(visible);
-  }
-
-  function isBehaviorSelect(select) {
-    const optionTexts = [...select.options].map((option) => clean(option.textContent));
-    return optionTexts.includes("Key Press") && optionTexts.includes("Transparent");
-  }
-
-  function isZoomSelect(select) {
-    const optionTexts = [...select.options].map((option) => clean(option.textContent));
-    return optionTexts.includes("Auto") && optionTexts.includes("100%");
-  }
-
-  function getDeviceName() {
-    const texts = qa("header, header button, header [role='button']")
-      .map((el) => clean(el.textContent))
-      .filter(Boolean);
-    return texts.find((text) => /Chary|V&Z|keyboard|ZMK/i.test(text)) || texts[0] || "";
-  }
-
-  function getLayers() {
-    return qa('[aria-label="Keymap Layer"] [role="option"]')
-      .filter(visible)
-      .map((el, index) => ({
-        index,
-        dataKey: el.getAttribute("data-key") || "",
-        name: clean(el.textContent) || el.getAttribute("data-key") || String(index),
-        selected: el.getAttribute("aria-selected") === "true",
-        el
-      }));
+  function findLayerButton(layer) {
+    const layerList = document.querySelector('[aria-label="Keymap Layer"]');
+    return layerList?.querySelector('[role="option"][data-key="' + layer + '"]')
+      || qa('[role="option"]', layerList || document).find(el => clean(el.textContent) === String(layer));
   }
 
   function selectedLayer() {
     const selected = document.querySelector('[aria-label="Keymap Layer"] [role="option"][aria-selected="true"]');
-    return clean(selected?.getAttribute("data-key") || selected?.textContent || "");
+    return clean(selected?.textContent || "");
   }
 
   async function selectLayer(layer) {
-    layer.el.scrollIntoView({ block: "center", inline: "center" });
-    layer.el.click();
-    await sleep(450);
-    if (layer.dataKey && selectedLayer() !== layer.dataKey) {
-      layer.el.click();
-      await sleep(450);
+    if (selectedLayer() === String(layer)) return true;
+    const el = findLayerButton(layer);
+    if (!el) {
+      console.error("Layer " + layer + " not found in ZMK Studio layer list");
+      return false;
     }
+    el.click();
+    await sleep(650);
+    if (selectedLayer() !== String(layer)) {
+      console.error("Failed to switch to layer " + layer + " (stuck on " + selectedLayer() + ")");
+      return false;
+    }
+    return true;
   }
 
-  function getVisibleKeyButtons() {
-    return qa("[x][y]")
-      .map((holder) => {
-        const button = holder.querySelector("button") || holder;
-        const rect = button.getBoundingClientRect();
-        const labelSpan = button.querySelector("span[aria-label]");
-        const behaviorSpan = button.querySelector("span.text-xs");
-        return {
-          x: Number(holder.getAttribute("x")),
-          y: Number(holder.getAttribute("y")),
-          rawX: holder.getAttribute("x"),
-          rawY: holder.getAttribute("y"),
-          width: holder.getAttribute("width") || holder.getAttribute("w") || "",
-          height: holder.getAttribute("height") || holder.getAttribute("h") || "",
-          screenX: Math.round(rect.left),
-          screenY: Math.round(rect.top),
-          visualLabel: labelSpan?.getAttribute("aria-label") || clean(labelSpan?.textContent) || clean(button.textContent),
-          visualText: clean(button.textContent),
-          visualBehavior: clean(behaviorSpan?.textContent),
-          selected: button.getAttribute("aria-selected") === "true",
-          button
-        };
-      })
-      .filter((key) => Number.isInteger(key.x) && Number.isInteger(key.y) && visible(key.button))
-      .sort((a, b) => a.y - b.y || a.x - b.x || a.screenY - b.screenY || a.screenX - b.screenX);
+  // --- Key selection (mirrors apply script) ---
+
+  function findKeyElement(x, y) {
+    const holder = document.querySelector('[x="' + x + '"][y="' + y + '"]');
+    return holder?.querySelector("button") || holder;
   }
 
-  async function selectKey(key) {
-    const live = document.querySelector(`[x="${CSS.escape(String(key.x))}"][y="${CSS.escape(String(key.y))}"]`);
-    const button = live?.querySelector("button") || live;
-    if (!button) throw new Error(`Key x${key.x} y${key.y} disappeared before click.`);
-    button.scrollIntoView({ block: "center", inline: "center" });
-    button.click();
+  async function selectKey(x, y) {
+    const el = findKeyElement(x, y);
+    if (!el) return false;
+    (el.closest("button") || el).click();
     await sleep(220);
+    return true;
   }
 
-  function currentBehavior() {
-    const select = visibleSelects().find(isBehaviorSelect);
-    return {
-      value: select?.value || "",
-      text: select ? selectedOptionText(select) : ""
-    };
+  // --- Read current key state ---
+
+  function visibleSelects() {
+    return qa("select").filter(s => s.offsetParent !== null);
   }
 
-  function currentTextParameters() {
-    return visibleInputs()
-      .filter((input) => ["text", "number", "search"].includes(input.type) || input.getAttribute("role") === "combobox")
-      .map((input, index) => ({
-        index,
-        type: input.type,
-        role: input.getAttribute("role") || "",
-        label: labelFor(input),
-        value: clean(input.value || input.getAttribute("value") || ""),
-        placeholder: input.getAttribute("placeholder") || "",
-        disabled: Boolean(input.disabled)
-      }));
+  function isBehaviorSelect(s) {
+    return [...s.options].some(o => clean(o.textContent) === "Key Press")
+      && [...s.options].some(o => clean(o.textContent) === "Transparent");
   }
 
-  function currentSelectParameters() {
-    return visibleSelects()
-      .filter((select) => !isBehaviorSelect(select) && !isZoomSelect(select))
-      .map((select, index) => ({
-        index,
-        label: labelFor(select),
-        value: select.value,
-        selectedText: selectedOptionText(select),
-        options: [...select.options].map((option) => clean(option.textContent)).filter(Boolean)
-      }));
+  function isZoomSelect(s) {
+    return [...s.options].some(o => clean(o.textContent) === "Auto")
+      && [...s.options].some(o => clean(o.textContent) === "100%");
   }
 
-  function currentModifiers() {
-    const byValue = {
-      "1": "L Ctrl",
-      "2": "L Shift",
-      "4": "L Alt",
-      "8": "L GUI",
-      "16": "R Ctrl",
-      "32": "R Shift",
-      "64": "R Alt",
-      "128": "R GUI"
-    };
-
-    const group = qa('[role="group"]').find((el) => /Implicit Modifiers/i.test(clean(el.getAttribute("aria-label") || el.textContent)));
-    if (!group) return [];
-
-    return qa('input[type="checkbox"]', group).map((input) => {
-      const label = clean(input.closest("label")?.textContent || labelFor(input));
-      return {
-        label: byValue[input.value || ""] || label,
-        rawLabel: label,
-        value: input.value || "",
-        checked: Boolean(input.checked)
-      };
-    });
+  function isDefaultTransformSelect(s) {
+    return [...s.options].some(o => clean(o.textContent) === "default_transform")
+      && s.options.length <= 3;
   }
 
-  function readSelectedKeyVisual() {
-    const selected = document.querySelector('[x][y] button[aria-selected="true"]')
-      || document.querySelector('[x][y][aria-selected="true"] button');
-    const holder = selected?.closest("[x][y]");
-    const labelSpan = selected?.querySelector("span[aria-label]");
-    const behaviorSpan = selected?.querySelector("span.text-xs");
-    return {
-      x: holder?.getAttribute("x") || "",
-      y: holder?.getAttribute("y") || "",
-      text: clean(selected?.innerText || selected?.textContent || ""),
-      label: labelSpan?.getAttribute("aria-label") || clean(labelSpan?.textContent) || "",
-      behaviorShown: clean(behaviorSpan?.textContent || ""),
-      ariaSelected: selected?.getAttribute("aria-selected") || ""
-    };
-  }
+  function readCurrent() {
+    const allSelects = visibleSelects();
+    const bSel = allSelects.find(isBehaviorSelect);
+    const behavior = bSel ? clean(bSel.options[bSel.selectedIndex]?.textContent) : "";
 
-  function summarizeParameter(behavior, textParameters, selectParameters, visual) {
-    const textValues = textParameters.map((item) => item.value).filter(Boolean);
-    const selectValues = selectParameters.map((item) => item.selectedText || item.value).filter(Boolean);
-    const profileNumber = textParameters.find((item) => item.type === "number" && item.value)?.value || "";
+    const combobox = qa("input").find(i => i.offsetParent !== null && i.getAttribute("role") === "combobox");
+    let parameter = combobox ? clean(combobox.value) : "";
 
-    if (behavior === "Key Press") {
-      return textValues[0] || visual.label || visual.text || "";
-    }
-    if (behavior === "Bluetooth") {
-      const selected = selectValues[0] || "";
-      return profileNumber ? `${selected} ${profileNumber}` : selected;
-    }
-    if (behavior === "Output Selection" || /Layer/i.test(behavior) || /Mouse/i.test(behavior)) {
-      return selectValues[0] || textValues[0] || visual.label || "";
-    }
-    return selectValues[0] || textValues[0] || visual.label || "";
-  }
-
-  function csvEscape(value) {
-    const text = String(value ?? "");
-    return `"${text.replace(/"/g, '""')}"`;
-  }
-
-  function toCsv(rows) {
-    const preferredHeaders = [
-      "layer",
-      "x",
-      "y",
-      "expected_label",
-      "actual_label",
-      "expected_behavior",
-      "actual_behavior",
-      "expected_parameter",
-      "actual_parameter",
-      "expected_modifiers",
-      "actual_modifiers",
-      "passed",
-      "issues"
-    ];
-    const discoveredHeaders = [...new Set(rows.flatMap((row) => Object.keys(row)))];
-    const headers = preferredHeaders.filter((header) => discoveredHeaders.includes(header))
-      .concat(discoveredHeaders.filter((header) => !preferredHeaders.includes(header)));
-    const lines = [headers.map(csvEscape).join(",")];
-    for (const row of rows) {
-      lines.push(headers.map((header) => csvEscape(row[header])).join(","));
-    }
-    return lines.join("\r\n");
-  }
-
-  function downloadText(text, filename, type) {
-    const blob = new Blob([text], { type });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-      a.remove();
-    }, 1000);
-  }
-
-  const layers = getLayers();
-  if (!layers.length) {
-    alert("No ZMK Studio layers found. Connect the keyboard first, then rerun the logger.");
-    return;
-  }
-
-  const report = {
-    verifier: "Charybdis final v1.8 operational pointer-travel full-key verifier",
-    verifierVersion: "2026-06-19.v1.8-operational-pointer-travel",
-    createdAt: STARTED_AT,
-    pageTitle: document.title,
-    url: location.href,
-    userAgent: navigator.userAgent,
-    deviceName: getDeviceName(),
-    note: "Full-key verification against final-v1.8-operational-pointer-travel expected map. It records what ZMK Studio shows after selecting each key.",
-    layers: [],
-    flatKeys: [],
-    summary: {}
-  };
-
-  console.warn(`Final v1.8 pointer-travel full-key verifier starting. It will inspect ${layers.length} layer(s). This does not edit or save.`);
-
-  for (const layer of layers) {
-    console.group(`Logging layer ${layer.dataKey || layer.index} ${layer.name}`);
-    await selectLayer(layer);
-
-    const visibleKeys = getVisibleKeyButtons();
-    const layerReport = {
-      layerIndex: layer.index,
-      layerKey: layer.dataKey || String(layer.index),
-      layerName: layer.name,
-      keyCount: visibleKeys.length,
-      keys: []
-    };
-
-    for (const keyShell of visibleKeys) {
-      const row = {
-        layer: layer.dataKey || String(layer.index),
-        layer_name: layer.name,
-        x: keyShell.rawX,
-        y: keyShell.rawY,
-        visual_label: keyShell.visualLabel,
-        visual_text: keyShell.visualText,
-        visual_behavior: keyShell.visualBehavior,
-        behavior: "",
-        parameter_summary: "",
-        text_parameters: "",
-        select_parameters: "",
-        checked_modifiers: ""
-      };
-
-      try {
-        await selectKey(keyShell);
-        const behavior = currentBehavior();
-        const textParameters = currentTextParameters();
-        const selectParameters = currentSelectParameters();
-        const modifiers = currentModifiers();
-        const visual = readSelectedKeyVisual();
-        const checkedModifiers = modifiers.filter((item) => item.checked).map((item) => item.label);
-
-        const detail = {
-          layer: row.layer,
-          layerName: row.layer_name,
-          x: keyShell.x,
-          y: keyShell.y,
-          visualBeforeClick: {
-            label: keyShell.visualLabel,
-            text: keyShell.visualText,
-            behaviorShown: keyShell.visualBehavior,
-            screenX: keyShell.screenX,
-            screenY: keyShell.screenY
-          },
-          selectedVisual: visual,
-          behavior,
-          parameterSummary: summarizeParameter(behavior.text, textParameters, selectParameters, visual),
-          textParameters,
-          selectParameters,
-          modifiers,
-          checkedModifiers
-        };
-
-        row.behavior = behavior.text;
-        row.parameter_summary = detail.parameterSummary;
-        row.text_parameters = textParameters.map((item) => `${item.label || item.type}:${item.value}`).join(" | ");
-        row.select_parameters = selectParameters.map((item) => `${item.label || "select"}:${item.selectedText || item.value}`).join(" | ");
-        row.checked_modifiers = checkedModifiers.join("+");
-
-        layerReport.keys.push(detail);
-        report.flatKeys.push(row);
-        console.log(`L${row.layer} x${row.x} y${row.y}: ${row.behavior} ${row.parameter_summary} [${row.visual_label}] ${row.checked_modifiers}`);
-      } catch (error) {
-        row.error = String(error?.stack || error);
-        layerReport.keys.push({
-          layer: row.layer,
-          layerName: row.layer_name,
-          x: keyShell.x,
-          y: keyShell.y,
-          error: row.error,
-          visualBeforeClick: {
-            label: keyShell.visualLabel,
-            text: keyShell.visualText,
-            behaviorShown: keyShell.visualBehavior
-          }
-        });
-        report.flatKeys.push(row);
-        console.error(`Failed L${row.layer} x${row.x} y${row.y}`, error);
+    if (!parameter) {
+      const paramSelect = allSelects.find(s =>
+        s !== bSel && !isBehaviorSelect(s) && !isZoomSelect(s) && !isDefaultTransformSelect(s)
+      );
+      if (paramSelect) {
+        parameter = clean(paramSelect.options[paramSelect.selectedIndex]?.textContent) || "";
       }
     }
 
-    report.layers.push(layerReport);
-    console.groupEnd();
-  }
-
-  function splitCsvLine(line) {
-    const out = [];
-    let cur = "";
-    let quoted = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      const next = line[i + 1];
-      if (ch === '"' && quoted && next === '"') { cur += '"'; i++; }
-      else if (ch === '"') quoted = !quoted;
-      else if (ch === ',' && !quoted) { out.push(cur); cur = ""; }
-      else cur += ch;
+    if (behavior === "Bluetooth" && (parameter === "Select Profile" || parameter === "Disconnect Profile")) {
+      const numInput = qa("input[type=number]").find(i => i.offsetParent !== null);
+      if (numInput) {
+        parameter = "BT_SEL " + clean(numInput.value);
+      }
     }
-    out.push(cur);
-    return out;
-  };
-  function parseCsv(text) {
-    const lines = text.trim().split(/\r?\n/);
-    const headers = splitCsvLine(lines.shift());
-    return lines.filter(Boolean).map((line) => {
-      const values = splitCsvLine(line);
-      const row = {};
-      headers.forEach((header, index) => row[header] = values[index] || "");
-      return row;
-    });
+
+    const checkboxes = qa("input[type=checkbox]").filter(c => c.offsetParent !== null && c.checked);
+    const modifiers = checkboxes.map(c => {
+      const label = c.closest("label")?.textContent || c.parentElement?.textContent || "";
+      return clean(label);
+    }).filter(Boolean);
+    return { behavior, parameter, modifiers };
   }
 
-  function keyId(row) {
-    return String(row.layer) + ":" + String(row.x) + ":" + String(row.y);
-  }
+  // --- Main verify loop ---
 
-  function normalizeText(value) {
-    return clean(String(value || ""))
-      .replace(/\b[LR]\s+(?:CTRL|SHIFT|ALT|GUI)\s*\+/gi, "")
-      .toUpperCase()
-      .replace(/KEYBOARD\s+/g, "")
-      .replace(/\s+/g, " ");
-  }
+  console.log("Verifying " + expected.length + " evolved keys across layers " + JSON.stringify(layers) + "...");
+  let passed = 0, failed = 0, skipped = 0;
+  const failures = [];
+  let currentLayer = null;
 
-  function normalizeModifiers(value) {
-    return clean(value).split(/\+/).map(clean).filter(Boolean).sort().join("+");
-  }
+  let skipped = 0;
+  for (const key of expected) {
+    if (!layers.includes(key.layer)) continue;
+    if (key.studio_skip) { skipped++; continue; }
 
-  const COACH_BEHAVIOR_MAP = {
-    "coach_l1_hold": "Momentary Layer",
-    "coach_l2_hold": "Momentary Layer",
-    "coach_l3_hold": "Momentary Layer",
-    "coach_l4_hold": "Momentary Layer",
-    "coach_mouse_lock": "To Layer",
-    "coach_game_lock": "To Layer",
-    "coach_base": "To Layer",
-    "coach_recover_base": "To Layer",
-    "coach_travel_toggle": "Toggle Layer",
-    "coach_travel_off": "To Layer"
-  };
+    if (currentLayer !== key.layer) {
+      const switched = await selectLayer(key.layer);
+      if (!switched) {
+        failures.push({ layer: key.layer, x: key.x, y: key.y, label: key.label, issues: ["could not switch to layer " + key.layer], expected: key, actual: {} });
+        failed++;
+        continue;
+      }
+      currentLayer = key.layer;
+      console.log("Verifying layer " + key.layer + "...");
+    }
 
-  function normalizeBehavior(value) {
-    const text = clean(value);
-    if (text === "None") return "Transparent";
-    if (COACH_BEHAVIOR_MAP[text]) return COACH_BEHAVIOR_MAP[text];
-    return text;
-  }
+    const found = await selectKey(key.x, key.y);
+    if (!found) {
+      failures.push({ layer: key.layer, x: key.x, y: key.y, label: key.label, issues: ["key not found in Studio UI"], expected: key, actual: {} });
+      failed++;
+      continue;
+    }
 
-  function compareRow(expected, actual) {
+    const actual = readCurrent();
     const issues = [];
-    if (!actual) return ["missing live key"];
-    // Visual labels can vary by Studio rendering, glyphs, and localization; behavior,
-    // parameter, and modifiers are the authoritative layout contract.
-    if (normalizeBehavior(expected.behavior) !== normalizeBehavior(actual.behavior)) {
-      issues.push("behavior expected \"" + expected.behavior + "\", got \"" + actual.behavior + "\"");
+
+    if (actual.behavior !== key.behavior) {
+      issues.push("behavior: expected " + key.behavior + ", got " + actual.behavior);
     }
-    if (normalizeText(expected.parameter_summary) !== normalizeText(actual.parameter_summary)) {
-      issues.push("parameter expected \"" + expected.parameter_summary + "\", got \"" + actual.parameter_summary + "\"");
+
+    if (key.parameter && actual.parameter) {
+      const expNorm = clean(key.parameter).replace("Keyboard ", "").toUpperCase();
+      const actNorm = clean(actual.parameter).replace("Keyboard ", "").toUpperCase();
+      if (expNorm !== actNorm) {
+        issues.push("parameter: expected \"" + key.parameter + "\", got \"" + actual.parameter + "\"");
+      }
+    } else if (key.parameter && !actual.parameter) {
+      issues.push("parameter: expected \"" + key.parameter + "\", got empty");
     }
-    if (normalizeModifiers(expected.checked_modifiers) !== normalizeModifiers(actual.checked_modifiers)) {
-      issues.push("modifiers expected \"" + expected.checked_modifiers + "\", got \"" + actual.checked_modifiers + "\"");
+
+    const expMods = (key.modifiers || []).sort().join("+");
+    const actMods = actual.modifiers.sort().join("+");
+    if (expMods !== actMods) {
+      issues.push("modifiers: expected \"" + expMods + "\", got \"" + actMods + "\"");
     }
-    if (actual.error) issues.push("read error: " + actual.error);
-    return issues;
+
+    if (issues.length > 0) {
+      failures.push({ layer: key.layer, x: key.x, y: key.y, label: key.label, issues, expected: key, actual });
+      failed++;
+      console.warn("FAIL L" + key.layer + " (" + key.x + "," + key.y + ") " + (key.label || "") + ": " + issues.join("; "));
+    } else {
+      passed++;
+    }
   }
 
-  const expectedRows = parseCsv(EXPECTED_CSV);
-  const actualById = new Map(report.flatKeys.map((row) => [keyId(row), row]));
-  const verificationRows = expectedRows.map((expected) => {
-    const actual = actualById.get(keyId(expected));
-    const issues = compareRow(expected, actual);
-    return {
-      layer: expected.layer,
-      x: expected.x,
-      y: expected.y,
-      expected_label: expected.visual_label,
-      actual_label: actual?.visual_label || "",
-      expected_behavior: expected.behavior,
-      actual_behavior: actual?.behavior || "",
-      expected_parameter: expected.parameter_summary,
-      actual_parameter: actual?.parameter_summary || "",
-      expected_modifiers: expected.checked_modifiers,
-      actual_modifiers: actual?.checked_modifiers || "",
-      passed: issues.length === 0,
-      issues: issues.join("; ")
-    };
-  });
-
-  report.verification = {
-    expectedVersion: "v1.8-baseline-with-coach-normalization",
-    expectedKeys: expectedRows.length,
-    checkedKeys: verificationRows.length,
-    passed: verificationRows.filter((row) => row.passed).length,
-    failed: verificationRows.filter((row) => !row.passed).length,
-    rows: verificationRows
-  };
-
-  report.summary = {
-    layers: report.layers.length,
-    totalKeys: report.flatKeys.length,
-    rowsWithErrors: report.flatKeys.filter((row) => row.error).length,
-    expectedKeys: expectedRows.length,
-    verificationPassed: report.verification.passed,
-    verificationFailed: report.verification.failed,
-    createdAt: STARTED_AT,
-    finishedAt: new Date().toISOString()
-  };
-
-  console.group("Final v1.8 pointer-travel full-key verification summary");
-  console.table(report.summary);
-  if (report.verification.failed) {
-    console.table(report.verification.rows.filter((row) => !row.passed));
+  console.log("\n" + "=".repeat(50));
+  console.log("LAYER ACCESS");
+  console.log("Valid expected graph: " + (accessReport.valid ? "YES" : "NO"));
+  if (accessReport.required_layers) console.log("Required layers: " + accessReport.required_layers.join(", "));
+  if (accessReport.reachable_layers) console.log("Reachable layers: " + accessReport.reachable_layers.join(", "));
+  if (accessReport.access_cost !== undefined) console.log("Total access cost: " + accessReport.access_cost);
+  if (accessReport.errors && accessReport.errors.length) console.error("Access errors: " + accessReport.errors.join("; "));
+  console.log("-".repeat(50));
+  if (failed === 0) {
+    console.log("PASSED: All " + passed + " keys verified correctly." + (skipped ? " (" + skipped + " firmware-only keys skipped)" : ""));
   } else {
-    console.info("Final v1.8 pointer-travel full-key verification PASSED for " + report.verification.passed + " key(s).");
+    console.error("FAILED: " + failed + " of " + (passed + failed) + " keys mismatch." + (skipped ? " (" + skipped + " firmware-only skipped)" : ""));
+    console.table(failures.map(f => ({
+      position: "L" + f.layer + " (" + f.x + "," + f.y + ")",
+      label: f.label || "",
+      issues: f.issues?.join("; ") || f.issue || ""
+    })));
   }
-  console.groupEnd();
-
-  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const jsonName = `zmk-studio-final-operational-full-verify-${stamp}.json`;
-  const csvName = `zmk-studio-final-operational-full-verify-${stamp}.csv`;
-  downloadText(JSON.stringify(report, null, 2), jsonName, "application/json");
-  downloadText(toCsv(report.verification.rows), csvName, "text/csv");
-
-  if (report.verification.failed) {
-    console.error(`Final v1.8 pointer-travel full-key verification FAILED: ${report.verification.failed} failing key(s). Downloaded ${jsonName} and ${csvName}.`);
-  } else {
-    console.info(`Final v1.8 pointer-travel full-key verification PASSED: ${report.verification.passed} key(s). Downloaded ${jsonName} and ${csvName}.`);
-  }
+  console.log("=".repeat(50));
 })();
 

@@ -2,12 +2,144 @@
 window.CHARYBDIS_VERSION = "evolved-v2";
 
 function getKeyBinding(layer, x, y) {
-  const btn = document.querySelector(`[data-layer='${layer}'][data-x='${x}'][data-y='${y}']`);
-  if (!btn) return null;
-  const behavior = btn.querySelector('.behavior-name')?.textContent?.trim() || '';
-  const parameter = btn.querySelector('.parameter-name')?.textContent?.trim() || '';
-  const modifiers = Array.from(btn.querySelectorAll('.modifier-tag')).map(m => m.textContent.trim()).join('+');
-  return {behavior, parameter, modifiers};
+  return null;
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const qa = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+function clean(value) {
+  return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function visible(el) {
+  return Boolean(el && el.offsetParent !== null);
+}
+
+function findLayerButton(layer) {
+  const layerList = document.querySelector('[aria-label="Keymap Layer"]');
+  return layerList?.querySelector(`[role="option"][data-key="${layer}"]`)
+    || qa('[role="option"]', layerList || document).find((el) => clean(el.textContent) === String(layer));
+}
+
+function selectedLayer() {
+  const selected = document.querySelector('[aria-label="Keymap Layer"] [role="option"][aria-selected="true"]');
+  return clean(selected?.textContent || "");
+}
+
+async function selectLayer(layer) {
+  if (selectedLayer() === String(layer)) return true;
+  const el = findLayerButton(layer);
+  if (!el) return false;
+  el.scrollIntoView({ block: "center", inline: "center" });
+  el.click();
+  await sleep(650);
+  return selectedLayer() === String(layer);
+}
+
+function findKeyElement(x, y) {
+  const holder = document.querySelector(`[x="${x}"][y="${y}"]`);
+  return holder?.querySelector("button") || holder;
+}
+
+async function selectKey(x, y) {
+  const el = findKeyElement(x, y);
+  if (!el) return false;
+  const button = el.closest("button") || el;
+  button.scrollIntoView({ block: "center", inline: "center" });
+  button.click();
+  await sleep(250);
+  return true;
+}
+
+function visibleSelects() {
+  return qa("select").filter(visible);
+}
+
+function visibleInputs() {
+  return qa("input").filter(visible);
+}
+
+function isBehaviorSelect(select) {
+  return [...select.options].some((o) => clean(o.textContent) === "Key Press")
+    && [...select.options].some((o) => clean(o.textContent) === "Transparent");
+}
+
+function isZoomSelect(select) {
+  return [...select.options].some((o) => clean(o.textContent) === "Auto")
+    && [...select.options].some((o) => clean(o.textContent) === "100%");
+}
+
+function isDefaultTransformSelect(select) {
+  return [...select.options].some((o) => clean(o.textContent) === "default_transform")
+    && select.options.length <= 3;
+}
+
+function readCurrent() {
+  const selects = visibleSelects();
+  const behaviorSelect = selects.find(isBehaviorSelect);
+  const behavior = behaviorSelect ? clean(behaviorSelect.options[behaviorSelect.selectedIndex]?.textContent) : "";
+
+  const textValues = visibleInputs()
+    .filter((input) => input.type === "text" || input.getAttribute("role") === "combobox")
+    .map((input) => clean(input.value))
+    .filter(Boolean);
+
+  const selectValues = selects
+    .filter((select) => select !== behaviorSelect && !isBehaviorSelect(select) && !isZoomSelect(select) && !isDefaultTransformSelect(select))
+    .map((select) => clean(select.options[select.selectedIndex]?.textContent))
+    .filter(Boolean);
+
+  let parameter = textValues[0] || selectValues[0] || "";
+  if (behavior === "Bluetooth" && (parameter === "Select Profile" || parameter === "Disconnect Profile")) {
+    const number = visibleInputs().find((input) => input.type === "number");
+    if (number && clean(number.value)) parameter = `BT_SEL ${clean(number.value)}`;
+  }
+
+  const modifiers = visibleInputs()
+    .filter((input) => input.type === "checkbox" && input.checked)
+    .map((input) => clean(input.closest("label")?.textContent || input.parentElement?.textContent || ""))
+    .filter(Boolean);
+
+  return { behavior, parameter, modifiers };
+}
+
+function normalizeParameter(value) {
+  let text = clean(value);
+  if (!text) return "";
+  text = text.replace(/^Keyboard\s+/i, "");
+  text = text.replace(/^Layer::/i, "");
+  text = text.replace(/^Layer\s+/i, "");
+  text = text.replace(/^Keypad\s+/i, "Keypad ");
+  text = text.replace(/\bPage Up\b/i, "PageUp");
+  text = text.replace(/\bPage Down\b/i, "PageDown");
+  text = text.replace(/\bPageDn\b/i, "PageDown");
+  text = text.replace(/\bReturn Enter\b/i, "ReturnEnter");
+  text = text.replace(/\bLeftControl\b/i, "LeftCtrl");
+  text = text.replace(/\bLeftShift\b/i, "LeftShift");
+  text = text.replace(/\bLeftAlt\b/i, "LeftAlt");
+  text = text.replace(/\bLeft GUI\b/i, "LeftGUI");
+  return text.toUpperCase().replace(/[^A-Z0-9]+/g, "");
+}
+
+function normalizeModifier(value) {
+  const compact = clean(value).toUpperCase().replace(/[^A-Z0-9]+/g, "");
+  const aliases = {
+    LCTRL: "LCTRL", LEFTCTRL: "LCTRL", LEFTCONTROL: "LCTRL",
+    LSHIFT: "LSHIFT", LEFTSHIFT: "LSHIFT",
+    LALT: "LALT", LEFTALT: "LALT",
+    LGUI: "LGUI", LEFTGUI: "LGUI", WIN: "LGUI", WINDOWS: "LGUI",
+    RCTRL: "RCTRL", RIGHTCTRL: "RCTRL", RIGHTCONTROL: "RCTRL",
+    RSHIFT: "RSHIFT", RIGHTSHIFT: "RSHIFT",
+    RALT: "RALT", RIGHTALT: "RALT",
+    RGUI: "RGUI", RIGHTGUI: "RGUI"
+  };
+  return aliases[compact] || compact;
+}
+
+function normalizeModifiers(value) {
+  if (Array.isArray(value)) return value.map(normalizeModifier).filter(Boolean).sort().join("+");
+  return clean(value).split("+").map(normalizeModifier).filter(Boolean).sort().join("+");
 }
 
 const EXPECTED_CSV = `"layer","x","y","label","behavior","parameter","modifiers"
@@ -393,31 +525,60 @@ function parseExpected() {
   return out;
 }
 
-function runVerify() {
+async function runVerify() {
   const expected = parseExpected().filter((exp) => Number(exp.layer) !== 7);
   let pass = 0, fail = 0, errors = [];
+  let currentLayer = null;
   for (const exp of expected) {
     const layer = parseInt(exp.layer);
     const x = parseInt(exp.x);
     const y = parseInt(exp.y);
-    const actual = getKeyBinding(layer, x, y);
-    if (!actual) {
+
+    if (currentLayer !== layer) {
+      const switched = await selectLayer(layer);
+      if (!switched) {
+        fail++;
+        errors.push({layer, x, y, expected: exp, error: `could not switch to layer ${layer}; selected=${selectedLayer()}`});
+        continue;
+      }
+      currentLayer = layer;
+      console.log(`Verifying layer ${layer}...`);
+    }
+
+    const found = await selectKey(x, y);
+    if (!found) {
       fail++;
       errors.push({layer, x, y, expected: exp, error: 'key not found'});
       continue;
     }
-    const bMatch = actual.behavior.toLowerCase() === exp.behavior.toLowerCase();
-    const pMatch = actual.parameter.toLowerCase() === exp.parameter.toLowerCase();
-    const mMatch = actual.modifiers === exp.modifiers;
+
+    const actual = readCurrent();
+    const bMatch = clean(actual.behavior).toLowerCase() === clean(exp.behavior).toLowerCase();
+    const pMatch = normalizeParameter(actual.parameter) === normalizeParameter(exp.parameter);
+    const mMatch = normalizeModifiers(actual.modifiers) === normalizeModifiers(exp.modifiers);
+
     if (bMatch && pMatch && mMatch) {
       pass++;
     } else {
       fail++;
-      errors.push({layer, x, y, expected: exp, actual});
+      const issues = [];
+      if (!bMatch) issues.push(`behavior expected "${exp.behavior}" got "${actual.behavior}"`);
+      if (!pMatch) issues.push(`parameter expected "${exp.parameter}" got "${actual.parameter}"`);
+      if (!mMatch) issues.push(`modifiers expected "${exp.modifiers}" got "${actual.modifiers.join('+')}"`);
+      errors.push({layer, x, y, expected: exp, actual, issues});
+      console.warn(`FAIL L${layer} x${x} y${y} ${exp.label || ""}: ${issues.join("; ")}`);
     }
   }
   console.log('Verify result: ' + pass + ' pass, ' + fail + ' fail (' + (pass/(pass+fail)*100).toFixed(1) + '%)');
   window._CHARYBDIS_VERIFY_RESULT = {pass, fail, errors};
+  if (errors.length) {
+    console.table(errors.slice(0, 50).map((err) => ({
+      pos: `L${err.layer} x${err.x} y${err.y}`,
+      label: err.expected?.label || "",
+      issues: err.issues?.join("; ") || err.error || ""
+    })));
+    console.warn(`Stored full error list in window._CHARYBDIS_VERIFY_RESULT.errors (${errors.length} entries).`);
+  }
 }
 
 runVerify();

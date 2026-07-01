@@ -8564,6 +8564,12 @@ console.log("Applying " + window.CHARYBDIS_FINAL_LAYOUT.keyCount + " keys across
     const upper = text.toUpperCase();
     const aliases = new Set([text, upper]);
 
+    const layerMatch = text.match(/^Layer::(\d+)$/i) || text.match(/^Layer\s+(\d+)$/i);
+    if (layerMatch) {
+      aliases.add(layerMatch[1]);
+      aliases.add(`Layer ${layerMatch[1]}`);
+    }
+
     const mouseAliases = { MB1: "MB1", MB2: "MB2", MB3: "MB3", MB4: "MB4", MB5: "MB5" };
     if (mouseAliases[upper]) aliases.add(mouseAliases[upper]);
 
@@ -8683,6 +8689,10 @@ console.log("Applying " + window.CHARYBDIS_FINAL_LAYOUT.keyCount + " keys across
     if (!selectWorked) {
       console.warn(`No exact visible select option matched parameter "${item.parameter}". Trying visible text input/combobox. Verify manually before saving.`);
       await setTextParameter(item.parameter);
+    }
+
+    if (item.behavior === "Mouse Key Press") {
+      await setImplicitModifiers(item.modifiers || []);
     }
   }
 

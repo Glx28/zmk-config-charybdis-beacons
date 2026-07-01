@@ -115,6 +115,7 @@ function normalizeParameter(value) {
   text = text.replace(/\bPage Down\b/i, "PageDown");
   text = text.replace(/\bPageDn\b/i, "PageDown");
   text = text.replace(/\bReturn Enter\b/i, "ReturnEnter");
+  if (/^Shift$/i.test(text)) text = "LeftShift";
   text = text.replace(/\bLeftControl\b/i, "LeftCtrl");
   text = text.replace(/\bLeftShift\b/i, "LeftShift");
   text = text.replace(/\bLeftAlt\b/i, "LeftAlt");
@@ -514,10 +515,35 @@ const EXPECTED_CSV = `"layer","x","y","label","behavior","parameter","modifiers"
 
 function parseExpected() {
   const lines = EXPECTED_CSV.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.split(String.fromCharCode(34)).join('').trim());
+  function parseCsvLine(line) {
+    const values = [];
+    let value = "";
+    let quoted = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      const next = line[i + 1];
+      if (ch === '"') {
+        if (quoted && next === '"') {
+          value += '"';
+          i++;
+        } else {
+          quoted = !quoted;
+        }
+      } else if (ch === "," && !quoted) {
+        values.push(value.trim());
+        value = "";
+      } else {
+        value += ch;
+      }
+    }
+    values.push(value.trim());
+    return values;
+  }
+
+  const headers = parseCsvLine(lines[0]).map(h => h.trim());
   const out = [];
   for (let i = 1; i < lines.length; i++) {
-    const parts = lines[i].split(',').map(p => p.split(String.fromCharCode(34)).join('').trim());
+    const parts = parseCsvLine(lines[i]);
     const obj = {};
     for (let j = 0; j < headers.length; j++) obj[headers[j]] = parts[j] || '';
     out.push(obj);

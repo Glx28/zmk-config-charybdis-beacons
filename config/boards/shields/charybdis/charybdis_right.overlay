@@ -55,9 +55,10 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        // Firmware pointer capability targets only. These numbers are not
+        // semantic layer roles; generated layouts decide how users access them.
         scroll-layers = <6>;
         snipe-layers = <8>;
-        // automouse-layer = <3>;
     };
 };
 

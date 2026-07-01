@@ -608,7 +608,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l1_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "Nav",
+      "label": "Layer",
       "rationale": "canonical (frozen/critical): Hold Nav for layer 1 navigation/editing.",
       "optimizer_changed": false,
       "apply_batch": true
@@ -632,8 +632,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l6_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "Scroll",
-      "rationale": "evolved: Dynamic layer access: @access:L1->L6:hold:Scroll",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -644,7 +644,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l4_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "System",
+      "label": "Layer",
       "rationale": "canonical (frozen/critical): Hold layer 4; role is dynamic in generated layouts.",
       "optimizer_changed": false,
       "apply_batch": true
@@ -656,7 +656,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l3_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "Window",
+      "label": "Layer",
       "rationale": "canonical (frozen/critical): Hold layer 3; role is dynamic in generated layouts.",
       "optimizer_changed": false,
       "apply_batch": true
@@ -668,8 +668,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l9_toggle",
       "parameter": "",
       "modifiers": [],
-      "label": "DMS",
-      "rationale": "evolved: Dynamic layer access: @access:L4->L9:toggle:DMS",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -1340,8 +1340,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l8_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "Speed",
-      "rationale": "evolved: Dynamic layer access: @access:L2->L8:hold:Speed",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -1381,7 +1381,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "coach_game_lock",
-      "rationale": "evolved: Dynamic layer access: @access:L1->L7:toggle:coach_game_lock",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -1392,8 +1392,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_travel_toggle",
       "parameter": "",
       "modifiers": [],
-      "label": "Speed",
-      "rationale": "evolved: Dynamic layer access: @access:L1->L8:toggle:Speed",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -1877,8 +1877,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_travel_toggle",
       "parameter": "",
       "modifiers": [],
-      "label": "coach_travel_toggle",
-      "rationale": "evolved: Dynamic layer access: @access:L2->L8:toggle:coach_travel_toggle",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -2123,8 +2123,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l6_toggle",
       "parameter": "",
       "modifiers": [],
-      "label": "Scroll",
-      "rationale": "evolved: Dynamic layer access: @access:L2->L6:toggle:Scroll",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -2150,7 +2150,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "coach_base",
-      "rationale": "evolved: Dynamic layer access: @access:L2->L0:toggle:coach_base",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -2784,8 +2784,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_travel_off",
       "parameter": "",
       "modifiers": [],
-      "label": "Exit Travel",
-      "rationale": "evolved: Dynamic layer access: @access:L8->L0:toggle:Exit_Travel",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -2904,8 +2904,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l5_toggle",
       "parameter": "",
       "modifiers": [],
-      "label": "Code",
-      "rationale": "evolved: Dynamic layer access: @access:L1->L5:toggle:Code",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -3639,8 +3639,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l6_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "Scroll",
-      "rationale": "evolved: Dynamic layer access: @access:L2->L6:hold:Scroll",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -4135,8 +4135,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_travel_toggle",
       "parameter": "",
       "modifiers": [],
-      "label": "coach_travel_toggle",
-      "rationale": "evolved: Dynamic layer access: @access:L5->L8:toggle:coach_travel_toggle",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -4962,7 +4962,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "coach_game_lock",
-      "rationale": "evolved: Dynamic layer access: @access:L10->L7:toggle:coach_game_lock",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -5081,8 +5081,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l10_toggle",
       "parameter": "",
       "modifiers": [],
-      "label": "Excel",
-      "rationale": "evolved: Dynamic layer access: @access:L4->L10:toggle:Excel",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -6465,7 +6465,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_mouse_lock",
       "parameter": "",
       "modifiers": [],
-      "label": "coach_mouse_lock",
+      "label": "Layer",
       "rationale": "evolved: Generated layer access: target L2; role inferred from target contents",
       "optimizer_changed": true,
       "apply_batch": true
@@ -7164,7 +7164,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "Base",
-      "rationale": "evolved: Dynamic layer access: @access:L5->L0:toggle:Base",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -7966,7 +7966,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "Base",
-      "rationale": "evolved: Dynamic layer access: @access:L10->L0:toggle:Base",
+      "rationale": "evolved: Generated layer access; role inferred from target contents, not layer number",
       "optimizer_changed": true,
       "apply_batch": true
     }

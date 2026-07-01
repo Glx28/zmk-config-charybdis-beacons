@@ -13,7 +13,7 @@
       "Minus": "+ unshifted on Norwegian minus key"
     },
     "english_punctuation_options": [
-      "Win+Space or F16 (L4) to switch Windows to US English while coding",
+      "Win+Space or the generated input-language helper key to switch Windows to US English while coding",
       "Layer 1 bracket keys still highlight correctly in the coach via event.code; output follows Norwegian mapping unless layout is English"
     ]
   },

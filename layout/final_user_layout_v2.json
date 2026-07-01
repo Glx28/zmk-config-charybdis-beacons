@@ -182,7 +182,7 @@
     "",
     "LAUNCHER POSITIONS:",
     "Left hand: A+S positions on Layer 1 (easy reach)",
-    "Right hand: Avoiding y=2 mouse buttons, using available positions on Layer 3",
+    "Right hand: avoid overloading y=2 mouse buttons; use positions chosen by the generated layout",
     "",
     "Total key changes: 11",
     "Breaking changes: None (all additions or smart swaps)",

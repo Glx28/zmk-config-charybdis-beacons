@@ -717,7 +717,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 4,
       "behavior": "coach_travel_off",
       "label": "Exit Travel",
-      "rationale": "Coach beacon: exit speed/travel overlay; clears toggled L8 (Ctrl+Alt+Win+F14).",
+      "rationale": "Coach beacon: exit configured toggled target layer; clears toggle state (Ctrl+Alt+Win+F14).",
       "apply_batch": true,
       "operational_v18": true,
       "pointer_travel": true

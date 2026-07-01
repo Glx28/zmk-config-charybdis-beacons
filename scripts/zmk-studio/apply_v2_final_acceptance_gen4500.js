@@ -629,8 +629,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 0,
       "x": 5,
       "y": 4,
-      "behavior": "Momentary Layer",
-      "parameter": "Layer::6",
+      "behavior": "coach_l6_hold",
+      "parameter": "",
       "modifiers": [],
       "label": "Scroll",
       "rationale": "evolved: Dynamic layer access: @access:L1->L6:hold:Scroll",
@@ -665,8 +665,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 0,
       "x": 4,
       "y": 5,
-      "behavior": "Toggle Layer",
-      "parameter": "Layer::9",
+      "behavior": "coach_l9_toggle",
+      "parameter": "",
       "modifiers": [],
       "label": "DMS",
       "rationale": "evolved: Dynamic layer access: @access:L4->L9:toggle:DMS",
@@ -1337,8 +1337,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 1,
       "x": 3,
       "y": 4,
-      "behavior": "Momentary Layer",
-      "parameter": "Layer::8",
+      "behavior": "coach_l8_hold",
+      "parameter": "",
       "modifiers": [],
       "label": "Speed",
       "rationale": "evolved: Dynamic layer access: @access:L2->L8:hold:Speed",
@@ -2120,8 +2120,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 2,
       "x": 7,
       "y": 4,
-      "behavior": "Toggle Layer",
-      "parameter": "Layer::6",
+      "behavior": "coach_l6_toggle",
+      "parameter": "",
       "modifiers": [],
       "label": "Scroll",
       "rationale": "evolved: Dynamic layer access: @access:L2->L6:toggle:Scroll",
@@ -2901,8 +2901,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 3,
       "x": 4,
       "y": 5,
-      "behavior": "Toggle Layer",
-      "parameter": "Layer::5",
+      "behavior": "coach_l5_toggle",
+      "parameter": "",
       "modifiers": [],
       "label": "Code",
       "rationale": "evolved: Dynamic layer access: @access:L1->L5:toggle:Code",
@@ -3636,8 +3636,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 4,
       "x": 8,
       "y": 4,
-      "behavior": "Momentary Layer",
-      "parameter": "Layer::6",
+      "behavior": "coach_l6_hold",
+      "parameter": "",
       "modifiers": [],
       "label": "Scroll",
       "rationale": "evolved: Dynamic layer access: @access:L2->L6:hold:Scroll",
@@ -5078,8 +5078,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 6,
       "x": 7,
       "y": 4,
-      "behavior": "Toggle Layer",
-      "parameter": "Layer::10",
+      "behavior": "coach_l10_toggle",
+      "parameter": "",
       "modifiers": [],
       "label": "Excel",
       "rationale": "evolved: Dynamic layer access: @access:L4->L10:toggle:Excel",
@@ -8113,7 +8113,7 @@ console.log("Applying " + window.CHARYBDIS_FINAL_LAYOUT.keyCount + " keys across
   }
 
   function validateSupportedBehaviors(items) {
-    const supported = new Set(["Key Press", "Mouse Key Press", "Momentary Layer", "To Layer", "Toggle Layer", "Bluetooth", "Output Selection", "Studio Unlock", "Reset", "Bootloader", "Transparent", "None", "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold", "coach_mouse_lock", "coach_game_lock", "coach_base", "coach_travel_toggle", "coach_travel_off", "coach_recover_base"]);
+    const supported = new Set(["Key Press", "Mouse Key Press", "Momentary Layer", "To Layer", "Toggle Layer", "Bluetooth", "Output Selection", "Studio Unlock", "Reset", "Bootloader", "Transparent", "None", "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold", "coach_l5_hold", "coach_l6_hold", "coach_l8_hold", "coach_mouse_lock", "coach_game_lock", "coach_base", "coach_l5_toggle", "coach_l6_toggle", "coach_l9_toggle", "coach_l10_toggle", "coach_travel_toggle", "coach_travel_off", "coach_recover_base"]);
     const unsupported = items.filter((item) => !supported.has(item.behavior));
     if (!unsupported.length) return true;
 
@@ -9020,3 +9020,4 @@ setTimeout(function() {
   }
   console.log("=".repeat(60));
 }, 2000);
+

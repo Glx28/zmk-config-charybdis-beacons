@@ -6,6 +6,7 @@ Uses the proven ZMK Studio applier template from /home/nos/charybdis/charybdis-z
 Self-contained: paste this one file in ZMK Studio console. It will ask before applying and it will not click Save.
 */
 
+window._CHARYBDIS_APPLY_ERRORS = [];
 window.CHARYBDIS_FINAL_LAYOUT = {
   "project": "Charybdis Optimizer V2 Layout",
   "version": "evolved-v2",
@@ -5299,7 +5300,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 1,
       "y": 1,
       "behavior": "Key Press",
-      "parameter": "Keyboard 9 and PageUp",
+      "parameter": "Keypad 9 and PageUp",
       "modifiers": [],
       "label": "9 PU",
       "rationale": "canonical (frozen/critical): RPG/game movement or menu navigation.",
@@ -5323,7 +5324,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 3,
       "y": 1,
       "behavior": "Key Press",
-      "parameter": "Keyboard 3 and PageDn",
+      "parameter": "Keypad 3 and PageDn",
       "modifiers": [],
       "label": "3 PD",
       "rationale": "canonical (frozen/critical): RPG/game movement or menu navigation.",
@@ -5383,7 +5384,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 9,
       "y": 1,
       "behavior": "Key Press",
-      "parameter": "Keyboard 3 and PageDn",
+      "parameter": "Keypad 3 and PageDn",
       "modifiers": [],
       "label": "3 PD",
       "rationale": "canonical (frozen/critical): RPG/game movement or menu navigation. Right-hand column-mirror of left x3 (reversed cluster).",
@@ -5407,7 +5408,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "x": 11,
       "y": 1,
       "behavior": "Key Press",
-      "parameter": "Keyboard 9 and PageUp",
+      "parameter": "Keypad 9 and PageUp",
       "modifiers": [],
       "label": "9 PU",
       "rationale": "canonical (frozen/critical): RPG/game movement or menu navigation. Right-hand column-mirror of left x1.",
@@ -8047,6 +8048,7 @@ console.log("Applying " + window.CHARYBDIS_FINAL_LAYOUT.keyCount + " keys across
   function plannedKeys() {
     return getLayout().keys
       .filter((item) => item && Number.isInteger(Number(item.layer)))
+      .filter((item) => Number(item.layer) !== 7)
       .filter((item) => !APPLY_ONLY_BATCH || item.apply_batch === true || MODE === "oneKeyTest");
   }
 
@@ -8748,7 +8750,7 @@ console.log("Applying " + window.CHARYBDIS_FINAL_LAYOUT.keyCount + " keys across
       return;
     }
     if (!validatePlanCoordinates(modeItems) || !validateSupportedBehaviors(modeItems)) return;
-    const confirmed = window.confirm(`Apply ${modeItems.length} planned changes ${APPLY_LAYER_INDEX === "all" ? "across multiple layers" : `to layer ${APPLY_LAYER_INDEX}`}? This will NOT save.`);
+    const confirmed = window.confirm(`Apply ${modeItems.length} planned changes (Layer 7 skipped) ${APPLY_LAYER_INDEX === "all" ? "across multiple layers" : `to layer ${APPLY_LAYER_INDEX}`}? This will NOT save.`);
     if (!confirmed) {
       console.warn("Cancelled by user.");
       return;
@@ -9008,4 +9010,3 @@ setTimeout(function() {
   }
   console.log("=".repeat(60));
 }, 2000);
-

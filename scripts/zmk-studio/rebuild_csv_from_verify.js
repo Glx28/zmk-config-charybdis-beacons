@@ -31,16 +31,16 @@ function generatePurpose(row) {
 
   if (b.startsWith("coach_")) {
     const desc = {
-      coach_l1_hold: "Hold for layer 1 navigation/editing.",
-      coach_l2_hold: "Hold for layer 2 mouse.",
-      coach_l3_hold: "Hold for layer 3 control.",
-      coach_l4_hold: "Hold for layer 4 system/macro.",
+      coach_l1_hold: "Hold layer 1; role is dynamic in generated layouts.",
+      coach_l2_hold: "Hold layer 2; role is dynamic in generated layouts.",
+      coach_l3_hold: "Hold layer 3; role is dynamic in generated layouts.",
+      coach_l4_hold: "Hold layer 4; role is dynamic in generated layouts.",
       coach_base: "Exit to base layer.",
       coach_recover_base: "Recovery exit to base layer.",
-      coach_mouse_lock: "Lock mouse layer.",
+      coach_mouse_lock: "Lock the configured target layer; do not infer a fixed mouse layer from the behavior name.",
       coach_game_lock: "Lock game layer.",
-      coach_travel_toggle: "Toggle pointer travel overlay.",
-      coach_travel_off: "Exit pointer travel overlay.",
+      coach_travel_toggle: "Toggle the configured target layer; role is dynamic in generated layouts.",
+      coach_travel_off: "Exit the configured toggled layer.",
     };
     return desc[b] || `Coach behavior: ${b}.`;
   }

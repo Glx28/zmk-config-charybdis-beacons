@@ -1,12 +1,16 @@
 /*
-Canonical final Charybdis v1.8 operational pointer-travel ZMK Studio apply-all payload.
+Legacy canonical Charybdis v1.8 operational pointer-travel ZMK Studio apply-all payload.
+
+This file predates dynamic layer assignment. Do not use its historical labels
+as evidence that any non-L0/non-L7 layer has a fixed role. Current generated
+layouts infer layer purpose from the CSV, usage data, and access paths.
 
 Usage:
 1. Open https://zmk.studio/ and connect the keyboard.
 2. Open DevTools > Console.
 3. Paste this entire file.
 4. Run scripts/zmk-studio/verify_every_key.js afterwards.
-5. This script never clicks Save. It applies all 46 operational pointer-travel key changes: v1.5 Balanced-Plus, v1.6 right-hand mouse lock, v1.7 RPG/game layer, and Layer 8 pointer travel.
+5. This script never clicks Save. It applies a historical operational layout. Layer numbers outside L0/L7 are not role definitions for generated layouts.
 */
 
 window.CHARYBDIS_FINAL_LAYOUT = {
@@ -154,7 +158,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "Toggle Layer",
       "parameter": "6",
       "label": "Scroll",
-      "rationale": "Right-hand scroll toggle: in mouse mode, tap pinky to toggle Layer 6 scroll overlay.",
+      "rationale": "Historical right-hand scroll toggle: tap pinky to toggle the configured scroll-mode target layer.",
       "apply_batch": true,
       "v19_user": true,
       "operational_v19": true
@@ -252,7 +256,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 4,
       "behavior": "coach_base",
       "label": "Base",
-      "rationale": "Coach beacon: exit locked Mouse Layer 2 back to Base.",
+      "rationale": "Coach beacon: exit locked generated target layer back to Base.",
       "apply_batch": true,
       "v16_right_mouse": true,
       "operational_v18": true
@@ -263,7 +267,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "y": 4,
       "behavior": "coach_base",
       "label": "Base",
-      "rationale": "Coach beacon: second right-thumb exit from locked Mouse Layer 2 back to Base.",
+      "rationale": "Coach beacon: second right-thumb exit from locked generated target layer back to Base.",
       "apply_batch": true,
       "v16_right_mouse": true,
       "operational_v18": true
@@ -306,7 +310,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "To Layer",
       "parameter": "2",
       "label": "Mouse Lock",
-      "rationale": "Right-hand-only mouse entry: hold Window x8 y4, tap x10 y2, release to stay on Mouse Layer 2.",
+      "rationale": "Historical right-hand-only entry: hold the configured access key, tap x10 y2, release to stay on the generated target layer.",
       "apply_batch": true,
       "v16_right_mouse": true,
       "operational_v18": true
@@ -318,7 +322,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "Toggle Layer",
       "parameter": "8",
       "label": "Ptr Travel",
-      "rationale": "Toggle high-speed pointer travel overlay: hold Window x8 y4, tap x11 y2. Layer 8 is transparent except exit keys.",
+      "rationale": "Historical pointer-travel toggle: hold the configured access key and tap x11 y2. The target layer role is dynamic in generated layouts.",
       "apply_batch": true,
       "operational_v18": true,
       "pointer_travel": true

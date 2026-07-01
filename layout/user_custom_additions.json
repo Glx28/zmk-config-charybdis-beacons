@@ -75,14 +75,14 @@
       "behavior": "Toggle Layer",
       "parameter": "6",
       "label": "Scroll",
-      "rationale": "Right-hand scroll toggle: In mouse mode, tap rightmost pinky key to toggle trackball scroll. Layer 6 overlay changes trackball to scroll mode.",
+      "rationale": "Right-hand scroll-mode toggle: tap the generated target key to switch the trackball into scroll mode. The target layer is layout-defined, not a fixed semantic layer.",
       "priority": "HIGH"
     }
   ],
   "notes": [
-    "Layer 6 scroll mode requires input-processor configuration:",
-    "When Layer 6 active: PMW3610 trackball Y-axis → vertical scroll",
-    "When Layer 6 active: PMW3610 trackball X-axis → horizontal scroll (optional)",
+    "Scroll mode requires input-processor configuration tied to the generated target layer:",
+    "When the generated scroll-mode layer is active: PMW3610 trackball Y-axis → vertical scroll",
+    "When the generated scroll-mode layer is active: PMW3610 trackball X-axis → horizontal scroll (optional)",
     "This can be configured through ZMK input-processors or pointing device settings.",
     "",
     "IMPORTANT: Position (3,8,2) currently has Win+Tab. Replacing with PowerToys Run launcher.",

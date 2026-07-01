@@ -160,15 +160,15 @@ Press your BLE output key to switch to Bluetooth
    - Release → Coach returns to "Layer 0"
    - Timeline shows "BLE layer 1 held" and "BLE layer 1 released"
 
-4. **Test Mouse Lock (Layer 2)**:
-   - Press mouse lock key → Coach shows "Layer 2 (locked)"
+4. **Test a lock/toggle access key**:
+   - Press the lock/toggle key → Coach shows the target layer as locked/toggled
    - Press exit/base key → Coach returns to "Layer 0"
 
 5. **Test Other Layers**:
-   - Layer 3 (Window management)
-   - Layer 4 (Bluetooth/System)
-   - Layer 7 (Game)
-   - Layer 8 (Travel toggle)
+   - Numbered access behaviors should activate their target layer
+   - L0 is base
+   - L7 is the frozen fallback/game/system-safe layer
+   - Do not infer mouse/window/system/travel roles from any other layer number; evolved layouts assign those dynamically
 
 ### Step 7: Verify No Beacon Leakage
 

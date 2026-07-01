@@ -72,22 +72,22 @@ The keyboard has 11 layers (0-10). Only one layer is "active" at a time (plus tr
 
 ### Layer access map
 
-> **Note for evolved layouts:** The optimizer dynamically assigns shortcuts to layers. The canonical layout uses L2 for mouse/trackball, but the optimizer may place mouse buttons on any layer it finds optimal. Layer roles below describe the canonical design — evolved layouts may differ.
+> **Dynamic layer rule:** Only L0 and L7 have stable semantic roles. L0 is base typing/thumb access. L7 is frozen fallback/game/system-safe space. Every other layer gets its role from the generated layout and usage data for that generation. Numbered behaviors such as `coach_l2_hold` are access beacons, not semantic labels.
 
 ```
 Layer 0 (Base) ─── always active, QWERTY + Norwegian letters
-  ├─ LEFT THUMB (x3,y4) HOLD ──→ Layer 1 (Navigation)
-  ├─ LEFT THUMB (x5,y5) HOLD ──→ Layer 2 (Mouse in canonical; dynamically assigned in evolved)
-  ├─ RIGHT THUMB (x8,y4) HOLD ──→ Layer 3 (Window)
-  └─ RIGHT THUMB (x7,y4) HOLD ──→ Layer 4 (System/BT)
+  ├─ THUMB ACCESS ──→ numbered target layer chosen by generated layout
+  ├─ THUMB ACCESS ──→ numbered target layer chosen by generated layout
+  ├─ THUMB ACCESS ──→ numbered target layer chosen by generated layout
+  └─ THUMB ACCESS ──→ numbered target layer chosen by generated layout
 
-Layer 3 (Window) has mode switches:
-  ├─ x10,y2 ──→ Layer 2 LOCK (Mouse Lock in canonical; dynamically assigned in evolved)
-  ├─ x11,y2 ──→ Layer 8 TOGGLE (Speed — tap on/off)
-  └─ x12,y2 ──→ Layer 7 LOCK (Game — stays until exit)
+Generated layers may include mode switches:
+  ├─ LOCK/TOGGLE ──→ target layer chosen by generated layout
+  ├─ MOMENTARY ────→ target layer chosen by generated layout
+  └─ Layer 7 lock remains the frozen fallback/game/system-safe exception
 ```
 
-**Dynamic assignment:** The v2 optimizer does not enforce "L2 = mouse". It places mouse buttons (MB1–MB5) on whichever layer minimizes effort for the user's actual shortcut corpus. The canonical layout uses L2 for mouse because that's where the designer placed them — the optimizer may choose a different layer if it yields better fitness. Always check the evolved `keybindings_explained.csv` to see where mouse buttons actually landed.
+**Dynamic assignment:** The v2 optimizer does not enforce fixed meanings for L1-L6 or L8-L10. It places mouse buttons, scroll-mode access, app shortcuts, symbols, completion keys, and workflow groups wherever the current objective finds the best effort/usage tradeoff. Always check the evolved `keybindings_explained.csv` to see where actions actually landed.
 
 ### The thumb-hold constraint (CRITICAL)
 
@@ -99,16 +99,16 @@ When a thumb holds a layer key, **that thumb is busy**. This has cascading effec
 
 **Example:** Left thumb holds a momentary layer. Left hand fingers can press shortcuts on that layer. But left thumb can't also press Space (x4,y4) or Alt (x5,y4) — those are other thumb keys on the same hand.
 
-In the canonical layout, this is Layer 2 (Mouse). In evolved layouts, the optimizer may assign mouse buttons to any layer — the same thumb-hold constraint applies regardless.
+In evolved layouts, the optimizer may assign mouse buttons to any layer — the same thumb-hold constraint applies regardless of the target layer number.
 
-**This is why mouse buttons are on finger rows (y2), NOT on thumb keys.** When the left thumb holds the Mouse layer, the left index/middle/ring can still click MB1/MB2/MB3 on the home row.
+This is why mouse buttons often need reachable finger-row access when their access path uses a thumb hold. When a thumb holds a momentary layer, same-hand thumb keys are busy, but fingers can still click.
 
 ### Momentary vs Toggle vs Lock — when each makes sense
 
 | Use case | Correct behavior | Why |
 |----------|-----------------|-----|
 | Arrows, F-keys (Nav layer) | **Momentary hold** | Quick: hold Nav, tap arrow, release. Sub-second. |
-| Mouse mode for browsing | **Lock** | You need both hands free for extended mouse use. Momentary would trap a thumb. |
+| Mouse-heavy browsing | **Lock or toggle when needed** | You need both hands free for extended mouse use. Momentary can trap a thumb. |
 | Scroll (quick peek) | **Momentary hold** | Hold pinky to scroll, release to stop. Brief. |
 | Scroll (extended reading) | **Toggle** | Tap to enter scroll mode, read, tap to exit. Hands-free. |
 | Speed/travel across monitors | **Toggle** | Toggle on, move fast, toggle off. Thumb must be on trackball. |
@@ -119,10 +119,10 @@ In the canonical layout, this is Layer 2 (Mouse). In evolved layouts, the optimi
 ## 3. How to Audit a Layer
 
 ### Step 1: Map the physical layout
-For each layer, create a grid showing what every key does. This example shows the canonical layout's L2 (Mouse) — evolved layouts may place mouse buttons on any layer:
+For each layer, create a grid showing what every key does. This example is historical only; evolved layouts may place mouse buttons on any non-L0/non-L7 layer:
 
 ```
-Layer 2 (Mouse in canonical; evolved layouts may differ) — LEFT HAND:
+Example dynamic layer — LEFT HAND:
 ┌─────────┬──────────┬─────────┬──────────┬──────────┬────────┐
 │Trans(Esc)│Task View │Desktop  │Next Tab  │Prev Tab  │Scroll  │ y0
 ├─────────┼──────────┼─────────┼──────────┼──────────┼────────┤
@@ -155,11 +155,11 @@ For each layer accessed by thumb hold:
 - Same shortcut duplicated across layers where it's not needed from both access paths
 
 ### Step 5: Check modifier fall-through
-x0 column is Transparent on overlay layers (L2, L3, L4). This means:
+x0 column may be Transparent on overlay layers. This means:
 - L0 x0,y0 (Esc) falls through → Esc available on all layers
 - L0 x0,y1 (Tab) falls through → Tab available on all layers
-- L0 x0,y2 (Shift) falls through → Shift-click possible on mouse layer
-- L0 x0,y3 (Ctrl) falls through → Ctrl-click possible on mouse layer
+- L0 x0,y2 (Shift) falls through → Shift-modified actions remain possible
+- L0 x0,y3 (Ctrl) falls through → Ctrl-modified actions remain possible
 
 **Never put active bindings on x0 for overlay layers** — the modifier fall-through is more valuable.
 
@@ -189,7 +189,7 @@ Step 4: Copy
   
 Step 5: Alt+Tab to switch apps
   → Left index presses L2 x1,y1 (Alt+Tab) — UPPER ROW, effort=5 ✓
-  → No need to release mouse layer!
+  → No need to release the generated mouse-action layer!
   
 Step 6: Click paste location
   → Left index presses L2 x1,y2 (MB1) again ✓
@@ -274,36 +274,36 @@ The coach app (`apps/charybdis-coach/app.js`) reads the CSV at runtime — no co
 These are custom ZMK macros (defined in firmware) that combine layer switching with BLE beacon signals so the coach app can track which layer is active:
 
 - `coach_l1_hold` through `coach_l4_hold` — momentary layer holds with beacon signals
-- `coach_mouse_lock` — locks Layer 2 (stays until `coach_base` is pressed)
+- `coach_mouse_lock` — locks its configured target layer (stays until `coach_base` is pressed); the target layer role is dynamic
 - `coach_game_lock` — locks Layer 7
-- `coach_travel_toggle` — toggles Layer 8 (speed mode)
+- `coach_travel_toggle` — toggles its configured target layer; the target layer role is dynamic
 - `coach_base` — returns to Layer 0 and clears all locks/toggles
-- `coach_travel_off` — exits Layer 8 specifically
+- `coach_travel_off` — exits the configured toggled layer
 
 ## 8. Common Mistakes to Avoid
 
 ### Not having mouse buttons on both thumbs AND finger rows
 **Wrong:** MB1 only on thumb y4/y5 with no MB1 on finger rows.
-**Why:** When left thumb holds the Mouse layer, same-hand thumb keys are unreachable. You need MB1/MB2 on finger rows (y2) so you can click while holding the layer. But having MB1/MB2 on thumb keys is normal and correct — they're used in locked mouse mode and on the base layer.
-**Right:** MB1-MB5 on y2 (home row) on Layer 2 for thumb-hold access, AND MB1/MB2 on thumb keys (y4/y5) for locked mode and base layer.
+**Why:** When a thumb holds a generated mouse-action layer, same-hand thumb keys are unreachable. You may need MB1/MB2 on finger rows so you can click while holding the layer. MB1/MB2 on thumb keys can still be correct for locked/toggled access and base-layer use.
+**Right:** Put MB1-MB5 where the generated access path makes them reachable. If the mouse-action cluster is reached by a thumb hold, finger-row copies may be needed; if it is locked/toggled, thumb positions can also be useful.
 
 ### Using Toggle when Momentary is better (or vice versa)
 **Wrong:** Toggle Layer for Nav (arrows). User must tap to enter, tap to exit, for every arrow key use.
 **Right:** Momentary hold. Hold Nav, tap arrows, release. One fluid motion.
 
-**Wrong:** Momentary hold for Mouse lock. User's thumb is trapped the entire time they're browsing.
-**Right:** Lock (via coach_mouse_lock). Enter once, both hands free, exit when done.
+**Wrong:** Momentary hold for long mouse-heavy work. User's thumb is trapped the entire time.
+**Right:** Lock or toggle the relevant generated layer when both hands need to be free, then exit when done.
 
 ### Redundant explicit bindings where transparent works
-**Wrong:** Putting Shift explicitly on L2 x0,y2 when the transparent fall-through already provides Shift from L0.
+**Wrong:** Putting Shift explicitly on an overlay key when the transparent fall-through already provides Shift from L0.
 **Why:** If the behavior is identical to L0's key, you've wasted a position and lost the fall-through benefit. If you change L0's key later, L2 won't inherit the change.
-**Right:** Use transparent when you want the base layer's key to fall through. But x0 and x12 columns are NOT required to be transparent — they're valid positions for active bindings when you need them. The current L2 uses x0 as transparent for modifier fall-through, but this is a design choice, not a rule.
+**Right:** Use transparent when you want the base layer's key to fall through. But x0 and x12 columns are NOT required to be transparent — they're valid positions for active bindings when you need them. Any transparent strategy must be judged against the current generated layer, not a fixed layer role.
 
 ### Duplicate bindings without purpose
 **Wrong:** Win+Tab on both L3 x8,y2 AND L3 x10,y3.
 **Right:** Keep one, replace the duplicate with something useful (Win+E, Win+L, etc.).
 
-**Exception:** Some duplicates ARE intentional. Copy/Paste appear on both L1 and L2 because they serve different access patterns (L1 = keyboard editing with Nav hold, L2 = mouse mode with trackball).
+**Exception:** Some duplicates ARE intentional when usage logs show they serve different access paths or workflows. Judge duplicates from workflow support and current layer access, not from fixed layer names.
 
 ### Putting dangerous keys on home row
 **Wrong:** Reset or Bootloader on y2 (home row) — easy to hit accidentally.

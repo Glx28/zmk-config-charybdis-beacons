@@ -645,7 +645,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "System",
-      "rationale": "canonical (frozen/critical): Hold System for layer 4 Bluetooth/output/helpers.",
+      "rationale": "canonical (frozen/critical): Hold layer 4; role is dynamic in generated layouts.",
       "optimizer_changed": false,
       "apply_batch": true
     },
@@ -657,7 +657,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "Window",
-      "rationale": "canonical (frozen/critical): Hold Window for layer 3 window/app/desktop control.",
+      "rationale": "canonical (frozen/critical): Hold layer 3; role is dynamic in generated layouts.",
       "optimizer_changed": false,
       "apply_batch": true
     },
@@ -680,8 +680,8 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "behavior": "coach_l2_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "Mouse",
-      "rationale": "evolved: Dynamic layer access: @access:L0->L2:hold:Mouse",
+      "label": "Layer",
+      "rationale": "evolved: Generated layer access: target L2; role inferred from target contents",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -6466,7 +6466,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "parameter": "",
       "modifiers": [],
       "label": "coach_mouse_lock",
-      "rationale": "evolved: Dynamic layer access: @access:L10->L2:toggle:coach_mouse_lock",
+      "rationale": "evolved: Generated layer access: target L2; role inferred from target contents",
       "optimizer_changed": true,
       "apply_batch": true
     },

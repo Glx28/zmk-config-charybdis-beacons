@@ -1,7 +1,7 @@
 {
-  "project": "Charybdis Norwegian + Right-Hand Mouse",
+  "project": "Charybdis Norwegian + Dynamic Layer Roles",
   "version": "user-optimized-v2.0",
-  "description": "Norwegian characters on base, American on Layer 1, right-hand mouse with scroll",
+  "description": "Norwegian characters on base with generated dynamic non-L0/non-L7 layer roles",
   "total_changes": 11,
   "changes": [
     {
@@ -148,7 +148,7 @@
           "behavior": "Toggle Layer",
           "parameter": "6",
           "label": "Scroll",
-          "rationale": "Pinky finger scroll toggle on home row. In mouse mode, tap to enable scroll, tap again to disable. Uses Layer 6 overlay.",
+          "rationale": "Pinky finger scroll-mode toggle on home row. Tap to enable scroll mode, tap again to disable. The target layer is layout-defined, not a fixed semantic layer.",
           "priority": "HIGH",
           "position_note": "Pinky finger, home row, rightmost column - currently empty"
         }
@@ -169,9 +169,9 @@
     "Then keycodes for positions 10/2, 11/2, 12/1 will automatically produce ø/æ/å.",
     "No ZMK changes needed - just use standard Key Press with the key at that position.",
     "",
-    "LAYER 6 SCROLL MODE:",
+    "GENERATED SCROLL MODE:",
     "Requires PMW3610 input processor configuration.",
-    "When Layer 6 active: trackball Y → vertical scroll, trackball X → horizontal scroll (optional).",
+    "When the generated scroll-mode target layer is active: trackball Y → vertical scroll, trackball X → horizontal scroll (optional).",
     "If ZMK doesn't support input processor layers, use &msc behavior instead:",
     "  - Bind (2,12,2) to scroll down while held",
     "  - But this requires holding, which conflicts with trackball thumb usage",
@@ -194,7 +194,7 @@
     "period_comma": "Both on base layer in standard positions",
     "launchers_left": "Hold Nav + tap A (Search) or S (PowerToys)",
     "launchers_right": "Hold Window + tap H or L positions",
-    "mouse_mode": "Hold Window thumb + tap pinky to lock mouse layer",
+    "mouse_mode": "Use the generated access path to lock/toggle the current mouse-action layer",
     "scroll_mode": "In mouse mode, tap pinky to toggle scroll on/off",
     "exit_mouse": "Tap right thumb to return to base"
   }

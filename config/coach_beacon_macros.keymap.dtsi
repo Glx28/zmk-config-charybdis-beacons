@@ -9,7 +9,8 @@ The beacons use rare HID chords that AutoHotkey swallows:
 - Ctrl+Alt+Shift+F13..F24 for held/locked layer changes.
 - Ctrl+Alt+GUI+F13..F15 for pointer-travel/recovery changes.
 - Ctrl+Alt+GUI+F16..F23 for extra dynamic holds/toggles.
-- Ctrl+Alt+Shift+GUI+F13..F16 for extra dynamic toggles.
+- Ctrl+Shift+GUI+F13..F18 for extra dynamic holds.
+- Ctrl+Alt+Shift+GUI+F13..F22 for generic dynamic toggles L1..L10.
 
 BLE timing is conservative to avoid grouped or reordered host notifications.
 */
@@ -92,6 +93,19 @@ coach_l1_hold: coach_l1_hold {
                 <&macro_tap &kp LC(LA(LG(F23)))>;
         };
 
+        coach_l7_hold: coach_l7_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LS(LG(F13)))>,
+                <&macro_press &mo 7>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 7>,
+                <&macro_tap &kp LC(LS(LG(F14)))>;
+        };
+
         coach_l8_hold: coach_l8_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -103,6 +117,32 @@ coach_l1_hold: coach_l1_hold {
                 <&macro_pause_for_release>,
                 <&macro_release &mo 8>,
                 <&macro_tap &kp LC(LA(LG(F17)))>;
+        };
+
+        coach_l9_hold: coach_l9_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LS(LG(F15)))>,
+                <&macro_press &mo 9>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 9>,
+                <&macro_tap &kp LC(LS(LG(F16)))>;
+        };
+
+        coach_l10_hold: coach_l10_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_tap &kp LC(LS(LG(F17)))>,
+                <&macro_press &mo 10>,
+                <&macro_pause_for_release>,
+                <&macro_release &mo 10>,
+                <&macro_tap &kp LC(LS(LG(F18)))>;
         };
 
         coach_mouse_lock: coach_mouse_lock {
@@ -137,12 +177,44 @@ coach_l1_hold: coach_l1_hold {
             bindings = <&kp LC(LA(LG(F13)))>, <&tog 8>;
         };
 
+        coach_l1_toggle: coach_l1_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(LG(F13))))>, <&tog 1>;
+        };
+
+        coach_l2_toggle: coach_l2_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(LG(F14))))>, <&tog 2>;
+        };
+
+        coach_l3_toggle: coach_l3_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(LG(F15))))>, <&tog 3>;
+        };
+
+        coach_l4_toggle: coach_l4_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(LG(F16))))>, <&tog 4>;
+        };
+
         coach_l5_toggle: coach_l5_toggle {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&kp LC(LA(LS(LG(F13))))>, <&tog 5>;
+            bindings = <&kp LC(LA(LS(LG(F17))))>, <&tog 5>;
         };
 
         coach_l6_toggle: coach_l6_toggle {
@@ -150,7 +222,23 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&kp LC(LA(LG(F18)))>, <&tog 6>;
+            bindings = <&kp LC(LA(LS(LG(F18))))>, <&tog 6>;
+        };
+
+        coach_l7_toggle: coach_l7_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(LG(F19))))>, <&tog 7>;
+        };
+
+        coach_l8_toggle: coach_l8_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LC(LA(LS(LG(F20))))>, <&tog 8>;
         };
 
         coach_l9_toggle: coach_l9_toggle {
@@ -158,7 +246,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&kp LC(LA(LS(LG(F15))))>, <&tog 9>;
+            bindings = <&kp LC(LA(LS(LG(F21))))>, <&tog 9>;
         };
 
         coach_l10_toggle: coach_l10_toggle {
@@ -166,7 +254,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&kp LC(LA(LS(LG(F16))))>, <&tog 10>;
+            bindings = <&kp LC(LA(LS(LG(F22))))>, <&tog 10>;
         };
 
         coach_travel_off: coach_travel_off {

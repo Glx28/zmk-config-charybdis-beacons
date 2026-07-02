@@ -273,6 +273,42 @@ coach_l1_hold: coach_l1_hold {
             bindings = <&kp LC(LA(LG(F15)))>, <&to 0>;
         };
 
+        coach_ctrl_click: coach_ctrl_click {
+            compatible = "zmk,behavior-macro";
+            label = "coach_ctrl_click";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_press &kp LCTRL>,
+                <&macro_tap &mkp MB1>,
+                <&macro_release &kp LCTRL>;
+        };
+
+        coach_shift_click: coach_shift_click {
+            compatible = "zmk,behavior-macro";
+            label = "coach_shift_click";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_press &kp LSHFT>,
+                <&macro_tap &mkp MB1>,
+                <&macro_release &kp LSHFT>;
+        };
+
+        coach_alt_click: coach_alt_click {
+            compatible = "zmk,behavior-macro";
+            label = "coach_alt_click";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings =
+                <&macro_press &kp LALT>,
+                <&macro_tap &mkp MB1>,
+                <&macro_release &kp LALT>;
+        };
+
         launcher_win_search: launcher_win_search {
             compatible = "zmk,behavior-macro";
             label = "launcher_win_search";

@@ -30,32 +30,26 @@ LEFT HALF                           RIGHT HALF
 - The right half has a **PMW3610 trackball** under the right thumb — it acts as a mouse.
 - x0 column (left far pinky) holds modifiers: Esc, Tab, Shift, Ctrl on Layer 0.
 
-### Row ergonomics (critical concept)
-Rows are NOT equally comfortable. This is the single most important layout principle:
+### Position effort model
 
-| Row | Name | Comfort | Why |
-|-----|------|---------|-----|
-| y2 | HOME ROW | Best (1) | Fingers rest here naturally. Zero movement. |
-| y1 | Upper | Good (2) | Small upward curl. Low effort. |
-| y3 | Bottom | Good (2) | Small downward curl. Same effort as y1. |
-| y0 | Top | Reach (3) | Full finger extension. Requires effort. |
-| y4-y5 | Thumb | Special (4-5) | Thumb-only. Can't use while thumb holds a layer. |
+Lower effort means the key is easier and more valuable. The active source of truth is `/home/nos/charybdis/charybdis-optimizer-v2/data/layout.json`; each physical coordinate carries explicit `base_effort`, `edge_bonus`, and final `effort`.
 
-**Rule: Put the most-used keys on y2, second-most on y1/y3, least-used on y0.**
+```text
+         x=0   x=1   x=2   x=3   x=4   x=5      x=7   x=8   x=9   x=10  x=11  x=12
+y=0:     2.75  2.00  2.00  2.00  2.00  2.75     2.75  2.00  2.00  2.00  2.00  2.75
+y=1:     1.75  1.00  1.00  1.00  1.00  1.75     1.75  1.00  1.00  1.00  1.00  1.75
+y=2:     1.25  0.00  0.00  0.00  0.00  1.25     1.25  0.00  0.00  0.00  0.00  1.25
+y=3:     1.75  1.00  1.00  1.00  1.00  1.75     1.75  1.00  1.00  1.00  1.00  1.75
+y=4:                       1.00  0.00  1.00     1.00  0.00
+y=5:                             1.00  1.50     1.50
+```
 
-### Column ergonomics
-Columns also have effort cost based on distance from home position:
+Important consequences:
 
-| Finger | Home column (left/right) | Effort 0 |
-|--------|-------------------------|----------|
-| Index | x4 / x8 | 0 (home) |
-| Middle | x3 / x9 | 1 |
-| Ring | x2 / x10 | 2 |
-| Pinky | x1 / x11 | 3 |
-| Far pinky | x0 / x12 | 4 (worst) |
-| Index stretch | x5 / x7 | 1 (inward stretch) |
-
-Total effort for any key = row_comfort + column_effort. Lower is better.
+- Do not use row-only effort. It is wrong for this keyboard.
+- Prime positions are effort `0.0`; wasting them on low-value shortcuts is bad.
+- Edge/stretch positions are explicitly more expensive through `edge_bonus`.
+- Thumb effort is per-coordinate; do not treat every thumb key as equal.
 
 ## 2. Layer System
 

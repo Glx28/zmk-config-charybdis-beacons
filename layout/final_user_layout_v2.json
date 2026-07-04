@@ -4080,13 +4080,13 @@
       "x": 8,
       "y": 1,
       "behavior": "Key Press",
-      "parameter": "Keyboard SemiColon and Colon",
+      "parameter": "Keyboard 1 and Bang",
       "modifiers": [
         "L Ctrl",
         "L Shift"
       ],
-      "label": "Ctrl+Shift+;",
-      "rationale": "evolved: Insert current time",
+      "label": "Ctrl+Shift+1",
+      "rationale": "evolved: Extra large icons",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -6551,13 +6551,13 @@
       "x": 1,
       "y": 3,
       "behavior": "Key Press",
-      "parameter": "Keyboard 1 and Bang",
+      "parameter": "Keyboard SemiColon and Colon",
       "modifiers": [
         "L Ctrl",
         "L Shift"
       ],
-      "label": "Ctrl+Shift+1",
-      "rationale": "evolved: Extra large icons",
+      "label": "Ctrl+Shift+;",
+      "rationale": "evolved: Insert current time",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -6780,15 +6780,12 @@
       "layer": 8,
       "x": 5,
       "y": 5,
-      "behavior": "Key Press",
-      "parameter": "Keyboard 4 and Dollar",
-      "modifiers": [
-        "L Ctrl",
-        "L Shift"
-      ],
-      "label": "Ctrl+Shift+$",
-      "rationale": "evolved: Currency format",
-      "optimizer_changed": true,
+      "behavior": "Transparent",
+      "parameter": "",
+      "modifiers": [],
+      "label": "transparent",
+      "rationale": "transparent: skipped: multi-stroke chord 'Ctrl+K Ctrl+S'",
+      "optimizer_changed": false,
       "apply_batch": true
     },
     {
@@ -7663,13 +7660,13 @@
       "x": 5,
       "y": 0,
       "behavior": "Key Press",
-      "parameter": "Keyboard Home",
+      "parameter": "Keyboard SemiColon and Colon",
       "modifiers": [
         "L Ctrl",
         "L Shift"
       ],
-      "label": "Ctrl+Shift+Home",
-      "rationale": "evolved: Select to cell A1",
+      "label": "Ctrl+Shift+;",
+      "rationale": "evolved: Insert current time",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -7826,13 +7823,13 @@
       "x": 5,
       "y": 1,
       "behavior": "Key Press",
-      "parameter": "Keyboard SemiColon and Colon",
+      "parameter": "Keyboard Home",
       "modifiers": [
         "L Ctrl",
         "L Shift"
       ],
-      "label": "Ctrl+Shift+;",
-      "rationale": "evolved: Insert current time",
+      "label": "Ctrl+Shift+Home",
+      "rationale": "evolved: Select to cell A1",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -8167,11 +8164,11 @@
       "layer": 10,
       "x": 7,
       "y": 3,
-      "behavior": "Key Press",
-      "parameter": "Keyboard F7",
+      "behavior": "coach_l9_hold",
+      "parameter": "",
       "modifiers": [],
-      "label": "F7",
-      "rationale": "evolved: Spell check",
+      "label": "Scroll_L9",
+      "rationale": "evolved: Dynamic layer access: @scroll:L9:hold",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -8179,11 +8176,11 @@
       "layer": 10,
       "x": 8,
       "y": 3,
-      "behavior": "coach_l9_hold",
-      "parameter": "",
+      "behavior": "Key Press",
+      "parameter": "Keyboard F7",
       "modifiers": [],
-      "label": "Scroll_L9",
-      "rationale": "evolved: Dynamic layer access: @scroll:L9:hold",
+      "label": "F7",
+      "rationale": "evolved: Spell check",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -8340,23 +8337,23 @@
       "apply_batch": true
     }
   ],
-  "name": "v22seed gen8000 (best gen 8000)",
-  "source_run": "run_v22seed",
-  "source_generation": 8000,
-  "best_generation": 8000,
-  "source_apply_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run15_v22seed_gen8000_bestgen8000_apply.js",
-  "source_verify_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run15_v22seed_gen8000_bestgen8000_verify.js",
-  "source_csv": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run15_v22seed_gen8000_bestgen8000_keybindings_explained.csv",
+  "name": "v22 gen500 (best gen 500)",
+  "source_run": "run_v22",
+  "source_generation": 500,
+  "best_generation": 500,
+  "source_apply_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run16_v22_gen500_bestgen500_apply.js",
+  "source_verify_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run16_v22_gen500_bestgen500_verify.js",
+  "source_csv": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run16_v22_gen500_bestgen500_keybindings_explained.csv",
   "verified_in_zmk_studio": false,
   "verify_result": {
     "pass": null,
     "fail": null,
     "percent": null,
-    "note": "Run verify_every_key.js in ZMK Studio after applying v22seed gen8000."
+    "note": "Run verify_every_key.js in ZMK Studio after applying v22 gen500."
   },
   "score_summary": {
-    "run": "v22seed",
-    "best_generation": 8000,
-    "gap": -7.78
+    "run": "v22",
+    "best_generation": 500,
+    "gap": -7.856
   }
 }

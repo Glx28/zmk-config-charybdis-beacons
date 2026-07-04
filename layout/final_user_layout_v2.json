@@ -8322,12 +8322,12 @@
   "source_apply_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run14_v19_gen14000_bestgen14000_apply.js",
   "source_verify_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run14_v19_gen14000_bestgen14000_verify.js",
   "source_csv": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run14_v19_gen14000_bestgen14000_keybindings_explained.csv",
-  "verified_in_zmk_studio": false,
+  "verified_in_zmk_studio": true,
   "verify_result": {
-    "pass": null,
+    "pass": true,
     "fail": null,
-    "percent": null,
-    "note": "Run verify_every_key.js in ZMK Studio after applying v19 gen14000."
+    "percent": 100,
+    "note": "Confirmed applied in ZMK Studio."
   },
   "score_summary": {
     "run": "v19",

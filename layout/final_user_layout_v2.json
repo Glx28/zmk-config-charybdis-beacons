@@ -632,11 +632,11 @@
       "layer": 0,
       "x": 7,
       "y": 4,
-      "behavior": "coach_l7_hold",
+      "behavior": "coach_l6_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "L7",
-      "rationale": "evolved: Dynamic layer access: @access:L7:hold",
+      "label": "L6",
+      "rationale": "evolved: Dynamic layer access: @access:L6:hold",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -1242,12 +1242,13 @@
       "x": 3,
       "y": 3,
       "behavior": "Key Press",
-      "parameter": "Keyboard L",
+      "parameter": "Keyboard RightArrow",
       "modifiers": [
-        "L GUI"
+        "L GUI",
+        "L Ctrl"
       ],
-      "label": "Win+L",
-      "rationale": "evolved: Lock PC",
+      "label": "Win+Ctrl+Right",
+      "rationale": "evolved: Switch desktop right",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -2248,12 +2249,10 @@
       "x": 1,
       "y": 0,
       "behavior": "Key Press",
-      "parameter": "Keyboard UpArrow",
-      "modifiers": [
-        "L Alt"
-      ],
-      "label": "Alt+Up",
-      "rationale": "evolved: Move line up",
+      "parameter": "Keyboard F11",
+      "modifiers": [],
+      "label": "F11",
+      "rationale": "evolved: Toggle fullscreen",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -2563,12 +2562,12 @@
       "x": 12,
       "y": 1,
       "behavior": "Key Press",
-      "parameter": "Keyboard J",
+      "parameter": "Keyboard DownArrow",
       "modifiers": [
-        "L Ctrl"
+        "L Alt"
       ],
-      "label": "Ctrl+J",
-      "rationale": "evolved: Downloads",
+      "label": "Alt+Down",
+      "rationale": "evolved: Move line down",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -4489,11 +4488,11 @@
       "layer": 5,
       "x": 7,
       "y": 4,
-      "behavior": "coach_l6_hold",
+      "behavior": "coach_l7_hold",
       "parameter": "",
       "modifiers": [],
-      "label": "L6",
-      "rationale": "evolved: Dynamic layer access: @access:L6:hold",
+      "label": "L7",
+      "rationale": "evolved: Dynamic layer access: @access:L7:hold",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -5138,13 +5137,12 @@
       "x": 5,
       "y": 3,
       "behavior": "Key Press",
-      "parameter": "Keyboard RightArrow",
+      "parameter": "Keyboard Spacebar",
       "modifiers": [
-        "L Shift",
-        "L Alt"
+        "L Ctrl"
       ],
-      "label": "Shift+Alt+Right",
-      "rationale": "evolved: Expand selection",
+      "label": "Ctrl+Space",
+      "rationale": "evolved: Select entire column",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -5318,13 +5316,11 @@
       "layer": 6,
       "x": 5,
       "y": 5,
-      "behavior": "Key Press",
-      "parameter": "Keyboard D",
-      "modifiers": [
-        "L Alt"
-      ],
-      "label": "Alt+D",
-      "rationale": "evolved: Focus address bar (alt)",
+      "behavior": "coach_shift_click",
+      "parameter": "",
+      "modifiers": [],
+      "label": "Shift+Click",
+      "rationale": "evolved: Select range",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -6058,15 +6054,12 @@
       "layer": 8,
       "x": 3,
       "y": 0,
-      "behavior": "Key Press",
-      "parameter": "Keyboard DownArrow",
-      "modifiers": [
-        "L Shift",
-        "L Alt"
-      ],
-      "label": "Shift+Alt+Down",
-      "rationale": "evolved: Copy line down",
-      "optimizer_changed": true,
+      "behavior": "Transparent",
+      "parameter": "",
+      "modifiers": [],
+      "label": "transparent",
+      "rationale": "transparent: skipped: non-exportable key 'Win+Pause'",
+      "optimizer_changed": false,
       "apply_batch": true
     },
     {
@@ -6348,12 +6341,12 @@
       "x": 0,
       "y": 2,
       "behavior": "Key Press",
-      "parameter": "Keyboard L",
+      "parameter": "Keyboard UpArrow",
       "modifiers": [
-        "L Ctrl"
+        "L Alt"
       ],
-      "label": "Ctrl+L",
-      "rationale": "evolved: Focus address bar",
+      "label": "Alt+Up",
+      "rationale": "evolved: Move line up",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -6823,10 +6816,12 @@
       "x": 2,
       "y": 0,
       "behavior": "Key Press",
-      "parameter": "Keyboard F2",
-      "modifiers": [],
-      "label": "F2",
-      "rationale": "evolved: Rename",
+      "parameter": "Keyboard F",
+      "modifiers": [
+        "L Alt"
+      ],
+      "label": "Alt+F",
+      "rationale": "evolved: Settings menu",
       "optimizer_changed": true,
       "apply_batch": true
     },
@@ -8315,24 +8310,24 @@
       "apply_batch": true
     }
   ],
-  "name": "v19 gen13000 (best gen 13000)",
-  "source_run": "run12_v19",
-  "source_generation": 13000,
-  "best_generation": 13000,
-  "source_apply_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run12_v19_gen13000_bestgen13000_apply.js",
-  "source_verify_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run12_v19_gen13000_bestgen13000_verify.js",
-  "source_csv": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run12_v19_gen13000_bestgen13000_keybindings_explained.csv",
+  "name": "v19 gen13500 (best gen 13500)",
+  "source_run": "run13_v19",
+  "source_generation": 13500,
+  "best_generation": 13500,
+  "source_apply_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run13_v19_gen13500_bestgen13500_apply.js",
+  "source_verify_script": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run13_v19_gen13500_bestgen13500_verify.js",
+  "source_csv": "/home/nos/charybdis/charybdis-tools/runtime/evolved_v2_export/run13_v19_gen13500_bestgen13500_keybindings_explained.csv",
   "verified_in_zmk_studio": false,
   "verify_result": {
     "pass": null,
     "fail": null,
     "percent": null,
-    "note": "Run verify_every_key.js in ZMK Studio after applying v19 gen13000."
+    "note": "Run verify_every_key.js in ZMK Studio after applying v19 gen13500."
   },
   "score_summary": {
     "run": "v19",
-    "best_generation": 13000,
-    "gap": -7.051,
-    "note": "Best-ever recorded gap, beats prior historical best of -5.300. All hard constraints satisfied (G=[0,0,0,0,0])."
+    "best_generation": 13500,
+    "gap": -7.059,
+    "note": "Best-ever recorded gap, beats prior best of -7.051 (gen13000). All hard constraints satisfied (G=[0,0,0,0,0])."
   }
 }

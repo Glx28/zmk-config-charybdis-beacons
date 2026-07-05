@@ -57,7 +57,11 @@
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         // Firmware pointer capability targets only. These numbers are not
         // semantic layer roles; generated layouts decide how users access them.
-        scroll-layers = <6>;
+        // L11 is a dedicated all-transparent scroll mode layer — holding any
+        // @scroll:LX:hold key activates L11 (transparent, so LX bindings show through)
+        // and enables scroll mode. This lets every layer have a working scroll hold key
+        // without jumping away from the current layer.
+        scroll-layers = <11>;
         snipe-layers = <8>;
     };
 };

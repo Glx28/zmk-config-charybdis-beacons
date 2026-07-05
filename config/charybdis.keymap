@@ -230,5 +230,21 @@
             >;
         };
 
+        // L11: dedicated scroll mode layer — all transparent.
+        // Listed in scroll-layers in charybdis_right.overlay so the PMW3610 driver
+        // activates scroll mode whenever this layer is active. Every @scroll:LX:hold
+        // key exports as &mo 11, which stacks L11 on top of the current layer without
+        // displacing it (L11 is fully transparent so LX bindings remain visible).
+        layer_11 {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans    &trans  &trans
+                                &trans  &trans    &trans
+            >;
+        };
+
     };
 };

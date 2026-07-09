@@ -15,10 +15,10 @@
 include:
   - board: nice_nano_v2
     shield: charybdis_left
-    cmake-args: -DZEPHYR_EXTRA_MODULES=$GITHUB_WORKSPACE/config/modules/input_processor_jump_accel
+    cmake-args: -DZMK_EXTRA_MODULES=$GITHUB_WORKSPACE/config/modules/input_processor_jump_accel
   - board: nice_nano_v2
     shield: charybdis_right
     snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y -DZEPHYR_EXTRA_MODULES=$GITHUB_WORKSPACE/config/modules/input_processor_jump_accel
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DZMK_EXTRA_MODULES=$GITHUB_WORKSPACE/config/modules/input_processor_jump_accel
   - board: nice_nano_v2
     shield: settings_reset

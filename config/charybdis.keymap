@@ -18,8 +18,8 @@
 
 / {
     // Whole-vector jump-curve acceleration (config/modules/input_processor_jump_accel).
-    // base-factor = fast-factor = 1000 (1.0x, no-op) until hand-tested and tuned on
-    // real hardware per the rollout plan; only the wiring is being validated first.
+    // Curve logic is live, but base-factor = fast-factor = 1000 (1.0x, no-op)
+    // until hand-tested and tuned on real hardware per the rollout plan.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;

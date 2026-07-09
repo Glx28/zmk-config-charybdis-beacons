@@ -1,0 +1,36 @@
+# Copyright (c) 2026 The Charybdis Contributors
+# SPDX-License-Identifier: MIT
+
+description: |
+  Whole-vector, two-zone "jump" acceleration curve for relative pointer
+  input (REL_X/REL_Y). Below jump-start-cps the processor applies a flat
+  base-factor; above jump-start-cps + jump-width-cps it applies a flat
+  fast-factor; in between it blends the two with a smootherstep curve.
+  Speed is computed from the combined (dx, dy) vector magnitude over time,
+  not per-axis, so diagonal movement isn't skewed relative to a pure
+  horizontal or vertical movement of the same speed.
+
+compatible: "zmk,input-processor-jump-accel"
+
+include: ip_zero_param.yaml
+
+properties:
+  base-factor:
+    type: int
+    required: true
+    description: Fixed-point multiplier (x1000) applied below jump-start-cps, e.g. 1000 = 1.0x
+
+  fast-factor:
+    type: int
+    required: true
+    description: Fixed-point multiplier (x1000) applied above jump-start-cps + jump-width-cps
+
+  jump-start-cps:
+    type: int
+    required: true
+    description: Whole-vector speed, in raw sensor counts/sec, where the transition begins
+
+  jump-width-cps:
+    type: int
+    required: true
+    description: Width, in raw sensor counts/sec, of the transition band between the two factors

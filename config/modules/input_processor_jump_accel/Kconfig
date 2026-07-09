@@ -1,0 +1,14 @@
+# Copyright (c) 2026 The Charybdis Contributors
+# SPDX-License-Identifier: MIT
+
+config INPUT_PROCESSOR_JUMP_ACCEL
+    bool "Whole-vector jump-curve pointer acceleration input processor"
+    default y
+    depends on ZMK_POINTING
+    help
+      Enables a ZMK input processor implementing a RawAccel-style two-zone
+      whole-vector acceleration curve for relative pointer input: a flat
+      low-speed factor, a smootherstep transition, and a flat high-speed
+      factor, driven by whole-vector speed (sqrt(dx^2+dy^2)/dt) rather than
+      per-axis speed, with fractional remainder tracking so low factors
+      don't quantize slow movement to zero.

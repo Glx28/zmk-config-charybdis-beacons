@@ -32,8 +32,8 @@ Applied via ZMK Studio web UI, NOT firmware flash. Paste `scripts/zmk-studio/app
 
 ## Current Config (`config/boards/shields/charybdis/charybdis_right.conf`)
 
-CPI=400, DIVIDOR=1, SNIPE=3200, scroll-tick=70, 250Hz polling, smart algorithm, invert-X, 90° orientation.
-Keymap scaler `1:2` → effective 200 CPI normal, 1600 CPI speed (Layer 8).
+CPI=600, DIVIDOR=1, SNIPE=3200, scroll-tick=70, 250Hz polling, smart algorithm, invert-X, 90° orientation.
+Keymap scaler `1:5` → effective 120 CPI normal, 640 CPI speed (Layer 8), a 5.33:1 fast:slow ratio.
 
 ## Layer Map
 

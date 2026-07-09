@@ -9,6 +9,10 @@ zmk-pmw3610-driver/
 .west/
 build/
 
+# First-party out-of-tree Zephyr module (source-controlled, not vendored)
+!config/modules/
+!config/modules/**
+
 # Browser captures and live reports
 ZMK Studio.html
 ZMK Studio_files/

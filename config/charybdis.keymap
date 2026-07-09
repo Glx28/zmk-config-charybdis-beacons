@@ -16,11 +16,28 @@
     quick-tap-ms = <150>;
 };
 
-// XY scaler 1:5. Sensor runs at 750 CPI, close to the manufacturer-default 800.
-// This gives 150 effective CPI at Windows 1:1. zip_xy_scaler has track-remainders
-// (zmk core), so fractional movement is carried smoothly with no CPI_DIVIDOR dead zone.
-// SNIPE 3200 also scales by /5 to 640 effective CPI; Raw Accel handles travel.
-&mmv_input_listener { input-processors = <&zip_xy_scaler 1 5>; };
+/ {
+    // Whole-vector jump-curve acceleration (config/modules/input_processor_jump_accel).
+    // base-factor = fast-factor = 1000 (1.0x, no-op) until hand-tested and tuned on
+    // real hardware per the rollout plan; only the wiring is being validated first.
+    jump_accel: jump_accel {
+        compatible = "zmk,input-processor-jump-accel";
+        #input-processor-cells = <0>;
+        base-factor = <1000>;
+        fast-factor = <1000>;
+        jump-start-cps = <16000>;
+        jump-width-cps = <8000>;
+        track-remainders;
+    };
+};
+
+// XY scaler 1:5. Sensor runs at 600 CPI, chosen so 600/5 lands on a clean 120.
+// This gives 120 effective CPI at Windows 1:1 (20% slower than the prior 150).
+// zip_xy_scaler has track-remainders (zmk core), so fractional movement is
+// carried smoothly with no CPI_DIVIDOR dead zone.
+// SNIPE 3200 also scales by /5 to 640 effective CPI (5.33:1 fast:slow ratio);
+// Raw Accel handles travel. jump_accel is chained after it (currently a no-op).
+&mmv_input_listener { input-processors = <&zip_xy_scaler 1 5 &jump_accel>; };
 
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 

@@ -18,26 +18,31 @@
 
 / {
     // Whole-vector jump-curve acceleration (config/modules/input_processor_jump_accel).
-    // Curve logic is live, but base-factor = fast-factor = 1000 (1.0x, no-op)
-    // until hand-tested and tuned on real hardware per the rollout plan.
+    // Runs on RAW 600-CPI sensor deltas (chained before zip_xy_scaler below), so
+    // speed thresholds are in raw counts/sec, not post-scale effective CPI.
+    // base-factor 1000 = 1.0x (slow feel unchanged, stays at the 120 eff baseline).
+    // fast-factor 3000 = 3.0x, so a fast flick reaches ~360 eff CPI.
+    // First real tuning pass -- expect a noticeable jump on brisk movement,
+    // adjust jump-start-cps/jump-width-cps by feel from here.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
         base-factor = <1000>;
-        fast-factor = <1000>;
-        jump-start-cps = <16000>;
-        jump-width-cps = <8000>;
+        fast-factor = <3000>;
+        jump-start-cps = <1800>;
+        jump-width-cps = <1200>;
         track-remainders;
     };
 };
 
-// XY scaler 1:5. Sensor runs at 600 CPI, chosen so 600/5 lands on a clean 120.
-// This gives 120 effective CPI at Windows 1:1 (20% slower than the prior 150).
+// jump_accel runs FIRST on raw 600-CPI deltas (whole-vector jump curve, see
+// above), then zip_xy_scaler 1:5 brings the result down to 120 effective CPI
+// at Windows 1:1 (20% slower than the prior 150) for the slow/base speed.
 // zip_xy_scaler has track-remainders (zmk core), so fractional movement is
 // carried smoothly with no CPI_DIVIDOR dead zone.
-// SNIPE 3200 also scales by /5 to 640 effective CPI (5.33:1 fast:slow ratio);
-// Raw Accel handles travel. jump_accel is chained after it (currently a no-op).
-&mmv_input_listener { input-processors = <&zip_xy_scaler 1 5 &jump_accel>; };
+// SNIPE 3200 also scales by /5 to 640 effective CPI base (5.33:1 fast:slow
+// ratio from the snipe layer alone, on top of whatever jump_accel adds).
+&mmv_input_listener { input-processors = <&jump_accel &zip_xy_scaler 1 5>; };
 
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 

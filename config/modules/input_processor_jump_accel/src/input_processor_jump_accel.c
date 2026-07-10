@@ -21,10 +21,18 @@ struct jump_accel_config {
     int32_t jump_width_cps;
 };
 
+/* Per-axis timestamps (not one shared clock) -- PMW3610 reports X then Y as
+ * two separate events within the same ~4ms poll when moving diagonally, so a
+ * shared "last event" timestamp would see dt_ms collapse to ~0 for whichever
+ * axis is processed second, inflating its computed speed. Matches the
+ * approach used by github.com/oleksandrmaslov/zmk-pointing-acceleration. */
+#define JUMP_ACCEL_MAX_DT_MS 100
+
 struct jump_accel_data {
     int32_t last_dx;
     int32_t last_dy;
-    int64_t last_ts_ms;
+    int64_t last_ts_x_ms;
+    int64_t last_ts_y_ms;
 };
 
 /* Integer sqrt (Zephyr has no libc sqrt available in-kernel by default). */
@@ -80,11 +88,14 @@ static int jump_accel_handle_event(const struct device *dev, struct input_event 
     struct jump_accel_data *data = dev->data;
 
     int64_t now = k_uptime_get();
-    int64_t dt_ms = now - data->last_ts_ms;
+    int64_t *last_ts_ms = (event->code == INPUT_REL_X) ? &data->last_ts_x_ms : &data->last_ts_y_ms;
+    int64_t dt_ms = (*last_ts_ms > 0) ? (now - *last_ts_ms) : 1;
     if (dt_ms <= 0) {
         dt_ms = 1;
+    } else if (dt_ms > JUMP_ACCEL_MAX_DT_MS) {
+        dt_ms = JUMP_ACCEL_MAX_DT_MS;
     }
-    data->last_ts_ms = now;
+    *last_ts_ms = now;
 
     /* Whole-vector speed: combine this event's axis with the other axis'
      * most recently seen raw value, rather than treating axes independently.

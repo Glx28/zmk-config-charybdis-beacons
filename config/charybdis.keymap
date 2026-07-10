@@ -42,7 +42,11 @@
 // (600, see charybdis_right.conf) IS the effective CPI directly, a clean 20%
 // reduction from the prior 750. SNIPE_CPI=3200 gives the layer-8 travel mode
 // its own 5.33:1 ratio over the base CPI, independent of jump_accel.
-&trackball_listener { input-processors = <&jump_accel>; };
+// NOTE: the actual `&trackball_listener { input-processors = <&jump_accel>; };`
+// override lives in charybdis_right.overlay, not here -- this file is shared
+// between charybdis_left and charybdis_right, but the trackball_listener label
+// only exists on the right shield's overlay, so referencing it here would
+// break the left build.
 
 // zip_xy_scaler here only affects the (currently unused) &mmv "move mouse via
 // key hold" virtual behavior below -- unrelated to the physical trackball.

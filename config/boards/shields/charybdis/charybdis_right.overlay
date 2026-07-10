@@ -111,9 +111,13 @@
 
 
 / {
+    // jump_accel is defined in charybdis.keymap (shared file) but wired onto
+    // this listener here, in the right-only overlay, since trackball_listener
+    // doesn't exist on the left shield's build.
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
+        input-processors = <&jump_accel>;
     };
 };
 

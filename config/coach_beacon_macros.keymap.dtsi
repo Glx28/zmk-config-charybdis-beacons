@@ -151,96 +151,138 @@ coach_l1_hold: coach_l1_hold {
         // through to whatever layer was already active. Plain "&mo 11" alone (used
         // for scroll-hold keys before this) only ever exposes the layer already
         // active underneath it - it cannot reveal a different target layer's
-        // bindings. No beacon HID chord here (unlike coach_lN_hold above) since
-        // these aren't wired into the AHK/coach layer-state beacon yet.
+        // bindings. Reuses the exact same beacon HID chord pair as the matching
+        // coach_lN_hold macro below, so the AHK helper reports "layer N held" the
+        // same way regardless of whether it was a plain hold or a scroll-hold - the
+        // coach only cares that layer N is active, not which key caused it.
         coach_l1_scroll_hold: coach_l1_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LA(LS(F13)))>,
                 <&macro_press &mo 11 &mo 1>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 1>;
+                <&macro_release &mo 11 &mo 1>,
+                <&macro_tap &kp LC(LA(LS(F14)))>;
         };
 
         coach_l2_scroll_hold: coach_l2_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LA(LS(F15)))>,
                 <&macro_press &mo 11 &mo 2>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 2>;
+                <&macro_release &mo 11 &mo 2>,
+                <&macro_tap &kp LC(LA(LS(F16)))>;
         };
 
         coach_l3_scroll_hold: coach_l3_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LA(LS(F17)))>,
                 <&macro_press &mo 11 &mo 3>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 3>;
+                <&macro_release &mo 11 &mo 3>,
+                <&macro_tap &kp LC(LA(LS(F18)))>;
         };
 
         coach_l4_scroll_hold: coach_l4_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LA(LS(F19)))>,
                 <&macro_press &mo 11 &mo 4>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 4>;
+                <&macro_release &mo 11 &mo 4>,
+                <&macro_tap &kp LC(LA(LS(F20)))>;
         };
 
         coach_l5_scroll_hold: coach_l5_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LA(LG(F20)))>,
                 <&macro_press &mo 11 &mo 5>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 5>;
+                <&macro_release &mo 11 &mo 5>,
+                <&macro_tap &kp LC(LA(LG(F21)))>;
         };
 
         coach_l6_scroll_hold: coach_l6_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LA(LG(F22)))>,
                 <&macro_press &mo 11 &mo 6>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 6>;
+                <&macro_release &mo 11 &mo 6>,
+                <&macro_tap &kp LC(LA(LG(F23)))>;
         };
 
         coach_l7_scroll_hold: coach_l7_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LS(LG(F13)))>,
                 <&macro_press &mo 11 &mo 7>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 7>;
+                <&macro_release &mo 11 &mo 7>,
+                <&macro_tap &kp LC(LS(LG(F14)))>;
         };
 
         coach_l8_scroll_hold: coach_l8_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LA(LG(F16)))>,
                 <&macro_press &mo 11 &mo 8>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 8>;
+                <&macro_release &mo 11 &mo 8>,
+                <&macro_tap &kp LC(LA(LG(F17)))>;
         };
 
         coach_l9_scroll_hold: coach_l9_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LS(LG(F15)))>,
                 <&macro_press &mo 11 &mo 9>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 9>;
+                <&macro_release &mo 11 &mo 9>,
+                <&macro_tap &kp LC(LS(LG(F16)))>;
         };
 
         coach_l10_scroll_hold: coach_l10_scroll_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
             bindings =
+                <&macro_tap &kp LC(LS(LG(F17)))>,
                 <&macro_press &mo 11 &mo 10>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 11 &mo 10>;
+                <&macro_release &mo 11 &mo 10>,
+                <&macro_tap &kp LC(LS(LG(F18)))>;
         };
 
         coach_mouse_lock: coach_mouse_lock {

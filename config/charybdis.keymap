@@ -18,12 +18,15 @@
 
 / {
     // Whole-vector jump-curve acceleration (config/modules/input_processor_jump_accel).
-    // Runs on RAW 600-CPI sensor deltas (chained before zip_xy_scaler below), so
-    // speed thresholds are in raw counts/sec, not post-scale effective CPI.
-    // base-factor 1000 = 1.0x (slow feel unchanged, stays at the 120 eff baseline).
-    // fast-factor 3000 = 3.0x, so a fast flick reaches ~360 eff CPI.
-    // First real tuning pass -- expect a noticeable jump on brisk movement,
-    // adjust jump-start-cps/jump-width-cps by feel from here.
+    // Wired onto &trackball_listener below -- the REAL PMW3610 hardware listener --
+    // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
+    // behavior's listener, and &mmv isn't bound to any key in this keymap, so
+    // anything attached there is inert dead code for actual trackball movement).
+    // Runs on raw 600-CPI sensor deltas, so speed thresholds are in raw counts/sec.
+    // base-factor 1000 = 1.0x (slow feel unchanged, stays at the raw 600 CPI baseline).
+    // fast-factor 3000 = 3.0x, so a fast flick reaches ~1800 raw-equivalent CPI.
+    // First real tuning pass on the correct listener -- expect a noticeable jump on
+    // brisk movement; adjust jump-start-cps/jump-width-cps by feel from here.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
@@ -35,14 +38,15 @@
     };
 };
 
-// jump_accel runs FIRST on raw 600-CPI deltas (whole-vector jump curve, see
-// above), then zip_xy_scaler 1:5 brings the result down to 120 effective CPI
-// at Windows 1:1 (20% slower than the prior 150) for the slow/base speed.
-// zip_xy_scaler has track-remainders (zmk core), so fractional movement is
-// carried smoothly with no CPI_DIVIDOR dead zone.
-// SNIPE 3200 also scales by /5 to 640 effective CPI base (5.33:1 fast:slow
-// ratio from the snipe layer alone, on top of whatever jump_accel adds).
-&mmv_input_listener { input-processors = <&jump_accel &zip_xy_scaler 1 5>; };
+// The real trackball has NO software scaler in its path -- CONFIG_PMW3610_CPI
+// (600, see charybdis_right.conf) IS the effective CPI directly, a clean 20%
+// reduction from the prior 750. SNIPE_CPI=3200 gives the layer-8 travel mode
+// its own 5.33:1 ratio over the base CPI, independent of jump_accel.
+&trackball_listener { input-processors = <&jump_accel>; };
+
+// zip_xy_scaler here only affects the (currently unused) &mmv "move mouse via
+// key hold" virtual behavior below -- unrelated to the physical trackball.
+&mmv_input_listener { input-processors = <&zip_xy_scaler 1 5>; };
 
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 

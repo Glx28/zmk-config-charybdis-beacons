@@ -33,7 +33,8 @@ Applied via ZMK Studio web UI, NOT firmware flash. Paste `scripts/zmk-studio/app
 ## Current Config (`config/boards/shields/charybdis/charybdis_right.conf`)
 
 CPI=600, DIVIDOR=1, SNIPE=3200, scroll-tick=70, 250Hz polling, smart algorithm, invert-X, 90° orientation.
-Keymap scaler `1:5` → effective 120 CPI normal, 640 CPI speed (Layer 8), a 5.33:1 fast:slow ratio.
+No software scaler on the real trackball listener — raw CPI IS the effective CPI: 600 normal, 3200 speed (Layer 8), a 5.33:1 fast:slow ratio.
+Whole-vector jump acceleration (`config/modules/input_processor_jump_accel`) is wired onto `&trackball_listener` (the real hardware listener) in charybdis.keymap, reading raw sensor counts.
 
 ## Layer Map
 

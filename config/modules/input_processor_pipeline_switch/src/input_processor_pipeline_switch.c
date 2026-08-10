@@ -200,10 +200,10 @@ static const struct zmk_input_processor_driver_api zip_ps_driver_api = {
 #define ZIP_PS_REM_TRACKERS(n) (0 DT_FOREACH_PROP_ELEM(n, input_processors, ZIP_PS_ONE_FOR_TRACKED))
 
 #define ZIP_PS_CHILD_DEFINE(child)                                                                 \
-    static struct zip_ps_remainders _CONCAT(zip_ps_rem_,                                           \
+    static struct zip_ps_remainders UTIL_CAT(zip_ps_rem_,                                           \
                                             DT_NODE_DEP_ORD(child))[ZIP_PS_REM_TRACKERS(child)] =  \
         {};                                                                                        \
-    static const struct zmk_input_processor_entry _CONCAT(                                         \
+    static const struct zmk_input_processor_entry UTIL_CAT(                                         \
         zip_ps_entries_, DT_NODE_DEP_ORD(child))[DT_PROP_LEN(child, input_processors)] = {         \
         LISTIFY(DT_PROP_LEN(child, input_processors), ZMK_INPUT_PROCESSOR_ENTRY_AT_IDX, (, ),      \
                 child)};
@@ -211,16 +211,18 @@ static const struct zmk_input_processor_driver_api zip_ps_driver_api = {
 #define ZIP_PS_PIPELINE(child)                                                                     \
     {                                                                                              \
         .processors_len = DT_PROP_LEN(child, input_processors),                                    \
-        .processors = _CONCAT(zip_ps_entries_, DT_NODE_DEP_ORD(child)),                            \
+        .processors = UTIL_CAT(zip_ps_entries_, DT_NODE_DEP_ORD(child)),                            \
         .remainders_len = ZIP_PS_REM_TRACKERS(child),                                              \
-        .remainders = _CONCAT(zip_ps_rem_, DT_NODE_DEP_ORD(child)),                                \
+        .remainders = UTIL_CAT(zip_ps_rem_, DT_NODE_DEP_ORD(child)),                                \
     }
 
 /* Inits at POST_KERNEL/95: must be after the wrapped sub-processors, which
  * register at CONFIG_KERNEL_INIT_PRIORITY_DEFAULT. */
 /* Vendored patch (charybdis-zmk-config): DT_INST_CHILD_NUM does not exist in
  * Zephyr 3.5 (ZMK v0.3); count children with a constant-expression fold over
- * DT_INST_FOREACH_CHILD instead. */
+ * DT_INST_FOREACH_CHILD instead. Also, _CONCAT was replaced with UTIL_CAT
+ * below: in Zephyr 3.5 _CONCAT does not expand its arguments before pasting,
+ * so DT_NODE_DEP_ORD(child) was pasted unexpanded. */
 #define ZIP_PS_COUNT_CHILD(child) + 1
 #define ZIP_PS_CHILD_NUM(inst) (0 DT_INST_FOREACH_CHILD(inst, ZIP_PS_COUNT_CHILD))
 #define ZIP_PS_INST(n)                                                                             \

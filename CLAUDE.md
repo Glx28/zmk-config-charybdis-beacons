@@ -37,7 +37,7 @@ Applied via ZMK Studio web UI, NOT firmware flash. Paste `scripts/zmk-studio/app
 CPI=400 (devicetree), smart algorithm, axis mapping `swap-xy`+`invert-x`+`invert-y` (= old 90° orientation + invert-X), `force-awake`+`force-awake-4ms-mode` (250 Hz while active, power save when idle).
 No software scaler on the real trackball listener — raw CPI IS the effective CPI: 400 everywhere, all the time.
 Whole-vector jump acceleration (`config/modules/input_processor_jump_accel`) is wired onto `&trackball_listener` (the real hardware listener) in charybdis.keymap, reading raw sensor counts.
-Pointer speed modes are key behaviors (compiled in, unassigned — the optimizer owns placement): `Snipe Hold`/`Fast Hold` (hold = 0.25x/3x via cormoran runtime-input-processor) and `Snipe Mode`/`Normal Mode`/`Fast Mode` (persistent pipeline switch). They only work from right-half key positions (the trackball listener lives on the right/central half).
+Pointer speed modes are key behaviors (compiled in, unassigned — the optimizer owns placement): `Snipe Hold`/`Fast Hold` (hold = 0.25x/3x, restores cursor on release) and `Snipe Mode`/`Normal Mode`/`Fast Mode` (persistent set), all via the pipeline-switch module on `&trackball_listener`. They only work from right-half key positions (the trackball listener lives on the right/central half).
 
 ## Layer Map
 

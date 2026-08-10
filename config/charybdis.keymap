@@ -42,42 +42,19 @@
 // The old PMW3610 snipe-layers mechanism (8x CPI jump while a layer was held)
 // was removed together with the inorichi/DoctorWangWang driver.
 //
-// Two modules provide the modes, both wired onto &trackball_listener in
-// charybdis_right.overlay (which exists on the right/central half only, so
-// these keys only have an effect when placed on right-half positions):
-//
-// 1. Hold modes (cormoran zmk-module-runtime-input-processor): holding
-//    &snp_hold / &fst_hold temporarily scales the rip_mouse processor.
-// 2. Toggle/set modes (gggw zmk-input-processor-pipeline-switch): the
-//    zip_ball_mode meta-processor routes ball motion through one of three
-//    pipelines; the macros below select one deterministically and persist it.
-//    Behavior node names must stay <= 8 chars (split relay truncation).
+// All modes run through zip_ball_mode (gggw zmk-input-processor-pipeline-
+// switch), wired onto &trackball_listener in charybdis_right.overlay (which
+// exists on the right/central half only, so these keys only have an effect
+// when placed on right-half positions). The macros below select a pipeline
+// deterministically; the hold variants press a mode and restore cursor on
+// release (same macro pattern as the coach layer holds). persist=0 for the
+// hold transitions (no flash writes), persist=1 for the explicit set keys.
+// Behavior node names must stay <= 8 chars (split relay truncation).
 //
 // These behaviors are intentionally NOT bound to any key in this keymap.
 // They exist so ZMK Studio can assign them; the optimizer owns placement.
 
 / {
-    // Runtime scaling processor, target of the hold behaviors. Defined here
-    // (not via the module's omit-if-no-ref default node) so it also exists on
-    // the left build, where no listener references it.
-    rip_mouse: rip_mouse {
-        compatible = "zmk,input-processor-runtime";
-        processor-label = "mouse";
-        type = <INPUT_EV_REL>;
-        x-codes = <INPUT_REL_X>;
-        y-codes = <INPUT_REL_Y>;
-        scale-multiplier = <1>;
-        scale-divisor = <1>;
-        rotation-degrees = <0>;
-        track-remainders;
-
-        temp-layer-transparent-behavior = <&trans>;
-        temp-layer-kp-behavior = <&kp>;
-        temp-layer-keep-keycodes = <LEFT_CONTROL LEFT_SHIFT LEFT_ALT LEFT_GUI RIGHT_CONTROL RIGHT_SHIFT RIGHT_ALT RIGHT_GUI>;
-
-        #input-processor-cells = <0>;
-    };
-
     zip_ball_mode: zip_ball_mode {
         compatible = "zmk,input-processor-pipeline-switch";
         #input-processor-cells = <0>;
@@ -102,21 +79,27 @@
     };
 
     snp_hold: snp_hold {
-        compatible = "zmk,behavior-input-processor-temp-config";
+        compatible = "zmk,behavior-macro";
         display-name = "Snipe Hold";
-        processor-name = "mouse";
-        scale-multiplier = <1>;
-        scale-divisor = <4>;
         #binding-cells = <0>;
+        wait-ms = <5>;
+        tap-ms = <5>;
+        bindings =
+            <&macro_press &bmode 1 0>,
+            <&macro_pause_for_release>,
+            <&macro_tap &bmode 0 0>;
     };
 
     fst_hold: fst_hold {
-        compatible = "zmk,behavior-input-processor-temp-config";
+        compatible = "zmk,behavior-macro";
         display-name = "Fast Hold";
-        processor-name = "mouse";
-        scale-multiplier = <3>;
-        scale-divisor = <1>;
         #binding-cells = <0>;
+        wait-ms = <5>;
+        tap-ms = <5>;
+        bindings =
+            <&macro_press &bmode 2 0>,
+            <&macro_pause_for_release>,
+            <&macro_tap &bmode 0 0>;
     };
 
     snp_tog: snp_tog {

@@ -4,8 +4,6 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: badjeff
       url-base: https://github.com/badjeff
-    - name: cormoran
-      url-base: https://github.com/cormoran
     - name: gggw
       url-base: https://github.com/Good-Great-Grand-Wonderful
   projects:
@@ -19,18 +17,10 @@ manifest:
     - name: zmk-pmw3610-driver
       remote: badjeff
       revision: 5c5af40de4d8cdf55dc63c4c5907af1e52da6a95
-    # Runtime input processor: hold-key temporary scaling (snipe/fast hold).
-    - name: zmk-module-runtime-input-processor
-      remote: cormoran
-      revision: main
-    # Persistence backend required by the runtime input processor module.
-    - name: zmk-feature-custom-settings
-      remote: cormoran
-      revision: main
     # Pipeline switch: key-press toggling between cursor/snipe/fast pipelines.
     - name: zmk-input-processor-pipeline-switch
       remote: gggw
-      revision: main
+      revision: 6dde67a12f6c604300e94a412fb6f70a2cf33429
 
   self:
     path: config

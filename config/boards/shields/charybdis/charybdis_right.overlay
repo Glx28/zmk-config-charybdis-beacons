@@ -128,13 +128,12 @@
     // doesn't exist on the left shield's build.
     //
     // Chain order: jump_accel sees raw sensor counts first (its cps thresholds
-    // stay calibrated), then the pipeline switch (cursor/snipe/fast, toggled
-    // by the &bmode-based mode keys), then the runtime input processor (the
-    // hold-key temporary scaling target for &snp_hold/&fst_hold).
+    // stay calibrated), then the pipeline switch (cursor/snipe/fast, driven by
+    // the &bmode-based mode keys in charybdis.keymap).
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&jump_accel &zip_ball_mode &rip_mouse>;
+        input-processors = <&jump_accel &zip_ball_mode>;
 
         // L11 is a dedicated all-transparent scroll mode layer — holding any
         // @scroll:LX:hold key activates L11 (transparent, so LX bindings show

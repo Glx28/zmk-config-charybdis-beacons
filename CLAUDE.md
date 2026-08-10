@@ -26,15 +26,18 @@ Applied via ZMK Studio web UI, NOT firmware flash. Paste `scripts/zmk-studio/app
 
 ## PMW3610 Constraints
 
-- **CPI range: [200, 3200]** — values outside cause build failure
-- **CPI_DIVIDOR: MUST stay 1** — higher values cause dead zones (integer division drops slow movements)
+- Driver: **badjeff/zmk-pmw3610-driver @ zmk-0.3 branch** (pinned sha in `config/west.yml`). Do not use `main` (targets ZMK main/Zephyr 4.1, renamed `pixart,pmw3610-alt`).
+- **CPI range: [200, 3200], step 200** — set via the `cpi` devicetree property in `charybdis_right.overlay`, not Kconfig.
+- No CPI divider exists in this driver (the old driver's divider caused dead zones).
+- No `snipe-layers`/`scroll-layers` — pointer speed modes are key behaviors (see below); scroll mode is a layer-11-scoped child of `trackball_listener`.
 - For finer-than-200 precision, use `&zip_xy_scaler` with `track-remainders` in keymap
 
-## Current Config (`config/boards/shields/charybdis/charybdis_right.conf`)
+## Current Config (`config/boards/shields/charybdis/charybdis_right.conf` + `.overlay`)
 
-CPI=600, DIVIDOR=1, SNIPE=3200, scroll-tick=70, 250Hz polling, smart algorithm, invert-X, 90° orientation.
-No software scaler on the real trackball listener — raw CPI IS the effective CPI: 600 normal, 3200 speed (Layer 8), a 5.33:1 fast:slow ratio.
+CPI=400 (devicetree), smart algorithm, axis mapping `swap-xy`+`invert-x`+`invert-y` (= old 90° orientation + invert-X), `force-awake`+`force-awake-4ms-mode` (250 Hz while active, power save when idle).
+No software scaler on the real trackball listener — raw CPI IS the effective CPI: 400 everywhere, all the time.
 Whole-vector jump acceleration (`config/modules/input_processor_jump_accel`) is wired onto `&trackball_listener` (the real hardware listener) in charybdis.keymap, reading raw sensor counts.
+Pointer speed modes are key behaviors (compiled in, unassigned — the optimizer owns placement): `Snipe Hold`/`Fast Hold` (hold = 0.25x/3x via cormoran runtime-input-processor) and `Snipe Mode`/`Normal Mode`/`Fast Mode` (persistent pipeline switch). They only work from right-half key positions (the trackball listener lives on the right/central half).
 
 ## Layer Map
 
@@ -48,7 +51,7 @@ Whole-vector jump acceleration (`config/modules/input_processor_jump_accel`) is 
 | 5 | Code/IDE (44 VS Code shortcuts) |
 | 6 | Scroll overlay (firmware scroll-layers) |
 | 7 | RPG/game |
-| 8 | Speed/travel overlay (firmware snipe-layers) |
+| 8 | Speed/travel overlay (legacy — firmware snipe-layers removed; speed modes are now key behaviors) |
 | 9 | M-Files/DMS (22 shortcuts) |
 | 10 | Excel (48 shortcuts) |
 

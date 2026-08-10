@@ -3,7 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
- 
+
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <input/processors.dtsi>
+
 #include "charybdis.dtsi"
 
 &default_transform {
@@ -55,14 +58,23 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        // Firmware pointer capability targets only. These numbers are not
-        // semantic layer roles; generated layouts decide how users access them.
-        // L11 is a dedicated all-transparent scroll mode layer — holding any
-        // @scroll:LX:hold key activates L11 (transparent, so LX bindings show through)
-        // and enables scroll mode. This lets every layer have a working scroll hold key
-        // without jumping away from the current layer.
-        scroll-layers = <11>;
-        snipe-layers = <8>;
+        // badjeff driver: CPI + axis mapping live in devicetree, and there are
+        // NO snipe-layers/scroll-layers anymore. Pointer speed modes are key
+        // behaviors on the trackball_listener below (see charybdis.keymap);
+        // scroll mode is the layer-11-scoped scroller child on the listener.
+        // cpi 400 + swap-xy/invert-x/invert-y reproduces the old
+        // ORIENTATION_90 + INVERT_X mapping exactly (x=-raw_y, y=-raw_x).
+        cpi = <400>;
+        swap-xy;
+        invert-x;
+        invert-y;
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+        // Keep the sensor awake at 4ms sampling (250Hz) while ZMK is ACTIVE,
+        // downshift to power saving when idle (replaces POLLING_RATE_250).
+        force-awake;
+        force-awake-4ms-mode;
     };
 };
 
@@ -114,10 +126,23 @@
     // jump_accel is defined in charybdis.keymap (shared file) but wired onto
     // this listener here, in the right-only overlay, since trackball_listener
     // doesn't exist on the left shield's build.
+    //
+    // Chain order: jump_accel sees raw sensor counts first (its cps thresholds
+    // stay calibrated), then the pipeline switch (cursor/snipe/fast, toggled
+    // by the &bmode-based mode keys), then the runtime input processor (the
+    // hold-key temporary scaling target for &snp_hold/&fst_hold).
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&jump_accel>;
+        input-processors = <&jump_accel &zip_ball_mode &rip_mouse>;
+
+        // L11 is a dedicated all-transparent scroll mode layer — holding any
+        // @scroll:LX:hold key activates L11 (transparent, so LX bindings show
+        // through) and this layer-scoped child turns ball motion into scroll.
+        scroller {
+            layers = <11>;
+            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_scaler 2 1>;
+        };
     };
 };
 

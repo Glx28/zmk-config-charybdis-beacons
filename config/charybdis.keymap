@@ -22,9 +22,9 @@
     // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
     // behavior's listener, and &mmv isn't bound to any key in this keymap, so
     // anything attached there is inert dead code for actual trackball movement).
-    // Runs on raw 600-CPI sensor deltas, so speed thresholds are in raw counts/sec.
-    // base-factor 1000 = 1.0x (slow feel unchanged, stays at the raw 600 CPI baseline).
-    // fast-factor 3000 = 3.0x, so a fast flick reaches ~1800 raw-equivalent CPI.
+    // Runs on raw 400-CPI sensor deltas, so speed thresholds are in raw counts/sec.
+    // base-factor 1000 = 1.0x (slow feel unchanged, stays at the raw 400 CPI baseline).
+    // fast-factor 3000 = 3.0x, so a fast flick reaches ~1200 raw-equivalent CPI.
     // First real tuning pass on the correct listener -- expect a noticeable jump on
     // brisk movement; adjust jump-start-cps/jump-width-cps by feel from here.
     jump_accel: jump_accel {
@@ -38,15 +38,114 @@
     };
 };
 
-// The real trackball has NO software scaler in its path -- CONFIG_PMW3610_CPI
-// (600, see charybdis_right.conf) IS the effective CPI directly, a clean 20%
-// reduction from the prior 750. SNIPE_CPI=3200 gives the layer-8 travel mode
-// its own 5.33:1 ratio over the base CPI, independent of jump_accel.
-// NOTE: the actual `&trackball_listener { input-processors = <&jump_accel>; };`
-// override lives in charybdis_right.overlay, not here -- this file is shared
-// between charybdis_left and charybdis_right, but the trackball_listener label
-// only exists on the right shield's overlay, so referencing it here would
-// break the left build.
+// Pointer speed modes are KEY behaviors, never layer-linked CPI switching.
+// The old PMW3610 snipe-layers mechanism (8x CPI jump while a layer was held)
+// was removed together with the inorichi/DoctorWangWang driver.
+//
+// Two modules provide the modes, both wired onto &trackball_listener in
+// charybdis_right.overlay (which exists on the right/central half only, so
+// these keys only have an effect when placed on right-half positions):
+//
+// 1. Hold modes (cormoran zmk-module-runtime-input-processor): holding
+//    &snp_hold / &fst_hold temporarily scales the rip_mouse processor.
+// 2. Toggle/set modes (gggw zmk-input-processor-pipeline-switch): the
+//    zip_ball_mode meta-processor routes ball motion through one of three
+//    pipelines; the macros below select one deterministically and persist it.
+//    Behavior node names must stay <= 8 chars (split relay truncation).
+//
+// These behaviors are intentionally NOT bound to any key in this keymap.
+// They exist so ZMK Studio can assign them; the optimizer owns placement.
+
+/ {
+    // Runtime scaling processor, target of the hold behaviors. Defined here
+    // (not via the module's omit-if-no-ref default node) so it also exists on
+    // the left build, where no listener references it.
+    rip_mouse: rip_mouse {
+        compatible = "zmk,input-processor-runtime";
+        processor-label = "mouse";
+        type = <INPUT_EV_REL>;
+        x-codes = <INPUT_REL_X>;
+        y-codes = <INPUT_REL_Y>;
+        scale-multiplier = <1>;
+        scale-divisor = <1>;
+        rotation-degrees = <0>;
+        track-remainders;
+
+        temp-layer-transparent-behavior = <&trans>;
+        temp-layer-kp-behavior = <&kp>;
+        temp-layer-keep-keycodes = <LEFT_CONTROL LEFT_SHIFT LEFT_ALT LEFT_GUI RIGHT_CONTROL RIGHT_SHIFT RIGHT_ALT RIGHT_GUI>;
+
+        #input-processor-cells = <0>;
+    };
+
+    zip_ball_mode: zip_ball_mode {
+        compatible = "zmk,input-processor-pipeline-switch";
+        #input-processor-cells = <0>;
+        persistent;
+
+        cursor { // index 0: identity
+            input-processors = <&zip_xy_scaler 1 1>;
+        };
+        snipe { // index 1: 0.25x precision
+            input-processors = <&zip_xy_scaler 1 4>;
+        };
+        fast { // index 2: 3x boost
+            input-processors = <&zip_xy_scaler 3 1>;
+        };
+    };
+
+    bmode: bmode {
+        compatible = "zmk,behavior-pipeline-switch";
+        #binding-cells = <2>;
+        processor = <&zip_ball_mode>;
+        display-name = "Ball Mode";
+    };
+
+    snp_hold: snp_hold {
+        compatible = "zmk,behavior-input-processor-temp-config";
+        display-name = "Snipe Hold";
+        processor-name = "mouse";
+        scale-multiplier = <1>;
+        scale-divisor = <4>;
+        #binding-cells = <0>;
+    };
+
+    fst_hold: fst_hold {
+        compatible = "zmk,behavior-input-processor-temp-config";
+        display-name = "Fast Hold";
+        processor-name = "mouse";
+        scale-multiplier = <3>;
+        scale-divisor = <1>;
+        #binding-cells = <0>;
+    };
+
+    snp_tog: snp_tog {
+        compatible = "zmk,behavior-macro";
+        display-name = "Snipe Mode";
+        #binding-cells = <0>;
+        wait-ms = <5>;
+        tap-ms = <5>;
+        bindings = <&macro_tap &bmode 1 1>;
+    };
+
+    nrm_tog: nrm_tog {
+        compatible = "zmk,behavior-macro";
+        display-name = "Normal Mode";
+        #binding-cells = <0>;
+        wait-ms = <5>;
+        tap-ms = <5>;
+        bindings = <&macro_tap &bmode 0 1>;
+    };
+
+    fst_tog: fst_tog {
+        compatible = "zmk,behavior-macro";
+        display-name = "Fast Mode";
+        #binding-cells = <0>;
+        wait-ms = <5>;
+        tap-ms = <5>;
+        bindings = <&macro_tap &bmode 2 1>;
+    };
+};
 
 // zip_xy_scaler here only affects the (currently unused) &mmv "move mouse via
 // key hold" virtual behavior below -- unrelated to the physical trackball.
@@ -261,10 +360,11 @@
         };
 
         // L11: dedicated scroll mode layer — all transparent.
-        // Listed in scroll-layers in charybdis_right.overlay so the PMW3610 driver
-        // activates scroll mode whenever this layer is active. Every @scroll:LX:hold
-        // key exports as &mo 11, which stacks L11 on top of the current layer without
-        // displacing it (L11 is fully transparent so LX bindings remain visible).
+        // A layer-11-scoped child of trackball_listener in charybdis_right.overlay
+        // converts ball motion to scroll whenever this layer is active. Every
+        // @scroll:LX:hold key exports as &mo 11, which stacks L11 on top of the
+        // current layer without displacing it (L11 is fully transparent so LX
+        // bindings remain visible).
         layer_11 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans

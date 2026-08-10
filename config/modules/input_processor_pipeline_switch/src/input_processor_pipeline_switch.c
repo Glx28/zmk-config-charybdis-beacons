@@ -199,11 +199,11 @@ static const struct zmk_input_processor_driver_api zip_ps_driver_api = {
     +DT_PROP(DT_PHANDLE_BY_IDX(n, input_processors, idx), track_remainders)
 #define ZIP_PS_REM_TRACKERS(n) (0 DT_FOREACH_PROP_ELEM(n, input_processors, ZIP_PS_ONE_FOR_TRACKED))
 
-/* Vendored patch (charybdis-zmk-config): in Zephyr 3.5 neither _CONCAT nor
- * UTIL_CAT expands a DT_NODE_DEP_ORD() argument before pasting, so the
- * ordinal was pasted unexpanded ('declared as function returning an array').
- * Fix the same way ZMK's own input_listener.c does: route the ordinal through
- * an extra macro level so argument prescan expands it before the paste. */
+/* Vendored patch (charybdis-zmk-config): upstream uses DT_NODE_DEP_ORD,
+ * which only exists in Zephyr >= 3.6; Zephyr 3.5 (ZMK v0.3) calls it
+ * DT_DEP_ORD. The ordinal is also routed through an extra macro level
+ * (ZIP_PS_*_ID) so argument prescan expands it before UTIL_CAT pastes it --
+ * the same pattern ZMK's own input_listener.c uses. */
 #define ZIP_PS_CHILD_DEFINE_ID(child, ord)                                                         \
     static struct zip_ps_remainders UTIL_CAT(zip_ps_rem_, ord)[ZIP_PS_REM_TRACKERS(child)] = {};   \
     static const struct zmk_input_processor_entry UTIL_CAT(                                         \
@@ -211,7 +211,7 @@ static const struct zmk_input_processor_driver_api zip_ps_driver_api = {
         LISTIFY(DT_PROP_LEN(child, input_processors), ZMK_INPUT_PROCESSOR_ENTRY_AT_IDX, (, ),      \
                 child)};
 
-#define ZIP_PS_CHILD_DEFINE(child) ZIP_PS_CHILD_DEFINE_ID(child, DT_NODE_DEP_ORD(child))
+#define ZIP_PS_CHILD_DEFINE(child) ZIP_PS_CHILD_DEFINE_ID(child, DT_DEP_ORD(child))
 
 #define ZIP_PS_PIPELINE_ID(child, ord)                                                             \
     {                                                                                              \
@@ -221,7 +221,7 @@ static const struct zmk_input_processor_driver_api zip_ps_driver_api = {
         .remainders = UTIL_CAT(zip_ps_rem_, ord),                                                  \
     }
 
-#define ZIP_PS_PIPELINE(child) ZIP_PS_PIPELINE_ID(child, DT_NODE_DEP_ORD(child))
+#define ZIP_PS_PIPELINE(child) ZIP_PS_PIPELINE_ID(child, DT_DEP_ORD(child))
 
 /* Inits at POST_KERNEL/95: must be after the wrapped sub-processors, which
  * register at CONFIG_KERNEL_INIT_PRIORITY_DEFAULT. */

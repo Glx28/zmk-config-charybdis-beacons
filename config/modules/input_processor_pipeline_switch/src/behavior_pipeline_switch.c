@@ -59,17 +59,18 @@ static const struct behavior_driver_api behavior_pipeline_switch_driver_api = {
     .binding_released = on_keymap_binding_released,
 };
 
-/* Inits at POST_KERNEL/42: after the pipeline-switch processor (41) this
- * behavior references via DEVICE_DT_GET, but before ZMK macro behaviors
- * (~44-54) that reference this behavior in their bindings, so Zephyr's
- * init-priority dependency check passes for both edges. */
+/* Inits at POST_KERNEL/CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, like all ZMK
+ * behaviors. The init-after-processor ordering falls out of the devicetree
+ * ordinal (this behavior references the processor, so it gets the higher
+ * ordinal and thus inits later within the same priority band). */
 #define PIPELINE_SWITCH_INST(n)                                                                    \
     static const struct behavior_pipeline_switch_config behavior_pipeline_switch_config_##n = {    \
         .processor = DEVICE_DT_GET(DT_INST_PHANDLE(n, processor)),                                 \
     };                                                                                             \
     BEHAVIOR_DT_INST_DEFINE(n, &behavior_pipeline_switch_init, NULL, NULL,                         \
                             &behavior_pipeline_switch_config_##n,                                  \
-                            POST_KERNEL, 42, &behavior_pipeline_switch_driver_api);
+                            POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,
+                            &behavior_pipeline_switch_driver_api);
 
 DT_INST_FOREACH_STATUS_OKAY(PIPELINE_SWITCH_INST)
 

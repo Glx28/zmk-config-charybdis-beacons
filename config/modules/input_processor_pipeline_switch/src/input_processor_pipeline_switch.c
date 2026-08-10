@@ -223,12 +223,13 @@ static const struct zmk_input_processor_driver_api zip_ps_driver_api = {
 
 #define ZIP_PS_PIPELINE(child) ZIP_PS_PIPELINE_ID(child, DT_DEP_ORD(child))
 
-/* Inits at POST_KERNEL/41: after the wrapped sub-processors, which register
- * at CONFIG_KERNEL_INIT_PRIORITY_DEFAULT (40). Vendored change: upstream used
- * 95, but ZMK macros referencing the behavior must init AFTER the behavior,
- * and ZMK behavior devices live at ~44-54, so processor+behavior were moved
- * down to 41/42 to satisfy Zephyr's init-priority dependency check:
- * macro (>=44) > behavior (42) > processor (41) > sub-processors (40). */
+/* Vendored change: init at CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, same as the
+ * wrapped sub-processors, the ZMK behaviors, and the macros that reference
+ * this behavior. Same-priority init order follows devicetree ordinals, which
+ * are assigned in dependency order -- so sub-processors < this processor <
+ * the behavior < referencing macros automatically. (Upstream's 95 broke
+ * Zephyr's init-priority check: ZMK macros live at the default priority and
+ * must init after &bmode, which they reference in their bindings.) */
 /* Vendored patch (charybdis-zmk-config): DT_INST_CHILD_NUM does not exist in
  * Zephyr 3.5 (ZMK v0.3); count children with a constant-expression fold over
  * DT_INST_FOREACH_CHILD instead. */
@@ -249,7 +250,7 @@ static const struct zmk_input_processor_driver_api zip_ps_driver_api = {
         .pipelines = zip_ps_pipelines_##n,                                                         \
     };                                                                                             \
     DEVICE_DT_INST_DEFINE(n, &zip_ps_init, NULL, &zip_ps_data_##n, &zip_ps_config_##n,             \
-                          POST_KERNEL, 41, &zip_ps_driver_api);
+                          POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, &zip_ps_driver_api);
 
 DT_INST_FOREACH_STATUS_OKAY(ZIP_PS_INST)
 

@@ -10,6 +10,7 @@
  */
 #define DT_DRV_COMPAT zmk_input_processor_pipeline_switch
 
+#include <errno.h>
 #include <stdlib.h>
 
 #include <zephyr/device.h>
@@ -150,15 +151,41 @@ int zip_pipeline_switch_cycle(const struct device *dev, int32_t delta) {
     return data->state.active;
 }
 
+/* Vendored addition (charybdis-zmk-config): absolute pipeline select with a
+ * per-call persist flag, so key behaviors can set an explicit mode instead of
+ * only cycling. persist=true schedules the debounced flash save regardless of
+ * the devicetree `persistent` property (the save work is always initialized
+ * under CONFIG_SETTINGS for this reason). */
+int zip_pipeline_switch_set(const struct device *dev, uint8_t index, bool persist) {
+    struct zip_ps_data *data = dev->data;
+    const struct zip_ps_config *config = dev->config;
+
+    if (index >= config->pipelines_len) {
+        return -EINVAL;
+    }
+    data->state.active = index;
+
+    // Same remainder reset as cycle: stale fractions are meaningless for the
+    // new gesture.
+    const struct zip_ps_pipeline *pipeline = &config->pipelines[data->state.active];
+    memset(pipeline->remainders, 0, pipeline->remainders_len * sizeof(struct zip_ps_remainders));
+
+    LOG_INF("%s: active pipeline now %d", dev->name, data->state.active);
+
+#if IS_ENABLED(CONFIG_SETTINGS)
+    if (persist) {
+        k_work_reschedule(&data->save_work, K_MSEC(config->save_delay));
+    }
+#endif
+    return data->state.active;
+}
+
 static int zip_ps_init(const struct device *dev) {
     struct zip_ps_data *data = dev->data;
     data->dev = dev;
 
 #if IS_ENABLED(CONFIG_SETTINGS)
-    const struct zip_ps_config *config = dev->config;
-    if (config->persistent) {
-        k_work_init_delayable(&data->save_work, save_work_callback);
-    }
+    k_work_init_delayable(&data->save_work, save_work_callback);
 #endif
     return 0;
 }

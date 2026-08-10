@@ -4,8 +4,14 @@
  */
 #pragma once
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <zephyr/device.h>
 
 /* Cycle the active pipeline by delta (wraps), persisting if configured.
  * Returns the new active index, or a negative error code. */
 int zip_pipeline_switch_cycle(const struct device *dev, int32_t delta);
+
+/* Set the active pipeline to an absolute index; persist=true schedules the
+ * debounced flash save. Returns the new active index, or a negative error. */
+int zip_pipeline_switch_set(const struct device *dev, uint8_t index, bool persist);

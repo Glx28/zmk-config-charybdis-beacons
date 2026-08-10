@@ -2,9 +2,9 @@
  * Copyright (c) 2026 Vincent Franco
  * SPDX-License-Identifier: MIT
  *
- * Keypress behavior that toggles the active pipeline of a
- * zmk,input-processor-pipeline-switch processor: each press advances to the
- * next pipeline, wrapping around.
+ * Keypress behavior that sets the active pipeline of a
+ * zmk,input-processor-pipeline-switch processor to an absolute index
+ * (param1), optionally persisting it to flash (param2).
  *
  * Locality is BEHAVIOR_LOCALITY_EVENT_SOURCE: the behavior runs on whichever
  * half the key was pressed on, and switches that half's processor instance.
@@ -36,9 +36,13 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct behavior_pipeline_switch_config *config = dev->config;
 
-    int ret = zip_pipeline_switch_cycle(config->processor, 1);
+    /* Vendored change (charybdis-zmk-config): absolute select via binding
+     * params (param1 = pipeline index, param2 = persist-to-flash flag)
+     * instead of upstream's zero-param cycle. */
+    int ret = zip_pipeline_switch_set(config->processor, (uint8_t)binding->param1,
+                                      binding->param2 != 0);
     if (ret < 0) {
-        LOG_ERR("Failed to cycle pipeline on %s (err %d)", config->processor->name, ret);
+        LOG_ERR("Failed to set pipeline on %s (err %d)", config->processor->name, ret);
         return ret;
     }
     return 0;

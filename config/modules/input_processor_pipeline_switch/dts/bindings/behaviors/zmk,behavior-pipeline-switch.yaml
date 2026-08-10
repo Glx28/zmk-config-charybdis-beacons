@@ -1,0 +1,16 @@
+# Copyright (c) 2026 Vincent Franco
+# SPDX-License-Identifier: MIT
+
+description: |
+  Toggles the active pipeline of a zmk,input-processor-pipeline-switch
+  processor: each press advances to the next pipeline, wrapping around.
+
+compatible: "zmk,behavior-pipeline-switch"
+
+include: zero_param.yaml
+
+properties:
+  processor:
+    required: true
+    type: phandle
+    description: The pipeline-switch input processor to control.

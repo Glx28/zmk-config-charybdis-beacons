@@ -138,9 +138,11 @@
         // L11 is a dedicated all-transparent scroll mode layer — holding any
         // @scroll:LX:hold key activates L11 (transparent, so LX bindings show
         // through) and this layer-scoped child turns ball motion into scroll.
+        // Scroll scaler is <multiplier divisor>: 1/2 = half-speed scroll.
+        // track-remainders carries sub-tick fractions, so no dead zone.
         scroller {
             layers = <11>;
-            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_scaler 2 1>;
+            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_scaler 1 2>;
         };
     };
 };

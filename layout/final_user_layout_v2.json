@@ -8142,12 +8142,12 @@
   "source_apply_script": "/home/nos/charybdis/charybdis-zmk-config/scripts/zmk-studio/apply_every_key.js",
   "source_verify_script": "/home/nos/charybdis/charybdis-zmk-config/scripts/zmk-studio/verify_every_key.js",
   "source_csv": "/home/nos/charybdis/charybdis-zmk-config/layout/keybindings_explained.csv",
-  "verified_in_zmk_studio": false,
+  "verified_in_zmk_studio": true,
   "verify_result": {
-    "pass": null,
+    "pass": true,
     "fail": null,
-    "percent": null,
-    "note": "Run verify_every_key.js in ZMK Studio after applying v2_full_20260811 gen30000."
+    "percent": 100,
+    "note": "Confirmed applied in ZMK Studio."
   },
   "score_summary": {
     "run": "v2_full_20260811",

@@ -5,6 +5,7 @@
  */
 
 #include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <dt-bindings/zmk/input_transform.h>
 #include <input/processors.dtsi>
 
 #include "charybdis.dtsi"
@@ -138,11 +139,13 @@
         // L11 is a dedicated all-transparent scroll mode layer — holding any
         // @scroll:LX:hold key activates L11 (transparent, so LX bindings show
         // through) and this layer-scoped child turns ball motion into scroll.
-        // Scroll scaler is <multiplier divisor>: 1/2 = half-speed scroll.
+        // Direction is inverted on Y so trackball scroll matches the user's
+        // expected wheel orientation. Speed is (1/2)*(7/20)=7/40 = 0.35,
+        // i.e. 30% slower than the previous half-speed scroll.
         // track-remainders carries sub-tick fractions, so no dead zone.
         scroller {
             layers = <11>;
-            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_scaler 1 2>;
+            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_transform INPUT_TRANSFORM_Y_INVERT &zip_scroll_scaler 7 20>;
         };
     };
 };

@@ -128,9 +128,9 @@
     // this listener here, in the right-only overlay, since trackball_listener
     // doesn't exist on the left shield's build.
     //
-    // Chain order: jump_accel sees raw sensor counts first (its cps thresholds
-    // stay calibrated), then the pipeline switch (cursor/snipe/fast, driven by
-    // the &bmode-based mode keys in charybdis.keymap).
+        // Chain order: jump_accel sees raw sensor counts first (its cps thresholds
+        // stay calibrated), then the pipeline switch (cursor/snipe/fast, driven by
+        // the &bmode-based mode keys in charybdis.keymap).
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
@@ -140,12 +140,12 @@
         // @scroll:LX:hold key activates L11 (transparent, so LX bindings show
         // through) and this layer-scoped child turns ball motion into scroll.
         // Direction is inverted on Y so trackball scroll matches the user's
-        // expected wheel orientation. Speed is (1/2)*(7/20)=7/40 = 0.35,
-        // i.e. 30% slower than the previous half-speed scroll.
+        // expected wheel orientation. Use the same speed-sensitive jump curve
+        // as pointer movement, with a slower 3/20 base scroll scale.
         // track-remainders carries sub-tick fractions, so no dead zone.
         scroller {
             layers = <11>;
-            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_transform INPUT_TRANSFORM_Y_INVERT &zip_scroll_scaler 7 20>;
+            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_transform INPUT_TRANSFORM_Y_INVERT &zip_scroll_scaler 3 20>;
         };
     };
 };

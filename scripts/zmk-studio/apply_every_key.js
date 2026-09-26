@@ -7714,7 +7714,7 @@ window.CHARYBDIS_FINAL_LAYOUT = {
       "layer": 10,
       "x": 10,
       "y": 2,
-      "behavior": "coach_l10_scroll_hold",
+      "behavior": "coach_current_scroll_hold",
       "parameter": "",
       "modifiers": [],
       "label": "Scroll_L10",
@@ -8147,7 +8147,7 @@ console.log("Applying " + window.CHARYBDIS_FINAL_LAYOUT.keyCount + " keys across
   }
 
   function validateSupportedBehaviors(items) {
-    const supported = new Set(["Key Press", "Mouse Key Press", "Momentary Layer", "To Layer", "Toggle Layer", "Bluetooth", "Output Selection", "Studio Unlock", "Reset", "Bootloader", "Transparent", "None", "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold", "coach_l5_hold", "coach_l6_hold", "coach_l7_hold", "coach_l8_hold", "coach_l9_hold", "coach_l10_hold", "coach_l1_toggle", "coach_l2_toggle", "coach_l3_toggle", "coach_l4_toggle", "coach_l5_toggle", "coach_l6_toggle", "coach_l7_toggle", "coach_l8_toggle", "coach_l9_toggle", "coach_l10_toggle", "coach_mouse_lock", "coach_game_lock", "coach_base", "coach_travel_toggle", "coach_travel_off", "coach_recover_base", "coach_ctrl_click", "coach_shift_click", "coach_alt_click", "launcher_powertoys", "launcher_win_search", "coach_l1_scroll_hold", "coach_l2_scroll_hold", "coach_l3_scroll_hold", "coach_l4_scroll_hold", "coach_l5_scroll_hold", "coach_l6_scroll_hold", "coach_l7_scroll_hold", "coach_l8_scroll_hold", "coach_l9_scroll_hold", "coach_l10_scroll_hold", "Snipe Hold", "Fast Hold", "Snipe Mode", "Normal Mode", "Fast Mode"]);
+    const supported = new Set(["Key Press", "Mouse Key Press", "Momentary Layer", "To Layer", "Toggle Layer", "Bluetooth", "Output Selection", "Studio Unlock", "Reset", "Bootloader", "Transparent", "None", "coach_l1_hold", "coach_l2_hold", "coach_l3_hold", "coach_l4_hold", "coach_l5_hold", "coach_l6_hold", "coach_l7_hold", "coach_l8_hold", "coach_l9_hold", "coach_l10_hold", "coach_l1_toggle", "coach_l2_toggle", "coach_l3_toggle", "coach_l4_toggle", "coach_l5_toggle", "coach_l6_toggle", "coach_l7_toggle", "coach_l8_toggle", "coach_l9_toggle", "coach_l10_toggle", "coach_mouse_lock", "coach_game_lock", "coach_base", "coach_travel_toggle", "coach_travel_off", "coach_recover_base", "coach_ctrl_click", "coach_shift_click", "coach_alt_click", "launcher_powertoys", "launcher_win_search", "coach_l1_scroll_hold", "coach_l2_scroll_hold", "coach_l3_scroll_hold", "coach_l4_scroll_hold", "coach_l5_scroll_hold", "coach_l6_scroll_hold", "coach_l7_scroll_hold", "coach_l8_scroll_hold", "coach_l9_scroll_hold", "coach_l10_scroll_hold", "coach_current_scroll_hold", "Snipe Hold", "Fast Hold", "Snipe Mode", "Normal Mode", "Fast Mode"]);
     const unsupported = items.filter((item) => !supported.has(item.behavior));
     if (!unsupported.length) return true;
 

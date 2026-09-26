@@ -7705,7 +7705,7 @@
       "layer": 10,
       "x": 10,
       "y": 2,
-      "behavior": "coach_l10_scroll_hold",
+      "behavior": "coach_current_scroll_hold",
       "parameter": "",
       "modifiers": [],
       "label": "Scroll_L10",
@@ -7996,8 +7996,8 @@
       "apply_batch": true
     }
   ],
-  "name": "auto gen30000 (best gen 6)",
-  "source_run": "run_auto",
+  "name": "scroll_fix gen30000 (best gen 6)",
+  "source_run": "run_scroll_fix",
   "source_generation": 30000,
   "best_generation": 6,
   "source_apply_script": "/home/nos/charybdis/charybdis-zmk-config/scripts/zmk-studio/apply_every_key.js",
@@ -8008,10 +8008,10 @@
     "pass": null,
     "fail": null,
     "percent": null,
-    "note": "Run verify_every_key.js in ZMK Studio after applying auto gen30000."
+    "note": "Run verify_every_key.js in ZMK Studio after applying scroll_fix gen30000."
   },
   "score_summary": {
-    "run": "auto",
+    "run": "scroll_fix",
     "best_generation": 6,
     "gap": 82681.919
   }

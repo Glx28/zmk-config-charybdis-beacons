@@ -12,6 +12,8 @@ Layer state reaches Coach through a private BLE GATT notification, not keyboard 
 
 The service exists on the split central only. Private local Coach pages subscribe to notifications and forward validated events to the local helper over loopback HTTP.
 
+Scroll holds use a state-aware layer behavior: it adds L11 and its target while held, then only removes layers it added. If the target was already active (for example L10), releasing the scroll key leaves it active.
+
 ## Firmware
 
 The GitHub Actions build includes `config/modules/coach_beacon`. Use the `charybdis_right` artifact, because the right shield is this config's split central. Build left firmware too when installing the complete matching pair. No keyboard HID report descriptor changes, so BLE re-pairing is not required.

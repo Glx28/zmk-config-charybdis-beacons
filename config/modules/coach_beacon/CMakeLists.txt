@@ -1,4 +1,5 @@
 zephyr_library()
 
 zephyr_library_sources_ifdef(CONFIG_ZMK_BEHAVIOR_COACH_BEACON src/behavior_coach_beacon.c)
+zephyr_library_sources_ifdef(CONFIG_ZMK_BEHAVIOR_COACH_BEACON src/behavior_coach_scroll.c)
 zephyr_library_sources_ifdef(CONFIG_ZMK_BEHAVIOR_COACH_BEACON src/coach_beacon_gatt.c)

@@ -1,19 +1,10 @@
-/*
-Bluetooth coach beacon macro template.
+/* Coach state is sent over the private GATT service, never as keyboard input. */
 
-This file is intentionally a template/reference include. Wire these behaviors
-into the active firmware source only after confirming that source matches the
-final v1.8 ZMK Studio layout.
-
-The beacons use rare HID chords that AutoHotkey swallows:
-- Ctrl+Alt+Shift+F13..F24 for held/locked layer changes.
-- Ctrl+Alt+GUI+F13..F15 for pointer-travel/recovery changes.
-- Ctrl+Alt+GUI+F16..F23 for extra dynamic holds/toggles.
-- Ctrl+Shift+GUI+F13..F18 for extra dynamic holds.
-- Ctrl+Alt+Shift+GUI+F13..F22 for generic dynamic toggles L1..L10.
-
-BLE timing is conservative to avoid grouped or reordered host notifications.
-*/
+coach_beacon: coach_beacon {
+    compatible = "zmk,behavior-coach-beacon";
+    #binding-cells = <2>;
+    display-name = "Coach Beacon";
+};
 
 coach_l1_hold: coach_l1_hold {
             compatible = "zmk,behavior-macro";

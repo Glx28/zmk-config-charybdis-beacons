@@ -262,10 +262,10 @@ The coach app (`apps/charybdis-coach/app.js`) reads the CSV at runtime — no co
 | Toggle Layer | Tap to activate, tap again to deactivate | Toggle Layer |
 | Transparent | No binding — falls through to the layer below | Transparent |
 | None | Explicitly does nothing (blocks fall-through) | None |
-| coach_* | Custom ZMK macros for layer management with BLE beacons | Named behaviors in firmware |
+| coach_* | Custom ZMK macros for layer management with USB or BLE beacons | Named behaviors in firmware |
 
 ### Coach behaviors explained
-These are custom ZMK macros (defined in firmware) that combine layer switching with BLE beacon signals so the coach app can track which layer is active:
+These are custom ZMK macros (defined in firmware) that combine layer switching with a private beacon signal. USB uses a separate vendor HID interface; BLE uses GATT. Coach tracks the selected keyboard endpoint without sending layer-switch keypresses to the host:
 
 - `coach_l1_hold` through `coach_l4_hold` — momentary layer holds with beacon signals
 - `coach_mouse_lock` — locks its configured target layer (stays until `coach_base` is pressed); the target layer role is dynamic

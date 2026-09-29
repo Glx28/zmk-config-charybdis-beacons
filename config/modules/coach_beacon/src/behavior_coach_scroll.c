@@ -11,13 +11,16 @@
 
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 #include <zmk/keymap.h>
 #include <zmk/matrix.h>
+#endif
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #define COACH_SCROLL_LAYER 11
 
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 struct coach_scroll_hold_state {
     bool active;
     bool activated_target;
@@ -26,11 +29,13 @@ struct coach_scroll_hold_state {
 };
 
 static struct coach_scroll_hold_state hold_states[ZMK_KEYMAP_LEN];
+#endif
 
 static int coach_scroll_init(const struct device *dev) { return 0; }
 
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     if (event.position >= ARRAY_SIZE(hold_states)) {
         return -EINVAL;
     }
@@ -69,10 +74,16 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
 
     state->active = true;
     return 0;
+#else
+    ARG_UNUSED(binding);
+    ARG_UNUSED(event);
+    return 0;
+#endif
 }
 
 static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     if (event.position >= ARRAY_SIZE(hold_states)) {
         return -EINVAL;
     }
@@ -94,6 +105,11 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
         }
     }
     return err;
+#else
+    ARG_UNUSED(binding);
+    ARG_UNUSED(event);
+    return 0;
+#endif
 }
 
 static const struct behavior_driver_api behavior_coach_scroll_driver_api = {

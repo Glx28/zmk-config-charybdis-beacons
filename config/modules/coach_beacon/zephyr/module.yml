@@ -1,0 +1,6 @@
+name: zmk-coach-beacon
+build:
+  cmake: .
+  kconfig: Kconfig
+  settings:
+    dts_root: .

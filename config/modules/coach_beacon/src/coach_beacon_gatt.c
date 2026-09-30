@@ -7,7 +7,6 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/sys/util.h>
 
-#include <zmk/endpoints.h>
 #include <zmk/usb.h>
 
 #include "coach_beacon.h"
@@ -34,10 +33,14 @@ BT_GATT_SERVICE_DEFINE(coach_beacon_service,
     BT_GATT_CCC(coach_beacon_ccc_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE));
 
 int zmk_coach_beacon_notify(uint8_t layer, uint8_t kind, uint8_t pressed) {
-    struct zmk_endpoint_instance endpoint = zmk_endpoints_selected();
-    if (endpoint.transport == ZMK_TRANSPORT_USB) {
+#if IS_ENABLED(CONFIG_ZMK_USB)
+    /* Route Coach to the physically connected USB host even when ZMK keeps
+     * normal keyboard output on a remembered BLE endpoint. This lets a second
+     * computer running Coach follow the layer while the keyboard is cabled to it. */
+    if (zmk_usb_is_hid_ready()) {
         return zmk_coach_beacon_usb_notify(layer, kind, pressed);
     }
+#endif
     const uint8_t message[] = {0x43, 1, layer, kind, pressed};
     int err = bt_gatt_notify(NULL, &coach_beacon_service.attrs[2], message, sizeof(message));
     if (err && err != -ENOTCONN) {

@@ -40,11 +40,12 @@
     // Scroll has its own smooth speed curve. At 4 ms sensor polling, ordinary
     // motion is roughly 1-3 counts per report (250-750 counts/sec); use a
     // scroll-specific range so normal movement reaches the curve instead of
-    // staying pinned at 0.5x. The layer-specific scroller has its own chain.
+    // staying pinned at the slow-end 0.25x floor. The layer-specific scroller
+    // has its own chain.
     scroll_accel: scroll_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <500>;
+        base-factor = <250>;
         fast-factor = <3000>;
         jump-start-cps = <150>;
         jump-width-cps = <600>;

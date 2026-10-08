@@ -36,6 +36,20 @@
         jump-width-cps = <1200>;
         track-remainders;
     };
+
+    // Scroll has its own smooth speed curve. The layer-specific scroller
+    // replaces the listener's base processor chain, so it cannot inherit
+    // jump_accel. Keep slow scroll finer (0.5x) and allow fast sweeps to reach
+    // 3x before the existing scroll mapper/scaler.
+    scroll_accel: scroll_accel {
+        compatible = "zmk,input-processor-jump-accel";
+        #input-processor-cells = <0>;
+        base-factor = <500>;
+        fast-factor = <3000>;
+        jump-start-cps = <1800>;
+        jump-width-cps = <1200>;
+        track-remainders;
+    };
 };
 
 // Pointer speed modes are KEY behaviors, never layer-linked CPI switching.

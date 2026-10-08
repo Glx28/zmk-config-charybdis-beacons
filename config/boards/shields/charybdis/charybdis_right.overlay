@@ -140,12 +140,13 @@
         // @scroll:LX:hold key activates L11 (transparent, so LX bindings show
         // through) and this layer-scoped child turns ball motion into scroll.
         // Direction is inverted on Y so trackball scroll matches the user's
-        // expected wheel orientation. Use the same speed-sensitive jump curve
-        // as pointer movement, with a slower 3/20 base scroll scale.
-        // track-remainders carries sub-tick fractions, so no dead zone.
+        // expected wheel orientation. This child replaces the listener's base
+        // chain, so include its own curve before mapping XY to wheel events:
+        // 0.5x at slow speed, smoothly rising to 3x on fast sweeps. The existing
+        // 3/20 scroll scale remains, and track-remainders preserves sub-ticks.
         scroller {
             layers = <11>;
-            input-processors = <&zip_xy_to_scroll_mapper &zip_scroll_transform INPUT_TRANSFORM_Y_INVERT &zip_scroll_scaler 3 20>;
+            input-processors = <&scroll_accel>, <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>, <&zip_scroll_scaler 3 20>;
         };
     };
 };

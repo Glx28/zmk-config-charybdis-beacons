@@ -151,14 +151,4 @@
     };
 };
 
-// DIAGNOSTIC BUILD ONLY: disable the PMW3610 sensor and its input listener
-// while keeping the right/central keyboard and USB firmware unchanged.
-&trackball {
-    status = "disabled";
-};
-
-&trackball_listener {
-    status = "disabled";
-};
-
 

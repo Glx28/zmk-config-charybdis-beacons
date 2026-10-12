@@ -66,19 +66,19 @@ jobs:
             -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
       - name: ${{ matrix.board }}${{ matrix.shield && format(' {0}', matrix.shield) || '' }} Kconfig file
         run: grep -vE '^\#' build/zephyr/.config | grep -v -e '^$'
-      - name: Rename artifacts
+      - name: Rename artifacts${{ matrix.variant && format(' ({0})', matrix.variant) || '' }}
         shell: sh -x {0}
         run: |
           mkdir build/artifacts
           if [ -f build/zephyr/zmk.uf2 ]
           then
-            cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}.uf2"
+            cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}${{ matrix.variant && format('-{0}', matrix.variant) || '' }}.uf2"
           elif [ -f build/zephyr/zmk.${{ matrix.board }}.uf2 ]
           then
-            cp "build/zephyr/zmk.${{ matrix.board }}.uf2" "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}.uf2"
+            cp "build/zephyr/zmk.${{ matrix.board }}.uf2" "build/artifacts/${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}${{ matrix.variant && format('-{0}', matrix.variant) || '' }}.uf2"
           fi
       - name: Archive (${{ matrix.board }}${{ matrix.shield && format(' {0}', matrix.shield) || '' }})
         uses: actions/upload-artifact@v4
         with:
-          name: firmware-${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}
+          name: firmware-${{ matrix.board }}${{ matrix.shield && format('-{0}', matrix.shield) || '' }}${{ matrix.snippet && format('-{0}', matrix.snippet) || '' }}${{ matrix.variant && format('-{0}', matrix.variant) || '' }}
           path: build/artifacts

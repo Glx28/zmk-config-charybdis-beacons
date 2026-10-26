@@ -8,10 +8,13 @@
 
 #include <zephyr/device.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/sys/util.h>
 
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 #include <zmk/keymap.h>
+#endif
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -21,6 +24,7 @@ enum coach_layer_access_mode {
     COACH_LAYER_RESET = 2,
 };
 
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 static uint8_t hold_counts[ZMK_KEYMAP_LAYERS_LEN];
 static bool layer_locked[ZMK_KEYMAP_LAYERS_LEN];
 
@@ -35,9 +39,11 @@ static int apply_layer_state(uint8_t layer) {
 
     return zmk_keymap_layer_deactivate(layer);
 }
+#endif
 
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     ARG_UNUSED(event);
     uint8_t layer = (uint8_t)binding->param1;
     uint8_t mode = (uint8_t)binding->param2;
@@ -66,10 +72,16 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
     default:
         return -ENOTSUP;
     }
+#else
+    ARG_UNUSED(binding);
+    ARG_UNUSED(event);
+    return 0;
+#endif
 }
 
 static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     ARG_UNUSED(event);
     uint8_t layer = (uint8_t)binding->param1;
     uint8_t mode = (uint8_t)binding->param2;
@@ -86,6 +98,11 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
 
     hold_counts[layer]--;
     return apply_layer_state(layer);
+#else
+    ARG_UNUSED(binding);
+    ARG_UNUSED(event);
+    return 0;
+#endif
 }
 
 static const struct behavior_driver_api behavior_coach_layer_access_driver_api = {

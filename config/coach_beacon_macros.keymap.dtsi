@@ -1,5 +1,13 @@
 /* Coach state is sent over the private GATT service, never as keyboard input. */
 
+coach_tog_on: coach_tog_on {
+    compatible = "zmk,behavior-toggle-layer";
+    #binding-cells = <1>;
+    display-name = "Toggle Layer On";
+    toggle-mode = "on";
+    locking;
+};
+
 coach_beacon: coach_beacon {
     compatible = "zmk,behavior-coach-beacon";
     #binding-cells = <2>;
@@ -356,6 +364,86 @@ coach_l1_hold: coach_l1_hold {
             wait-ms = <40>;
             tap-ms = <40>;
             bindings = <&macro_tap &coach_beacon 5 1>, <&tog 5>;
+        };
+
+        coach_l5_lock: coach_l5_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 5 1>, <&coach_tog_on 5>;
+        };
+
+        coach_l1_lock: coach_l1_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 1 1>, <&coach_tog_on 1>;
+        };
+
+        coach_l2_lock: coach_l2_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 2 1>, <&coach_tog_on 2>;
+        };
+
+        coach_l3_lock: coach_l3_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 3 1>, <&coach_tog_on 3>;
+        };
+
+        coach_l4_lock: coach_l4_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 4 1>, <&coach_tog_on 4>;
+        };
+
+        coach_l6_lock: coach_l6_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 6 1>, <&coach_tog_on 6>;
+        };
+
+        coach_l7_lock: coach_l7_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 7 1>, <&coach_tog_on 7>;
+        };
+
+        coach_l8_lock: coach_l8_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 8 1>, <&coach_tog_on 8>;
+        };
+
+        coach_l9_lock: coach_l9_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 9 1>, <&coach_tog_on 9>;
+        };
+
+        coach_l10_lock: coach_l10_lock {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &coach_beacon 10 1>, <&coach_tog_on 10>;
         };
 
         coach_l6_toggle: coach_l6_toggle {

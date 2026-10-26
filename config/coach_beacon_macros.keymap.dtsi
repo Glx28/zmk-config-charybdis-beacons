@@ -1,10 +1,9 @@
 /* Coach state is sent over the private GATT service, never as keyboard input. */
 
-coach_tog_on: coach_tog_on {
-    compatible = "zmk,behavior-toggle-layer";
-    #binding-cells = <1>;
-    display-name = "Toggle Layer On";
-    toggle-mode = "on";
+coach_layer_access: coach_layer_access {
+    compatible = "zmk,behavior-coach-layer-access";
+    #binding-cells = <2>;
+    display-name = "Coach Layer Access";
 };
 
 coach_beacon: coach_beacon {
@@ -26,9 +25,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 1 0>,
-                <&macro_press &mo 1>,
+                <&macro_press &coach_layer_access 1 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 1>,
+                <&macro_release &coach_layer_access 1 0>,
                 <&macro_release &coach_beacon 1 0>;
         };
 
@@ -39,9 +38,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 2 0>,
-                <&macro_press &mo 2>,
+                <&macro_press &coach_layer_access 2 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 2>,
+                <&macro_release &coach_layer_access 2 0>,
                 <&macro_release &coach_beacon 2 0>;
         };
 
@@ -52,9 +51,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 3 0>,
-                <&macro_press &mo 3>,
+                <&macro_press &coach_layer_access 3 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 3>,
+                <&macro_release &coach_layer_access 3 0>,
                 <&macro_release &coach_beacon 3 0>;
         };
 
@@ -65,9 +64,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 4 0>,
-                <&macro_press &mo 4>,
+                <&macro_press &coach_layer_access 4 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 4>,
+                <&macro_release &coach_layer_access 4 0>,
                 <&macro_release &coach_beacon 4 0>;
         };
 
@@ -78,9 +77,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 5 0>,
-                <&macro_press &mo 5>,
+                <&macro_press &coach_layer_access 5 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 5>,
+                <&macro_release &coach_layer_access 5 0>,
                 <&macro_release &coach_beacon 5 0>;
         };
 
@@ -91,9 +90,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 6 0>,
-                <&macro_press &mo 6>,
+                <&macro_press &coach_layer_access 6 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 6>,
+                <&macro_release &coach_layer_access 6 0>,
                 <&macro_release &coach_beacon 6 0>;
         };
 
@@ -104,9 +103,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 7 0>,
-                <&macro_press &mo 7>,
+                <&macro_press &coach_layer_access 7 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 7>,
+                <&macro_release &coach_layer_access 7 0>,
                 <&macro_release &coach_beacon 7 0>;
         };
 
@@ -117,9 +116,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 8 0>,
-                <&macro_press &mo 8>,
+                <&macro_press &coach_layer_access 8 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 8>,
+                <&macro_release &coach_layer_access 8 0>,
                 <&macro_release &coach_beacon 8 0>;
         };
 
@@ -130,9 +129,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 9 0>,
-                <&macro_press &mo 9>,
+                <&macro_press &coach_layer_access 9 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 9>,
+                <&macro_release &coach_layer_access 9 0>,
                 <&macro_release &coach_beacon 9 0>;
         };
 
@@ -143,9 +142,9 @@ coach_l1_hold: coach_l1_hold {
             tap-ms = <40>;
             bindings =
                 <&macro_press &coach_beacon 10 0>,
-                <&macro_press &mo 10>,
+                <&macro_press &coach_layer_access 10 0>,
                 <&macro_pause_for_release>,
-                <&macro_release &mo 10>,
+                <&macro_release &coach_layer_access 10 0>,
                 <&macro_release &coach_beacon 10 0>;
         };
 
@@ -298,7 +297,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 2 2>, <&to 2>;
+            bindings = <&macro_tap &coach_beacon 2 2>, <&coach_layer_access 0 2>, <&to 2>;
         };
 
         coach_base: coach_base {
@@ -306,7 +305,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 0 3>, <&to 0>;
+            bindings = <&macro_tap &coach_beacon 0 3>, <&coach_layer_access 0 2>, <&to 0>;
         };
 
         coach_game_lock: coach_game_lock {
@@ -314,7 +313,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 7 2>, <&to 7>;
+            bindings = <&macro_tap &coach_beacon 7 2>, <&coach_layer_access 0 2>, <&to 7>;
         };
 
         coach_travel_toggle: coach_travel_toggle {
@@ -322,7 +321,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 8 1>, <&tog 8>;
+            bindings = <&macro_tap &coach_beacon 8 1>, <&coach_layer_access 8 1>;
         };
 
         coach_l1_toggle: coach_l1_toggle {
@@ -330,7 +329,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 1 1>, <&tog 1>;
+            bindings = <&macro_tap &coach_beacon 1 1>, <&coach_layer_access 1 1>;
         };
 
         coach_l2_toggle: coach_l2_toggle {
@@ -338,7 +337,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 2 1>, <&tog 2>;
+            bindings = <&macro_tap &coach_beacon 2 1>, <&coach_layer_access 2 1>;
         };
 
         coach_l3_toggle: coach_l3_toggle {
@@ -346,7 +345,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 3 1>, <&tog 3>;
+            bindings = <&macro_tap &coach_beacon 3 1>, <&coach_layer_access 3 1>;
         };
 
         coach_l4_toggle: coach_l4_toggle {
@@ -354,7 +353,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 4 1>, <&tog 4>;
+            bindings = <&macro_tap &coach_beacon 4 1>, <&coach_layer_access 4 1>;
         };
 
         coach_l5_toggle: coach_l5_toggle {
@@ -362,7 +361,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 5 1>, <&tog 5>;
+            bindings = <&macro_tap &coach_beacon 5 1>, <&coach_layer_access 5 1>;
         };
 
         coach_l5_lock: coach_l5_lock {
@@ -370,7 +369,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 5 1>, <&coach_tog_on 5>;
+            bindings = <&macro_tap &coach_beacon 5 1>, <&coach_layer_access 5 1>;
         };
 
         coach_l1_lock: coach_l1_lock {
@@ -378,7 +377,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 1 1>, <&coach_tog_on 1>;
+            bindings = <&macro_tap &coach_beacon 1 1>, <&coach_layer_access 1 1>;
         };
 
         coach_l2_lock: coach_l2_lock {
@@ -386,7 +385,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 2 1>, <&coach_tog_on 2>;
+            bindings = <&macro_tap &coach_beacon 2 1>, <&coach_layer_access 2 1>;
         };
 
         coach_l3_lock: coach_l3_lock {
@@ -394,7 +393,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 3 1>, <&coach_tog_on 3>;
+            bindings = <&macro_tap &coach_beacon 3 1>, <&coach_layer_access 3 1>;
         };
 
         coach_l4_lock: coach_l4_lock {
@@ -402,7 +401,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 4 1>, <&coach_tog_on 4>;
+            bindings = <&macro_tap &coach_beacon 4 1>, <&coach_layer_access 4 1>;
         };
 
         coach_l6_lock: coach_l6_lock {
@@ -410,7 +409,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 6 1>, <&coach_tog_on 6>;
+            bindings = <&macro_tap &coach_beacon 6 1>, <&coach_layer_access 6 1>;
         };
 
         coach_l7_lock: coach_l7_lock {
@@ -418,7 +417,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 7 1>, <&coach_tog_on 7>;
+            bindings = <&macro_tap &coach_beacon 7 1>, <&coach_layer_access 7 1>;
         };
 
         coach_l8_lock: coach_l8_lock {
@@ -426,7 +425,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 8 1>, <&coach_tog_on 8>;
+            bindings = <&macro_tap &coach_beacon 8 1>, <&coach_layer_access 8 1>;
         };
 
         coach_l9_lock: coach_l9_lock {
@@ -434,7 +433,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 9 1>, <&coach_tog_on 9>;
+            bindings = <&macro_tap &coach_beacon 9 1>, <&coach_layer_access 9 1>;
         };
 
         coach_l10_lock: coach_l10_lock {
@@ -442,7 +441,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 10 1>, <&coach_tog_on 10>;
+            bindings = <&macro_tap &coach_beacon 10 1>, <&coach_layer_access 10 1>;
         };
 
         coach_l6_toggle: coach_l6_toggle {
@@ -450,7 +449,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 6 1>, <&tog 6>;
+            bindings = <&macro_tap &coach_beacon 6 1>, <&coach_layer_access 6 1>;
         };
 
         coach_l7_toggle: coach_l7_toggle {
@@ -458,7 +457,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 7 1>, <&tog 7>;
+            bindings = <&macro_tap &coach_beacon 7 1>, <&coach_layer_access 7 1>;
         };
 
         coach_l8_toggle: coach_l8_toggle {
@@ -466,7 +465,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 8 1>, <&tog 8>;
+            bindings = <&macro_tap &coach_beacon 8 1>, <&coach_layer_access 8 1>;
         };
 
         coach_l9_toggle: coach_l9_toggle {
@@ -474,7 +473,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 9 1>, <&tog 9>;
+            bindings = <&macro_tap &coach_beacon 9 1>, <&coach_layer_access 9 1>;
         };
 
         coach_l10_toggle: coach_l10_toggle {
@@ -482,7 +481,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 10 1>, <&tog 10>;
+            bindings = <&macro_tap &coach_beacon 10 1>, <&coach_layer_access 10 1>;
         };
 
         coach_travel_off: coach_travel_off {
@@ -490,7 +489,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 0 3>, <&to 0>;
+            bindings = <&macro_tap &coach_beacon 0 3>, <&coach_layer_access 0 2>, <&to 0>;
         };
 
         coach_recover_base: coach_recover_base {
@@ -498,7 +497,7 @@ coach_l1_hold: coach_l1_hold {
             #binding-cells = <0>;
             wait-ms = <40>;
             tap-ms = <40>;
-            bindings = <&macro_tap &coach_beacon 0 3>, <&to 0>;
+            bindings = <&macro_tap &coach_beacon 0 3>, <&coach_layer_access 0 2>, <&to 0>;
         };
 
         coach_ctrl_click: coach_ctrl_click {

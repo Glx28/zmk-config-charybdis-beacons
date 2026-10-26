@@ -1,0 +1,3 @@
+description: Tracks Coach momentary layer holds and persistent layer toggles independently.
+compatible: "zmk,behavior-coach-layer-access"
+include: two_param.yaml

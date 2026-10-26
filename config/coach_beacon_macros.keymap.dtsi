@@ -5,7 +5,6 @@ coach_tog_on: coach_tog_on {
     #binding-cells = <1>;
     display-name = "Toggle Layer On";
     toggle-mode = "on";
-    locking;
 };
 
 coach_beacon: coach_beacon {

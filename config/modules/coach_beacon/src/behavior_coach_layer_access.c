@@ -15,6 +15,7 @@
 #include <zmk/behavior.h>
 #if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 #include <zmk/keymap.h>
+#include <zmk/matrix.h>
 #endif
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -35,13 +36,11 @@ struct hold_frame {
     bool waiting_for_unlock;
     uint8_t target;
     uint32_t suppressed_mask;
-    uint32_t order;
 };
 
 /* One frame per possible physical key prevents duplicate holds from sharing
  * parent state. Layer holds are released in arbitrary key-up order. */
 static struct hold_frame hold_frames[ZMK_KEYMAP_LEN];
-static uint32_t next_hold_order;
 
 static int apply_layer_state(uint8_t layer) {
     if (layer >= ZMK_KEYMAP_LAYERS_LEN) {
@@ -57,27 +56,6 @@ static int apply_layer_state(uint8_t layer) {
     }
 
     return zmk_keymap_layer_deactivate(layer);
-}
-
-static struct hold_frame *find_free_hold_frame(void) {
-    for (size_t i = 0; i < ARRAY_SIZE(hold_frames); i++) {
-        if (!hold_frames[i].active) {
-            return &hold_frames[i];
-        }
-    }
-    return NULL;
-}
-
-static struct hold_frame *find_latest_hold_frame(uint8_t target) {
-    struct hold_frame *latest = NULL;
-    for (size_t i = 0; i < ARRAY_SIZE(hold_frames); i++) {
-        struct hold_frame *frame = &hold_frames[i];
-        if (frame->active && !frame->waiting_for_unlock && frame->target == target &&
-            (latest == NULL || frame->order > latest->order)) {
-            latest = frame;
-        }
-    }
-    return latest;
 }
 
 static int restore_suppressed_parents(struct hold_frame *frame) {
@@ -120,21 +98,22 @@ static int finish_waiting_frames(uint8_t target) {
     return result;
 }
 
-static int begin_layer_hold(uint8_t target) {
+static int begin_layer_hold(uint8_t target, uint16_t position) {
     if (hold_counts[target] == UINT8_MAX) {
         return -EOVERFLOW;
     }
-
-    struct hold_frame *frame = find_free_hold_frame();
-    if (frame == NULL) {
-        return -ENOMEM;
+    if (position >= ARRAY_SIZE(hold_frames)) {
+        return -EINVAL;
     }
 
+    struct hold_frame *frame = &hold_frames[position];
+    if (frame->active) {
+        return 0;
+    }
     frame->active = true;
     frame->waiting_for_unlock = false;
     frame->target = target;
     frame->suppressed_mask = 0;
-    frame->order = ++next_hold_order;
 
     /* A later nested hold takes precedence over every still-held ancestor,
      * including ancestors with larger ZMK layer indexes. Restore ancestors
@@ -144,6 +123,7 @@ static int begin_layer_hold(uint8_t target) {
             continue;
         }
         if (suppressed_counts[parent] == UINT8_MAX) {
+            restore_suppressed_parents(frame);
             frame->active = false;
             return -EOVERFLOW;
         }
@@ -151,14 +131,7 @@ static int begin_layer_hold(uint8_t target) {
         suppressed_counts[parent]++;
         int err = apply_layer_state(parent);
         if (err < 0) {
-            frame->active = false;
-            for (uint8_t rollback = target + 1; rollback < ZMK_KEYMAP_LAYERS_LEN; rollback++) {
-                if ((frame->suppressed_mask & BIT(rollback)) != 0) {
-                    suppressed_counts[rollback]--;
-                    apply_layer_state(rollback);
-                }
-            }
-            frame->suppressed_mask = 0;
+            restore_suppressed_parents(frame);
             return err;
         }
     }
@@ -167,17 +140,20 @@ static int begin_layer_hold(uint8_t target) {
     return apply_layer_state(target);
 }
 
-static int end_layer_hold(uint8_t target) {
+static int end_layer_hold(uint8_t target, uint16_t position) {
+    if (position >= ARRAY_SIZE(hold_frames)) {
+        return -EINVAL;
+    }
+    struct hold_frame *frame = &hold_frames[position];
+    if (!frame->active || frame->target != target || frame->waiting_for_unlock) {
+        return 0;
+    }
     if (hold_counts[target] == 0) {
         return 0;
     }
 
     hold_counts[target]--;
-    struct hold_frame *frame = find_latest_hold_frame(target);
     int result = apply_layer_state(target);
-    if (frame == NULL) {
-        return result;
-    }
 
     if (layer_locked[target]) {
         frame->waiting_for_unlock = true;
@@ -216,7 +192,7 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
 
     switch (mode) {
     case COACH_LAYER_HOLD:
-        return begin_layer_hold(layer);
+        return begin_layer_hold(layer, event.position);
     case COACH_LAYER_TOGGLE:
         layer_locked[layer] = !layer_locked[layer];
         {
@@ -247,7 +223,7 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
     if (layer >= ZMK_KEYMAP_LAYERS_LEN) {
         return -EINVAL;
     }
-    return end_layer_hold(layer);
+    return end_layer_hold(layer, event.position);
 #else
     ARG_UNUSED(binding);
     ARG_UNUSED(event);

@@ -37,17 +37,16 @@
         track-remainders;
     };
 
-    // Scroll has its own smooth speed curve. At 4 ms sensor polling, ordinary
-    // motion is roughly 1-3 counts per report (250-750 counts/sec), so keep
-    // that range at the 0.1x floor. Faster sweeps ramp smoothly to 3.5x across
-    // the 750-2250 counts/sec band. The layer-specific scroller has its own chain.
+    // Scroll has its own smooth speed curve. Keep slow motion responsive at
+    // 0.5x, then ramp to 4x on faster sweeps. The layer-specific scroller has
+    // its own chain and applies the same curve before mapping motion to wheel events.
     scroll_accel: scroll_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <100>;
-        fast-factor = <3500>;
-        jump-start-cps = <750>;
-        jump-width-cps = <1500>;
+        base-factor = <500>;
+        fast-factor = <4000>;
+        jump-start-cps = <500>;
+        jump-width-cps = <1750>;
         track-remainders;
     };
 };

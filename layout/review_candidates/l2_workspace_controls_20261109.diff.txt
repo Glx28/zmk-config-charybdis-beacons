@@ -6,24 +6,26 @@ L2 x7 y0: Key Press → W → L Ctrl → Close tab  ==>  Key Press → SemiColon
 L2 x8 y0: Transparent  ==>  Key Press → SemiColon and Colon → L GUI+L Shift → Open FancyZones editor
 L2 x9 y0: Key Press → UpArrow → L Alt → Previous channel  ==>  Key Press → F13 → Open this PC's full-screen workspace
 L2 x10 y0: Key Press → LeftArrow → L Shift+L Alt → Shrink selection  ==>  Key Press → F14 → Open this PC's split workspace
-L2 x11 y0: Key Press → RightArrow → L Shift+L Alt → Expand selection  ==>  Transparent
-L2 x12 y0: Key Press → RightArrow → L Ctrl → Jump to right edge of data  ==>  Transparent
-L2 x7 y1: Key Press → Period and GreaterThan → L Ctrl → Show commands  ==>  Transparent
-L2 x8 y1: Key Press → 9 and Left Bracket → L Ctrl+L Shift → Unhide rows  ==>  Transparent
-L2 x9 y1: Key Press → DownArrow → L Alt → Next channel  ==>  Transparent
-L2 x10 y1: Key Press → Home → L Ctrl+L Shift → Select to cell A1  ==>  Transparent
-L2 x11 y1: Key Press → End → L Ctrl+L Shift → Select to last used cell  ==>  Transparent
-L2 x12 y1: Key Press → N → L GUI+L Shift → New+ (create from template)  ==>  Transparent
+L2 x11 y0: Key Press → RightArrow → L Shift+L Alt → Expand selection  ==>  Key Press → E → L Ctrl+L Shift → Check in document (M-Files)
+L2 x12 y0: Key Press → RightArrow → L Ctrl → Jump to right edge of data  ==>  Key Press → E → L Ctrl → Check out (M-Files) / Search (Teams)
+L2 x7 y1: Key Press → Period and GreaterThan → L Ctrl → Show commands  ==>  Key Press → G → L Ctrl → Go to vault (M-Files)
+L2 x8 y1: Key Press → 9 and Left Bracket → L Ctrl+L Shift → Unhide rows  ==>  Key Press → Return Enter → L Alt → Open properties / metadata card (M-Files)
+L2 x9 y1: Key Press → DownArrow → L Alt → Next channel  ==>  Key Press → N → L Ctrl → New document/object (M-Files) / New chat (Teams)
+L2 x10 y1: Key Press → Home → L Ctrl+L Shift → Select to cell A1  ==>  Key Press → O → L Ctrl → Open document/object (M-Files)
+L2 x11 y1: Key Press → End → L Ctrl+L Shift → Select to last used cell  ==>  Key Press → D → L Ctrl+L Shift → Download copy (M-Files)
+L2 x12 y1: Key Press → N → L GUI+L Shift → New+ (create from template)  ==>  Key Press → C → L Ctrl+L Shift → Copy object link (M-Files)
 L2 x0 y2: Transparent  ==>  Key Press → Equals and Plus → Norwegian backslash
 L2 x3 y2: Key Press → 0 and Right Bracket → R Alt → =  ==>  Key Press → 0 → L Shift → Norwegian equals
-L2 x7 y2: Key Press → F1 → Help  ==>  Transparent
-L2 x8 y2: Key Press → D → L Alt+L Shift → Split pane (auto)  ==>  Transparent
-L2 x9 y2: Key Press → PageUp → Previous slide  ==>  Transparent
-L2 x10 y2: coach_shift_click → Select range  ==>  Transparent
-L2 x11 y2: Key Press → SemiColon and Colon → L Ctrl+L Shift → Insert current time  ==>  Transparent
-L2 x12 y2: Key Press → O → L Ctrl → Toggle transcript / verbose tool-use view  ==>  Transparent
-L2 x9 y3: Key Press → PageDown → Next slide  ==>  Transparent
-L2 x11 y3: Key Press → ForwardSlash and QuestionMark → L Ctrl → Show keyboard shortcuts  ==>  Transparent
+L2 x7 y2: Key Press → F1 → Help  ==>  Key Press → X → L Ctrl+L Shift → Expand compose box (Teams)
+L2 x8 y2: Key Press → D → L Alt+L Shift → Split pane (auto)  ==>  Key Press → Return Enter → L Shift → Insert new line (Teams message)
+L2 x9 y2: Key Press → PageUp → Previous slide  ==>  Key Press → Return Enter → L Ctrl → Send expanded message (Teams)
+L2 x10 y2: coach_shift_click → Select range  ==>  Key Press → M → L Ctrl+L Shift → Toggle microphone mute (Teams call)
+L2 x11 y2: Key Press → SemiColon and Colon → L Ctrl+L Shift → Insert current time  ==>  Key Press → R → L Ctrl → Reply (Outlook)
+L2 x12 y2: Key Press → O → L Ctrl → Toggle transcript / verbose tool-use view  ==>  Key Press → R → L Ctrl+L Shift → Reply all (Outlook)
+L2 x9 y3: Key Press → PageDown → Next slide  ==>  Key Press → PageUp → L Ctrl → Previous worksheet (Excel)
+L2 x10 y3: Transparent  ==>  Key Press → PageDown → L Ctrl → Next worksheet (Excel)
+L2 x11 y3: Key Press → ForwardSlash and QuestionMark → L Ctrl → Show keyboard shortcuts  ==>  Key Press → 1 and Bang → L Ctrl → Format Cells (Excel)
+L2 x12 y3: Transparent  ==>  Key Press → H → L Ctrl → Find and replace (Excel)
 L8 x11 y0: Transparent  ==>  Key Press → 9 and Left Bracket → L Ctrl+L Shift → Unhide rows
 L8 x9 y2: Transparent  ==>  Key Press → PageUp → Previous slide
 L8 x9 y3: Transparent  ==>  Key Press → PageDown → Next slide

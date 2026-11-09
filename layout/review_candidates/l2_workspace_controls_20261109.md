@@ -3,14 +3,14 @@
 Status: review only; not applied to ZMK Studio or keyboard.
 
 - Source layout SHA-256: `cf296f918cbb16bab476a347e32567696aa5fe48b715a0db1dc64d6e1fb5a1f7`
-- Coach candidate SHA-256: `d603fc59a4e3daf4ac7fa07a57f56f384ea6f323c8ec222999efdc6fb522c53f`
-- Copied ZMK candidate SHA-256: `d603fc59a4e3daf4ac7fa07a57f56f384ea6f323c8ec222999efdc6fb522c53f`
-- Semantic binding changes: 43 of 616 positions.
+- Coach candidate SHA-256: `9c610283fda954cb49ac1c1289411d4cf91131fa342143dec562ae45960dca8b`
+- ZMK candidate SHA-256: `9c610283fda954cb49ac1c1289411d4cf91131fa342143dec562ae45960dca8b`
+- Semantic binding changes: 45 of 616 positions.
 - L1 and frozen L7 are unchanged.
-- Apply script includes only the 43 changed positions.
-- Verify script checks the full 616-position candidate.
-- Existing Studio apply template prompts before editing and never clicks Save.
+- Apply script contains only changed positions.
+- Verify script checks the complete 616-position candidate.
+- The apply script uses the repository Studio template, prompts before editing, and does not click Save.
 
-L2 right side: x7,y0 Workspaces editor (Win+Ctrl+Ø); x8,y0 FancyZones editor (Win+Shift+Ø); x9,y0 full-screen workspace (F13); x10,y0 split workspace (F14); x11,y0 spare. Norwegian cluster remains on L2, including backslash at x0,y2.
+The L2 right non-thumb area is filled. It contains Workspaces/FancyZones editors, host-local Full/Split launch signals, M-Files actions, Teams actions, Outlook reply actions, and Excel actions. Access keys remain x7/x8,y3; thumb keys are unchanged. The Norwegian symbol cluster remains on L2, including backslash.
 
-The CSV used for both Coach and ZMK review is byte-identical. Studio's live mapping was unavailable during preparation, so it must be audited before applying.
+The Coach CSV and ZMK review CSV are byte-identical. The imported work-host app logs guide the app pool; most individual app commands are trial bindings rather than previously observed shortcuts. Studio's live mapping was unavailable, so verify it before applying.

@@ -30,6 +30,6 @@ The corrected personal Browser profile must contain only the Brave YouTube app a
 
 ## Other changes
 
-Editors remain at L2 x7,y0 and x8,y0. Dynamic layer access and Norwegian symbols stay in place. L0/L1/L7 unchanged. Existing L2 application actions move to lower non-thumb positions as listed in `l2_workspace_direct_keys_20261109.md`.
+Editors remain at L2 x7,y0 and x8,y0. Dynamic layer access and Norwegian symbols stay in place. L0/L1/L7 unchanged. The displaced application-binding map is recorded in the historical `l2_workspace_direct_keys_20261109.md`; the active workspace coordinates are the table above. The 2026-11-09 coordinate map is superseded.
 
-This candidate changes only the new workspace block and labels beyond the previous direct-workspace layout. Its apply script is separate from the prior saved version. Studio application/save status must be confirmed separately.
+Applied and saved through the existing connected ZMK Studio tab on 2026-11-10. The generated verifier reported **37 pass, 0 fail**. No new Studio tab was opened and Edge remained maximized.

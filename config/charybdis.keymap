@@ -67,14 +67,6 @@
 // These behaviors are intentionally NOT bound to any key in this keymap.
 // They exist so ZMK Studio can assign them; the optimizer owns placement.
 
-// Preserve fractional motion in the persistent 0.25x snipe pipeline. Without
-// this, each small sensor report is divided independently and can round to
-// zero, producing apparent missed movement. The pipeline-switch module passes
-// per-processor remainder storage only when this property is set.
-&zip_xy_scaler {
-    track-remainders;
-};
-
 / {
     zip_ball_mode: zip_ball_mode {
         compatible = "zmk,input-processor-pipeline-switch";

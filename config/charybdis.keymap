@@ -71,7 +71,8 @@
     zip_ball_mode: zip_ball_mode {
         compatible = "zmk,input-processor-pipeline-switch";
         #input-processor-cells = <0>;
-        persistent;
+        // Start in normal cursor mode on every boot. Persisting Snipe Mode
+        // can leave the pointer at 0.25x after its Studio binding moves away.
 
         cursor { // index 0: identity
             input-processors = <&zip_xy_scaler 1 1>;
@@ -121,7 +122,7 @@
         #binding-cells = <0>;
         wait-ms = <5>;
         tap-ms = <5>;
-        bindings = <&macro_tap &bmode 1 1>;
+        bindings = <&macro_tap &bmode 1 0>;
     };
 
     nrm_tog: nrm_tog {
@@ -130,7 +131,7 @@
         #binding-cells = <0>;
         wait-ms = <5>;
         tap-ms = <5>;
-        bindings = <&macro_tap &bmode 0 1>;
+        bindings = <&macro_tap &bmode 0 0>;
     };
 
     fst_tog: fst_tog {
@@ -139,7 +140,7 @@
         #binding-cells = <0>;
         wait-ms = <5>;
         tap-ms = <5>;
-        bindings = <&macro_tap &bmode 2 1>;
+        bindings = <&macro_tap &bmode 2 0>;
     };
 };
 

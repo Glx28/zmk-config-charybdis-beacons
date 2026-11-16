@@ -128,9 +128,8 @@
     // this listener here, in the right-only overlay, since trackball_listener
     // doesn't exist on the left shield's build.
     //
-        // Chain order: jump_accel sees raw sensor counts first (its cps thresholds
-        // stay calibrated), then the pipeline switch (cursor/snipe/fast, driven by
-        // the &bmode-based mode keys in charybdis.keymap).
+        // Chain order: jump_accel sees raw sensor counts first, then the
+        // pipeline switch (cursor/snipe/fast, driven by &bmode keys).
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;

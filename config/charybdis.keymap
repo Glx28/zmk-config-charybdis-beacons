@@ -22,18 +22,16 @@
     // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
     // behavior's listener, and &mmv isn't bound to any key in this keymap, so
     // anything attached there is inert dead code for actual trackball movement).
-    // Runs on raw 400-CPI sensor deltas, so speed thresholds are in raw counts/sec.
-    // base-factor 1000 = 1.0x (slow feel unchanged, stays at the raw 400 CPI baseline).
-    // fast-factor 3000 = 3.0x, so a fast flick reaches ~1200 raw-equivalent CPI.
-    // First real tuning pass on the correct listener -- expect a noticeable jump on
-    // brisk movement; adjust jump-start-cps/jump-width-cps by feel from here.
+    // RawInput capture from the connected Charybdis peaked below 200 counts/sec;
+    // the former 1800-count onset kept acceleration effectively dormant. Keep a
+    // smooth ramp, with a 2x travel baseline and up to 4x on faster movement.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <1000>;
-        fast-factor = <3000>;
-        jump-start-cps = <1800>;
-        jump-width-cps = <1200>;
+        base-factor = <2000>;
+        fast-factor = <4000>;
+        jump-start-cps = <120>;
+        jump-width-cps = <300>;
         track-remainders;
     };
 

@@ -22,15 +22,15 @@
     // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
     // behavior's listener, and &mmv isn't bound to any key in this keymap, so
     // anything attached there is inert dead code for actual trackball movement).
-    // Keep 1x fine control, raise medium movement gain, and reserve 25x for
-    // the fastest flicks. The late hockey-stick ramp targets full-monitor travel.
+    // Raise the low-speed floor for usable short movement, start the ramp
+    // earlier for average movement, and reserve 25x for the fastest flicks.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <1000>;
+        base-factor = <2000>;
         fast-factor = <25000>;
-        jump-start-cps = <1200>;
-        jump-width-cps = <1800>;
+        jump-start-cps = <900>;
+        jump-width-cps = <2100>;
         curve-type = "hockey-stick";
         velocity-window-ms = <24>;
         gain-smoothing-ms = <16>;

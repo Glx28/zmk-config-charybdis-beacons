@@ -22,21 +22,17 @@
     // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
     // behavior's listener, and &mmv isn't bound to any key in this keymap, so
     // anything attached there is inert dead code for actual trackball movement).
-    // Direct 1x tracking for slow text selection and ordinary movement through
-    // 1000 cps. Estimate travelled path over 60ms, filter speed 24ms, and smooth
-    // the final gain over 48ms to prevent medium-speed gain pumping.
-    // CPI remains 1600; shutter-based sensor switching stays disabled.
+    // Restore the previously usable cursor curve: 1x baseline, smoothly rising
+    // to 3x from 1800 to 3000 raw counts/sec at 400 CPI. Keep sensor smart-mode
+    // switching disabled separately; it caused the tracking lockup.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
         base-factor = <1000>;
-        fast-factor = <8000>;
-        jump-start-cps = <1000>;
-        jump-width-cps = <2000>;
-        curve-type = "hockey-stick";
-        speed-smoothing-ms = <24>;
-        velocity-window-ms = <60>;
-        gain-smoothing-ms = <48>;
+        fast-factor = <3000>;
+        jump-start-cps = <1800>;
+        jump-width-cps = <1200>;
+        curve-type = "smootherstep";
         track-remainders;
     };
 

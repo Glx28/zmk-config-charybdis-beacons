@@ -174,14 +174,14 @@ static int32_t exponential_x1000(int32_t t_x1000) {
     return lower + ((upper - lower) * remainder) / 1000;
 }
 
-/* Precision-first hockey-stick response: 32 interpolated cubic stages. Gain
- * stays close to the slow-speed baseline through the middle, then rises steeply
- * near full-speed. Interpolation avoids hard jumps; no floating point needed. */
+/* Balanced hockey-stick response: 32 interpolated stages retain a gentle low
+ * end, add useful gain through the middle, then rise steeply near full speed.
+ * Interpolation avoids hard jumps; no floating point needed. */
 static int32_t hockey_stick_x1000(int32_t t_x1000) {
     static const int16_t stages[33] = {
-        0, 0, 0, 1, 4, 6, 8, 10, 13, 16, 20,
-        24, 33, 40, 52, 63, 75, 92, 108, 127, 146,
-        170, 205, 238, 271, 310, 370, 450, 542, 650, 800, 900, 1000,
+        0, 0, 1, 2, 4, 6, 9, 13, 18, 24, 32,
+        42, 54, 68, 85, 105, 130, 160, 195, 235, 285,
+        345, 415, 495, 580, 665, 745, 815, 875, 925, 965, 990, 1000,
     };
     if (t_x1000 <= 0) {
         return 0;

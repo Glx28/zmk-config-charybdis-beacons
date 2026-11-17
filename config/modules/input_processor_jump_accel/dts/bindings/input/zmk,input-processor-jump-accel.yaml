@@ -2,13 +2,12 @@
 # SPDX-License-Identifier: MIT
 
 description: |
-  Whole-vector, two-zone "jump" acceleration curve for relative pointer
+  Two-zone "jump" acceleration curve for relative pointer
   input (REL_X/REL_Y). Below jump-start-cps the processor applies a flat
   base-factor; above jump-start-cps + jump-width-cps it applies a flat
   fast-factor; in between it blends the two with a smootherstep curve.
-  Speed is computed from the combined (dx, dy) vector magnitude over time,
-  not per-axis, so diagonal movement isn't skewed relative to a pure
-  horizontal or vertical movement of the same speed.
+  Speed is computed from X/Y path length over time, so small reversals do not
+  collapse the gain estimate and diagonal movement is treated as a vector.
 
 compatible: "zmk,input-processor-jump-accel"
 
@@ -34,3 +33,40 @@ properties:
     type: int
     required: true
     description: Width, in raw sensor counts/sec, of the transition band between the two factors
+
+  curve-type:
+    type: string
+    enum:
+      - smootherstep
+      - exponential
+      - hockey-stick
+    default: smootherstep
+    description: |
+      Shape of the gain ramp. smootherstep keeps the existing smooth S-curve.
+      exponential stays near base-factor through slow and medium motion, then
+      rises rapidly toward fast-factor. hockey-stick keeps base-factor below
+      jump-start-cps, then increases gain linearly through the ramp band.
+
+  speed-smoothing-ms:
+    type: int
+    default: 0
+    description: |
+      Time constant for low-pass filtering the speed estimate. Zero preserves
+      the raw estimate. Nonzero values smooth per-event speed jitter; stale
+      perpendicular-axis samples older than 12ms are ignored.
+
+  velocity-window-ms:
+    type: int
+    default: 0
+    description: |
+      Estimate speed from total travelled X/Y path length over this rolling
+      event window. Zero uses the legacy per-event estimate. The window resets
+      after an idle gap longer than its duration.
+
+  gain-smoothing-ms:
+    type: int
+    default: 0
+    description: |
+      Time constant in milliseconds for smoothing the final acceleration factor.
+      This can reduce visible gain pumping when the speed estimate varies near
+      the middle of the curve. Zero disables gain smoothing.

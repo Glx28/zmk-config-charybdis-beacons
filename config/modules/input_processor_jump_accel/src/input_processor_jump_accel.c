@@ -179,9 +179,9 @@ static int32_t exponential_x1000(int32_t t_x1000) {
  * near full-speed. Interpolation avoids hard jumps; no floating point needed. */
 static int32_t hockey_stick_x1000(int32_t t_x1000) {
     static const int16_t stages[33] = {
-        0, 0, 2, 5, 10, 18, 28, 40, 55, 72, 92,
-        115, 145, 180, 220, 260, 300, 340, 385, 430, 480,
-        535, 590, 650, 710, 770, 825, 875, 920, 955, 980, 995, 1000,
+        0, 0, 0, 1, 4, 6, 8, 10, 13, 16, 20,
+        24, 33, 40, 52, 63, 75, 92, 108, 127, 146,
+        170, 205, 238, 271, 310, 370, 450, 542, 650, 800, 900, 1000,
     };
     if (t_x1000 <= 0) {
         return 0;
@@ -301,7 +301,17 @@ static int jump_accel_handle_event(const struct device *dev, struct input_event 
     }
 
     int32_t out = value_scaled / 1000;
-    if (state && state->remainder) {
+    if (out > INT16_MAX) {
+        out = INT16_MAX;
+        if (state && state->remainder) {
+            *state->remainder = 0;
+        }
+    } else if (out < INT16_MIN) {
+        out = INT16_MIN;
+        if (state && state->remainder) {
+            *state->remainder = 0;
+        }
+    } else if (state && state->remainder) {
         *state->remainder = (int16_t)(value_scaled - out * 1000);
     }
 

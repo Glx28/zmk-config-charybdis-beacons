@@ -44,8 +44,8 @@ properties:
     description: |
       Shape of the gain ramp. smootherstep keeps the existing smooth S-curve.
       exponential stays near base-factor through slow and medium motion, then
-      rises rapidly toward fast-factor. hockey-stick keeps base-factor below
-      jump-start-cps, then increases gain linearly through the ramp band.
+      rises rapidly toward fast-factor. hockey-stick keeps the early ramp
+      gentle and rises more sharply near the high-speed end.
 
   speed-smoothing-ms:
     type: int

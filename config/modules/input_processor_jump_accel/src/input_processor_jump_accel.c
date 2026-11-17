@@ -39,6 +39,7 @@ enum jump_accel_curve_type {
 #define JUMP_ACCEL_MAX_DT_MS 100
 #define JUMP_ACCEL_AXIS_STALE_MS 12
 #define JUMP_ACCEL_HISTORY_SIZE 32
+#define JUMP_ACCEL_SENSOR_SAMPLE_MS 4
 
 struct jump_accel_sample {
     int64_t timestamp_ms;
@@ -122,10 +123,10 @@ static int32_t history_speed_cps(struct jump_accel_data *data, const struct inpu
         path_y += item->dy < 0 ? -item->dy : item->dy;
     }
 
-    int64_t elapsed_ms = now - first_timestamp_ms;
-    if (elapsed_ms < window_ms / 2) {
-        return 0;
-    }
+    /* A first motion packet already represents one sensor sample interval.
+     * Count it immediately so a short, fast flick does not get treated as
+     * slow simply because the rolling window has not filled yet. */
+    int64_t elapsed_ms = now - first_timestamp_ms + JUMP_ACCEL_SENSOR_SAMPLE_MS;
 
     uint64_t magnitude_squared = (uint64_t)((int64_t)path_x * path_x) +
                                  (uint64_t)((int64_t)path_y * path_y);
@@ -178,9 +179,9 @@ static int32_t exponential_x1000(int32_t t_x1000) {
  * near full-speed. Interpolation avoids hard jumps; no floating point needed. */
 static int32_t hockey_stick_x1000(int32_t t_x1000) {
     static const int16_t stages[33] = {
-        0, 0, 0, 0, 1, 3, 6, 10, 15, 22, 30,
-        40, 52, 66, 83, 102, 125, 149, 177, 208, 244, 282,
-        324, 370, 421, 476, 535, 599, 669, 743, 822, 907, 1000,
+        0, 0, 2, 5, 10, 18, 28, 40, 55, 72, 92,
+        115, 145, 180, 220, 260, 300, 340, 385, 430, 480,
+        535, 590, 650, 710, 770, 825, 875, 920, 955, 980, 995, 1000,
     };
     if (t_x1000 <= 0) {
         return 0;

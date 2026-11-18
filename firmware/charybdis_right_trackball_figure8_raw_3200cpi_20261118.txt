@@ -1,0 +1,29 @@
+Charybdis right-half firmware candidate: isolated raw sensor figure-eight test
+
+Test question
+- Can the PMW3610 produce a smooth figure-eight when its sensor events are
+  passed directly to ZMK's mouse listener without custom pointer processing?
+
+Trackball path
+- PMW3610 CPI: 3200, the sensor's maximum supported setting.
+- Sensor sampling: existing force-awake 4ms mode.
+- X/Y axis swap and inversion: unchanged from the established layout.
+- Physical listener has no input-processors: no acceleration, software scale,
+  speed-mode pipeline, scroll mapper, scroll transform, or scroll scaler.
+- Input consumer priority -2 and queue depth 128 retained to reduce risk of
+  input queue loss; smart algorithm remains disabled.
+- Keyboard layers and key bindings remain unchanged. Trackball scroll and
+  snipe/fast modes are intentionally inactive in this isolated test.
+- Windows pointer acceleration was observed off, speed 10 (default).
+
+Interpretation
+- This candidate deliberately emits raw 3200-CPI movement and will be much
+  faster than the previous 0.25x profile. That exposes the sensor/event path
+  without custom movement transforms. It is a diagnostic test profile, not a
+  recommended permanent speed setting.
+- A successful build does not establish smooth physical tracking; that still
+  requires the user's figure-eight test.
+- Rollback candidate:
+  firmware/charybdis_right_trackball_figure8_max_cpi_20261118.uf2
+- Previously known-good flash before the max-CPI experiments:
+  firmware/charybdis_right_trackball_vector_path_20261118.uf2

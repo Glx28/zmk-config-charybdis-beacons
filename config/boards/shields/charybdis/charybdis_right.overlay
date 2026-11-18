@@ -59,15 +59,10 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        // badjeff driver: CPI + axis mapping live in devicetree, and there are
-        // NO snipe-layers/scroll-layers anymore. Pointer speed modes are key
-        // behaviors on the trackball_listener below (see charybdis.keymap);
-        // scroll mode is the layer-11-scoped scroller child on the listener.
-        // Figure-eight candidate: PMW3610 maximum resolution. The active
-        // pointer chain applies a constant 0.25x gain to preserve the current
-        // low-speed physical sensitivity while reducing count quantization.
-        // 4ms force-awake sampling remains enabled.
-        // swap-xy/invert-x/invert-y preserves the established orientation.
+        // Isolated figure-eight test: maximum sensor CPI, raw linear X/Y.
+        // No acceleration/scaling is attached to trackball_listener below.
+        // 4ms force-awake sampling remains enabled; established axis mapping
+        // remains unchanged.
         cpi = <3200>;
         swap-xy;
         invert-x;
@@ -127,29 +122,12 @@
 
 
 / {
-    // jump_accel is defined in charybdis.keymap (shared file) but wired onto
-    // this listener here, in the right-only overlay, since trackball_listener
-    // doesn't exist on the left shield's build.
-    //
-        // Chain order: jump_accel sees raw sensor counts first, then the
-        // pipeline switch (cursor/snipe/fast, driven by &bmode keys).
+    // Isolated raw sensor path. No pointer processors or layer-11 scroll child
+    // are attached, so PMW3610 relative events reach the ZMK mouse listener
+    // unchanged. This temporarily disables trackball scroll and speed modes.
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&jump_accel &zip_ball_mode>;
-
-        // L11 is a dedicated all-transparent scroll mode layer — holding any
-        // @scroll:LX:hold key activates L11 (transparent, so LX bindings show
-        // through) and this layer-scoped child turns ball motion into scroll.
-        // Direction is inverted on Y so trackball scroll matches the user's
-        // expected wheel orientation. This child replaces the listener's base
-        // chain, so include its own curve before mapping XY to wheel events:
-        // 0.5x at slow speed, smoothly rising to 3x on fast sweeps. The existing
-        // 3/20 scroll scale remains, and track-remainders preserves sub-ticks.
-        scroller {
-            layers = <11>;
-            input-processors = <&scroll_accel>, <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>, <&zip_scroll_scaler 3 20>;
-        };
     };
 };
 

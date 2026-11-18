@@ -31,11 +31,12 @@ enum jump_accel_curve_type {
     JUMP_ACCEL_CURVE_HOCKEY_STICK = 2,
 };
 
-/* Per-axis timestamps (not one shared clock) -- PMW3610 reports X then Y as
- * two separate events within the same ~4ms poll when moving diagonally, so a
- * shared "last event" timestamp would see dt_ms collapse to ~0 for whichever
- * axis is processed second, inflating its computed speed. Matches the
- * approach used by github.com/oleksandrmaslov/zmk-pointing-acceleration. */
+static int32_t smootherstep_x1000(int32_t t_x1000);
+static int32_t exponential_x1000(int32_t t_x1000);
+static int32_t hockey_stick_x1000(int32_t t_x1000);
+
+/* Legacy per-axis timestamps. The vector-window path below uses the input
+ * sync flag to assemble one X/Y sample before estimating speed. */
 #define JUMP_ACCEL_MAX_DT_MS 100
 #define JUMP_ACCEL_AXIS_STALE_MS 12
 #define JUMP_ACCEL_HISTORY_SIZE 32
@@ -53,8 +54,14 @@ struct jump_accel_data {
     int64_t last_ts_x_ms;
     int64_t last_ts_y_ms;
     int64_t last_motion_ts_ms;
+    int64_t last_vector_ts_ms;
     int32_t filtered_speed_cps;
     int32_t filtered_factor_x1000;
+    int64_t pending_vector_ts_ms;
+    int32_t pending_dx;
+    int32_t pending_dy;
+    int32_t pending_factor_x1000;
+    bool pending_vector;
     struct jump_accel_sample history[JUMP_ACCEL_HISTORY_SIZE];
     uint8_t history_head;
     uint8_t history_count;
@@ -82,10 +89,11 @@ static uint32_t isqrt32(uint32_t n) {
     return res;
 }
 
-/* Estimate speed from travelled distance over recent samples. Absolute axis
- * travel avoids gain collapsing on small reversals during ordinary control. */
-static int32_t history_speed_cps(struct jump_accel_data *data, const struct input_event *event,
-                                int64_t now, int32_t window_ms) {
+/* Estimate speed from the sum of complete per-sample vector distances.
+ * Summing X/Y totals first underestimates curved paths; sum hypot(dx, dy) for
+ * each synchronized PMW3610 sample instead. */
+static int32_t history_speed_cps(struct jump_accel_data *data, int32_t dx, int32_t dy,
+                                 int64_t now, int32_t window_ms) {
     if (data->last_motion_ts_ms > 0 && now - data->last_motion_ts_ms > window_ms) {
         data->history_head = 0;
         data->history_count = 0;
@@ -95,8 +103,8 @@ static int32_t history_speed_cps(struct jump_accel_data *data, const struct inpu
 
     struct jump_accel_sample *sample = &data->history[data->history_head];
     sample->timestamp_ms = now;
-    sample->dx = event->code == INPUT_REL_X ? event->value : 0;
-    sample->dy = event->code == INPUT_REL_Y ? event->value : 0;
+    sample->dx = (int16_t)CLAMP(dx, INT16_MIN, INT16_MAX);
+    sample->dy = (int16_t)CLAMP(dy, INT16_MIN, INT16_MAX);
     data->history_head = (data->history_head + 1) % JUMP_ACCEL_HISTORY_SIZE;
     if (data->history_count < JUMP_ACCEL_HISTORY_SIZE) {
         data->history_count++;
@@ -104,8 +112,7 @@ static int32_t history_speed_cps(struct jump_accel_data *data, const struct inpu
 
     int64_t cutoff = now - window_ms;
     int64_t first_timestamp_ms = now;
-    int32_t path_x = 0;
-    int32_t path_y = 0;
+    int32_t path = 0;
     for (uint8_t i = 0; i < data->history_count; i++) {
         uint8_t index = (data->history_head + JUMP_ACCEL_HISTORY_SIZE - data->history_count + i) %
                         JUMP_ACCEL_HISTORY_SIZE;
@@ -116,11 +123,9 @@ static int32_t history_speed_cps(struct jump_accel_data *data, const struct inpu
         if (item->timestamp_ms < first_timestamp_ms) {
             first_timestamp_ms = item->timestamp_ms;
         }
-        /* Track distance travelled per axis, not net displacement. Small
-         * reversals during normal ball control must not collapse estimated
-         * speed and make pointer gain pump up and down. */
-        path_x += item->dx < 0 ? -item->dx : item->dx;
-        path_y += item->dy < 0 ? -item->dy : item->dy;
+        uint32_t sample_squared = (uint32_t)((int32_t)item->dx * item->dx) +
+                                  (uint32_t)((int32_t)item->dy * item->dy);
+        path += isqrt32(sample_squared);
     }
 
     /* A first motion packet already represents one sensor sample interval.
@@ -128,10 +133,138 @@ static int32_t history_speed_cps(struct jump_accel_data *data, const struct inpu
      * slow simply because the rolling window has not filled yet. */
     int64_t elapsed_ms = now - first_timestamp_ms + JUMP_ACCEL_SENSOR_SAMPLE_MS;
 
-    uint64_t magnitude_squared = (uint64_t)((int64_t)path_x * path_x) +
-                                 (uint64_t)((int64_t)path_y * path_y);
-    uint32_t magnitude = isqrt32(magnitude_squared > UINT32_MAX ? UINT32_MAX : magnitude_squared);
-    return (int32_t)(((int64_t)magnitude * 1000) / elapsed_ms);
+    return (int32_t)(((int64_t)path * 1000) / elapsed_ms);
+}
+
+static int32_t factor_for_speed(const struct jump_accel_config *cfg, int32_t speed_cps) {
+    int32_t t_x1000;
+    if (cfg->jump_width_cps > 0) {
+        t_x1000 = (int32_t)(((int64_t)(speed_cps - cfg->jump_start_cps) * 1000) /
+                            cfg->jump_width_cps);
+    } else {
+        t_x1000 = speed_cps >= cfg->jump_start_cps ? 1000 : 0;
+    }
+
+    int32_t eased_x1000;
+    switch (cfg->curve_type) {
+    case JUMP_ACCEL_CURVE_EXPONENTIAL:
+        eased_x1000 = exponential_x1000(t_x1000);
+        break;
+    case JUMP_ACCEL_CURVE_HOCKEY_STICK:
+        eased_x1000 = hockey_stick_x1000(t_x1000);
+        break;
+    default:
+        eased_x1000 = smootherstep_x1000(t_x1000);
+        break;
+    }
+    return cfg->base_factor +
+           (int32_t)(((int64_t)(cfg->fast_factor - cfg->base_factor) * eased_x1000) / 1000);
+}
+
+static int32_t smooth_factor(const struct jump_accel_config *cfg, struct jump_accel_data *data,
+                             int32_t target_x1000, int32_t dt_ms) {
+    if (cfg->gain_smoothing_ms <= 0) {
+        data->filtered_factor_x1000 = target_x1000;
+        return target_x1000;
+    }
+
+    if (data->filtered_factor_x1000 == 0) {
+        data->filtered_factor_x1000 = cfg->base_factor;
+    }
+    int32_t alpha_x1000 = (int32_t)(((int64_t)dt_ms * 1000) /
+                                    (cfg->gain_smoothing_ms + dt_ms));
+    data->filtered_factor_x1000 +=
+        (int32_t)(((int64_t)(target_x1000 - data->filtered_factor_x1000) * alpha_x1000) / 1000);
+    return data->filtered_factor_x1000;
+}
+
+static void update_vector_gain(const struct jump_accel_config *cfg, struct jump_accel_data *data,
+                               int32_t dx, int32_t dy, int64_t sample_ts_ms) {
+    int32_t speed_cps = history_speed_cps(data, dx, dy, sample_ts_ms, cfg->velocity_window_ms);
+    int64_t elapsed = data->last_vector_ts_ms > 0 ? sample_ts_ms - data->last_vector_ts_ms
+                                                   : JUMP_ACCEL_SENSOR_SAMPLE_MS;
+    if (elapsed <= 0) {
+        elapsed = JUMP_ACCEL_SENSOR_SAMPLE_MS;
+    } else if (elapsed > JUMP_ACCEL_MAX_DT_MS) {
+        elapsed = JUMP_ACCEL_MAX_DT_MS;
+    }
+    data->last_vector_ts_ms = sample_ts_ms;
+
+    if (cfg->speed_smoothing_ms > 0) {
+        int32_t alpha_x1000 = (int32_t)((elapsed * 1000) /
+                                        (cfg->speed_smoothing_ms + elapsed));
+        data->filtered_speed_cps +=
+            (int32_t)(((int64_t)(speed_cps - data->filtered_speed_cps) * alpha_x1000) / 1000);
+        speed_cps = data->filtered_speed_cps;
+    }
+    smooth_factor(cfg, data, factor_for_speed(cfg, speed_cps), (int32_t)elapsed);
+}
+
+static int handle_vector_event(const struct device *dev, struct input_event *event,
+                               struct zmk_input_processor_state *state) {
+    const struct jump_accel_config *cfg = dev->config;
+    struct jump_accel_data *data = dev->data;
+    int64_t now = k_uptime_get();
+
+    /* A missing sync event must not leave one axis pending indefinitely. */
+    if (data->pending_vector && now - data->pending_vector_ts_ms > JUMP_ACCEL_AXIS_STALE_MS) {
+        data->pending_vector = false;
+        data->pending_dx = data->pending_dy = 0;
+    }
+    if (!data->pending_vector) {
+        if (data->last_motion_ts_ms == 0 ||
+            now - data->last_motion_ts_ms > cfg->velocity_window_ms) {
+            data->history_head = 0;
+            data->history_count = 0;
+            data->filtered_speed_cps = 0;
+            data->last_vector_ts_ms = 0;
+            data->filtered_factor_x1000 = cfg->base_factor;
+        }
+        data->pending_vector = true;
+        data->pending_vector_ts_ms = now;
+        data->pending_dx = data->pending_dy = 0;
+        data->pending_factor_x1000 = data->filtered_factor_x1000 != 0
+                                         ? data->filtered_factor_x1000
+                                         : cfg->base_factor;
+    }
+
+    if (event->code == INPUT_REL_X) {
+        data->pending_dx += event->value;
+    } else {
+        data->pending_dy += event->value;
+    }
+
+    /* Both axes in one Zephyr sync group use the same gain. Compute the next
+     * gain only after the complete sample is available; one sensor sample of
+     * latency is bounded to the PMW3610 reporting interval. */
+    int32_t factor_x1000 = data->pending_factor_x1000;
+    int32_t value_scaled = (int32_t)event->value * factor_x1000;
+    if (state && state->remainder) {
+        value_scaled += *state->remainder;
+    }
+    int32_t out = value_scaled / 1000;
+    if (out > INT16_MAX) {
+        out = INT16_MAX;
+        if (state && state->remainder) {
+            *state->remainder = 0;
+        }
+    } else if (out < INT16_MIN) {
+        out = INT16_MIN;
+        if (state && state->remainder) {
+            *state->remainder = 0;
+        }
+    } else if (state && state->remainder) {
+        *state->remainder = (int16_t)(value_scaled - out * 1000);
+    }
+    event->value = (int16_t)out;
+
+    if (event->sync) {
+        update_vector_gain(cfg, data, data->pending_dx, data->pending_dy,
+                           data->pending_vector_ts_ms);
+        data->pending_vector = false;
+        data->pending_dx = data->pending_dy = 0;
+    }
+    return ZMK_INPUT_PROC_CONTINUE;
 }
 
 /* Smootherstep (Perlin), fixed-point x1000 in, x1000 out. Flat tangents at
@@ -210,6 +343,10 @@ static int jump_accel_handle_event(const struct device *dev, struct input_event 
     const struct jump_accel_config *cfg = dev->config;
     struct jump_accel_data *data = dev->data;
 
+    if (cfg->velocity_window_ms > 0) {
+        return handle_vector_event(dev, event, state);
+    }
+
     int64_t now = k_uptime_get();
     if (data->last_motion_ts_ms == 0 ||
         (cfg->velocity_window_ms > 0 &&
@@ -246,10 +383,6 @@ static int jump_accel_handle_event(const struct device *dev, struct input_event 
     uint32_t mag_sq = (uint32_t)(dx * dx) + (uint32_t)(dy * dy);
     uint32_t mag = isqrt32(mag_sq);
     int32_t speed_cps = (int32_t)(((int64_t)mag * 1000) / dt_ms);
-
-    if (cfg->velocity_window_ms > 0) {
-        speed_cps = history_speed_cps(data, event, now, cfg->velocity_window_ms);
-    }
 
     if (cfg->speed_smoothing_ms > 0) {
         int32_t alpha_x1000 = (int32_t)((dt_ms * 1000) / (cfg->speed_smoothing_ms + dt_ms));

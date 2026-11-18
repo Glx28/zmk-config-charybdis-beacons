@@ -52,16 +52,17 @@ properties:
     default: 0
     description: |
       Time constant for low-pass filtering the speed estimate. Zero preserves
-      the raw estimate. Nonzero values smooth per-event speed jitter; stale
-      perpendicular-axis samples older than 12ms are ignored.
+      the raw estimate. With a vector window, smoothing updates once per
+      synchronized X/Y sample; otherwise it updates per axis event.
 
   velocity-window-ms:
     type: int
     default: 0
     description: |
-      Estimate speed from total travelled X/Y path length over this rolling
-      event window. Zero uses the legacy per-event estimate. The window resets
-      after an idle gap longer than its duration.
+      Estimate speed from the sum of per-sample Euclidean X/Y distances over
+      this rolling window. Axis events are paired using the sync flag. Zero
+      uses the legacy per-event estimate. The window resets after an idle gap
+      longer than its duration.
 
   gain-smoothing-ms:
     type: int

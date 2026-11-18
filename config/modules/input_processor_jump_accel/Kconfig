@@ -9,6 +9,7 @@ config INPUT_PROCESSOR_JUMP_ACCEL
       Enables a ZMK input processor implementing a RawAccel-style two-zone
       whole-vector acceleration curve for relative pointer input: a flat
       low-speed factor, a smootherstep transition, and a flat high-speed
-      factor, driven by whole-vector speed (sqrt(dx^2+dy^2)/dt) rather than
-      per-axis speed, with fractional remainder tracking so low factors
-      don't quantize slow movement to zero.
+      factor, driven by the rolling sum of synchronized vector distances over
+      elapsed time rather than independently aggregated axis totals, with
+      fractional remainder tracking so low factors don't quantize slow movement
+      to zero.

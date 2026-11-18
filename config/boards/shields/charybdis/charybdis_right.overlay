@@ -63,9 +63,12 @@
         // NO snipe-layers/scroll-layers anymore. Pointer speed modes are key
         // behaviors on the trackball_listener below (see charybdis.keymap);
         // scroll mode is the layer-11-scoped scroller child on the listener.
-        // cpi 400 + swap-xy/invert-x/invert-y reproduces the old
-        // ORIENTATION_90 + INVERT_X mapping exactly (x=-raw_y, y=-raw_x).
-        cpi = <400>;
+        // Figure-eight candidate: PMW3610 maximum resolution. The active
+        // pointer chain applies a constant 0.25x gain to preserve the current
+        // low-speed physical sensitivity while reducing count quantization.
+        // 4ms force-awake sampling remains enabled.
+        // swap-xy/invert-x/invert-y preserves the established orientation.
+        cpi = <3200>;
         swap-xy;
         invert-x;
         invert-y;

@@ -17,23 +17,22 @@
 };
 
 / {
-    // Whole-vector jump-curve acceleration (config/modules/input_processor_jump_accel).
+    // Constant normalized gain for the max-CPI figure-eight profile.
     // Wired onto &trackball_listener below -- the REAL PMW3610 hardware listener --
     // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
     // behavior's listener, and &mmv isn't bound to any key in this keymap, so
     // anything attached there is inert dead code for actual trackball movement).
-    // Preserve the existing low/mid response while reducing near-maximum
-    // cursor travel by about half for fast cross-monitor flicks.
+    // At 3200 CPI, 0.25x yields the same low-speed physical sensitivity as
+    // 400 CPI at 2x. Constant gain removes speed-dependent scale changes while
+    // tracing circles/figure-eights. Existing snipe/fast modes remain intact.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <2000>;
-        fast-factor = <10500>;
-        jump-start-cps = <500>;
-        jump-width-cps = <1700>;
+        base-factor = <250>;
+        fast-factor = <250>;
+        jump-start-cps = <0>;
+        jump-width-cps = <0>;
         curve-type = "hockey-stick";
-        velocity-window-ms = <24>;
-        gain-smoothing-ms = <16>;
         track-remainders;
     };
 
@@ -43,10 +42,12 @@
     scroll_accel: scroll_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <500>;
-        fast-factor = <4000>;
-        jump-start-cps = <500>;
-        jump-width-cps = <1750>;
+        // CPI increased 8x; divide scroll gain by 8 and scale speed thresholds
+        // by 8 to preserve the existing physical scroll response.
+        base-factor = <63>;
+        fast-factor = <500>;
+        jump-start-cps = <4000>;
+        jump-width-cps = <14000>;
         track-remainders;
     };
 };

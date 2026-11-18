@@ -1,0 +1,29 @@
+Charybdis right-half firmware candidate: figure-eight / constant-gain tracking
+
+Purpose
+- Improve fine directional continuity for circles and figure-eight motion.
+- Remove speed-dependent gain changes during shape tracing.
+- Use PMW3610 maximum 3200 CPI and its existing 4ms awake sampling mode.
+
+Pointer profile
+- Constant firmware gain: 0.25x.
+- Physical output scale: 3200 CPI x 0.25 = 800 effective CPI.
+- This matches the prior low-speed ratio of 400 CPI x 2.0, while providing
+  eight times as many sensor counts per physical distance before scaling.
+- Existing track-remainder handling carries fractional output across events.
+- Normal/fast/snipe pipeline modes remain available; fast remains 3x and snipe
+  remains 0.25x of the normal profile.
+- Sensor smart algorithm remains disabled.
+
+Scroll profile
+- Scroll gain and speed thresholds divided/multiplied by eight, respectively,
+  to preserve the prior physical response after the CPI change.
+- Existing 4ms sensor sampling and input queue settings retained.
+
+Build/test state
+- Candidate only; not flashed by this profile-generation step.
+- User should assess small circles, figure-eights, diagonal transitions, and
+  ordinary pointer speed. This profile trades automatic fast-movement boost
+  for a constant spatial ratio; use existing fast mode for rapid travel.
+- Prior known-good rollback: firmware/charybdis_right_trackball_vector_path_20261118.uf2
+- Prior rollback SHA256: bceb0beb16f84642d56146ab38e3297a4b39012c45b0ef8b30e00a10f101e3c2

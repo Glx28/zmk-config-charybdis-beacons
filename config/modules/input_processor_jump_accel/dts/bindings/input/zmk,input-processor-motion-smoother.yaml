@@ -1,0 +1,19 @@
+# Copyright (c) 2026 The Charybdis Contributors
+# SPDX-License-Identifier: MIT
+
+description: Time-based, fixed-scale relative-motion smoother
+
+compatible: "zmk,input-processor-motion-smoother"
+
+include: ip_zero_param.yaml
+
+properties:
+  time-constant-ms:
+    type: int
+    required: true
+    description: First-order temporal smoothing time constant in milliseconds
+
+  scale-x1000:
+    type: int
+    default: 1000
+    description: Fixed, speed-independent output scale in thousandths

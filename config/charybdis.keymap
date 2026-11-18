@@ -17,22 +17,11 @@
 };
 
 / {
-    // Constant normalized gain for the max-CPI figure-eight profile.
-    // Wired onto &trackball_listener below -- the REAL PMW3610 hardware listener --
-    // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
-    // behavior's listener, and &mmv isn't bound to any key in this keymap, so
-    // anything attached there is inert dead code for actual trackball movement).
-    // At 3200 CPI, 0.25x yields the same low-speed physical sensitivity as
-    // 400 CPI at 2x. Constant gain removes speed-dependent scale changes while
-    // tracing circles/figure-eights. Existing snipe/fast modes remain intact.
-    jump_accel: jump_accel {
-        compatible = "zmk,input-processor-jump-accel";
+    figure8_smoother: figure8_smoother {
+        compatible = "zmk,input-processor-motion-smoother";
         #input-processor-cells = <0>;
-        base-factor = <250>;
-        fast-factor = <250>;
-        jump-start-cps = <0>;
-        jump-width-cps = <0>;
-        curve-type = "hockey-stick";
+        time-constant-ms = <6>;
+        scale-x1000 = <250>;
         track-remainders;
     };
 

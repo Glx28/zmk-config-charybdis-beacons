@@ -4,4 +4,5 @@
 if(CONFIG_INPUT_PROCESSOR_JUMP_ACCEL)
   zephyr_library()
   zephyr_library_sources(src/input_processor_jump_accel.c)
+  zephyr_library_sources(src/input_processor_motion_smoother.c)
 endif()

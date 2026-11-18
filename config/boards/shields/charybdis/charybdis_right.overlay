@@ -59,10 +59,8 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        // Isolated figure-eight test: maximum sensor CPI, raw linear X/Y.
-        // No acceleration/scaling is attached to trackball_listener below.
-        // 4ms force-awake sampling remains enabled; established axis mapping
-        // remains unchanged.
+        // Figure-eight test: 3200-CPI sensor detail, fixed 0.25 scale, temporal
+        // smoothing. No speed-dependent acceleration.
         cpi = <3200>;
         swap-xy;
         invert-x;
@@ -122,12 +120,11 @@
 
 
 / {
-    // Isolated raw sensor path. No pointer processors or layer-11 scroll child
-    // are attached, so PMW3610 relative events reach the ZMK mouse listener
-    // unchanged. This temporarily disables trackball scroll and speed modes.
+    // Isolated figure-eight path. Scroll and selectable speed modes are disabled.
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
+        input-processors = <&figure8_smoother>;
     };
 };
 

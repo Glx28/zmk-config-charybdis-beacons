@@ -22,9 +22,6 @@ struct jump_accel_config {
     int32_t curve_type;
     int32_t speed_smoothing_ms;
     int32_t velocity_window_ms;
-    int32_t distance_window_ms;
-    int32_t distance_start_counts;
-    int32_t distance_width_counts;
     int32_t gain_smoothing_ms;
 };
 
@@ -41,7 +38,7 @@ enum jump_accel_curve_type {
  * approach used by github.com/oleksandrmaslov/zmk-pointing-acceleration. */
 #define JUMP_ACCEL_MAX_DT_MS 100
 #define JUMP_ACCEL_AXIS_STALE_MS 12
-#define JUMP_ACCEL_HISTORY_SIZE 64
+#define JUMP_ACCEL_HISTORY_SIZE 32
 #define JUMP_ACCEL_SENSOR_SAMPLE_MS 4
 
 struct jump_accel_sample {
@@ -88,10 +85,8 @@ static uint32_t isqrt32(uint32_t n) {
 /* Estimate speed from travelled distance over recent samples. Absolute axis
  * travel avoids gain collapsing on small reversals during ordinary control. */
 static int32_t history_speed_cps(struct jump_accel_data *data, const struct input_event *event,
-                                int64_t now, int32_t window_ms, int32_t distance_window_ms,
-                                int32_t *distance_counts) {
-    int32_t reset_window_ms = window_ms > distance_window_ms ? window_ms : distance_window_ms;
-    if (data->last_motion_ts_ms > 0 && now - data->last_motion_ts_ms > reset_window_ms) {
+                                int64_t now, int32_t window_ms) {
+    if (data->last_motion_ts_ms > 0 && now - data->last_motion_ts_ms > window_ms) {
         data->history_head = 0;
         data->history_count = 0;
         data->filtered_speed_cps = 0;
@@ -108,20 +103,13 @@ static int32_t history_speed_cps(struct jump_accel_data *data, const struct inpu
     }
 
     int64_t cutoff = now - window_ms;
-    int64_t distance_cutoff = now - distance_window_ms;
     int64_t first_timestamp_ms = now;
     int32_t path_x = 0;
     int32_t path_y = 0;
-    int32_t distance_x = 0;
-    int32_t distance_y = 0;
     for (uint8_t i = 0; i < data->history_count; i++) {
         uint8_t index = (data->history_head + JUMP_ACCEL_HISTORY_SIZE - data->history_count + i) %
                         JUMP_ACCEL_HISTORY_SIZE;
         const struct jump_accel_sample *item = &data->history[index];
-        if (item->timestamp_ms >= distance_cutoff) {
-            distance_x += item->dx < 0 ? -item->dx : item->dx;
-            distance_y += item->dy < 0 ? -item->dy : item->dy;
-        }
         if (item->timestamp_ms < cutoff) {
             continue;
         }
@@ -143,9 +131,6 @@ static int32_t history_speed_cps(struct jump_accel_data *data, const struct inpu
     uint64_t magnitude_squared = (uint64_t)((int64_t)path_x * path_x) +
                                  (uint64_t)((int64_t)path_y * path_y);
     uint32_t magnitude = isqrt32(magnitude_squared > UINT32_MAX ? UINT32_MAX : magnitude_squared);
-    uint64_t distance_squared = (uint64_t)((int64_t)distance_x * distance_x) +
-                                (uint64_t)((int64_t)distance_y * distance_y);
-    *distance_counts = (int32_t)isqrt32(distance_squared > UINT32_MAX ? UINT32_MAX : distance_squared);
     return (int32_t)(((int64_t)magnitude * 1000) / elapsed_ms);
 }
 
@@ -168,12 +153,11 @@ static int32_t smootherstep_x1000(int32_t t_x1000) {
     return (int32_t)(6 * t5 - 15 * t4 + 10 * t3);
 }
 
-/* Normalized exponential ease-in: (2^(4t) - 1) / 15, fixed-point x1000.
- * This keeps the low end gentle while bringing useful gain into the middle.
+/* Normalized exponential ease-in: (2^(8t) - 1) / 255, fixed-point x1000.
  * A 1/16-step LUT avoids floating point and keeps firmware cost small. */
 static int32_t exponential_x1000(int32_t t_x1000) {
     static const int16_t values[17] = {
-        0, 13, 28, 45, 67, 92, 122, 158, 200, 250, 310, 382, 467, 568, 688, 830, 1000,
+        0, 2, 4, 7, 12, 18, 27, 40, 59, 85, 122, 174, 247, 351, 498, 706, 1000,
     };
     if (t_x1000 <= 0) {
         return 0;
@@ -226,11 +210,9 @@ static int jump_accel_handle_event(const struct device *dev, struct input_event 
     struct jump_accel_data *data = dev->data;
 
     int64_t now = k_uptime_get();
-    int32_t reset_window_ms = cfg->velocity_window_ms > cfg->distance_window_ms
-                                  ? cfg->velocity_window_ms
-                                  : cfg->distance_window_ms;
     if (data->last_motion_ts_ms == 0 ||
-        (reset_window_ms > 0 && now - data->last_motion_ts_ms > reset_window_ms)) {
+        (cfg->velocity_window_ms > 0 &&
+         now - data->last_motion_ts_ms > cfg->velocity_window_ms)) {
         data->filtered_factor_x1000 = cfg->base_factor;
     }
     int64_t *last_ts_ms = (event->code == INPUT_REL_X) ? &data->last_ts_x_ms : &data->last_ts_y_ms;
@@ -263,14 +245,9 @@ static int jump_accel_handle_event(const struct device *dev, struct input_event 
     uint32_t mag_sq = (uint32_t)(dx * dx) + (uint32_t)(dy * dy);
     uint32_t mag = isqrt32(mag_sq);
     int32_t speed_cps = (int32_t)(((int64_t)mag * 1000) / dt_ms);
-    int32_t distance_counts = 0;
 
-    if (cfg->velocity_window_ms > 0 || cfg->distance_window_ms > 0) {
-        int32_t history_speed = history_speed_cps(data, event, now, cfg->velocity_window_ms,
-                                                  cfg->distance_window_ms, &distance_counts);
-        if (cfg->velocity_window_ms > 0) {
-            speed_cps = history_speed;
-        }
+    if (cfg->velocity_window_ms > 0) {
+        speed_cps = history_speed_cps(data, event, now, cfg->velocity_window_ms);
     }
 
     if (cfg->speed_smoothing_ms > 0) {
@@ -299,12 +276,6 @@ static int jump_accel_handle_event(const struct device *dev, struct input_event 
     default:
         eased_x1000 = smootherstep_x1000(t_x1000);
         break;
-    }
-    if (cfg->distance_window_ms > 0 && cfg->distance_width_counts > 0) {
-        int32_t distance_t_x1000 = (int32_t)(((int64_t)(distance_counts - cfg->distance_start_counts) * 1000) /
-                                             cfg->distance_width_counts);
-        int32_t distance_gate_x1000 = smootherstep_x1000(distance_t_x1000);
-        eased_x1000 = (int32_t)(((int64_t)eased_x1000 * distance_gate_x1000) / 1000);
     }
     int32_t factor_x1000 =
         cfg->base_factor +
@@ -363,9 +334,6 @@ static struct zmk_input_processor_driver_api jump_accel_driver_api = {
         .curve_type = DT_INST_ENUM_IDX(n, curve_type),                                               \
         .speed_smoothing_ms = DT_INST_PROP(n, speed_smoothing_ms),                                  \
         .velocity_window_ms = DT_INST_PROP(n, velocity_window_ms),                                  \
-        .distance_window_ms = DT_INST_PROP(n, distance_window_ms),                                  \
-        .distance_start_counts = DT_INST_PROP(n, distance_start_counts),                            \
-        .distance_width_counts = DT_INST_PROP(n, distance_width_counts),                            \
         .gain_smoothing_ms = DT_INST_PROP(n, gain_smoothing_ms),                                    \
     };                                                                                              \
     DEVICE_DT_INST_DEFINE(n, NULL, NULL, &jump_accel_data_##n, &jump_accel_config_##n, POST_KERNEL, \

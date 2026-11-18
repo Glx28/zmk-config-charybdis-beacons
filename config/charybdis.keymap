@@ -22,13 +22,13 @@
     // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
     // behavior's listener, and &mmv isn't bound to any key in this keymap, so
     // anything attached there is inert dead code for actual trackball movement).
-    // Keep precise low-speed control while bringing useful gain into ordinary
-    // movement; reserve 25x for the fastest flicks.
+    // Preserve the existing low/mid response while reducing near-maximum
+    // cursor travel by about half for fast cross-monitor flicks.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
         base-factor = <2000>;
-        fast-factor = <25000>;
+        fast-factor = <10500>;
         jump-start-cps = <500>;
         jump-width-cps = <1700>;
         curve-type = "hockey-stick";

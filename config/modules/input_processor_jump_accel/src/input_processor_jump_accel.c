@@ -174,14 +174,15 @@ static int32_t exponential_x1000(int32_t t_x1000) {
     return lower + ((upper - lower) * remainder) / 1000;
 }
 
-/* Balanced hockey-stick response: 32 interpolated stages retain a gentle low
- * end, add useful gain through the middle, then rise steeply near full speed.
+/* Hockey-stick response. Rescaled through the upper-middle so the previous
+ * medium-speed gain is retained with the lower fast-factor; the final stages
+ * ease into the new cap, reducing near-maximum cursor travel by about half.
  * Interpolation avoids hard jumps; no floating point needed. */
 static int32_t hockey_stick_x1000(int32_t t_x1000) {
     static const int16_t stages[33] = {
-        0, 0, 1, 2, 4, 6, 9, 13, 18, 24, 32,
-        42, 54, 68, 85, 105, 130, 160, 195, 235, 285,
-        345, 415, 495, 580, 665, 745, 815, 875, 925, 965, 990, 1000,
+        0, 0, 3, 5, 11, 16, 24, 35, 49, 65, 87,
+        114, 146, 184, 230, 284, 352, 433, 528, 636, 771,
+        934, 975, 995, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
     };
     if (t_x1000 <= 0) {
         return 0;

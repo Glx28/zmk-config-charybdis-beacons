@@ -17,22 +17,26 @@
 };
 
 / {
-    // Whole-vector jump-curve acceleration (config/modules/input_processor_jump_accel).
+    // Speed + accumulated-distance gated acceleration (config/modules/input_processor_jump_accel).
     // Wired onto &trackball_listener below -- the REAL PMW3610 hardware listener --
     // not &mmv_input_listener (that's the virtual "hold a key to move the mouse"
     // behavior's listener, and &mmv isn't bound to any key in this keymap, so
     // anything attached there is inert dead code for actual trackball movement).
-    // Keep precise low-speed control while bringing useful gain into ordinary
-    // movement; reserve 25x for the fastest flicks.
+    // At 800 CPI, 1x/12.5x preserves the previous 400 CPI 2x/25x physical
+    // sensitivity. Short, fast flicks remain at base gain until sufficient
+    // path distance accumulates; exponential gain then rises smoothly.
     jump_accel: jump_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <2000>;
-        fast-factor = <25000>;
-        jump-start-cps = <500>;
-        jump-width-cps = <1700>;
-        curve-type = "hockey-stick";
+        base-factor = <1000>;
+        fast-factor = <12500>;
+        jump-start-cps = <1000>;
+        jump-width-cps = <3400>;
+        curve-type = "exponential";
         velocity-window-ms = <24>;
+        distance-window-ms = <80>;
+        distance-start-counts = <64>;
+        distance-width-counts = <96>;
         gain-smoothing-ms = <16>;
         track-remainders;
     };

@@ -63,9 +63,9 @@
         // NO snipe-layers/scroll-layers anymore. Pointer speed modes are key
         // behaviors on the trackball_listener below (see charybdis.keymap);
         // scroll mode is the layer-11-scoped scroller child on the listener.
-        // cpi 400 + swap-xy/invert-x/invert-y reproduces the old
+        // cpi 800 + swap-xy/invert-x/invert-y reproduces the old
         // ORIENTATION_90 + INVERT_X mapping exactly (x=-raw_y, y=-raw_x).
-        cpi = <400>;
+        cpi = <800>;
         swap-xy;
         invert-x;
         invert-y;

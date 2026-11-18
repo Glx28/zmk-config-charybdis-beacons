@@ -2,12 +2,11 @@
 # SPDX-License-Identifier: MIT
 
 description: |
-  Two-zone "jump" acceleration curve for relative pointer
-  input (REL_X/REL_Y). Below jump-start-cps the processor applies a flat
-  base-factor; above jump-start-cps + jump-width-cps it applies a flat
-  fast-factor; in between it blends the two with a smootherstep curve.
-  Speed is computed from X/Y path length over time, so small reversals do not
-  collapse the gain estimate and diagonal movement is treated as a vector.
+  Speed-based acceleration curve for relative pointer input (REL_X/REL_Y).
+  The processor blends base-factor and fast-factor across the configured
+  speed interval. An optional independent travel-distance window can gate
+  acceleration until enough path distance has accumulated, preventing brief
+  fast movements from immediately receiving high gain.
 
 compatible: "zmk,input-processor-jump-accel"
 
@@ -43,9 +42,9 @@ properties:
     default: smootherstep
     description: |
       Shape of the gain ramp. smootherstep keeps the existing smooth S-curve.
-      exponential stays near base-factor through slow and medium motion, then
-      rises rapidly toward fast-factor. hockey-stick keeps the early ramp
-      gentle and rises more sharply near the high-speed end.
+      exponential provides a gentle low-speed rise with a stronger middle and
+      high-speed range. hockey-stick keeps the early ramp gentle and rises more
+      sharply near the high-speed end.
 
   speed-smoothing-ms:
     type: int
@@ -62,6 +61,27 @@ properties:
       Estimate speed from total travelled X/Y path length over this rolling
       event window. Zero uses the legacy per-event estimate. The window resets
       after an idle gap longer than its duration.
+
+  distance-window-ms:
+    type: int
+    default: 0
+    description: |
+      Separate rolling window used to require enough accumulated path travel
+      before acceleration is applied. Zero disables the distance gate.
+
+  distance-start-counts:
+    type: int
+    default: 0
+    description: |
+      Accumulated path counts within distance-window-ms below which the
+      distance gate remains closed.
+
+  distance-width-counts:
+    type: int
+    default: 0
+    description: |
+      Additional accumulated path counts over which the distance gate smoothly
+      opens from zero to full acceleration. Zero disables the distance gate.
 
   gain-smoothing-ms:
     type: int

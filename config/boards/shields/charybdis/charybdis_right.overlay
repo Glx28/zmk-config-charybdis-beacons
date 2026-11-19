@@ -59,9 +59,9 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        // Figure-eight test: 3200-CPI sensor detail, fixed 0.25 scale, temporal
-        // smoothing. No speed-dependent acceleration.
-        cpi = <3200>;
+        // Restore the previously usable 400-CPI sensor response. Keep the
+        // independent smart-mode lockup fix in charybdis_right.conf.
+        cpi = <400>;
         swap-xy;
         invert-x;
         invert-y;
@@ -120,11 +120,12 @@
 
 
 / {
-    // Isolated figure-eight path. Scroll and selectable speed modes are disabled.
+    // Whole-vector response curve; no per-axis delta smoothing or fixed 0.25x
+    // attenuation. The PMW3610 event stream remains the source of truth.
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&figure8_smoother>;
+        input-processors = <&jump_accel &zip_ball_mode>;
     };
 };
 

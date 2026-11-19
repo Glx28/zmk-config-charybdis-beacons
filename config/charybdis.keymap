@@ -17,11 +17,23 @@
 };
 
 / {
-    figure8_smoother: figure8_smoother {
-        compatible = "zmk,input-processor-motion-smoother";
+    jump_accel: jump_accel {
+        compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        time-constant-ms = <6>;
-        scale-x1000 = <250>;
+        base-factor = <1000>;
+        fast-factor = <3000>;
+        jump-start-cps = <1800>;
+        jump-width-cps = <1200>;
+        curve-type = "exponential";
+        // Enable complete synchronized X/Y samples. Without this, the
+        // processor falls back to per-axis velocity and curved motion gets a
+        // direction-dependent gain estimate.
+        velocity-window-ms = <24>;
+        // Require both speed and accumulated travel before raising gain.
+        // 64–160 counts is about 4–10 mm of ball-surface travel at 400 CPI.
+        distance-window-ms = <80>;
+        distance-start-counts = <64>;
+        distance-width-counts = <96>;
         track-remainders;
     };
 
@@ -54,8 +66,8 @@
 // hold transitions (no flash writes), persist=1 for the explicit set keys.
 // Behavior node names must stay <= 8 chars (split relay truncation).
 //
-// These behaviors are intentionally NOT bound to any key in this keymap.
-// They exist so ZMK Studio can assign them; the optimizer owns placement.
+// Pointer mode and tuning controls are intentionally not bound in firmware.
+// ZMK Studio can assign them temporarily; tuning macros are experimental.
 
 / {
     zip_ball_mode: zip_ball_mode {
@@ -81,6 +93,49 @@
         processor = <&zip_ball_mode>;
         display-name = "Ball Mode";
     };
+
+    // Temporary ZMK Studio controls for live, volatile acceleration tuning.
+    // Assign during a test session; values reset to these DT defaults on boot.
+    btune: btune {
+        compatible = "zmk,behavior-trackball-tune";
+        #binding-cells = <1>;
+        processor = <&jump_accel>;
+        display-name = "Trackball Tune";
+    };
+
+#define TRACKBALL_TUNE_MACRO(node, label, action)                                                  \
+    node: node {                                                                                   \
+        compatible = "zmk,behavior-macro";                                                        \
+        display-name = label;                                                                      \
+        #binding-cells = <0>;                                                                      \
+        wait-ms = <5>;                                                                             \
+        tap-ms = <5>;                                                                              \
+        bindings = <&macro_tap &btune action>;                                                     \
+    };
+
+    TRACKBALL_TUNE_MACRO(tb_bdn, "Trackball base −0.1x", 0)
+    TRACKBALL_TUNE_MACRO(tb_bup, "Trackball base +0.1x", 1)
+    TRACKBALL_TUNE_MACRO(tb_fdn, "Trackball fast −0.1x", 2)
+    TRACKBALL_TUNE_MACRO(tb_fup, "Trackball fast +0.1x", 3)
+    TRACKBALL_TUNE_MACRO(tb_sdn, "Trackball ramp start −100", 4)
+    TRACKBALL_TUNE_MACRO(tb_sup, "Trackball ramp start +100", 5)
+    TRACKBALL_TUNE_MACRO(tb_wdn, "Trackball ramp width −100", 6)
+    TRACKBALL_TUNE_MACRO(tb_wup, "Trackball ramp width +100", 7)
+    TRACKBALL_TUNE_MACRO(tb_vdn, "Trackball window −4ms", 8)
+    TRACKBALL_TUNE_MACRO(tb_vup, "Trackball window +4ms", 9)
+    TRACKBALL_TUNE_MACRO(tb_pdn, "Trackball speed filter −4ms", 10)
+    TRACKBALL_TUNE_MACRO(tb_pup, "Trackball speed filter +4ms", 11)
+    TRACKBALL_TUNE_MACRO(tb_gdn, "Trackball gain filter −4ms", 12)
+    TRACKBALL_TUNE_MACRO(tb_gup, "Trackball gain filter +4ms", 13)
+    TRACKBALL_TUNE_MACRO(tb_dwn, "Trackball travel window −8ms", 14)
+    TRACKBALL_TUNE_MACRO(tb_dup, "Trackball travel window +8ms", 15)
+    TRACKBALL_TUNE_MACRO(tb_mdn, "Trackball travel start −16", 16)
+    TRACKBALL_TUNE_MACRO(tb_mup, "Trackball travel start +16", 17)
+    TRACKBALL_TUNE_MACRO(tb_mwd, "Trackball travel ramp −16", 18)
+    TRACKBALL_TUNE_MACRO(tb_mwu, "Trackball travel ramp +16", 19)
+    TRACKBALL_TUNE_MACRO(tb_rst, "Trackball reset tuning", 20)
+
+#undef TRACKBALL_TUNE_MACRO
 
     snp_hold: snp_hold {
         compatible = "zmk,behavior-macro";

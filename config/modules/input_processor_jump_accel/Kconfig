@@ -8,8 +8,15 @@ config INPUT_PROCESSOR_JUMP_ACCEL
     help
       Enables a ZMK input processor implementing a RawAccel-style two-zone
       whole-vector acceleration curve for relative pointer input: a flat
-      low-speed factor, a smootherstep transition, and a flat high-speed
-      factor, driven by the rolling sum of synchronized vector distances over
-      elapsed time rather than independently aggregated axis totals, with
-      fractional remainder tracking so low factors don't quantize slow movement
-      to zero.
+      low-speed factor, a configurable smooth transition, and a flat high-speed
+      factor. Optional independent speed and accumulated-distance gates prevent
+      brief fast movements from receiving high gain. Synchronized vector path
+      history preserves diagonal and reversing movement, with fractional
+      remainder tracking to avoid quantizing scaled deltas.
+
+DT_COMPAT_ZMK_BEHAVIOR_TRACKBALL_TUNE := zmk,behavior-trackball-tune
+
+config ZMK_BEHAVIOR_TRACKBALL_TUNE
+	bool
+	default $(dt_compat_enabled,$(DT_COMPAT_ZMK_BEHAVIOR_TRACKBALL_TUNE))
+	depends on INPUT_PROCESSOR_JUMP_ACCEL

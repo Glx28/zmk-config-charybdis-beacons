@@ -2,12 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 description: |
-  Two-zone "jump" acceleration curve for relative pointer
-  input (REL_X/REL_Y). Below jump-start-cps the processor applies a flat
-  base-factor; above jump-start-cps + jump-width-cps it applies a flat
-  fast-factor; in between it blends the two with a smootherstep curve.
-  Speed is computed from X/Y path length over time, so small reversals do not
-  collapse the gain estimate and diagonal movement is treated as a vector.
+  Speed-based acceleration for relative pointer input (REL_X/REL_Y). An
+  optional independent path-distance gate prevents short fast movements from
+  accelerating until enough travel accumulates. Vector mode pairs synchronized
+  X/Y samples so diagonal motion and reversals use the complete path.
 
 compatible: "zmk,input-processor-jump-accel"
 
@@ -63,6 +61,25 @@ properties:
       this rolling window. Axis events are paired using the sync flag. Zero
       uses the legacy per-event estimate. The window resets after an idle gap
       longer than its duration.
+
+  distance-window-ms:
+    type: int
+    default: 0
+    description: |
+      Separate rolling window for accumulated two-dimensional travel. Zero
+      disables the distance gate.
+
+  distance-start-counts:
+    type: int
+    default: 0
+    description: Accumulated path counts below which the distance gate stays closed.
+
+  distance-width-counts:
+    type: int
+    default: 0
+    description: |
+      Additional accumulated path counts over which the distance gate opens
+      smoothly from zero to full acceleration. Zero disables the gate.
 
   gain-smoothing-ms:
     type: int

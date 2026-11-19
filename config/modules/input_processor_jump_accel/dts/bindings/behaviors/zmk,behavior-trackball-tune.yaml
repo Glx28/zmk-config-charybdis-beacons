@@ -1,0 +1,11 @@
+# Copyright (c) 2026 The Charybdis Contributors
+# SPDX-License-Identifier: MIT
+
+description: Volatile live adjustment controls for a jump acceleration input processor
+compatible: "zmk,behavior-trackball-tune"
+include: one_param.yaml
+properties:
+  processor:
+    required: true
+    type: phandle
+    description: Jump acceleration processor to adjust

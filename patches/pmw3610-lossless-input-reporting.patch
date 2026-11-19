@@ -1,38 +1,188 @@
+diff --git a/src/pmw3610.c b/src/pmw3610.c
 --- a/src/pmw3610.c
 +++ b/src/pmw3610.c
-@@ -495,17 +495,28 @@
-     bool have_y = ry != 0;
+@@ -422,9 +422,78 @@
+     }
+ }
  
-     if (have_x || have_y) {
+-static int pmw3610_report_data(const struct device *dev) {
++static void pmw3610_report_retry_callback(struct k_work *work);
++
++static void pmw3610_schedule_report_retry(struct pixart_data *data, k_timeout_t delay) {
++    k_work_schedule(&data->report_retry_work, delay);
++}
++
++static int pmw3610_report_pending(const struct device *dev) {
+     struct pixart_data *data = dev->data;
+     const struct pixart_config *config = dev->config;
++    int16_t rx = (int16_t)CLAMP(data->pending_dx, INT16_MIN, INT16_MAX);
++    int16_t ry = (int16_t)CLAMP(data->pending_dy, INT16_MIN, INT16_MAX);
++    bool have_x = rx != 0;
++    bool have_y = ry != 0;
++    if (!have_x && !have_y) {
++        return 0;
++    }
++#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
++    int64_t now = k_uptime_get();
++    int64_t elapsed = now - data->last_report_time_ms;
++    if (elapsed < CONFIG_PMW3610_REPORT_INTERVAL_MIN) {
++        pmw3610_schedule_report_retry(
++            data, K_MSEC(CONFIG_PMW3610_REPORT_INTERVAL_MIN - elapsed));
++        return 0;
++    }
++#endif
++
++    int report_err = 0;
++    bool reported = false;
++
++    if (have_x) {
++        report_err = input_report(dev, config->evt_type, config->x_input_code, rx, !have_y,
++                                  K_NO_WAIT);
++        if (!report_err) {
++            data->pending_dx -= rx;
++            reported = true;
++        }
++    }
++    if (have_y) {
++        int y_err = input_report(dev, config->evt_type, config->y_input_code, ry, true, K_NO_WAIT);
++        if (!y_err) {
++            data->pending_dy -= ry;
++            reported = true;
++        } else if (!report_err) {
++            report_err = y_err;
++        }
++    }
++
++#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
++    if (reported) {
++        data->last_report_time_ms = k_uptime_get();
++    }
++#endif
++
++    if (report_err || data->pending_dx != 0 || data->pending_dy != 0) {
++        /* Never block the sensor work item: its caller must re-enable the PMW3610 IRQ. */
++        pmw3610_schedule_report_retry(data, K_MSEC(1));
++        if (report_err) {
++            LOG_DBG("Input queue busy; retaining movement for retry (%d)", report_err);
++        }
++    }
++
++    return report_err;
++}
++
++static void pmw3610_report_retry_callback(struct k_work *work) {
++    struct k_work_delayable *delayable = CONTAINER_OF(work, struct k_work_delayable, work);
++    struct pixart_data *data = CONTAINER_OF(delayable, struct pixart_data, report_retry_work);
++    pmw3610_report_pending(data->dev);
++}
++
++static int pmw3610_report_data(const struct device *dev) {
++    struct pixart_data *data = dev->data;
+     uint8_t buf[PMW3610_BURST_SIZE];
+ 
+     if (unlikely(!data->ready)) {
+@@ -432,16 +501,7 @@
+         return -EBUSY;
+     }
+ 
+-    static int64_t dx = 0;
+-    static int64_t dy = 0;
+-
+-#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
+-    static int64_t last_smp_time = 0;
+-    static int64_t last_rpt_time = 0;
+-    int64_t now = k_uptime_get();
+-#endif
+-
+-	int err = pmw3610_read(dev, PMW3610_REG_MOTION_BURST, buf, PMW3610_BURST_SIZE);
++    int err = pmw3610_read(dev, PMW3610_REG_MOTION_BURST, buf, PMW3610_BURST_SIZE);
+     if (err) {
+         return err;
+     }
+@@ -468,47 +528,10 @@
+     }
+ #endif
+ 
+-#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
+-    // purge accumulated delta, if last sampled had not been reported on last report tick
+-    if (now - last_smp_time >= CONFIG_PMW3610_REPORT_INTERVAL_MIN) {
+-        dx = 0;
+-        dy = 0;
+-    }
+-    last_smp_time = now;
+-#endif
+-
+-    // accumulate delta until report in next iteration
+-    dx += x;
+-    dy += y;
+-
+-#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
+-    // strict to report inerval
+-    if (now - last_rpt_time < CONFIG_PMW3610_REPORT_INTERVAL_MIN) {
+-        return 0;
+-    }
+-#endif
+-
+-    // fetch report value
+-    int16_t rx = (int16_t)CLAMP(dx, INT16_MIN, INT16_MAX);
+-    int16_t ry = (int16_t)CLAMP(dy, INT16_MIN, INT16_MAX);
+-    bool have_x = rx != 0;
+-    bool have_y = ry != 0;
+-
+-    if (have_x || have_y) {
 -#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
 -        last_rpt_time = now;
 -#endif
 -        dx = 0;
 -        dy = 0;
-+        int report_err;
-         if (have_x) {
+-        if (have_x) {
 -            input_report(dev, config->evt_type, config->x_input_code, rx, !have_y, K_NO_WAIT);
-+            report_err = input_report(dev, config->evt_type, config->x_input_code, rx, !have_y,
-+                                      K_FOREVER);
-+            if (report_err) {
-+                LOG_ERR("Failed to queue X movement report: %d", report_err);
-+                return report_err;
-+            }
-+            dx -= rx;
-         }
-         if (have_y) {
+-        }
+-        if (have_y) {
 -            input_report(dev, config->evt_type, config->y_input_code, ry, true, K_NO_WAIT);
-+            report_err = input_report(dev, config->evt_type, config->y_input_code, ry, true,
-+                                      K_FOREVER);
-+            if (report_err) {
-+                LOG_ERR("Failed to queue Y movement report: %d", report_err);
-+                return report_err;
-+            }
-+            dy -= ry;
-         }
-+#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
-+        last_rpt_time = now;
-+#endif
-     }
+-        }
+-    }
++    data->pending_dx += x;
++    data->pending_dy += y;
  
-     return err;
+-    return err;
++    return pmw3610_report_pending(dev);
+ }
+ 
+ static void pmw3610_gpio_callback(const struct device *gpiob, struct gpio_callback *cb,
+@@ -571,8 +594,9 @@
+     // init smart algorithm flag;
+     data->sw_smart_flag = false;
+ 
+-    // init trigger handler work
++    // Init sensor and nonblocking report-retry work.
+     k_work_init(&data->trigger_work, pmw3610_work_callback);
++    k_work_init_delayable(&data->report_retry_work, pmw3610_report_retry_callback);
+ 
+     // init irq routine
+     err = pmw3610_init_irq(dev);
+diff --git a/src/pixart.h b/src/pixart.h
+--- a/src/pixart.h
++++ b/src/pixart.h
+@@ -6,6 +6,8 @@
+  * @brief Common header file for all optical motion sensor by PIXART
+  */
+ 
++#include <stdint.h>
++
+ #include <zephyr/device.h>
+ #include <zephyr/drivers/spi.h>
+ #include <zephyr/drivers/gpio.h>
+@@ -22,6 +24,12 @@
+ 
+     struct gpio_callback         irq_gpio_cb; // motion pin irq callback
+     struct k_work                trigger_work; // realtrigger job
++    struct k_work_delayable      report_retry_work;
++    int64_t                      pending_dx;
++    int64_t                      pending_dy;
++#if CONFIG_PMW3610_REPORT_INTERVAL_MIN > 0
++    int64_t                      last_report_time_ms;
++#endif
+ 
+     struct k_work_delayable      init_work; // the work structure for delayable init steps
+     int                          async_init_step;

@@ -30,6 +30,7 @@ Applied via ZMK Studio web UI, NOT firmware flash. Paste `scripts/zmk-studio/app
 - **CPI range: [200, 3200], step 200** — set via the `cpi` devicetree property in `charybdis_right.overlay`
 - There is **no CPI divider and no snipe-layers/scroll-layers** in this driver. Pointer speed modes (snipe/fast, hold + toggle) are dedicated key behaviors defined in `config/charybdis.keymap`; scroll mode is a layer-11-scoped child of `trackball_listener` in the right overlay.
 - For finer-than-200 precision, use `&zip_xy_scaler` with `track-remainders` in keymap
+- Read [`docs/trackball-input-loss.md`](docs/trackball-input-loss.md) before changing the PMW3610 driver, input queue, or its CI patch. Never clear sensor deltas before input-queue acceptance.
 
 ## Current Config (`config/boards/shields/charybdis/charybdis_right.conf`)
 

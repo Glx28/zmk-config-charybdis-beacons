@@ -20,7 +20,7 @@ Assign these behaviors temporarily in ZMK Studio, on a right-half key, then pres
 
 Each adjustment emits the full active values through ZMK logging. `1000` means `1.0x`; speed thresholds are sensor counts/second. The temporary controls do not alter keymap positions and are not bound in the shipped layout.
 
-The cursor processor uses synchronized X/Y vectors with a 24 ms speed history. Acceleration now requires both the speed curve and an independent 80 ms accumulated-path gate to open; the default travel gate starts at 64 counts and reaches full eligibility at 160 counts. At 400 CPI, that is about 4–10 mm of tracked surface travel. The gain curve is exponential with a smooth distance gate. This directly prevents a short, fast twitch from reaching the high-speed gain by speed alone.
+The current cursor profile uses the legacy per-event speed estimate with a smootherstep ramp. Its base/fast gain and ramp thresholds are defined in `config/charybdis.keymap`; read that file for the active values. The velocity-window and distance-gate controls are available for experiments but are disabled by default in the current profile. Driver queue overflow and its permanent fix are documented in [`trackball-input-loss.md`](trackball-input-loss.md).
 
 PMW3610 REST2 and REST3 sampling are configured at 40 ms (driver defaults are 100 ms and 500 ms). `force-awake` remains enabled while ZMK is active; the faster rest sampling reduces the first-motion wait after the sensor enters deep rest, with higher sensor activity while resting.
 

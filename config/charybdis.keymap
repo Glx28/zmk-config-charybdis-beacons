@@ -21,10 +21,10 @@
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
         base-factor = <1000>;
-        fast-factor = <3000>;
-        jump-start-cps = <1800>;
-        jump-width-cps = <1200>;
-        // Restore the previously usable 2026-11-17 cursor response.
+        fast-factor = <4000>;
+        jump-start-cps = <1700>;
+        jump-width-cps = <1400>;
+        // Slightly earlier medium ramp; 4x ceiling for long fast strokes.
         curve-type = "smootherstep";
         track-remainders;
     };

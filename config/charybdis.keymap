@@ -24,16 +24,8 @@
         fast-factor = <3000>;
         jump-start-cps = <1800>;
         jump-width-cps = <1200>;
-        curve-type = "exponential";
-        // Enable complete synchronized X/Y samples. Without this, the
-        // processor falls back to per-axis velocity and curved motion gets a
-        // direction-dependent gain estimate.
-        velocity-window-ms = <24>;
-        // Require both speed and accumulated travel before raising gain.
-        // 64–160 counts is about 4–10 mm of ball-surface travel at 400 CPI.
-        distance-window-ms = <80>;
-        distance-start-counts = <64>;
-        distance-width-counts = <96>;
+        // Restore the previously usable 2026-11-17 cursor response.
+        curve-type = "smootherstep";
         track-remainders;
     };
 
@@ -43,12 +35,11 @@
     scroll_accel: scroll_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        // CPI increased 8x; divide scroll gain by 8 and scale speed thresholds
-        // by 8 to preserve the existing physical scroll response.
-        base-factor = <63>;
-        fast-factor = <500>;
-        jump-start-cps = <4000>;
-        jump-width-cps = <14000>;
+        // Restore the previous scroll curve for the current 400-CPI sensor.
+        base-factor = <500>;
+        fast-factor = <4000>;
+        jump-start-cps = <500>;
+        jump-width-cps = <1750>;
         track-remainders;
     };
 };

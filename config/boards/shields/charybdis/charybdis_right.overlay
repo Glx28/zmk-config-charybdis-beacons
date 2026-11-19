@@ -120,8 +120,7 @@
 
 
 / {
-    // Whole-vector response curve; no per-axis delta smoothing or fixed 0.25x
-    // attenuation. The PMW3610 event stream remains the source of truth.
+    // Keep the existing whole-vector acceleration and pointer-mode processing.
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;

@@ -54,6 +54,9 @@ jobs:
         run: west init -l config
       - name: West Update
         run: west update
+      - name: Patch PMW3610 lossless input reporting
+        if: matrix.shield == 'charybdis_right'
+        run: git -C modules/zmk-pmw3610-driver apply "${GITHUB_WORKSPACE}/patches/pmw3610-lossless-input-reporting.patch"
       - name: West Zephyr export
         run: west zephyr-export
       - name: West Build (${{ matrix.board }}${{ matrix.shield && format(' - {0}', matrix.shield) || '' }})

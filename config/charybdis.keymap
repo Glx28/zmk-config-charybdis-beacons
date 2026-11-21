@@ -35,7 +35,7 @@
     scroll_accel: scroll_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        base-factor = <250>;
+        base-factor = <100>;
         fast-factor = <16000>;
         jump-start-cps = <250>;
         jump-width-cps = <1750>;

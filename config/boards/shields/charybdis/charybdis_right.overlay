@@ -125,6 +125,15 @@
         compatible = "zmk,input-listener";
         device = <&trackball>;
         input-processors = <&jump_accel &zip_ball_mode>;
+
+        // L1's scroll hold activates transparent layer 11 above the current
+        // key layer. Without this layer-scoped chain, the hold changes layers
+        // but trackball movement remains pointer movement.
+        scroller {
+            layers = <11>;
+            input-processors = <&scroll_accel>, <&zip_xy_to_scroll_mapper>,
+                <&zip_scroll_transform 4>, <&zip_scroll_scaler 3 20>;
+        };
     };
 };
 

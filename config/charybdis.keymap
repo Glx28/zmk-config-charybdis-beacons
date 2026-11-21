@@ -29,17 +29,17 @@
         track-remainders;
     };
 
-    // Scroll has its own smooth speed curve. Keep slow motion responsive at
-    // 0.5x, then ramp to 4x on faster sweeps. The layer-specific scroller has
-    // its own chain and applies the same curve before mapping motion to wheel events.
+    // Deliberately extreme scroll curve: keep precision motion slow, then make
+    // fast sweeps unmistakable. The scroller applies this before wheel mapping;
+    // its downstream 3/20 scaler still limits low-speed output.
     scroll_accel: scroll_accel {
         compatible = "zmk,input-processor-jump-accel";
         #input-processor-cells = <0>;
-        // Restore the previous scroll curve for the current 400-CPI sensor.
-        base-factor = <500>;
-        fast-factor = <4000>;
-        jump-start-cps = <500>;
+        base-factor = <250>;
+        fast-factor = <16000>;
+        jump-start-cps = <250>;
         jump-width-cps = <1750>;
+        curve-type = "exponential";
         track-remainders;
     };
 };
